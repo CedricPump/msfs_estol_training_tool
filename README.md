@@ -123,6 +123,5 @@ Score:               367
 ===================================
 ```
 
-Results are shared on Graphana:
-https://cedricpump.grafana.net/goto/xQMI-BnHg?orgId=1
+Results are shared on [Graphana](https://cedricpump.grafana.net/public-dashboards/2f6cc35cb96247f385380cee7f482206)
 
