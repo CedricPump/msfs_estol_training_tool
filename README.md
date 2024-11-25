@@ -126,5 +126,3 @@ Score:               367
 Results are shared on [Graphana](https://cedricpump.grafana.net/public-dashboards/2f6cc35cb96247f385380cee7f482206)
 - [eSTOL Scores Overview](https://cedricpump.grafana.net/public-dashboards/2f6cc35cb96247f385380cee7f482206)
 - [eSTOL Data by User](https://cedricpump.grafana.net/public-dashboards/df511ced3d994fd2b578163e17d9360b)
-
-<iframe src="https://cedricpump.grafana.net/public-dashboards/df511ced3d994fd2b578163e17d9360b?var-user=User&orgId=1" width="100%" height="600"></iframe>
