@@ -86,7 +86,7 @@ namespace eSTOL_Training_Tool
             result.GrndSpeed = Math.Round((double)TouchdownGroundSpeed);
             result.VSpeed = Math.Round((double)TouchdownVerticalSpeed);
 
-            result.Score = (Math.Round(GetTakeoffDistance() * 3.28084) + result.Landingdist);
+            result.Score = result.Takeoffdist + result.Landingdist;
             if (result.Touchdowndist < 0)
             {
                 result.Score = 0;

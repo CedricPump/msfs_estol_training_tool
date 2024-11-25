@@ -100,12 +100,12 @@ namespace eSTOL_Training_Tool
             double angleToPoint = GetHeading(origin, point);
             double deltaAngle = GetMinDeltaAngle(angleToPoint, headingDegrees) * Math.PI / 180; // Delta-Winkel in Bogenmaß
 
-            // Bestimmen, ob der Punkt "hinter" dem Ursprung liegt:
-            double relativeAngle = (angleToPoint - headingDegrees + 360) % 360; // Winkel relativ zur Heading normalisieren
-            bool isBehind = relativeAngle > 90 && relativeAngle < 270; // Punkt liegt hinter der Achse
+            Console.WriteLine("headingDegrees" + headingDegrees);
+            Console.WriteLine("deltaAngle" + deltaAngle);
+            Console.WriteLine("distance" + distance);
 
             // Projektionen berechnen
-            double distanceAtAxis = -distance * Math.Cos(deltaAngle);
+            double distanceAtAxis = distance * Math.Cos(deltaAngle);
 
             double offsetFromAxis = distance * Math.Sin(deltaAngle);
 

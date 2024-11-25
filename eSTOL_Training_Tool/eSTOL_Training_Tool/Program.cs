@@ -8,7 +8,7 @@ namespace Bombathlon
     {
         static void Main(string[] args)
         {
-            //Influx.GetInstance().deletAll();
+            // Influx.GetInstance().deletAll();
 
 
 

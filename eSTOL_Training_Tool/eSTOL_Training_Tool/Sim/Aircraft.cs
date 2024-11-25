@@ -295,7 +295,7 @@ namespace eSTOL_Training_Tool
                 IsSimConnectConnected = true;
                 return simconnect;
             }
-            catch (COMException ex)
+            catch
             {
                 Console.WriteLine("Unable to connect, Check if MSFS is running!");
                 simconnect = null;

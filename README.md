@@ -14,7 +14,7 @@ This tool give quick performance data about a STOL competition run by recording 
 Distances are calculated based on an initial start point and heading marking the start line.
 from here distances are measures along the heading axis.
 
-<center><img src="./doc/STOL_Training_Overview.jpg" alt="drawing" width="200"/></center>
+<center><img src="./doc/STOL_Training_Overview.jpg" alt="drawing" width="600"/></center>
 
 StartPoint: initial start point on Start Line
 TakeoffPoint: Location where takeoff is detected. First point where plane is not on ground.
@@ -26,7 +26,7 @@ Touchdown distance: Distance from StartPoint to TouchdownPoint
 Landing distance: Distance from StartPoint to StopPoint
 Stopping distance: Distance from TouchdownPoint to StopPoint
 
-<center><img src="./doc/STOL-Training-Tool.png" alt="drawing" width="200"/></center>
+<center><img src="./doc/STOL-Training-Tool.png" alt="drawing" width="600"/></center>
 
 This tool has two modes: OpenWorld and Presets
 

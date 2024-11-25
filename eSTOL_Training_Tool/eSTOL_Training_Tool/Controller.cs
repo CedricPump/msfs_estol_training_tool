@@ -150,7 +150,7 @@ namespace eSTOL_Training_Tool
                     {
                         //Console.WriteLine(cycleState);
                         Telemetrie telemetrie = plane.GetTelemetrie();
-                        // Console.WriteLine(GeoUtils.GetDistanceAlongAxis(telemetrie.Position, stol.InitialPosition, stol.InitialHeading.Value));
+                        //Console.WriteLine(GeoUtils.GetDistanceAlongAxis(telemetrie.Position, stol.InitialPosition, stol.InitialHeading.Value));
 
                         if (stol.IsInit())
                         {
@@ -229,7 +229,7 @@ namespace eSTOL_Training_Tool
                                             try 
                                             { 
                                             // send influx
-                                            influx.sendData(result);
+                                            if(user != "") influx.sendData(result);
                                             }
                                             catch
                                             {
@@ -241,7 +241,7 @@ namespace eSTOL_Training_Tool
                                         {
                                             // touch n go
                                             setState(CycleState.Fly);
-                                            stol.Retry();
+                                            // stol.Retry();
                                             // stol.Reset();
                                             Console.WriteLine("Touch 'n' go recorded, try Again");
                                         }
