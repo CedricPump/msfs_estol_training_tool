@@ -11,6 +11,7 @@ namespace eSTOL_Training_Tool
         // meta
         public string planeType = "";
         public string user = "";
+        Preset preset = null;
 
         // Positions
         public GeoCoordinate InitialPosition = null;
@@ -30,6 +31,8 @@ namespace eSTOL_Training_Tool
         public DateTime? TakeoffTime = null;
         public DateTime? TouchdownTime = null;
         public DateTime? StopTime = null;
+
+
 
         public bool IsInit() { return InitialPosition != null && InitialHeading != null; }
 
@@ -71,6 +74,7 @@ namespace eSTOL_Training_Tool
             if (!IsInit()) return null;
 
             STOLResult result = new STOLResult();
+            result.preset = preset;
             result.InitHash = GetInitialPosHash();
             result.User = user;
             result.planeType = planeType;
@@ -123,6 +127,7 @@ namespace eSTOL_Training_Tool
 
         public void ApplyPreset(Preset preset) 
         {
+            this.preset = preset;
             InitialPosition = preset.getStart();
             InitialHeading = preset.startHeading;
             InitialPitch = 0;
@@ -133,6 +138,7 @@ namespace eSTOL_Training_Tool
 
     public class STOLResult 
     {
+        public Preset preset ;
         public string InitHash; 
         public TimeSpan PatternTime;
         public DateTime time;
@@ -198,6 +204,7 @@ namespace eSTOL_Training_Tool
                             $"Score={Score}," +
                             $"StartHash={InitHash}" +
                             $"PatternTime={PatternTime.TotalSeconds}";
+                            
             long timestamp = new DateTimeOffset(time).ToUnixTimeMilliseconds() * 1_000_000; // Convert to nanoseconds.
 
             return $"{measurement},{tags} {fields} {timestamp}";

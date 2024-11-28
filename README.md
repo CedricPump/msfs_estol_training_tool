@@ -123,5 +123,11 @@ Score:               367
 ===================================
 ```
 
+## States
+
+<center><img src="./doc/states.png" alt="states" width="600"/></center>
+
+## Results upload
+
 Results are shared on [Graphana](https://cedricpump.grafana.net/public-dashboards/2f6cc35cb96247f385380cee7f482206)
 
