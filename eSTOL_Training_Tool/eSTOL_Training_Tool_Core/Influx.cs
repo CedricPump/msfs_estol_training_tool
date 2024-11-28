@@ -28,7 +28,7 @@ namespace eSTOL_Training_Tool
 
         private Influx() 
         {
-            influxDBClient = InfluxDBClientFactory.Create(influxHost, token);
+            influxDBClient = new InfluxDBClient(influxHost, token);
         }
 
         public async void sendData(STOLResult stolResult) {
