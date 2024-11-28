@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Device.Location;
+using eSTOL_Training_Tool_Core.Model;
 
 namespace eSTOL_Training_Tool
 {

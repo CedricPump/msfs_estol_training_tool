@@ -1,17 +1,17 @@
 ﻿using System;
+using eSTOL_Training_Tool;
 using InfluxDB.Client;
 using InfluxDB.Client.Api.Domain;
 using InfluxDB.Client.Writes;
 
 
-namespace eSTOL_Training_Tool
+namespace eSTOL_Training_Tool_Core.Influx
 {
-    public class Influx 
+    public class Influx
     {
         const string influxHost = "https://eu-central-1-1.aws.cloud2.influxdata.com/";
         const string bucket = "eSTOL2";
         const string org = "steffieth";
-        const string token = "AAAA-BBBB-CCCC"; // InfluxDB 2.x requires an authentication token.
 
         InfluxDBClient influxDBClient;
 
@@ -26,16 +26,17 @@ namespace eSTOL_Training_Tool
             return instance;
         }
 
-        private Influx() 
+        private Influx()
         {
-            influxDBClient = new InfluxDBClient(influxHost, token);
+            influxDBClient = new InfluxDBClient(influxHost, InfluxToken.Token);
         }
 
-        public async void sendData(STOLResult stolResult) {
+        public async void sendData(STOLResult stolResult)
+        {
             var point = PointData.Measurement("stol_results")
                 .Tag("User", stolResult.User)
                 .Tag("planeType", stolResult.planeType)
-                .Tag("preset", stolResult.preset == null ? "" :  stolResult.preset.title)
+                .Tag("preset", stolResult.preset == null ? "" : stolResult.preset.title)
                 .Field("Takeoffdist", stolResult.Takeoffdist)
                 .Field("Touchdowndist", stolResult.Touchdowndist)
                 .Field("Stoppingdist", stolResult.Stoppingdist)
@@ -70,5 +71,7 @@ namespace eSTOL_Training_Tool
                 Console.WriteLine($"Error while deleting data: {ex.Message}");
             }
         }
+
+
     }
 }

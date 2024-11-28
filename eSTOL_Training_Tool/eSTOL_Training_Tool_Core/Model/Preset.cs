@@ -5,9 +5,9 @@ using System.Device.Location;
 using System.Text.Json;
 using System.IO;
 
-namespace eSTOL_Training_Tool
+namespace eSTOL_Training_Tool_Core.Model
 {
-    public class Preset 
+    public class Preset
     {
         [JsonProperty("title")]
         public string title = "";
@@ -29,7 +29,7 @@ namespace eSTOL_Training_Tool
             return new GeoCoordinate(startLatitude, startLongitude, startAltitude);
         }
 
-        public static List<Preset> ReadPresets(string filePath) 
+        public static List<Preset> ReadPresets(string filePath)
         {
             // Path to the JSON file
             filePath = "presets.json";
