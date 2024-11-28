@@ -100,10 +100,6 @@ namespace eSTOL_Training_Tool
             double angleToPoint = GetHeading(origin, point);
             double deltaAngle = GetMinDeltaAngle(angleToPoint, headingDegrees) * Math.PI / 180; // Delta-Winkel in Bogenmaß
 
-            Console.WriteLine("headingDegrees" + headingDegrees);
-            Console.WriteLine("deltaAngle" + deltaAngle);
-            Console.WriteLine("distance" + distance);
-
             // Projektionen berechnen
             double distanceAtAxis = distance * Math.Cos(deltaAngle);
 

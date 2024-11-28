@@ -69,7 +69,7 @@ namespace eSTOL_Training_Tool
                 Console.ReadLine();
 
                 // User input
-                Console.Write("\nInput eSTOL User Name: ");
+                Console.Write("You can upload your training data to database. Leave empty to ignore.\nInput eSTOL User Name: ");
                 string name = Console.ReadLine();
 
                 using (StreamWriter writer = new StreamWriter(userPath))
@@ -105,7 +105,7 @@ namespace eSTOL_Training_Tool
 
             // Read input from the user
             // string input = Console.ReadLine();
-            string input = ReadLineWithTimeout(10000);
+            string input = ReadLineWithTimeout(30000);
             if (input == null || input == "") input = "0";
 
             // Parse the input and handle selection
@@ -228,8 +228,8 @@ namespace eSTOL_Training_Tool
                                             }
                                             try 
                                             { 
-                                            // send influx
-                                            if(user != "") influx.sendData(result);
+                                                // send influx
+                                                if(user != "") influx.sendData(result);
                                             }
                                             catch
                                             {
@@ -252,7 +252,7 @@ namespace eSTOL_Training_Tool
                             // show clock when in the air
                             if(stol.TakeoffTime != null && stol.TouchdownTime == null) 
                             {
-                                Console.Write($"\rtime: {(DateTime.Now - stol.StartTime).Value:mm\\:ss}");
+                                Console.Write($"\rtime: {(DateTime.Now - stol.TakeoffTime).Value:mm\\:ss}");
                             }
                         }
                         else {

@@ -11,9 +11,9 @@ namespace eSTOL_Training_Tool
     public class Influx 
     {
         const string influxHost = "https://eu-central-1-1.aws.cloud2.influxdata.com/";
-        const string bucket = "eSTOL";
-        const string org = "Bombathlon";
         const string token = "Lct3QXLV-YLxLgCtKFgRz5TKHBbn4aUpLOk76CA5uppDram8-0AUEFnYJDoCEvDIjtZwouL3fqKPDaY_nC6WKw=="; // InfluxDB 2.x requires an authentication token.
+        const string bucket = "eSTOL2";
+        const string org = "steffieth";
 
         InfluxDBClient influxDBClient;
 
@@ -37,6 +37,7 @@ namespace eSTOL_Training_Tool
             var point = PointData.Measurement("stol_results")
                 .Tag("User", stolResult.User)
                 .Tag("planeType", stolResult.planeType)
+                .Tag("preset", stolResult.preset == null ? "" :  stolResult.preset.title)
                 .Field("Takeoffdist", stolResult.Takeoffdist)
                 .Field("Touchdowndist", stolResult.Touchdowndist)
                 .Field("Stoppingdist", stolResult.Stoppingdist)
@@ -46,6 +47,7 @@ namespace eSTOL_Training_Tool
                 .Field("VSpeed", stolResult.VSpeed)
                 .Field("Score", stolResult.Score)
                 .Field("PatternTime", stolResult.PatternTime.TotalSeconds)
+                .Field("InitHash", stolResult.InitHash)
                 .Timestamp(stolResult.time, WritePrecision.Ns);
 
             var writeApi = influxDBClient.GetWriteApiAsync();
