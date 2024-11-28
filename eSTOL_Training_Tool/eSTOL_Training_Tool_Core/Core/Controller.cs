@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using eSTOL_Training_Tool;
 using eSTOL_Training_Tool_Core.Model;
+using eSTOL_Training_Tool_Core.Influx;
 
 namespace eSTOL_Training_Tool_Core.Core
 {
@@ -34,7 +35,7 @@ namespace eSTOL_Training_Tool_Core.Core
         string user = "";
         string presetsPath = "presets.json";
         string userPath = "user.txt";
-        Influx influx = Influx.GetInstance();
+        MyInflux influx = MyInflux.GetInstance();
 
         public Controller()
         {
@@ -63,7 +64,7 @@ namespace eSTOL_Training_Tool_Core.Core
                 // Disclaimer
                 Console.Write(
                     "\nDisclaimer:\n\nThis Tool is intended for training purposes only.\nThe numbers give a quick feedback and rough estimate of your performance.They do not guarantee any accuracy.\n"
-                    + "Do not challenge any competition score based on this tools' estimation alone.\n Make sure to record your flight for any necessary score validation.\n\nPress Enter to accept");
+                    + "Do not challenge any competition score based on this tools' estimation alone.\nMake sure to record your flight for any necessary score validation.\n\nPress Enter to accept");
                 Console.ReadLine();
 
                 // User input

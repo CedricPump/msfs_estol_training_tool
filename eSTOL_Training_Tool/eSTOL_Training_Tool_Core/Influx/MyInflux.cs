@@ -7,7 +7,7 @@ using InfluxDB.Client.Writes;
 
 namespace eSTOL_Training_Tool_Core.Influx
 {
-    public class Influx
+    public class MyInflux
     {
         const string influxHost = "https://eu-central-1-1.aws.cloud2.influxdata.com/";
         const string bucket = "eSTOL2";
@@ -16,17 +16,17 @@ namespace eSTOL_Training_Tool_Core.Influx
         InfluxDBClient influxDBClient;
 
 
-        private static Influx instance;
+        private static MyInflux instance;
 
-        public static Influx GetInstance()
+        public static MyInflux GetInstance()
         {
             if (instance == null)
-                instance = new Influx();
+                instance = new MyInflux();
 
             return instance;
         }
 
-        private Influx()
+        private MyInflux()
         {
             influxDBClient = new InfluxDBClient(influxHost, InfluxToken.Token);
         }
