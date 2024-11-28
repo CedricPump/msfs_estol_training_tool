@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Device.Location;
-using eSTOL_Training_Tool;
+using eSTOL_Training_Tool_Core.Core;
 
 namespace Bombathlon
 {

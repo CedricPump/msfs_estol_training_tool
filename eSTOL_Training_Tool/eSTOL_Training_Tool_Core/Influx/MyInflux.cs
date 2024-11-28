@@ -1,43 +1,42 @@
-﻿using System.Net.Http;
-using System.Text;
-using System;
+﻿using System;
+using eSTOL_Training_Tool;
 using InfluxDB.Client;
 using InfluxDB.Client.Api.Domain;
 using InfluxDB.Client.Writes;
 
 
-namespace eSTOL_Training_Tool
+namespace eSTOL_Training_Tool_Core.Influx
 {
-    public class Influx 
+    public class MyInflux
     {
         const string influxHost = "https://eu-central-1-1.aws.cloud2.influxdata.com/";
-        const string token = "Lct3QXLV-YLxLgCtKFgRz5TKHBbn4aUpLOk76CA5uppDram8-0AUEFnYJDoCEvDIjtZwouL3fqKPDaY_nC6WKw=="; // InfluxDB 2.x requires an authentication token.
         const string bucket = "eSTOL2";
         const string org = "steffieth";
 
         InfluxDBClient influxDBClient;
 
 
-        private static Influx instance;
+        private static MyInflux instance;
 
-        public static Influx GetInstance()
+        public static MyInflux GetInstance()
         {
             if (instance == null)
-                instance = new Influx();
+                instance = new MyInflux();
 
             return instance;
         }
 
-        private Influx() 
+        private MyInflux()
         {
-            influxDBClient = InfluxDBClientFactory.Create(influxHost, token);
+            influxDBClient = new InfluxDBClient(influxHost, InfluxToken.Token);
         }
 
-        public async void sendData(STOLResult stolResult) {
+        public async void sendData(STOLResult stolResult)
+        {
             var point = PointData.Measurement("stol_results")
                 .Tag("User", stolResult.User)
                 .Tag("planeType", stolResult.planeType)
-                .Tag("preset", stolResult.preset == null ? "" :  stolResult.preset.title)
+                .Tag("preset", stolResult.preset == null ? "" : stolResult.preset.title)
                 .Field("Takeoffdist", stolResult.Takeoffdist)
                 .Field("Touchdowndist", stolResult.Touchdowndist)
                 .Field("Stoppingdist", stolResult.Stoppingdist)
@@ -72,5 +71,7 @@ namespace eSTOL_Training_Tool
                 Console.WriteLine($"Error while deleting data: {ex.Message}");
             }
         }
+
+
     }
 }

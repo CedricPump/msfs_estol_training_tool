@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Device.Location;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
+using eSTOL_Training_Tool_Core.Model;
 
 namespace eSTOL_Training_Tool
 {

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Device.Location;
-using System.Numerics;
-using System.Runtime.InteropServices;
 using eSTOL_Training_Tool.Model;
 using Microsoft.FlightSimulator.SimConnect;
 

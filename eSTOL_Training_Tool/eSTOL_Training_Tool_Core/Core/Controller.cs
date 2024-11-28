@@ -1,16 +1,15 @@
-﻿using eSTOL_Training_Tool.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
 using System.Threading.Tasks;
+using eSTOL_Training_Tool;
+using eSTOL_Training_Tool_Core.Model;
+using eSTOL_Training_Tool_Core.Influx;
 
-namespace eSTOL_Training_Tool
+namespace eSTOL_Training_Tool_Core.Core
 {
     enum CycleState
-    { 
+    {
         Park,
         Taxi,
         Takeoff,
@@ -36,12 +35,12 @@ namespace eSTOL_Training_Tool
         string user = "";
         string presetsPath = "presets.json";
         string userPath = "user.txt";
-        Influx influx = Influx.GetInstance();
+        MyInflux influx = MyInflux.GetInstance();
 
         public Controller()
         {
-            this.plane = new Plane(OnPlaneEventCallback);
-            
+            plane = new Plane(OnPlaneEventCallback);
+
             // init export file
             if (!File.Exists(exportPath))
             {
@@ -49,7 +48,7 @@ namespace eSTOL_Training_Tool
                 using (StreamWriter writer = new StreamWriter(exportPath))
                 {
                     writer.WriteLine(STOLResult.getCSVHeader());
-                    Console.WriteLine("exporting to "+exportPath);
+                    Console.WriteLine("exporting to " + exportPath);
                 }
             }
             else
@@ -58,14 +57,14 @@ namespace eSTOL_Training_Tool
             }
         }
 
-        public void Init() 
+        public void Init()
         {
             if (!File.Exists(userPath))
             {
                 // Disclaimer
                 Console.Write(
-                    "\nDisclaimer:\n\nThis Tool is intended for training purposes only.\nThe numbers give a quick feedback and rough estimate of your performance.They do not guarantee any accuracy.\n" 
-                    + "Do not challenge any competition score based on this tools' estimation alone.\n Make sure to record your flight for any necessary score validation.\n\nPress Enter to accept");
+                    "\nDisclaimer:\n\nThis Tool is intended for training purposes only.\nThe numbers give a quick feedback and rough estimate of your performance.They do not guarantee any accuracy.\n"
+                    + "Do not challenge any competition score based on this tools' estimation alone.\nMake sure to record your flight for any necessary score validation.\n\nPress Enter to accept");
                 Console.ReadLine();
 
                 // User input
@@ -78,7 +77,7 @@ namespace eSTOL_Training_Tool
                     user = name;
                 }
             }
-            else 
+            else
             {
                 using (StreamReader reader = new StreamReader(userPath))
                 {
@@ -88,7 +87,7 @@ namespace eSTOL_Training_Tool
             stol.user = user;
 
             // Load presets
-            List <Preset> presets = Preset.ReadPresets(presetsPath);
+            List<Preset> presets = Preset.ReadPresets(presetsPath);
 
             // Build the selection prompt
             string prompt =
@@ -158,7 +157,7 @@ namespace eSTOL_Training_Tool
                             // var dist = stol.InitialPosition.GetDistanceTo(telemetrie.Position);
                             // Console.WriteLine($"dist: {Math.Round(dist* 3.28084)} offset: ({Math.Round(x)},{Math.Round(y)})");
 
-                            switch(cycleState)
+                            switch (cycleState)
                             {
                                 case CycleState.Unknown:
                                     if (plane.GroundSpeed < groundspeedThreshold && plane.IsOnGround)
@@ -167,9 +166,9 @@ namespace eSTOL_Training_Tool
                                         setState(CycleState.Hold);
                                     }
                                     break;
-                                case CycleState.Hold: 
+                                case CycleState.Hold:
                                     {
-                                        if (plane.GroundSpeed > groundspeedThreshold && plane.IsOnGround) 
+                                        if (plane.GroundSpeed > groundspeedThreshold && plane.IsOnGround)
                                         {
                                             setState(CycleState.Takeoff);
                                             stol.StartTime = DateTime.Now;
@@ -178,7 +177,7 @@ namespace eSTOL_Training_Tool
                                     }
                                 case CycleState.Takeoff:
                                     {
-                                        if (!plane.IsOnGround) 
+                                        if (!plane.IsOnGround)
                                         {
                                             setState(CycleState.Fly);
                                             stol.TakeoffPosition = telemetrie.Position;
@@ -189,7 +188,7 @@ namespace eSTOL_Training_Tool
                                     }
                                 case CycleState.Fly:
                                     {
-                                        if(plane.IsOnGround) 
+                                        if (plane.IsOnGround)
                                         {
                                             // Touchdown!!!
                                             setState(CycleState.Rollout);
@@ -222,20 +221,21 @@ namespace eSTOL_Training_Tool
                                                 {
                                                     writer.WriteLine(result.getCsvString());
                                                 }
-                                            } catch 
+                                            }
+                                            catch
                                             {
                                                 Console.WriteLine("Unable to export to " + exportPath);
                                             }
-                                            try 
-                                            { 
+                                            try
+                                            {
                                                 // send influx
-                                                if(user != "") influx.sendData(result);
+                                                if (user != "") influx.sendData(result);
                                             }
                                             catch
                                             {
                                                 Console.WriteLine("Unable to send result");
                                             }
-            }
+                                        }
                                         // Alt AGL > 5 fl to avoid bounce detection
                                         if (!plane.IsOnGround && plane.AltitudeAGL > 10)
                                         {
@@ -250,12 +250,13 @@ namespace eSTOL_Training_Tool
                             }
 
                             // show clock when in the air
-                            if(stol.TakeoffTime != null && stol.TouchdownTime == null) 
+                            if (stol.TakeoffTime != null && stol.TouchdownTime == null)
                             {
                                 Console.Write($"\rtime: {(DateTime.Now - stol.TakeoffTime).Value:mm\\:ss}");
                             }
                         }
-                        else {
+                        else
+                        {
 
                         }
                         lastTelemetrie = telemetrie;
@@ -267,22 +268,22 @@ namespace eSTOL_Training_Tool
                 }
 
                 // sllep until next interval
-                int intervall = this.plane.IsSimConnectConnected ? this.refreshIntervall : this.idlerefreshIntervall;
+                int intervall = plane.IsSimConnectConnected ? refreshIntervall : idlerefreshIntervall;
                 System.Threading.Thread.Sleep(intervall);
             };
         }
 
         private void setState(CycleState state)
         {
-            var old = this.cycleState;
-            this.cycleState = state;
+            var old = cycleState;
+            cycleState = state;
             // Console.WriteLine($"state: {old}->{state}");
         }
 
         public void OnPlaneEventCallback(PlaneEvent evt)
         {
             // Console.WriteLine(evt.Event);
-            switch(evt.Event)
+            switch (evt.Event)
             {
                 case "PARKING_BRAKES":
                     {
@@ -305,7 +306,7 @@ namespace eSTOL_Training_Tool
             }
         }
 
-        private void initSTOL() 
+        private void initSTOL()
         {
             // set STOL initial Values
             stol.planeType = plane.Type + " " + plane.Title;

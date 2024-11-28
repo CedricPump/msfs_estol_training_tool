@@ -1,7 +1,4 @@
 ﻿using eSTOL_Training_Tool.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace eSTOL_Training_Tool
 {

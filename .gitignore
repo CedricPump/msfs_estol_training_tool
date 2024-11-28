@@ -4,3 +4,7 @@ eSTOL_Training_Tool/packages/
 eSTOL_Training_Tool/publish/
 eSTOL_Training_Tool/.vs/
 .idea/
+eSTOL_Training_Tool/eSTOL_Training_Tool_Core/bin/
+eSTOL_Training_Tool/eSTOL_Training_Tool_Core/obj/
+eSTOL_Training_Tool/eSTOL_Training_Tool_Core/Influx/InfluxToken.cs
+eSTOL_Training_Tool/eSTOL_Training_Tool_Core/Properties/PublishProfiles/FolderProfile.pubxml.user
