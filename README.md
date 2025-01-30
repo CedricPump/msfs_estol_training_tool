@@ -34,9 +34,25 @@ This tool has two modes: OpenWorld and Presets
 
 The user can set the startpoint everywhere using parking breake or smoke.
 
-###  Presets
+### Presets
 
-Star Point are provided as preset for known eSTOL Fields
+Start Point are provided as preset for known eSTOL Fields
+
+### Preset Creation
+
+when typing -1 on mode selection you are able to enter preset recording mode.
+it then provides a preset as JSON you can add to presets.json file.
+
+Example:
+```
+    {
+        "title": "YOUR TITLE",
+        "start_lat": 36.378282538897,
+        "start_long": -86.409490615829,
+        "start_alt": 168,
+        "start_hdg": 168
+    }
+```
 
 ## Restrictions
 

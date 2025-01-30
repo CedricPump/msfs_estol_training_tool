@@ -75,6 +75,21 @@
     },
 
     {
+        "title": "eSTOL Music City RW 35",
+        "start_lat": 36.376634888941,
+        "start_long": -86.409190977272,
+        "start_alt": 167,
+        "start_hdg": 350
+    },
+    {
+        "title": "eSTOL Music City RW 17",
+        "start_lat": 36.378282538897,
+        "start_long": -86.409490615829,
+        "start_alt": 168,
+        "start_hdg": 168
+    },
+
+    {
         "title": "EDHL RW25 Threshold (Dev Home)",
         "start_lat": 53.80689570,
         "start_long": 10.72748198,

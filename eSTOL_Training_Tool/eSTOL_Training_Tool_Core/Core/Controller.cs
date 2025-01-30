@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using eSTOL_Training_Tool;
 using eSTOL_Training_Tool_Core.Model;
 using eSTOL_Training_Tool_Core.Influx;
+using System.Globalization;
 
 namespace eSTOL_Training_Tool_Core.Core
 {
@@ -31,6 +32,7 @@ namespace eSTOL_Training_Tool_Core.Core
         Telemetrie lastTelemetrie;
         string exportPath = "eSTOL_Training_Tool.csv";
         bool openWorldMode = true;
+        bool presetOutputEnable = false;
         Preset preset;
         string user = "";
         string presetsPath = "presets.json";
@@ -125,6 +127,13 @@ namespace eSTOL_Training_Tool_Core.Core
 
                     stol.ApplyPreset(preset);
                 }
+                else if (selection < 0)
+                {
+                    Console.WriteLine("Preset creation Mode.");
+                    Console.WriteLine("toggle parking break to inititate START position and heading.");
+                    openWorldMode = true;
+                    presetOutputEnable = true;
+                }
                 else
                 {
                     Console.WriteLine("Invalid selection. Please try again.");
@@ -182,7 +191,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                             setState(CycleState.Fly);
                                             stol.TakeoffPosition = telemetrie.Position;
                                             stol.TakeoffTime = DateTime.Now;
-                                            Console.WriteLine("Takoff recorded");
+                                            Console.WriteLine($"Takoff recorded: {(stol.GetTakeoffDistance()* 3.28084).ToString("0")} ft");
                                         }
                                         break;
                                     }
@@ -315,7 +324,13 @@ namespace eSTOL_Training_Tool_Core.Core
             stol.InitialPosition = plane.GetTelemetrie().Position;
             setState(CycleState.Hold);
             Console.WriteLine($"STOL cycle initiated\nSTART: {GeoUtils.ConvertToDMS(stol.InitialPosition)} HDG: {Math.Round(stol.InitialHeading.Value)}°");
-            // Console.WriteLine($"Debug - Geo: ({stol.InitialPosition.Latitude} {stol.InitialPosition.Longitude} {stol.InitialPosition.Altitude}) HDG: {Math.Round((double)stol.InitialHeading)}°");
+
+            if(presetOutputEnable)
+            {
+                Console.WriteLine($"Debug - Geo: ({stol.InitialPosition.Latitude} {stol.InitialPosition.Longitude} {stol.InitialPosition.Altitude}) HDG: {Math.Round((double)stol.InitialHeading)}°");
+                NumberFormatInfo nfi = new CultureInfo("en-US", false).NumberFormat;
+                Console.WriteLine($"Preset JSON:\n{{\"title\": \"YOUR TITLE\", \"start_lat\": {stol.InitialPosition.Latitude.ToString("0.000000000000", nfi)}, \"start_long\": {stol.InitialPosition.Longitude.ToString("0.000000000000", nfi)}, \"start_alt\": {stol.InitialPosition.Altitude.ToString("0", nfi)}, \"start_hdg\": {stol.InitialHeading?.ToString("0", nfi)}}}");
+            }
         }
 
         static string ReadLineWithTimeout(int timeoutMilliseconds)
