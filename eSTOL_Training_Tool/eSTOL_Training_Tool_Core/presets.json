@@ -90,6 +90,21 @@
     },
 
     {
+        "title": "eSTOL Lonestar RW 36",
+        "start_lat": 33.159024128111,
+        "start_long": -95.620816526699,
+        "start_alt": 146,
+        "start_hdg": 9
+    },
+    {
+        "title": "eSTOL Lonestar RW 18",
+        "start_lat": 33.160664816758,
+        "start_long": -95.620464951416,
+        "start_alt": 146,
+        "start_hdg": 189
+    },
+
+    {
         "title": "EDHL RW25 Threshold (Dev Home)",
         "start_lat": 53.80689570,
         "start_long": 10.72748198,
