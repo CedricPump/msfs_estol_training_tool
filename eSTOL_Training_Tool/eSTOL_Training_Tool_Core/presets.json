@@ -1,8 +1,8 @@
 [
     {
-        "title": "eSTOL Jennings RW36",
-        "start_lat": 30.2417277541687,
-        "start_long": -92.6678474887018,
+        "title": "eSTOL Jennings N (0°)",
+        "start_lat":   30.241727600,
+        "start_long": -92.667847488,
         "start_alt": 8,
         "start_hdg": 0
     },
@@ -75,18 +75,18 @@
     },
 
     {
-        "title": "eSTOL Music City RW 35",
-        "start_lat": 36.376634888941,
-        "start_long": -86.409190977272,
+        "title": "eSTOL Music City N (360°)",
+        "start_lat": 36.376634900,
+        "start_long": -86.409191000,
         "start_alt": 167,
-        "start_hdg": 350
+        "start_hdg": 353
     },
     {
-        "title": "eSTOL Music City RW 17",
-        "start_lat": 36.378282538897,
-        "start_long": -86.409490615829,
+        "title": "eSTOL Music City S (170°)",
+        "start_lat":   36.378286500,
+        "start_long": -86.409491615,
         "start_alt": 168,
-        "start_hdg": 168
+        "start_hdg": 170
     },
 
     {

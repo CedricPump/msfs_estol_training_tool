@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Device.Location;
 using eSTOL_Training_Tool.Model;
+using eSTOL_Training_Tool_Core.Model;
 using Microsoft.FlightSimulator.SimConnect;
 
 namespace eSTOL_Training_Tool
@@ -111,7 +112,7 @@ namespace eSTOL_Training_Tool
         {
             return new Telemetrie
             {
-                Position = new GeoCoordinate(this.Latitude, this.Longitude, this.Altitude * 0.3048),
+                Position = getPositionWithGearOffset(),
                 Altitude = this.Altitude,
                 AltitudeAGL = this.AltitudeAGL,
                 Height = 0.0,
@@ -124,6 +125,13 @@ namespace eSTOL_Training_Tool
                 bank = this.bank,
                 verticalSpeed = this.VerticalSpeed
             };
+        }
+
+        public GeoCoordinate getPositionWithGearOffset() 
+        {
+            double offset = GearOffset.getGearOffset(this.Type + "|" + this.Model);
+            GeoCoordinate simPos = new GeoCoordinate(this.Latitude, this.Longitude, this.Altitude * 0.3048);
+            return GeoUtils.GetOffsetPosition(simPos, this.Heading, offset);
         }
 
         public Ident GetIdent()
@@ -338,10 +346,46 @@ namespace eSTOL_Training_Tool
 
         public void setValue(string name, double value)
         {
-            Console.WriteLine($"setting {name}: {value}");
             DataDefinition def = getDefinitionByName(name);
             simconnect.SetDataOnSimObject(def.defId, SimConnect.SIMCONNECT_OBJECT_ID_USER, SIMCONNECT_DATA_SET_FLAG.DEFAULT, value);
         }
+
+        public void setPosition(GeoCoordinate position, double heading) 
+        {
+            double offset = GearOffset.getGearOffset(this.Type + "|" + this.Model);
+
+            GeoCoordinate offsetPos = GeoUtils.GetOffsetPosition(position, heading, offset);
+
+            this.setValue("SIM DISABLED", 1);
+            this.setValue("PLANE LATITUDE", offsetPos.Latitude);
+            this.setValue("PLANE LONGITUDE", offsetPos.Longitude);
+            this.setValue("PLANE ALTITUDE", offsetPos.Altitude);
+            this.setValue("PLANE HEADING DEGREES TRUE", heading);
+            System.Threading.Thread.Sleep(100);
+            this.setValue("SIM DISABLED", 0);
+        }
+
+        public void SpawnObject(string objectName, double latitude, double longitude, double altitude)
+        {
+            if (simconnect != null)
+            {
+                SIMCONNECT_DATA_INITPOSITION initPos = new SIMCONNECT_DATA_INITPOSITION
+                {
+                    Latitude = latitude,
+                    Longitude = longitude,
+                    Altitude = altitude,
+                    Pitch = 0.0f,
+                    Bank = 0.0f,
+                    Heading = 0.0f,
+                    OnGround = 1, // 1 = spawn on ground, 0 = spawn in air
+                    Airspeed = 0
+                };
+
+                simconnect.AICreateSimulatedObject(objectName, initPos, REQUEST_ID.SPAWN_OBJECT);
+                Console.WriteLine($"Spawning {objectName} at {latitude}, {longitude}, {altitude}");
+            }
+        }
+
 
         private void OnRecvSimobjectDataBytype(SimConnect sender, SIMCONNECT_RECV_SIMOBJECT_DATA_BYTYPE data)
         {

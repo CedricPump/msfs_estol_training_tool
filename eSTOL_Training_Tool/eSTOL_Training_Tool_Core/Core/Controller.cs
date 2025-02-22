@@ -6,6 +6,9 @@ using eSTOL_Training_Tool;
 using eSTOL_Training_Tool_Core.Model;
 using eSTOL_Training_Tool_Core.Influx;
 using System.Globalization;
+using NodaTime;
+using System.Linq;
+using Microsoft.FlightSimulator.SimConnect;
 
 namespace eSTOL_Training_Tool_Core.Core
 {
@@ -35,7 +38,8 @@ namespace eSTOL_Training_Tool_Core.Core
         bool presetOutputEnable = false;
         Preset preset;
         string user = "";
-        string presetsPath = "presets.json";
+        const string presetsPath = "presets.json";
+        const string offsetPath = "GearOffset.json";
         string userPath = "user.txt";
         MyInflux influx = MyInflux.GetInstance();
 
@@ -50,17 +54,25 @@ namespace eSTOL_Training_Tool_Core.Core
                 using (StreamWriter writer = new StreamWriter(exportPath))
                 {
                     writer.WriteLine(STOLResult.getCSVHeader());
-                    Console.WriteLine("exporting to " + exportPath);
                 }
             }
-            else
-            {
-                Console.WriteLine("File already exists.");
-            }
+            Console.WriteLine("exporting to " + exportPath);
         }
 
         public void Init()
         {
+            GearOffset.LoadOffsetDict(offsetPath);
+
+            // Update once to trigger connect to sim
+            plane.Update();
+            while (!plane.isInit) { plane.Update(); System.Threading.Thread.Sleep(330); };
+            while (plane.Title == null) { plane.Update(); System.Threading.Thread.Sleep(330); };
+
+            //plane.SpawnObject("Cone",plane.Latitude,plane.Longitude,plane.Altitude);
+
+
+            Console.WriteLine($"Using:\nType: \"{plane.Type}\"\nModel: \"{plane.Model}\"\nTitle: \"{plane.Title}\"\n");
+
             if (!File.Exists(userPath))
             {
                 // Disclaimer
@@ -126,6 +138,15 @@ namespace eSTOL_Training_Tool_Core.Core
                     openWorldMode = false;
 
                     stol.ApplyPreset(preset);
+
+                    // ask for teleport
+                    Console.Write($"Do you want to teleport to reference line? [y/(n)]: ");
+
+                    string? userInput = ReadLineWithTimeout(5000);
+                    if (userInput != null && userInput.ToLower() == "y")
+                    {
+                        TeleportToReferenceLine();
+                    }
                 }
                 else if (selection < 0)
                 {
@@ -145,6 +166,8 @@ namespace eSTOL_Training_Tool_Core.Core
                 Console.WriteLine("Invalid input. Please enter a number.");
                 Init(); // Restart selection
             }
+
+
         }
 
         public void Run()
@@ -331,6 +354,14 @@ namespace eSTOL_Training_Tool_Core.Core
                 NumberFormatInfo nfi = new CultureInfo("en-US", false).NumberFormat;
                 Console.WriteLine($"Preset JSON:\n{{\"title\": \"YOUR TITLE\", \"start_lat\": {stol.InitialPosition.Latitude.ToString("0.000000000000", nfi)}, \"start_long\": {stol.InitialPosition.Longitude.ToString("0.000000000000", nfi)}, \"start_alt\": {stol.InitialPosition.Altitude.ToString("0", nfi)}, \"start_hdg\": {stol.InitialHeading?.ToString("0", nfi)}}}");
             }
+
+
+        }
+
+        private void TeleportToReferenceLine() 
+        {
+            
+            plane.setPosition(stol.InitialPosition, stol.InitialHeading ?? 0);
         }
 
         static string ReadLineWithTimeout(int timeoutMilliseconds)

@@ -5,6 +5,40 @@ namespace eSTOL_Training_Tool
 {
     public static class GeoUtils
     {
+        private static readonly double EarthRadius = 6371000;
+
+        public static GeoCoordinate GetOffsetPosition(GeoCoordinate start, double angle, double distance)
+        {
+            if (distance < 0)
+            {
+                distance = Math.Abs(distance);
+                angle += 180;
+                angle %= 360;
+            }
+
+            double angularDistance = distance / EarthRadius; // Angular distance in radians
+            double bearing = angle * (Math.PI / 180.0); // Convert angle to radians
+
+            double lat1 = start.Latitude * (Math.PI / 180.0);
+            double lon1 = start.Longitude * (Math.PI / 180.0);
+
+            double lat2 = Math.Asin(
+                Math.Sin(lat1) * Math.Cos(angularDistance) +
+                Math.Cos(lat1) * Math.Sin(angularDistance) * Math.Cos(bearing)
+            );
+
+            double lon2 = lon1 + Math.Atan2(
+                Math.Sin(bearing) * Math.Sin(angularDistance) * Math.Cos(lat1),
+                Math.Cos(angularDistance) - Math.Sin(lat1) * Math.Sin(lat2)
+            );
+
+            // Convert back to degrees
+            lat2 *= (180.0 / Math.PI);
+            lon2 *= (180.0 / Math.PI);
+
+            return new GeoCoordinate(lat2, lon2, start.Altitude);
+        }
+
         public static double GetHeading(GeoCoordinate from, GeoCoordinate to)
         {
             // Convert degrees to radians
@@ -37,8 +71,6 @@ namespace eSTOL_Training_Tool
 
         public static double GetShortestDistance(GeoCoordinate point, GeoCoordinate origin, double heading)
         {
-            double earthRadius = 6371000; // Earth's radius in meters
-
             // Convert origin and point to radians
             double originLatRad = origin.Latitude * (Math.PI / 180);
             double originLonRad = origin.Longitude * (Math.PI / 180);
@@ -49,13 +81,13 @@ namespace eSTOL_Training_Tool
             double headingRad = heading * (Math.PI / 180);
 
             // Convert GeoCoordinates to Cartesian (X, Y) coordinates
-            double xOrigin = earthRadius * Math.Cos(originLatRad) * Math.Cos(originLonRad);
-            double yOrigin = earthRadius * Math.Cos(originLatRad) * Math.Sin(originLonRad);
+            double xOrigin = EarthRadius * Math.Cos(originLatRad) * Math.Cos(originLonRad);
+            double yOrigin = EarthRadius * Math.Cos(originLatRad) * Math.Sin(originLonRad);
 
             Console.WriteLine($"Origing cartesian: ({xOrigin},{yOrigin})");
 
-            double xPoint = earthRadius * Math.Cos(pointLatRad) * Math.Cos(pointLonRad);
-            double yPoint = earthRadius * Math.Cos(pointLatRad) * Math.Sin(pointLonRad);
+            double xPoint = EarthRadius * Math.Cos(pointLatRad) * Math.Cos(pointLonRad);
+            double yPoint = EarthRadius * Math.Cos(pointLatRad) * Math.Sin(pointLonRad);
 
             Console.WriteLine($"Point cartesian: ({xPoint},{yPoint})");
 

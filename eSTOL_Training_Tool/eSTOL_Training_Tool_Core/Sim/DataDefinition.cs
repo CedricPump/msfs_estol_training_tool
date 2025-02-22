@@ -12,6 +12,10 @@ namespace eSTOL_Training_Tool
         NULL,
         DataStruct
     };
+    enum REQUEST_ID
+    {
+        SPAWN_OBJECT = 1
+    }
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
     struct DataStruct

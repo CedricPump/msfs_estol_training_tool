@@ -7,7 +7,7 @@ namespace eSTOL_Training_Tool
         public delegate void PlaneEventCallBack(PlaneEvent planeEvent);
         private PlaneEventCallBack callBack = null;
 
-        public Plane(PlaneEventCallBack callback)
+        public Plane(PlaneEventCallBack callback): base()
         {
             this.callBack = callback;
         }
