@@ -285,6 +285,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                             STOLResult result = stol.GetResult();
                                             Console.WriteLine(result.getConsoleString());
                                             form.setResult(result.getConsoleString());
+                                            form.DrawResult(result);
 
                                             stol.Reset();
                                             try

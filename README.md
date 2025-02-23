@@ -100,7 +100,7 @@ select a Preset from Dropdown and press "Apply" or set Openworld Start Pos with 
 
 you are able to teleport directly to referenceline
 
-<center><img src="./doc/result.png" alt="states" width="600"/></center>
+<center><img src="./doc/panel.png" alt="states" width="600"/></center>
 
 the result is show as usual in the result box
 

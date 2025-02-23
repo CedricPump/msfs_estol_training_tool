@@ -111,7 +111,7 @@ namespace eSTOL_Training_Tool_Core.UI
 
         public void DrawResult(STOLResult result)
         {
-            
+            this.result = result;
             panel.Invalidate(); // Redraw the panel
             panel.BackColor = Color.FromArgb(0, 128, 0); // Dark Green
         }
@@ -126,15 +126,12 @@ namespace eSTOL_Training_Tool_Core.UI
             int fieldLength = 600;
 
             // Create a pen (color, thickness)
-            Pen whitePen = new Pen(Color.White, 5);
+            Pen whitePen = new Pen(Color.White, 3);
             Pen redPen = new Pen(Color.Red, 3);
             Pen BluePen = new Pen(Color.Blue, 3);
             Pen orangePen = new Pen(Color.Orange, 3);
             Pen yellowPen = new Pen(Color.Yellow, 3);
             Pen blackPen = new Pen(Color.Black, 5);
-
-            // Draw borders
-            g.DrawRectangle(whitePen, fieldStart, fieldStart, fieldWidth, fieldLength);
 
             whitePen = new Pen(Color.White, 3);
             g.DrawLine(whitePen, 5, 25, 255, 25);
@@ -167,11 +164,11 @@ namespace eSTOL_Training_Tool_Core.UI
             g.DrawLine(whitePen, 5, 565, 255, 565);
             g.DrawLine(whitePen, 5, 585, 255, 585);
 
-            if(true || result != null) 
+            if(result != null) 
             {
-                var toDist = 20;
-                var tdDist = 40;
-                var stopDist = 60;
+                var toDist = (int) Math.Round(result.Takeoffdist);
+                var tdDist = (int)Math.Round(result.Touchdowndist);
+                var stopDist = (int)Math.Round(result.Landingdist);
 
                 // Takeoff
                 g.DrawLine(BluePen, fieldStart + fieldWidth / 2 - 3, fieldStart + fieldLength, fieldStart + fieldWidth / 2 - 3, fieldStart + fieldLength - toDist);
@@ -190,15 +187,21 @@ namespace eSTOL_Training_Tool_Core.UI
 
 
                 // Create a font and brush
-                Font drawFont = new Font("Arial", 16, FontStyle.Bold);
+                Font drawFont = new Font("Arial", 9, FontStyle.Bold);
                 Brush drawBrush = new SolidBrush(Color.Black);
 
-                // Set position for the text
-                PointF drawPoint = new PointF(fieldStart + fieldWidth / 2 - 10, fieldStart + fieldLength - toDist);
 
-                // Draw text on the panel
-                e.Graphics.DrawString("TO", drawFont, drawBrush, drawPoint);
+                PointF drawPoint = new PointF(fieldStart + fieldWidth / 2 - 50, fieldStart + fieldLength - (toDist+5));
+                e.Graphics.DrawString("Takeoff", drawFont, drawBrush, drawPoint);
+                drawPoint = new PointF(fieldStart + fieldWidth / 2 + 10, fieldStart + fieldLength - (tdDist + 5));
+                e.Graphics.DrawString("Tochdown", drawFont, drawBrush, drawPoint);
+                drawPoint = new PointF(fieldStart + fieldWidth / 2 + 10, fieldStart + fieldLength - (stopDist + 5));
+                e.Graphics.DrawString("Stop", drawFont, drawBrush, drawPoint);
             }
+
+            // Draw borders
+            whitePen = new Pen(Color.White, 5);
+            g.DrawRectangle(whitePen, fieldStart, fieldStart, fieldWidth, fieldLength);
 
             // Dispose of the pen to free resources
             whitePen.Dispose();
