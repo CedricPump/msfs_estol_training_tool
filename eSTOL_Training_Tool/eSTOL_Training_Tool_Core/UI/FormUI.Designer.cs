@@ -39,6 +39,7 @@
             buttonSetRefPos = new System.Windows.Forms.Button();
             textBoxStatus = new System.Windows.Forms.TextBox();
             buttonCreatePreset = new System.Windows.Forms.Button();
+            panel = new System.Windows.Forms.Panel();
             SuspendLayout();
             // 
             // labelResult
@@ -59,13 +60,13 @@
             textBoxResult.Multiline = true;
             textBoxResult.Name = "textBoxResult";
             textBoxResult.ReadOnly = true;
-            textBoxResult.Size = new System.Drawing.Size(560, 383);
+            textBoxResult.Size = new System.Drawing.Size(463, 616);
             textBoxResult.TabIndex = 1;
             // 
             // textBoxUser
             // 
             textBoxUser.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            textBoxUser.Location = new System.Drawing.Point(578, 12);
+            textBoxUser.Location = new System.Drawing.Point(747, 12);
             textBoxUser.Name = "textBoxUser";
             textBoxUser.Size = new System.Drawing.Size(210, 23);
             textBoxUser.TabIndex = 2;
@@ -76,7 +77,7 @@
             // 
             labelPreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             labelPreset.AutoSize = true;
-            labelPreset.Location = new System.Drawing.Point(750, 38);
+            labelPreset.Location = new System.Drawing.Point(919, 38);
             labelPreset.Name = "labelPreset";
             labelPreset.Size = new System.Drawing.Size(39, 15);
             labelPreset.TabIndex = 3;
@@ -86,7 +87,7 @@
             // 
             comboBoxPreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             comboBoxPreset.FormattingEnabled = true;
-            comboBoxPreset.Location = new System.Drawing.Point(578, 56);
+            comboBoxPreset.Location = new System.Drawing.Point(747, 56);
             comboBoxPreset.Name = "comboBoxPreset";
             comboBoxPreset.Size = new System.Drawing.Size(211, 23);
             comboBoxPreset.TabIndex = 4;
@@ -95,7 +96,7 @@
             // 
             buttonApplyPreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             buttonApplyPreset.AutoSize = true;
-            buttonApplyPreset.Location = new System.Drawing.Point(578, 85);
+            buttonApplyPreset.Location = new System.Drawing.Point(747, 85);
             buttonApplyPreset.Name = "buttonApplyPreset";
             buttonApplyPreset.Size = new System.Drawing.Size(210, 25);
             buttonApplyPreset.TabIndex = 5;
@@ -107,7 +108,7 @@
             // 
             buttonTeleport.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             buttonTeleport.AutoSize = true;
-            buttonTeleport.Location = new System.Drawing.Point(578, 413);
+            buttonTeleport.Location = new System.Drawing.Point(747, 646);
             buttonTeleport.Name = "buttonTeleport";
             buttonTeleport.Size = new System.Drawing.Size(210, 25);
             buttonTeleport.TabIndex = 6;
@@ -118,7 +119,7 @@
             // buttonSetRefPos
             // 
             buttonSetRefPos.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            buttonSetRefPos.Location = new System.Drawing.Point(578, 114);
+            buttonSetRefPos.Location = new System.Drawing.Point(747, 114);
             buttonSetRefPos.Name = "buttonSetRefPos";
             buttonSetRefPos.Size = new System.Drawing.Size(210, 23);
             buttonSetRefPos.TabIndex = 7;
@@ -129,10 +130,10 @@
             // textBoxStatus
             // 
             textBoxStatus.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            textBoxStatus.Location = new System.Drawing.Point(12, 416);
+            textBoxStatus.Location = new System.Drawing.Point(12, 649);
             textBoxStatus.Name = "textBoxStatus";
             textBoxStatus.ReadOnly = true;
-            textBoxStatus.Size = new System.Drawing.Size(560, 23);
+            textBoxStatus.Size = new System.Drawing.Size(729, 23);
             textBoxStatus.TabIndex = 8;
             textBoxStatus.Text = "Status";
             textBoxStatus.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -141,7 +142,7 @@
             // 
             buttonCreatePreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             buttonCreatePreset.AutoSize = true;
-            buttonCreatePreset.Location = new System.Drawing.Point(578, 143);
+            buttonCreatePreset.Location = new System.Drawing.Point(747, 143);
             buttonCreatePreset.Name = "buttonCreatePreset";
             buttonCreatePreset.Size = new System.Drawing.Size(210, 25);
             buttonCreatePreset.TabIndex = 9;
@@ -149,11 +150,21 @@
             buttonCreatePreset.UseVisualStyleBackColor = true;
             buttonCreatePreset.Click += buttonCreatePreset_Click;
             // 
+            // panel
+            // 
+            panel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            panel.Location = new System.Drawing.Point(481, 27);
+            panel.Name = "panel";
+            panel.Size = new System.Drawing.Size(260, 616);
+            panel.TabIndex = 10;
+            panel.Paint += panel_Paint;
+            // 
             // FormUI
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(800, 450);
+            ClientSize = new System.Drawing.Size(969, 683);
+            Controls.Add(panel);
             Controls.Add(buttonCreatePreset);
             Controls.Add(textBoxStatus);
             Controls.Add(buttonSetRefPos);
@@ -183,5 +194,6 @@
         private System.Windows.Forms.Button buttonSetRefPos;
         private System.Windows.Forms.TextBox textBoxStatus;
         private System.Windows.Forms.Button buttonCreatePreset;
+        private System.Windows.Forms.Panel panel;
     }
 }

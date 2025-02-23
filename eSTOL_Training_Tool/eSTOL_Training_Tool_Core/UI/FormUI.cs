@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using eSTOL_Training_Tool;
 using eSTOL_Training_Tool_Core.Core;
 
 namespace eSTOL_Training_Tool_Core.UI
@@ -17,6 +18,7 @@ namespace eSTOL_Training_Tool_Core.UI
         delegate void SetResultTextCallback(string text);
         delegate void SetStatusTextCallback(string text);
         private readonly Controller controller;
+        private STOLResult? result = null;
 
         public FormUI(Controller controller)
         {
@@ -105,6 +107,102 @@ namespace eSTOL_Training_Tool_Core.UI
         private void buttonCreatePreset_Click(object sender, EventArgs e)
         {
             textBoxResult.Text = controller.createPreset();
+        }
+
+        public void DrawResult(STOLResult result)
+        {
+            
+            panel.Invalidate(); // Redraw the panel
+            panel.BackColor = Color.FromArgb(0, 128, 0); // Dark Green
+        }
+
+        private void panel_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.Clear(Color.FromArgb(0, 128, 0));
+            Graphics g = e.Graphics;
+
+            int fieldStart = 5;
+            int fieldWidth = 250;
+            int fieldLength = 600;
+
+            // Create a pen (color, thickness)
+            Pen whitePen = new Pen(Color.White, 5);
+            Pen redPen = new Pen(Color.Red, 3);
+            Pen BluePen = new Pen(Color.Blue, 3);
+            Pen orangePen = new Pen(Color.Orange, 3);
+            Pen yellowPen = new Pen(Color.Yellow, 3);
+            Pen blackPen = new Pen(Color.Black, 5);
+
+            // Draw borders
+            g.DrawRectangle(whitePen, fieldStart, fieldStart, fieldWidth, fieldLength);
+
+            whitePen = new Pen(Color.White, 3);
+            g.DrawLine(whitePen, 5, 25, 255, 25);
+            g.DrawLine(whitePen, 5, 45, 255, 45);
+            g.DrawLine(whitePen, 5, 65, 255, 65);
+            g.DrawLine(whitePen, 5, 85, 255, 85);
+            g.DrawLine(redPen, 5, 105, 255, 105);
+            g.DrawLine(whitePen, 5, 125, 255, 125);
+            g.DrawLine(whitePen, 5, 145, 255, 145);
+            g.DrawLine(whitePen, 5, 165, 255, 165);
+            g.DrawLine(whitePen, 5, 185, 255, 185);
+            g.DrawLine(redPen, 5, 205, 255, 205);
+            g.DrawLine(whitePen, 5, 225, 255, 225);
+            g.DrawLine(whitePen, 5, 245, 255, 245);
+            g.DrawLine(whitePen, 5, 265, 255, 265);
+            g.DrawLine(whitePen, 5, 285, 255, 285);
+            g.DrawLine(redPen, 5, 305, 255, 305);
+            g.DrawLine(whitePen, 5, 325, 255, 325);
+            g.DrawLine(whitePen, 5, 345, 255, 345);
+            g.DrawLine(whitePen, 5, 365, 255, 365);
+            g.DrawLine(whitePen, 5, 385, 255, 385);
+            g.DrawLine(redPen, 5, 405, 255, 405);
+            g.DrawLine(whitePen, 5, 425, 255, 425);
+            g.DrawLine(whitePen, 5, 445, 255, 445);
+            g.DrawLine(whitePen, 5, 465, 255, 465);
+            g.DrawLine(whitePen, 5, 485, 255, 485);
+            g.DrawLine(redPen, 5, 505, 255, 505);
+            g.DrawLine(whitePen, 5, 525, 255, 525);
+            g.DrawLine(whitePen, 5, 545, 255, 545);
+            g.DrawLine(whitePen, 5, 565, 255, 565);
+            g.DrawLine(whitePen, 5, 585, 255, 585);
+
+            if(true || result != null) 
+            {
+                var toDist = 20;
+                var tdDist = 40;
+                var stopDist = 60;
+
+                // Takeoff
+                g.DrawLine(BluePen, fieldStart + fieldWidth / 2 - 3, fieldStart + fieldLength, fieldStart + fieldWidth / 2 - 3, fieldStart + fieldLength - toDist);
+
+                // touchdown
+                g.DrawLine(yellowPen, fieldStart + fieldWidth / 2 + 3, fieldStart + fieldLength, fieldStart + fieldWidth / 2 + 3, fieldStart + fieldLength - tdDist);
+
+                // stop
+                g.DrawLine(orangePen, fieldStart + fieldWidth / 2 + 3, fieldStart + fieldLength - tdDist, fieldStart + fieldWidth / 2 + 3, fieldStart + fieldLength - stopDist);
+
+                g.DrawEllipse(blackPen, fieldStart + fieldWidth / 2 - 3, fieldStart + fieldLength - toDist, 1, 1);
+                g.DrawEllipse(blackPen, fieldStart + fieldWidth / 2 + 3, fieldStart + fieldLength - tdDist, 1, 1);
+                g.DrawEllipse(blackPen, fieldStart + fieldWidth / 2 + 3, fieldStart + fieldLength - stopDist, 1, 1);
+
+
+
+
+                // Create a font and brush
+                Font drawFont = new Font("Arial", 16, FontStyle.Bold);
+                Brush drawBrush = new SolidBrush(Color.Black);
+
+                // Set position for the text
+                PointF drawPoint = new PointF(fieldStart + fieldWidth / 2 - 10, fieldStart + fieldLength - toDist);
+
+                // Draw text on the panel
+                e.Graphics.DrawString("TO", drawFont, drawBrush, drawPoint);
+            }
+
+            // Dispose of the pen to free resources
+            whitePen.Dispose();
+            redPen.Dispose();
         }
     }
 }
