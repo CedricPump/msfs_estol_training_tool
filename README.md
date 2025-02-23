@@ -40,7 +40,7 @@ Start Point are provided as preset for known eSTOL Fields
 
 ### Preset Creation
 
-when typing -1 on mode selection you are able to enter preset recording mode.
+Click the Create Preset Button.
 it then provides a preset as JSON you can add to presets.json file.
 
 Example:
@@ -60,7 +60,9 @@ The tool polls aircraft telemety data in an interval off 250ms. This limits the 
 For tochdown and landing it refers to Simconnect variable "SIM ON GROUND". Detection qualaty depends on Sim dettecting this parameter.
 The tool does not access Takeoff or Touchdown Events (yet).
 The start point and touchdown point are set by plane position. this position most likely refers to planes center of gravity and not to wheels touchdown point.
-Since the offset between those is the same for lineup, takeoff and landing if may be ignored. For differen Plane Types, especially those of different size, this may be a Problem when working with presets.
+Since the offset between those is the same for lineup, takeoff and landing if may be ignored. For differen Plane Types, especially those of different size.
+to counter this ther is the gear offset feature.
+enter an offset to your plane in GearOffset.json until teleport drops you onto the referenceline.
 
 ## Usage
 
@@ -78,66 +80,29 @@ The numbers give a quick feedback and rough estimate of your performance.They do
 Do not challenge any competition score based on this tools' estimation alone.
 Make sure to record your flight for any necessary score validation.
 
-Press Enter to accept
-
-Input eSTOL User Name: User
-Select a eSTOL field preset or "Open World" mode (default):
-
-  [ 0] Open World Mode (set custom start with parking brake)
-  [ 1] eSTOL Jennings RW36
-  [ 2] eSTOL Jennings RW18
-  [ 3] eSTOL Grant Co Intl RW23
-  [ 4] eSTOL Grant Co Intl RW05
-  [ 5] eSTOL Arklahoma RW31
-  [ 6] eSTOL Arklahoma RW13
-  [ 7] eSTOL Training RW36
-  [ 8] eSTOL Training RW18
-  [ 9] eSTOL Johnsons Farm RW31
-  [10] eSTOL Johnsons Farm RW13
-  [11] EDHL RW25 Threshold (Dev Home)
-
-Enter your selection (0 for Open World, or preset number): You selected Open World Mode.
-toggle parking break to inititate START position and heading.
 ```
 
 - setup user name used for InfluxDB upload. Leave empty to ignore.
-- select mode OpenWorld (default, timeout 10sec) or select a preset.
+- select mode OpenWorld or select a preset.
 - lineup with start line and takeoff -> "takeoff detected"
 - fly pattern and land -> "landing detected"
 - result is shown after full stop
-  - result summary is printed to console
+  - result summary is printed to console and result box
   - result is saved to .csv file
   - result is pushed to InfluxDB
+  - state panel shows detected state of flight
  
-Exsample:
+<center><img src="./doc/initial.png" alt="states" width="600"/></center>
 
-```
-...
-Enter your selection (0 for Open World, or preset number): 7
-You selected: eSTOL Training RW36
-STOL cycle initiated: 389975A3
-START: N39°2'25,36",W96°4'22,83" HDG: 356°
-simconnect init done
-Takoff recorded
-time: 03:30
-Touchdown recorded
+select a Preset from Dropdown and press "Apply" or set Openworld Start Pos with Button "Set Start"
 
------------------------------------
-Result User - 25/11/2024 13:52:45
-Plane:               $$:Savage Carbon $$:Zlin Aviation Savage Carbon: Orange
-Takeoff Dinstance:   201 ft
-Landing Dinstance:   146 ft
-Stopping Dinstance:  87 ft
-Touchdown Dinstance: 59 ft
-Pattern Time:        03:14 min
-TD Pitch:            0°
-TD Grnd-Speed        30 knots
-TD Vert-Speed        -372 ft/min
-Start:               389975A3
------------------------------------
-Score:               367
-===================================
-```
+<center><img src="./doc/teleport.png" alt="states" width="600"/></center>
+
+you are able to teleport directly to referenceline
+
+<center><img src="./doc/result.png" alt="states" width="600"/></center>
+
+the result is show as usual in the result box
 
 ## States
 

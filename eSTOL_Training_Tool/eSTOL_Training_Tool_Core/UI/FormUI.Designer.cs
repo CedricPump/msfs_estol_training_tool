@@ -145,7 +145,7 @@
             buttonCreatePreset.Name = "buttonCreatePreset";
             buttonCreatePreset.Size = new System.Drawing.Size(210, 25);
             buttonCreatePreset.TabIndex = 9;
-            buttonCreatePreset.Text = "Ceate Preset";
+            buttonCreatePreset.Text = "Create Preset";
             buttonCreatePreset.UseVisualStyleBackColor = true;
             buttonCreatePreset.Click += buttonCreatePreset_Click;
             // 
