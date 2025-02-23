@@ -3,4 +3,12 @@
   <PropertyGroup>
     <_LastSelectedProfileId>C:\Users\Gast\git\msfs_estol_training_tool\eSTOL_Training_Tool\eSTOL_Training_Tool_Core\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Update="UI\FormMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UI\FormUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
 </Project>

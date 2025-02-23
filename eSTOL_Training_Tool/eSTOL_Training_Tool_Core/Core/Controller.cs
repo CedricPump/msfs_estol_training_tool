@@ -9,6 +9,9 @@ using System.Globalization;
 using NodaTime;
 using System.Linq;
 using Microsoft.FlightSimulator.SimConnect;
+using System.Windows.Forms;
+using eSTOL_Training_Tool_Core.UI;
+using System.Xml.Linq;
 
 namespace eSTOL_Training_Tool_Core.Core
 {
@@ -24,7 +27,7 @@ namespace eSTOL_Training_Tool_Core.Core
         Unknown
     }
 
-    class Controller
+    public class Controller
     {
         Plane plane;
         int idlerefreshIntervall = 10000;
@@ -36,12 +39,14 @@ namespace eSTOL_Training_Tool_Core.Core
         string exportPath = "eSTOL_Training_Tool.csv";
         bool openWorldMode = true;
         bool presetOutputEnable = false;
+        List<Preset> presets = new();
         Preset preset;
-        string user = "";
+        public string user = "";
         const string presetsPath = "presets.json";
         const string offsetPath = "GearOffset.json";
         string userPath = "user.txt";
         MyInflux influx = MyInflux.GetInstance();
+        FormUI? form;
 
         public Controller()
         {
@@ -57,6 +62,12 @@ namespace eSTOL_Training_Tool_Core.Core
                 }
             }
             Console.WriteLine("exporting to " + exportPath);
+        }
+
+        public void SetUI(FormUI form) 
+        {
+            this.form = form;
+            this.form.setPresets(presets.Select(p => p.title).ToArray());
         }
 
         public void Init()
@@ -76,10 +87,11 @@ namespace eSTOL_Training_Tool_Core.Core
             if (!File.Exists(userPath))
             {
                 // Disclaimer
-                Console.Write(
-                    "\nDisclaimer:\n\nThis Tool is intended for training purposes only.\nThe numbers give a quick feedback and rough estimate of your performance.They do not guarantee any accuracy.\n"
-                    + "Do not challenge any competition score based on this tools' estimation alone.\nMake sure to record your flight for any necessary score validation.\n\nPress Enter to accept");
-                Console.ReadLine();
+                string disclaimer = "Disclaimer:\nThis Tool is intended for training purposes only.\nThe numbers give a quick feedback and rough estimate of your performance.They do not guarantee any accuracy.\n"
+                    + "Do not challenge any competition score based on this tools' estimation alone.\nMake sure to record your flight for any necessary score validation.";
+                Console.Write("\n"+disclaimer);
+
+                MessageBox.Show(disclaimer);
 
                 // User input
                 Console.Write("You can upload your training data to database. Leave empty to ignore.\nInput eSTOL User Name: ");
@@ -101,7 +113,14 @@ namespace eSTOL_Training_Tool_Core.Core
             stol.user = user;
 
             // Load presets
-            List<Preset> presets = Preset.ReadPresets(presetsPath);
+            presets = Preset.ReadPresets(presetsPath);
+            if (form != null)
+            {
+                form.setPresets(presets.Select(p => p.title).ToArray());
+            }
+
+            openWorldMode = true;
+            return;
 
             // Build the selection prompt
             string prompt =
@@ -118,8 +137,9 @@ namespace eSTOL_Training_Tool_Core.Core
 
             // Read input from the user
             // string input = Console.ReadLine();
-            string input = ReadLineWithTimeout(30000);
-            if (input == null || input == "") input = "0";
+            //string input = ReadLineWithTimeout(30000);
+            // if (input == null || input == "") input = "0";
+            string input = "0";
 
             // Parse the input and handle selection
             if (int.TryParse(input, out int selection))
@@ -153,7 +173,7 @@ namespace eSTOL_Training_Tool_Core.Core
                     Console.WriteLine("Preset creation Mode.");
                     Console.WriteLine("toggle parking break to inititate START position and heading.");
                     openWorldMode = true;
-                    presetOutputEnable = true;
+                    
                 }
                 else
                 {
@@ -168,6 +188,22 @@ namespace eSTOL_Training_Tool_Core.Core
             }
 
 
+        }
+
+        public string createPreset() 
+        {
+            NumberFormatInfo nfi = new CultureInfo("en-US", false).NumberFormat;
+            return $"Preset JSON:\r\n\r\n{{\"title\": \"YOUR TITLE\", \"start_lat\": {plane.GetTelemetrie().Position.Latitude.ToString("0.000000000000", nfi)}, \"start_long\": {plane.GetTelemetrie().Position.Longitude.ToString("0.000000000000", nfi)}, \"start_alt\": {plane.GetTelemetrie().Position.Altitude.ToString("0", nfi)}, \"start_hdg\": {plane.GetTelemetrie().Heading.ToString("0", nfi)}}}\r\n\r\ncopy and insert to presets.json";
+        }
+
+        public void SetUser(string username)
+        {
+            using (StreamWriter writer = new StreamWriter(userPath))
+            {
+                writer.WriteLine(username);
+                user = username;
+            }
+            stol.user = username;
         }
 
         public void Run()
@@ -214,7 +250,8 @@ namespace eSTOL_Training_Tool_Core.Core
                                             setState(CycleState.Fly);
                                             stol.TakeoffPosition = telemetrie.Position;
                                             stol.TakeoffTime = DateTime.Now;
-                                            Console.WriteLine($"Takoff recorded: {(stol.GetTakeoffDistance()* 3.28084).ToString("0")} ft");
+                                            Console.WriteLine($"Takoff recorded: {(stol.GetTakeoffDistance() * 3.28084).ToString("0")} ft");
+                                            form.setResult($"Takoff recorded: {(stol.GetTakeoffDistance() * 3.28084).ToString("0")} ft");
                                         }
                                         break;
                                     }
@@ -224,7 +261,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                         {
                                             // Touchdown!!!
                                             setState(CycleState.Rollout);
-                                            stol.planeType = plane.Model + " " + plane.Type + " " + plane.Title;
+                                            stol.planeType = plane.Title;
                                             stol.TouchdownPosition = telemetrie.Position;
                                             stol.TouchdownTime = DateTime.Now;
                                             stol.TouchdownPitch = lastTelemetrie.pitch;
@@ -232,6 +269,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                             stol.TouchdownVerticalSpeed = lastTelemetrie.verticalSpeed;
                                             // nextline after clock
                                             Console.WriteLine("\nTouchdown recorded");
+                                            form.setResult("Touchdown recorded");
                                         }
                                         break;
                                     }
@@ -244,8 +282,10 @@ namespace eSTOL_Training_Tool_Core.Core
                                             stol.StopTime = DateTime.Now;
 
                                             // End Cycle
-                                            var result = stol.GetResult();
+                                            STOLResult result = stol.GetResult();
                                             Console.WriteLine(result.getConsoleString());
+                                            form.setResult(result.getConsoleString());
+
                                             stol.Reset();
                                             try
                                             {
@@ -276,6 +316,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                             // stol.Retry();
                                             // stol.Reset();
                                             Console.WriteLine("Touch 'n' go recorded, try Again");
+                                            form.setResult("Touch 'n' go recorded, try Again");
                                         }
                                         break;
                                     }
@@ -309,7 +350,10 @@ namespace eSTOL_Training_Tool_Core.Core
         {
             var old = cycleState;
             cycleState = state;
-            // Console.WriteLine($"state: {old}->{state}");
+            if (form != null) 
+            {
+                form.setState(state.ToString());
+            } 
         }
 
         public void OnPlaneEventCallback(PlaneEvent evt)
@@ -321,7 +365,7 @@ namespace eSTOL_Training_Tool_Core.Core
                     {
                         if (openWorldMode && plane.IsOnGround && plane.GroundSpeed < groundspeedThreshold)
                         {
-                            initSTOL();
+                            // initSTOL();
                         }
                         break;
                     }
@@ -329,7 +373,7 @@ namespace eSTOL_Training_Tool_Core.Core
                     {
                         if (openWorldMode && plane.IsOnGround && plane.GroundSpeed < groundspeedThreshold)
                         {
-                            initSTOL();
+                            // initSTOL();
                         }
                         break;
                     }
@@ -338,10 +382,41 @@ namespace eSTOL_Training_Tool_Core.Core
             }
         }
 
+        public void SetPreset(string presetTitle) 
+        {
+            if (presetTitle == "Open World") 
+            {
+                Console.WriteLine("You selected Open World Mode.");
+                Console.WriteLine("set START position and heading.");
+                preset = null;
+                stol.Reset();
+                openWorldMode = true;
+                return;
+            }
+
+            var selectedPreset = presets.Where(p => p.title == presetTitle).FirstOrDefault();
+
+            Console.WriteLine($"You selected: {selectedPreset.title}");
+            preset = selectedPreset;
+            openWorldMode = false;
+            stol.Reset();
+            stol.ApplyPreset(preset);
+        }
+
+        public void SetStartPos()
+        {
+            initSTOL();
+        }
+
+        public bool IsStilInit() 
+        {
+            return stol.IsInit();
+        }
+
         private void initSTOL()
         {
             // set STOL initial Values
-            stol.planeType = plane.Type + " " + plane.Title;
+            stol.planeType = plane.Title;
             stol.InitialHeading = plane.Heading;
             stol.InitialPitch = plane.pitch;
             stol.InitialPosition = plane.GetTelemetrie().Position;
@@ -358,7 +433,7 @@ namespace eSTOL_Training_Tool_Core.Core
 
         }
 
-        private void TeleportToReferenceLine() 
+        public void TeleportToReferenceLine() 
         {
             
             plane.setPosition(stol.InitialPosition, stol.InitialHeading ?? 0);

@@ -1,0 +1,187 @@
+﻿namespace eSTOL_Training_Tool_Core.UI
+{
+    partial class FormUI
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormUI));
+            labelResult = new System.Windows.Forms.Label();
+            textBoxResult = new System.Windows.Forms.TextBox();
+            textBoxUser = new System.Windows.Forms.TextBox();
+            labelPreset = new System.Windows.Forms.Label();
+            comboBoxPreset = new System.Windows.Forms.ComboBox();
+            buttonApplyPreset = new System.Windows.Forms.Button();
+            buttonTeleport = new System.Windows.Forms.Button();
+            buttonSetRefPos = new System.Windows.Forms.Button();
+            textBoxStatus = new System.Windows.Forms.TextBox();
+            buttonCreatePreset = new System.Windows.Forms.Button();
+            SuspendLayout();
+            // 
+            // labelResult
+            // 
+            labelResult.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            labelResult.AutoSize = true;
+            labelResult.Location = new System.Drawing.Point(12, 9);
+            labelResult.Name = "labelResult";
+            labelResult.Size = new System.Drawing.Size(39, 15);
+            labelResult.TabIndex = 0;
+            labelResult.Text = "Result";
+            // 
+            // textBoxResult
+            // 
+            textBoxResult.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            textBoxResult.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            textBoxResult.Location = new System.Drawing.Point(12, 27);
+            textBoxResult.Multiline = true;
+            textBoxResult.Name = "textBoxResult";
+            textBoxResult.ReadOnly = true;
+            textBoxResult.Size = new System.Drawing.Size(560, 383);
+            textBoxResult.TabIndex = 1;
+            // 
+            // textBoxUser
+            // 
+            textBoxUser.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            textBoxUser.Location = new System.Drawing.Point(578, 12);
+            textBoxUser.Name = "textBoxUser";
+            textBoxUser.Size = new System.Drawing.Size(210, 23);
+            textBoxUser.TabIndex = 2;
+            textBoxUser.TextChanged += textBoxUser_TextChanged;
+            textBoxUser.KeyDown += textBoxUser_KeyDown;
+            // 
+            // labelPreset
+            // 
+            labelPreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            labelPreset.AutoSize = true;
+            labelPreset.Location = new System.Drawing.Point(750, 38);
+            labelPreset.Name = "labelPreset";
+            labelPreset.Size = new System.Drawing.Size(39, 15);
+            labelPreset.TabIndex = 3;
+            labelPreset.Text = "Preset";
+            // 
+            // comboBoxPreset
+            // 
+            comboBoxPreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            comboBoxPreset.FormattingEnabled = true;
+            comboBoxPreset.Location = new System.Drawing.Point(578, 56);
+            comboBoxPreset.Name = "comboBoxPreset";
+            comboBoxPreset.Size = new System.Drawing.Size(211, 23);
+            comboBoxPreset.TabIndex = 4;
+            // 
+            // buttonApplyPreset
+            // 
+            buttonApplyPreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            buttonApplyPreset.AutoSize = true;
+            buttonApplyPreset.Location = new System.Drawing.Point(578, 85);
+            buttonApplyPreset.Name = "buttonApplyPreset";
+            buttonApplyPreset.Size = new System.Drawing.Size(210, 25);
+            buttonApplyPreset.TabIndex = 5;
+            buttonApplyPreset.Text = "Apply";
+            buttonApplyPreset.UseVisualStyleBackColor = true;
+            buttonApplyPreset.Click += buttonApplyPreset_Click;
+            // 
+            // buttonTeleport
+            // 
+            buttonTeleport.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            buttonTeleport.AutoSize = true;
+            buttonTeleport.Location = new System.Drawing.Point(578, 413);
+            buttonTeleport.Name = "buttonTeleport";
+            buttonTeleport.Size = new System.Drawing.Size(210, 25);
+            buttonTeleport.TabIndex = 6;
+            buttonTeleport.Text = "Teleport";
+            buttonTeleport.UseVisualStyleBackColor = true;
+            buttonTeleport.Click += buttonTeleport_Click;
+            // 
+            // buttonSetRefPos
+            // 
+            buttonSetRefPos.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            buttonSetRefPos.Location = new System.Drawing.Point(578, 114);
+            buttonSetRefPos.Name = "buttonSetRefPos";
+            buttonSetRefPos.Size = new System.Drawing.Size(210, 23);
+            buttonSetRefPos.TabIndex = 7;
+            buttonSetRefPos.Text = "Set Start";
+            buttonSetRefPos.UseVisualStyleBackColor = true;
+            buttonSetRefPos.Click += buttonSetRefPos_Click;
+            // 
+            // textBoxStatus
+            // 
+            textBoxStatus.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            textBoxStatus.Location = new System.Drawing.Point(12, 416);
+            textBoxStatus.Name = "textBoxStatus";
+            textBoxStatus.ReadOnly = true;
+            textBoxStatus.Size = new System.Drawing.Size(560, 23);
+            textBoxStatus.TabIndex = 8;
+            textBoxStatus.Text = "Status";
+            textBoxStatus.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // buttonCreatePreset
+            // 
+            buttonCreatePreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            buttonCreatePreset.AutoSize = true;
+            buttonCreatePreset.Location = new System.Drawing.Point(578, 143);
+            buttonCreatePreset.Name = "buttonCreatePreset";
+            buttonCreatePreset.Size = new System.Drawing.Size(210, 25);
+            buttonCreatePreset.TabIndex = 9;
+            buttonCreatePreset.Text = "Ceate Preset";
+            buttonCreatePreset.UseVisualStyleBackColor = true;
+            buttonCreatePreset.Click += buttonCreatePreset_Click;
+            // 
+            // FormUI
+            // 
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(800, 450);
+            Controls.Add(buttonCreatePreset);
+            Controls.Add(textBoxStatus);
+            Controls.Add(buttonSetRefPos);
+            Controls.Add(buttonTeleport);
+            Controls.Add(buttonApplyPreset);
+            Controls.Add(comboBoxPreset);
+            Controls.Add(labelPreset);
+            Controls.Add(textBoxUser);
+            Controls.Add(textBoxResult);
+            Controls.Add(labelResult);
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
+            Name = "FormUI";
+            Text = "eSTOL Training Tool";
+            ResumeLayout(false);
+            PerformLayout();
+        }
+
+        #endregion
+
+        private System.Windows.Forms.Label labelResult;
+        private System.Windows.Forms.TextBox textBoxResult;
+        private System.Windows.Forms.TextBox textBoxUser;
+        private System.Windows.Forms.Label labelPreset;
+        private System.Windows.Forms.ComboBox comboBoxPreset;
+        private System.Windows.Forms.Button buttonApplyPreset;
+        private System.Windows.Forms.Button buttonTeleport;
+        private System.Windows.Forms.Button buttonSetRefPos;
+        private System.Windows.Forms.TextBox textBoxStatus;
+        private System.Windows.Forms.Button buttonCreatePreset;
+    }
+}

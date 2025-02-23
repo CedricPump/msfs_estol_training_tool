@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using eSTOL_Training_Tool_Core.Core;
+using eSTOL_Training_Tool_Core.UI;
 
 namespace Bombathlon
 {
-    class Program
+    static class Program
     {
         static void Main(string[] args)
         {
@@ -18,7 +21,16 @@ namespace Bombathlon
 
             Controller controller = new Controller();
             controller.Init();
-            controller.Run();
+            Task controllerTask = Task.Run(() =>
+            {
+                controller.Run(); // Run the loop in the background
+            });
+
+
+            ApplicationConfiguration.Initialize();
+            var form = new FormUI(controller);
+            controller.SetUI(form);
+            Application.Run(form);
         }
     }
 }

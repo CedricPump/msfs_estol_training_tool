@@ -162,21 +162,21 @@ namespace eSTOL_Training_Tool
                 scratchText = " - SCRATCH!";
             }
 
-            string resultStr = $"\n-----------------------------------\n" +
-                $"Result {User} - {time}\n" +
-                $"Plane:               {planeType}\n" +
-                $"Takeoff Dinstance:   {Takeoffdist} ft\n" +
-                $"Landing Dinstance:   {Landingdist} ft\n" +
-                $"Stopping Dinstance:  {Stoppingdist} ft\n" +
-                $"Touchdown Dinstance: {Touchdowndist} ft{scratchText}\n" +
-                $"Pattern Time:        {patternTimeStr} min\n" +
-                $"TD Pitch:            {TdPitch}°\n" +
-                $"TD Grnd-Speed        {GrndSpeed} knots\n" +
-                $"TD Vert-Speed        {VSpeed} ft/min\n" +
-                $"Start:               {InitHash}\n" +
-                $"-----------------------------------\n" +
-                $"Score:               {Score}\n" +
-                $"===================================\n";
+            string resultStr = $"\r\n-----------------------------------\r\n" +
+                $"Result {User} - {time}\r\n" +
+                $"Plane:               {planeType}\r\n" +
+                $"Takeoff Dinstance:   {Takeoffdist} ft\r\n" +
+                $"Landing Dinstance:   {Landingdist} ft\r\n" +
+                $"Stopping Dinstance:  {Stoppingdist} ft\r\n" +
+                $"Touchdown Dinstance: {Touchdowndist} ft{scratchText}\r\n" +
+                $"Pattern Time:        {patternTimeStr} min\r\n" +
+                $"TD Pitch:            {TdPitch}°\r\n" +
+                $"TD Grnd-Speed        {GrndSpeed} knots\r\n" +
+                $"TD Vert-Speed        {VSpeed} ft/min\r\n" +
+                $"Start:               {InitHash}\r\n" +
+                $"-----------------------------------\r\n" +
+                $"Score:               {Score}\r\n" +
+                $"===================================\r\n";
             return resultStr;
         }
         public string getCsvString() 
