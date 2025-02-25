@@ -40,6 +40,7 @@
             textBoxStatus = new System.Windows.Forms.TextBox();
             buttonCreatePreset = new System.Windows.Forms.Button();
             panel = new System.Windows.Forms.Panel();
+            comboBoxUnit = new System.Windows.Forms.ComboBox();
             SuspendLayout();
             // 
             // labelResult
@@ -77,7 +78,7 @@
             // 
             labelPreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             labelPreset.AutoSize = true;
-            labelPreset.Location = new System.Drawing.Point(919, 38);
+            labelPreset.Location = new System.Drawing.Point(919, 67);
             labelPreset.Name = "labelPreset";
             labelPreset.Size = new System.Drawing.Size(39, 15);
             labelPreset.TabIndex = 3;
@@ -87,7 +88,7 @@
             // 
             comboBoxPreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             comboBoxPreset.FormattingEnabled = true;
-            comboBoxPreset.Location = new System.Drawing.Point(747, 56);
+            comboBoxPreset.Location = new System.Drawing.Point(748, 85);
             comboBoxPreset.Name = "comboBoxPreset";
             comboBoxPreset.Size = new System.Drawing.Size(211, 23);
             comboBoxPreset.TabIndex = 4;
@@ -96,7 +97,7 @@
             // 
             buttonApplyPreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             buttonApplyPreset.AutoSize = true;
-            buttonApplyPreset.Location = new System.Drawing.Point(747, 85);
+            buttonApplyPreset.Location = new System.Drawing.Point(749, 114);
             buttonApplyPreset.Name = "buttonApplyPreset";
             buttonApplyPreset.Size = new System.Drawing.Size(210, 25);
             buttonApplyPreset.TabIndex = 5;
@@ -119,7 +120,7 @@
             // buttonSetRefPos
             // 
             buttonSetRefPos.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            buttonSetRefPos.Location = new System.Drawing.Point(747, 114);
+            buttonSetRefPos.Location = new System.Drawing.Point(748, 145);
             buttonSetRefPos.Name = "buttonSetRefPos";
             buttonSetRefPos.Size = new System.Drawing.Size(210, 23);
             buttonSetRefPos.TabIndex = 7;
@@ -142,7 +143,7 @@
             // 
             buttonCreatePreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             buttonCreatePreset.AutoSize = true;
-            buttonCreatePreset.Location = new System.Drawing.Point(747, 143);
+            buttonCreatePreset.Location = new System.Drawing.Point(749, 174);
             buttonCreatePreset.Name = "buttonCreatePreset";
             buttonCreatePreset.Size = new System.Drawing.Size(210, 25);
             buttonCreatePreset.TabIndex = 9;
@@ -159,11 +160,21 @@
             panel.TabIndex = 10;
             panel.Paint += panel_Paint;
             // 
+            // comboBoxUnit
+            // 
+            comboBoxUnit.FormattingEnabled = true;
+            comboBoxUnit.Location = new System.Drawing.Point(747, 41);
+            comboBoxUnit.Name = "comboBoxUnit";
+            comboBoxUnit.Size = new System.Drawing.Size(210, 23);
+            comboBoxUnit.TabIndex = 11;
+            comboBoxUnit.SelectedIndexChanged += comboBoxUnit_SelectedIndexChanged;
+            // 
             // FormUI
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(969, 683);
+            Controls.Add(comboBoxUnit);
             Controls.Add(panel);
             Controls.Add(buttonCreatePreset);
             Controls.Add(textBoxStatus);
@@ -195,5 +206,6 @@
         private System.Windows.Forms.TextBox textBoxStatus;
         private System.Windows.Forms.Button buttonCreatePreset;
         private System.Windows.Forms.Panel panel;
+        private System.Windows.Forms.ComboBox comboBoxUnit;
     }
 }

@@ -69,11 +69,12 @@ namespace eSTOL_Training_Tool
             return $"{InitialPosition.Latitude:F8},{InitialPosition.Longitude:F8},{InitialHeading:F0}".GetHashCode().ToString("X");
         }
 
-        public STOLResult GetResult() 
+        public STOLResult GetResult(string unit = "feet") 
         {
             if (!IsInit()) return null;
 
             STOLResult result = new STOLResult();
+            result.Unit = unit;
             result.preset = preset;
             result.InitHash = GetInitialPosHash();
             result.User = user;
@@ -82,10 +83,10 @@ namespace eSTOL_Training_Tool
 
             result.PatternTime = (TimeSpan) (TouchdownTime - TakeoffTime);
 
-            result.Takeoffdist = Math.Round(GetTakeoffDistance() * 3.28084);
-            result.Touchdowndist = Math.Round(GetTouchdownDistance() * 3.28084);
-            result.Stoppingdist = Math.Round(GetStoppingDistance() * 3.28084);
-            result.Landingdist = Math.Round(GetLandingDistance() * 3.28084);
+            result.Takeoffdist = Math.Round(GetWithUnit(GetTakeoffDistance(), unit));
+            result.Touchdowndist = Math.Round(GetWithUnit(GetTouchdownDistance(), unit));
+            result.Stoppingdist = Math.Round(GetWithUnit(GetStoppingDistance(), unit));
+            result.Landingdist = Math.Round(GetWithUnit(GetLandingDistance(), unit));
             result.TdPitch = (double)(InitialPitch - TouchdownPitch);
             result.GrndSpeed = Math.Round((double)TouchdownGroundSpeed);
             result.VSpeed = Math.Round((double)TouchdownVerticalSpeed);
@@ -98,6 +99,20 @@ namespace eSTOL_Training_Tool
 
             return result;
 
+        }
+
+        private static double GetWithUnit(double valueMeters, string unit = "feet")
+        {
+            switch (unit)
+            {
+                case "meters":
+                    return valueMeters;
+                case "feet":
+                    return valueMeters * 3.28084;
+                case "yard":
+                    return valueMeters * 1.09361;
+            }
+            return valueMeters;
         }
 
         public void Reset()
@@ -134,6 +149,13 @@ namespace eSTOL_Training_Tool
             Reset();
             Console.WriteLine($"STOL cycle initiated: {GetInitialPosHash()}\nSTART: {GeoUtils.ConvertToDMS(InitialPosition)} HDG: {Math.Round(InitialHeading.Value)}°");
         }
+
+        public STOLData Copy() 
+        {
+            throw new NotImplementedException();
+            return new STOLData();
+            
+        }
     }
 
     public class STOLResult 
@@ -152,6 +174,7 @@ namespace eSTOL_Training_Tool
         public double GrndSpeed;
         public double VSpeed;
         public double Score;
+        public string Unit;
 
         public string getConsoleString() 
         {
@@ -165,10 +188,10 @@ namespace eSTOL_Training_Tool
             string resultStr = $"\r\n-----------------------------------\r\n" +
                 $"Result {User} - {time}\r\n" +
                 $"Plane:               {planeType}\r\n" +
-                $"Takeoff Dinstance:   {Takeoffdist} ft\r\n" +
-                $"Landing Dinstance:   {Landingdist} ft\r\n" +
-                $"Stopping Dinstance:  {Stoppingdist} ft\r\n" +
-                $"Touchdown Dinstance: {Touchdowndist} ft{scratchText}\r\n" +
+                $"Takeoff Dinstance:   {Takeoffdist} {Unit}\r\n" +
+                $"Landing Dinstance:   {Landingdist} {Unit}\r\n" +
+                $"Stopping Dinstance:  {Stoppingdist} {Unit}\r\n" +
+                $"Touchdown Dinstance: {Touchdowndist} {Unit}{scratchText}\r\n" +
                 $"Pattern Time:        {patternTimeStr} min\r\n" +
                 $"TD Pitch:            {TdPitch}°\r\n" +
                 $"TD Grnd-Speed        {GrndSpeed} knots\r\n" +
@@ -182,18 +205,18 @@ namespace eSTOL_Training_Tool
         public string getCsvString() 
         {
             string patternTimeStr = $"{(int)PatternTime.TotalMinutes:00}:{PatternTime.Seconds:00}";
-            return $"{planeType},{time},{Takeoffdist},{Landingdist},{Stoppingdist},{Touchdowndist},{patternTimeStr},{TdPitch},{GrndSpeed},{VSpeed},{Score}";
+            return $"{planeType},{time},{Takeoffdist},{Landingdist},{Stoppingdist},{Touchdowndist},{patternTimeStr},{TdPitch},{GrndSpeed},{VSpeed},{Score},{Unit}";
         }
 
         public static string getCSVHeader()
         {
-            return "Plane,Time,Takeoff Distance,Landing Dinstance,Stopping Dinstance,Touchdown Dinstance,Pattern Time,TD Pitch,TD Grnd-Speed,TD Vert-Speed,Score";
+            return "Plane,Time,Takeoff Distance,Landing Dinstance,Stopping Dinstance,Touchdown Dinstance,Pattern Time,TD Pitch,TD Grnd-Speed,TD Vert-Speed,Score,Unit";
         }
 
         public string GetInfluxLineProtocol() 
         {
             string measurement = "stol_results";
-            string tags = $"User={User},planeType={planeType}";
+            string tags = $"User={User},planeType={planeType},unit={Unit}";
             string fields = $"Takeoffdist={Takeoffdist}," +
                             $"Touchdowndist={Touchdowndist}," +
                             $"Stoppingdist={Stoppingdist}," +

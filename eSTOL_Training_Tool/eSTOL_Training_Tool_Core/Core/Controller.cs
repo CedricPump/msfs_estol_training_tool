@@ -34,6 +34,7 @@ namespace eSTOL_Training_Tool_Core.Core
         int refreshIntervall = 250;
         CycleState cycleState = CycleState.Unknown;
         STOLData stol = new STOLData();
+        STOLData lastStol = new STOLData();
         double groundspeedThreshold = 0.7;
         Telemetrie lastTelemetrie;
         string exportPath = "eSTOL_Training_Tool.csv";
@@ -47,6 +48,7 @@ namespace eSTOL_Training_Tool_Core.Core
         string userPath = "user.txt";
         MyInflux influx = MyInflux.GetInstance();
         FormUI? form;
+        string unit = "feet";
 
         public Controller()
         {
@@ -206,6 +208,16 @@ namespace eSTOL_Training_Tool_Core.Core
             stol.user = username;
         }
 
+        public void setUnit(string unit) 
+        {
+            this.unit = unit;
+            if(stol != null && stol.StopPosition !=  null) 
+            {
+                form.setResult(stol.GetResult(this.unit).getConsoleString());
+            }
+
+        }
+
         public void Run()
         {
             while (true)
@@ -282,11 +294,12 @@ namespace eSTOL_Training_Tool_Core.Core
                                             stol.StopTime = DateTime.Now;
 
                                             // End Cycle
-                                            STOLResult result = stol.GetResult();
+                                            STOLResult result = stol.GetResult(unit);
                                             Console.WriteLine(result.getConsoleString());
                                             form.setResult(result.getConsoleString());
                                             form.DrawResult(result);
 
+                                            lastStol = stol;
                                             stol.Reset();
                                             try
                                             {

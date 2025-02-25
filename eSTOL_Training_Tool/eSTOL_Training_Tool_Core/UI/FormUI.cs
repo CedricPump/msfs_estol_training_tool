@@ -28,6 +28,12 @@ namespace eSTOL_Training_Tool_Core.UI
             textBoxStatus.Text = "No Reference Position selected";
             buttonTeleport.Enabled = false;
             textBoxResult.Text = "Welcome\r\nSelect a eSTOL field preset or \"Open World\" mode set custom start.";
+
+            comboBoxUnit.Items.Add("feet");
+            comboBoxUnit.Items.Add("meters");
+            comboBoxUnit.Items.Add("yard");
+            comboBoxUnit.Text = "feet";
+            // comboBoxUnit.Items.Add("yard");
         }
 
         public void setPresets(string[] strings)
@@ -164,9 +170,9 @@ namespace eSTOL_Training_Tool_Core.UI
             g.DrawLine(whitePen, 5, 565, 255, 565);
             g.DrawLine(whitePen, 5, 585, 255, 585);
 
-            if(result != null) 
+            if (result != null)
             {
-                var toDist = (int) Math.Round(result.Takeoffdist);
+                var toDist = (int)Math.Round(result.Takeoffdist);
                 var tdDist = (int)Math.Round(result.Touchdowndist);
                 var stopDist = (int)Math.Round(result.Landingdist);
 
@@ -191,7 +197,7 @@ namespace eSTOL_Training_Tool_Core.UI
                 Brush drawBrush = new SolidBrush(Color.Black);
 
 
-                PointF drawPoint = new PointF(fieldStart + fieldWidth / 2 - 50, fieldStart + fieldLength - (toDist+5));
+                PointF drawPoint = new PointF(fieldStart + fieldWidth / 2 - 50, fieldStart + fieldLength - (toDist + 5));
                 e.Graphics.DrawString("Takeoff", drawFont, drawBrush, drawPoint);
                 drawPoint = new PointF(fieldStart + fieldWidth / 2 + 10, fieldStart + fieldLength - (tdDist + 5));
                 e.Graphics.DrawString("Tochdown", drawFont, drawBrush, drawPoint);
@@ -206,6 +212,12 @@ namespace eSTOL_Training_Tool_Core.UI
             // Dispose of the pen to free resources
             whitePen.Dispose();
             redPen.Dispose();
+        }
+
+        private void comboBoxUnit_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string unit = comboBoxUnit.Text;
+            controller.setUnit(unit);
         }
     }
 }
