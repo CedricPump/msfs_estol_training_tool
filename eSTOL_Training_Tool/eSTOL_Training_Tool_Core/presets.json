@@ -7,70 +7,70 @@
 		"start_hdg": 0
 	},
 	{
-		"title": "eSTOL Jennings RW18",
+		"title": "eSTOL Jennings S (180°)",
 		"start_lat": 30.2433959063355,
 		"start_long": -92.6678616953052,
 		"start_alt": 8,
 		"start_hdg": 180
 	},
 	{
-		"title": "eSTOL Grant Co Intl RW23",
+		"title": "eSTOL Grant Co Intl SW (230°)",
 		"start_lat": 47.2013943303453,
 		"start_long": -119.326425553688,
 		"start_alt": 360,
 		"start_hdg": 230
 	},
 	{
-		"title": "eSTOL Grant Co Intl RW05",
+		"title": "eSTOL Grant Co Intl NE (050°)",
 		"start_lat": 47.2004170222903,
 		"start_long": -119.328396684347,
 		"start_alt": 361,
 		"start_hdg": 53
 	},
 	{
-		"title": "eSTOL Arklahoma RW31",
+		"title": "eSTOL Arklahoma NW (310°)",
 		"start_lat": 35.2618638704196,
 		"start_long": -94.4886861540447,
 		"start_alt": 132,
 		"start_hdg": 308
 	},
 	{
-		"title": "eSTOL Arklahoma RW13",
+		"title": "eSTOL Arklahoma SE (130°)",
 		"start_lat": 35.2629050779166,
 		"start_long": -94.4902724570947,
 		"start_alt": 130,
 		"start_hdg": 128
 	},
 	{
-		"title": "eSTOL Training RW36",
+		"title": "eSTOL Training N (360°)",
 		"start_lat": 39.040377060415,
 		"start_long": -96.0730085678824,
 		"start_alt": 393,
 		"start_hdg": 356
 	},
 	{
-		"title": "eSTOL Training RW18",
+		"title": "eSTOL Training S (180°)",
 		"start_lat": 39.0420487803341,
 		"start_long": -96.0731078255539,
 		"start_alt": 393,
 		"start_hdg": 176
 	},
 	{
-		"title": "eSTOL Johnsons Farm RW31",
+		"title": "eSTOL Johnsons Farm NW (310°)",
 		"start_lat": 40.1461530425526,
 		"start_long": -122.461802774477,
 		"start_alt": 194,
 		"start_hdg": 306
 	},
 	{
-		"title": "eSTOL Johnsons Farm RW13",
+		"title": "eSTOL Johnsons Farm SE (130°)",
 		"start_lat": 40.1471303521051,
 		"start_long": -122.463570419442,
 		"start_alt": 194,
 		"start_hdg": 126
 	},
 	{
-		"title": "eSTOL Music City N (360°)",
+		"title": "eSTOL Music City N (350°)",
 		"start_lat": 36.3766349,
 		"start_long": -86.409191,
 		"start_alt": 167,
@@ -84,14 +84,14 @@
 		"start_hdg": 170
 	},
 	{
-		"title": "eSTOL Lonestar RW 36",
+		"title": "eSTOL Lonestar N (010°)",
 		"start_lat": 33.159024128111,
 		"start_long": -95.620816526699,
 		"start_alt": 146,
 		"start_hdg": 9
 	},
 	{
-		"title": "eSTOL Lonestar RW 18",
+		"title": "eSTOL Lonestar S (190°)",
 		"start_lat": 33.160664816758,
 		"start_long": -95.620464951416,
 		"start_alt": 146,
@@ -99,14 +99,14 @@
 	},
 	
 	{
-		"title": "EGBL Breighton E (103°)",
+		"title": "EGBL Breighton E (100°)",
 		"start_lat": 53.803071803544,
 		"start_long": -0.919106662751,
 		"start_alt": 10,
 		"start_hdg": 103
 	},
 	{
-		"title": "EGBL Breighton W (278°)",
+		"title": "EGBL Breighton W (280°)",
 		"start_lat": 53.802746027534,
 		"start_long": -0.91610238998,
 		"start_alt": 9,
