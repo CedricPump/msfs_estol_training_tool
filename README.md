@@ -30,6 +30,11 @@ Stopping distance: Distance from TouchdownPoint to StopPoint
 
 This tool has two modes: OpenWorld and Presets
 
+It's not possible to embed videos directly, but you can put an image which links to a YouTube video:
+
+Video:
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/Pc77grlt8Zk/0.jpg)](https://www.youtube.com/watch?v=Pc77grlt8Zk)
+
 ### Open World 
 
 The user can set the startpoint everywhere using parking breake or smoke.
@@ -129,4 +134,5 @@ To install missing framework, download: https://aka.ms/dotnet-core-applaunch?fra
 ```
 
 dotNet Framework is not present or old. follow the link provided to install or update dotNet Framework.
-[download: https://aka.ms/dotnet-core-applaunch?framework=Microsoft.NETCore.App&framework_version=9.0.0&arch=x6U&rid=win10—x6U](download: https://aka.ms/dotnet-core-applaunch?framework=Microsoft.NETCore.App&framework_version=9.0.0&arch=x6U&rid=win10—x6U)
+https://dotnet.microsoft.com/en-us/download/dotnet/9.0/runtime?cid=getdotnetcore&os=windows
+
