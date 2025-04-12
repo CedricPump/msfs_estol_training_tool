@@ -219,5 +219,15 @@ namespace eSTOL_Training_Tool_Core.UI
             string unit = comboBoxUnit.Text;
             controller.setUnit(unit);
         }
+
+        private void checkBoxResult_CheckedChanged(object sender, EventArgs e)
+        {
+            controller.issendResults = checkBoxResult.Checked;
+        }
+
+        private void checkBoxTelemetry_CheckedChanged(object sender, EventArgs e)
+        {
+            controller.issendTelemetry = checkBoxTelemetry.Checked;
+        }
     }
 }

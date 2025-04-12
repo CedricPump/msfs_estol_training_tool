@@ -41,6 +41,8 @@
             buttonCreatePreset = new System.Windows.Forms.Button();
             panel = new System.Windows.Forms.Panel();
             comboBoxUnit = new System.Windows.Forms.ComboBox();
+            checkBoxResult = new System.Windows.Forms.CheckBox();
+            checkBoxTelemetry = new System.Windows.Forms.CheckBox();
             SuspendLayout();
             // 
             // labelResult
@@ -78,7 +80,7 @@
             // 
             labelPreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             labelPreset.AutoSize = true;
-            labelPreset.Location = new System.Drawing.Point(919, 67);
+            labelPreset.Location = new System.Drawing.Point(919, 116);
             labelPreset.Name = "labelPreset";
             labelPreset.Size = new System.Drawing.Size(39, 15);
             labelPreset.TabIndex = 3;
@@ -88,7 +90,7 @@
             // 
             comboBoxPreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             comboBoxPreset.FormattingEnabled = true;
-            comboBoxPreset.Location = new System.Drawing.Point(748, 85);
+            comboBoxPreset.Location = new System.Drawing.Point(748, 134);
             comboBoxPreset.Name = "comboBoxPreset";
             comboBoxPreset.Size = new System.Drawing.Size(211, 23);
             comboBoxPreset.TabIndex = 4;
@@ -97,7 +99,7 @@
             // 
             buttonApplyPreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             buttonApplyPreset.AutoSize = true;
-            buttonApplyPreset.Location = new System.Drawing.Point(749, 114);
+            buttonApplyPreset.Location = new System.Drawing.Point(749, 163);
             buttonApplyPreset.Name = "buttonApplyPreset";
             buttonApplyPreset.Size = new System.Drawing.Size(210, 25);
             buttonApplyPreset.TabIndex = 5;
@@ -120,7 +122,7 @@
             // buttonSetRefPos
             // 
             buttonSetRefPos.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            buttonSetRefPos.Location = new System.Drawing.Point(748, 145);
+            buttonSetRefPos.Location = new System.Drawing.Point(748, 194);
             buttonSetRefPos.Name = "buttonSetRefPos";
             buttonSetRefPos.Size = new System.Drawing.Size(210, 23);
             buttonSetRefPos.TabIndex = 7;
@@ -143,7 +145,7 @@
             // 
             buttonCreatePreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             buttonCreatePreset.AutoSize = true;
-            buttonCreatePreset.Location = new System.Drawing.Point(749, 174);
+            buttonCreatePreset.Location = new System.Drawing.Point(749, 223);
             buttonCreatePreset.Name = "buttonCreatePreset";
             buttonCreatePreset.Size = new System.Drawing.Size(210, 25);
             buttonCreatePreset.TabIndex = 9;
@@ -163,17 +165,45 @@
             // comboBoxUnit
             // 
             comboBoxUnit.FormattingEnabled = true;
-            comboBoxUnit.Location = new System.Drawing.Point(747, 41);
+            comboBoxUnit.Location = new System.Drawing.Point(747, 90);
             comboBoxUnit.Name = "comboBoxUnit";
             comboBoxUnit.Size = new System.Drawing.Size(210, 23);
             comboBoxUnit.TabIndex = 11;
             comboBoxUnit.SelectedIndexChanged += comboBoxUnit_SelectedIndexChanged;
+            // 
+            // checkBoxResult
+            // 
+            checkBoxResult.AutoSize = true;
+            checkBoxResult.Checked = true;
+            checkBoxResult.CheckState = System.Windows.Forms.CheckState.Checked;
+            checkBoxResult.Location = new System.Drawing.Point(747, 41);
+            checkBoxResult.Name = "checkBoxResult";
+            checkBoxResult.Size = new System.Drawing.Size(91, 19);
+            checkBoxResult.TabIndex = 12;
+            checkBoxResult.Text = "send Results";
+            checkBoxResult.UseVisualStyleBackColor = true;
+            checkBoxResult.CheckedChanged += checkBoxResult_CheckedChanged;
+            // 
+            // checkBoxTelemetry
+            // 
+            checkBoxTelemetry.AutoSize = true;
+            checkBoxTelemetry.Checked = true;
+            checkBoxTelemetry.CheckState = System.Windows.Forms.CheckState.Checked;
+            checkBoxTelemetry.Location = new System.Drawing.Point(747, 65);
+            checkBoxTelemetry.Name = "checkBoxTelemetry";
+            checkBoxTelemetry.Size = new System.Drawing.Size(106, 19);
+            checkBoxTelemetry.TabIndex = 13;
+            checkBoxTelemetry.Text = "send Telemetry";
+            checkBoxTelemetry.UseVisualStyleBackColor = true;
+            checkBoxTelemetry.CheckedChanged += checkBoxTelemetry_CheckedChanged;
             // 
             // FormUI
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(969, 683);
+            Controls.Add(checkBoxTelemetry);
+            Controls.Add(checkBoxResult);
             Controls.Add(comboBoxUnit);
             Controls.Add(panel);
             Controls.Add(buttonCreatePreset);
@@ -207,5 +237,7 @@
         private System.Windows.Forms.Button buttonCreatePreset;
         private System.Windows.Forms.Panel panel;
         private System.Windows.Forms.ComboBox comboBoxUnit;
+        private System.Windows.Forms.CheckBox checkBoxResult;
+        private System.Windows.Forms.CheckBox checkBoxTelemetry;
     }
 }

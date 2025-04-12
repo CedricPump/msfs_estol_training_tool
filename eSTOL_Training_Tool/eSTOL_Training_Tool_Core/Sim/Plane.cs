@@ -2,7 +2,7 @@
 
 namespace eSTOL_Training_Tool
 {
-    internal class Plane : Aircraft
+    public class Plane : Aircraft
     {
         public delegate void PlaneEventCallBack(PlaneEvent planeEvent);
         private PlaneEventCallBack callBack = null;

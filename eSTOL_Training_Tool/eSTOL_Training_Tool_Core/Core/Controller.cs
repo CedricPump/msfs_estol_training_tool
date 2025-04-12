@@ -6,12 +6,10 @@ using eSTOL_Training_Tool;
 using eSTOL_Training_Tool_Core.Model;
 using eSTOL_Training_Tool_Core.Influx;
 using System.Globalization;
-using NodaTime;
 using System.Linq;
 using Microsoft.FlightSimulator.SimConnect;
 using System.Windows.Forms;
 using eSTOL_Training_Tool_Core.UI;
-using System.Xml.Linq;
 
 namespace eSTOL_Training_Tool_Core.Core
 {
@@ -49,6 +47,8 @@ namespace eSTOL_Training_Tool_Core.Core
         MyInflux influx = MyInflux.GetInstance();
         FormUI? form;
         string unit = "feet";
+        public bool issendResults = true;
+        public bool issendTelemetry = true;
 
         public Controller()
         {
@@ -74,6 +74,7 @@ namespace eSTOL_Training_Tool_Core.Core
 
         public void Init()
         {
+
             GearOffset.LoadOffsetDict(offsetPath);
 
             // Update once to trigger connect to sim
@@ -229,6 +230,10 @@ namespace eSTOL_Training_Tool_Core.Core
                     {
                         //Console.WriteLine(cycleState);
                         Telemetrie telemetrie = plane.GetTelemetrie();
+                        if (issendTelemetry && stol.user != null && stol.user != "")
+                        { 
+                            influx.sendTelemetry(stol.user, plane);
+                        }
                         //Console.WriteLine(GeoUtils.GetDistanceAlongAxis(telemetrie.Position, stol.InitialPosition, stol.InitialHeading.Value));
 
                         if (stol.IsInit())
@@ -315,7 +320,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                             try
                                             {
                                                 // send influx
-                                                if (user != "") influx.sendData(result);
+                                                if (issendResults && user != null && user != "") influx.sendData(result);
                                             }
                                             catch
                                             {
