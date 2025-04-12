@@ -28,42 +28,40 @@ namespace eSTOL_Training_Tool_Core.Core
     public class Controller
     {
         Plane plane;
-        int idlerefreshIntervall = 10000;
-        int refreshIntervall = 250;
+        Config config;
         CycleState cycleState = CycleState.Unknown;
         STOLData stol = new STOLData();
         STOLData lastStol = new STOLData();
-        double groundspeedThreshold = 0.7;
         Telemetrie lastTelemetrie;
-        string exportPath = "eSTOL_Training_Tool.csv";
         bool openWorldMode = true;
         bool presetOutputEnable = false;
         List<Preset> presets = new();
         Preset preset;
         public string user = "";
-        const string presetsPath = "presets.json";
-        const string offsetPath = "GearOffset.json";
-        string userPath = "user.txt";
         MyInflux influx = MyInflux.GetInstance();
         FormUI? form;
-        string unit = "feet";
+        string unit;
         public bool issendResults = true;
         public bool issendTelemetry = true;
+        DateTime lastTelemetrieTime = DateTime.MinValue;
 
         public Controller()
         {
+            this.config = Config.Load();
+            
+            this.unit = config.Unit;
             plane = new Plane(OnPlaneEventCallback);
 
             // init export file
-            if (!File.Exists(exportPath))
+            if (!File.Exists(config.ExportPath))
             {
                 // Create the file and write the header
-                using (StreamWriter writer = new StreamWriter(exportPath))
+                using (StreamWriter writer = new StreamWriter(config.ExportPath))
                 {
                     writer.WriteLine(STOLResult.getCSVHeader());
                 }
             }
-            Console.WriteLine("exporting to " + exportPath);
+            Console.WriteLine("exporting to " + config.ExportPath);
         }
 
         public void SetUI(FormUI form) 
@@ -75,7 +73,7 @@ namespace eSTOL_Training_Tool_Core.Core
         public void Init()
         {
 
-            GearOffset.LoadOffsetDict(offsetPath);
+            GearOffset.LoadOffsetDict(this.config.OffsetPath);
 
             // Update once to trigger connect to sim
             plane.Update();
@@ -87,7 +85,7 @@ namespace eSTOL_Training_Tool_Core.Core
 
             Console.WriteLine($"Using:\nType: \"{plane.Type}\"\nModel: \"{plane.Model}\"\nTitle: \"{plane.Title}\"\n");
 
-            if (!File.Exists(userPath))
+            if (!File.Exists(config.UserPath))
             {
                 // Disclaimer
                 string disclaimer = "Disclaimer:\nThis Tool is intended for training purposes only.\nThe numbers give a quick feedback and rough estimate of your performance.They do not guarantee any accuracy.\n"
@@ -100,7 +98,7 @@ namespace eSTOL_Training_Tool_Core.Core
                 Console.Write("You can upload your training data to database. Leave empty to ignore.\nInput eSTOL User Name: ");
                 string name = Console.ReadLine();
 
-                using (StreamWriter writer = new StreamWriter(userPath))
+                using (StreamWriter writer = new StreamWriter(config.UserPath))
                 {
                     writer.WriteLine(name);
                     user = name;
@@ -108,15 +106,17 @@ namespace eSTOL_Training_Tool_Core.Core
             }
             else
             {
-                using (StreamReader reader = new StreamReader(userPath))
+                using (StreamReader reader = new StreamReader(config.UserPath))
                 {
                     user = reader.ReadLine(); // Read the username
                 }
             }
             stol.user = user;
 
+            CheckForUpdate();
+
             // Load presets
-            presets = Preset.ReadPresets(presetsPath);
+            presets = Preset.ReadPresets(config.PresetsPath);
             if (form != null)
             {
                 form.setPresets(presets.Select(p => p.title).ToArray());
@@ -124,73 +124,15 @@ namespace eSTOL_Training_Tool_Core.Core
 
             openWorldMode = true;
             return;
+        }
 
-            // Build the selection prompt
-            string prompt =
-                "Select a eSTOL field preset or \"Open World\" mode (default):\n\n" +
-                "  [ 0] Open World Mode (set custom start with parking brake)\n";
-
-            for (int i = 0; i < presets.Count; i++)
+        private async void CheckForUpdate()
+        {
+            string? result = await VersionHelper.CheckForUpdateAsync();
+            if (result != null)
             {
-                prompt += $"  [{i + 1,2}] {presets[i].title}\n";
+                MessageBox.Show($"New Version available: {result}\nhttps://github.com/CedricPump/msfs_estol_training_tool/releases");
             }
-
-            Console.WriteLine(prompt);
-            Console.Write("Enter your selection (0 for Open World, or preset number): ");
-
-            // Read input from the user
-            // string input = Console.ReadLine();
-            //string input = ReadLineWithTimeout(30000);
-            // if (input == null || input == "") input = "0";
-            string input = "0";
-
-            // Parse the input and handle selection
-            if (int.TryParse(input, out int selection))
-            {
-                if (selection == 0)
-                {
-                    Console.WriteLine("You selected Open World Mode.");
-                    Console.WriteLine("toggle parking break to inititate START position and heading.");
-                    openWorldMode = true;
-                }
-                else if (selection >= 1 && selection <= presets.Count)
-                {
-                    Preset selectedPreset = presets[selection - 1];
-                    Console.WriteLine($"You selected: {selectedPreset.title}");
-                    preset = selectedPreset;
-                    openWorldMode = false;
-
-                    stol.ApplyPreset(preset);
-
-                    // ask for teleport
-                    Console.Write($"Do you want to teleport to reference line? [y/(n)]: ");
-
-                    string? userInput = ReadLineWithTimeout(5000);
-                    if (userInput != null && userInput.ToLower() == "y")
-                    {
-                        TeleportToReferenceLine();
-                    }
-                }
-                else if (selection < 0)
-                {
-                    Console.WriteLine("Preset creation Mode.");
-                    Console.WriteLine("toggle parking break to inititate START position and heading.");
-                    openWorldMode = true;
-                    
-                }
-                else
-                {
-                    Console.WriteLine("Invalid selection. Please try again.");
-                    Init(); // Restart selection
-                }
-            }
-            else
-            {
-                Console.WriteLine("Invalid input. Please enter a number.");
-                Init(); // Restart selection
-            }
-
-
         }
 
         public string createPreset() 
@@ -201,7 +143,7 @@ namespace eSTOL_Training_Tool_Core.Core
 
         public void SetUser(string username)
         {
-            using (StreamWriter writer = new StreamWriter(userPath))
+            using (StreamWriter writer = new StreamWriter(config.UserPath))
             {
                 writer.WriteLine(username);
                 user = username;
@@ -231,21 +173,20 @@ namespace eSTOL_Training_Tool_Core.Core
                         //Console.WriteLine(cycleState);
                         Telemetrie telemetrie = plane.GetTelemetrie();
                         if (issendTelemetry && stol.user != null && stol.user != "")
-                        { 
-                            influx.sendTelemetry(stol.user, plane);
+                        {
+                            if (DateTime.Now - lastTelemetrieTime > TimeSpan.FromSeconds(config.TelemetrySendInterval))
+                            {
+                                lastTelemetrieTime = DateTime.Now;
+                                influx.sendTelemetry(stol.user, plane);
+                            }
                         }
-                        //Console.WriteLine(GeoUtils.GetDistanceAlongAxis(telemetrie.Position, stol.InitialPosition, stol.InitialHeading.Value));
 
                         if (stol.IsInit())
                         {
-                            // var (x, y) = GeoUtils.GetOffsetXYByHeading(stol.InitialPosition, telemetrie.Position, (double)stol.InitialHeading);
-                            // var dist = stol.InitialPosition.GetDistanceTo(telemetrie.Position);
-                            // Console.WriteLine($"dist: {Math.Round(dist* 3.28084)} offset: ({Math.Round(x)},{Math.Round(y)})");
-
                             switch (cycleState)
                             {
                                 case CycleState.Unknown:
-                                    if (plane.GroundSpeed < groundspeedThreshold && plane.IsOnGround)
+                                    if (plane.GroundSpeed < config.GroundspeedThreshold && plane.IsOnGround)
                                     {
                                         // Console.WriteLine($"Debug - Geo: ({stol.InitialPosition.Latitude} {stol.InitialPosition.Longitude} {stol.InitialPosition.Altitude}) HDG: {Math.Round((double)stol.InitialHeading)}°");
                                         setState(CycleState.Hold);
@@ -253,7 +194,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                     break;
                                 case CycleState.Hold:
                                     {
-                                        if (plane.GroundSpeed > groundspeedThreshold && plane.IsOnGround)
+                                        if (plane.GroundSpeed > config.GroundspeedThreshold && plane.IsOnGround)
                                         {
                                             setState(CycleState.Takeoff);
                                             stol.StartTime = DateTime.Now;
@@ -292,7 +233,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                     }
                                 case CycleState.Rollout:
                                     {
-                                        if (plane.GroundSpeed < groundspeedThreshold && plane.IsOnGround)
+                                        if (plane.GroundSpeed < config.GroundspeedThreshold && plane.IsOnGround)
                                         {
                                             setState(CycleState.Hold);
                                             stol.StopPosition = telemetrie.Position;
@@ -308,14 +249,14 @@ namespace eSTOL_Training_Tool_Core.Core
                                             stol.Reset();
                                             try
                                             {
-                                                using (StreamWriter writer = new StreamWriter(exportPath, append: true))
+                                                using (StreamWriter writer = new StreamWriter(config.ExportPath, append: true))
                                                 {
                                                     writer.WriteLine(result.getCsvString());
                                                 }
                                             }
                                             catch
                                             {
-                                                Console.WriteLine("Unable to export to " + exportPath);
+                                                Console.WriteLine("Unable to export to " + config.ExportPath);
                                             }
                                             try
                                             {
@@ -360,7 +301,7 @@ namespace eSTOL_Training_Tool_Core.Core
                 }
 
                 // sllep until next interval
-                int intervall = plane.IsSimConnectConnected ? refreshIntervall : idlerefreshIntervall;
+                int intervall = plane.IsSimConnectConnected ? config.RefreshInterval : config.IdleRefreshInterval;
                 System.Threading.Thread.Sleep(intervall);
             };
         }
@@ -382,7 +323,7 @@ namespace eSTOL_Training_Tool_Core.Core
             {
                 case "PARKING_BRAKES":
                     {
-                        if (openWorldMode && plane.IsOnGround && plane.GroundSpeed < groundspeedThreshold)
+                        if (openWorldMode && plane.IsOnGround && plane.GroundSpeed < config.GroundspeedThreshold)
                         {
                             // initSTOL();
                         }
@@ -390,14 +331,12 @@ namespace eSTOL_Training_Tool_Core.Core
                     }
                 case "SMOKE_TOGGLE":
                     {
-                        if (openWorldMode && plane.IsOnGround && plane.GroundSpeed < groundspeedThreshold)
+                        if (openWorldMode && plane.IsOnGround && plane.GroundSpeed < config.GroundspeedThreshold)
                         {
                             // initSTOL();
                         }
                         break;
                     }
-
-
             }
         }
 
@@ -448,26 +387,11 @@ namespace eSTOL_Training_Tool_Core.Core
                 NumberFormatInfo nfi = new CultureInfo("en-US", false).NumberFormat;
                 Console.WriteLine($"Preset JSON:\n{{\"title\": \"YOUR TITLE\", \"start_lat\": {stol.InitialPosition.Latitude.ToString("0.000000000000", nfi)}, \"start_long\": {stol.InitialPosition.Longitude.ToString("0.000000000000", nfi)}, \"start_alt\": {stol.InitialPosition.Altitude.ToString("0", nfi)}, \"start_hdg\": {stol.InitialHeading?.ToString("0", nfi)}}}");
             }
-
-
         }
 
         public void TeleportToReferenceLine() 
-        {
-            
+        {           
             plane.setPosition(stol.InitialPosition, stol.InitialHeading ?? 0);
-        }
-
-        static string ReadLineWithTimeout(int timeoutMilliseconds)
-        {
-            Task<string> inputTask = Task.Run(() => Console.ReadLine());
-
-            if (Task.WaitAny(new[] { inputTask }, timeoutMilliseconds) == 0)
-            {
-                return inputTask.Result; // Task completed within timeout
-            }
-
-            return null; // Timeout reached
         }
     }
 }

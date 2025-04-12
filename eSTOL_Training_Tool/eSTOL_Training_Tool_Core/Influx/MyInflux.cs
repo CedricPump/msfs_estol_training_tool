@@ -72,6 +72,7 @@ namespace eSTOL_Training_Tool_Core.Influx
                 .Field("Fuel", state.Fuel)
                 .Field("FuelPercent", state.FuelPercent)
                 .Field("Weight", state.Weight)
+                .Field("PilotWeight", state.PilotWeight)
                 .Field("MaxWeightPercent", state.MaxWeightPercent)
                 .Field("ParkingBrake", state.ParkingBrake ? 1.0 : 0.0)
 
