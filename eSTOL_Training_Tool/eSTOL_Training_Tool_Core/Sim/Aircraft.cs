@@ -210,7 +210,7 @@ namespace eSTOL_Training_Tool
             CreateDataDefinition("SIM DISABLED", "Bool");
             // Payload
             //CreateDataDefinition("PAYLOAD STATION COUNT", "number");
-            CreateDataDefinition("PAYLOAD STATION WEIGHT:0", "lbs");
+            CreateDataDefinition("PAYLOAD STATION WEIGHT:1", "lbs");
             //CreateDataDefinition("PAYLOAD STATION WEIGHT:1", "lbs");
             //CreateDataDefinition("PAYLOAD STATION WEIGHT:2", "lbs");
             //CreateDataDefinition("PAYLOAD STATION WEIGHT:3", "lbs");
@@ -543,7 +543,7 @@ namespace eSTOL_Training_Tool
                             IsSlew = (double)data.dwData[0] > 0;
                             break;
                         }
-                    case "PAYLOAD STATION WEIGHT:0":
+                    case "PAYLOAD STATION WEIGHT:1":
                         {
                             PilotWeight = (double)data.dwData[0];
                             break;
