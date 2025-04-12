@@ -7,5 +7,9 @@
         public string Airport { get; set; }
         public bool OnGround { get; set; }
         public double Fuel { get; set; }
+        public double FuelPercent { get; set; }
+        public double PilotWeight { get; set; }
+        public double Weight { get; set; }
+        public double MaxWeightPercent { get; set; }
     }
 }

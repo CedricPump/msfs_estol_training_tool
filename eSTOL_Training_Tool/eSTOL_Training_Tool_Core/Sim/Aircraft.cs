@@ -7,7 +7,7 @@ using Microsoft.FlightSimulator.SimConnect;
 
 namespace eSTOL_Training_Tool
 {
-    abstract class Aircraft
+    public abstract class Aircraft
     {
         public bool isInit = false;
         private SimConnect simconnect;
@@ -41,6 +41,7 @@ namespace eSTOL_Training_Tool
         public bool IsEngineOn { get; private set; }
         public bool IsParkingBreak { get; private set; }
         public double Fuel { get; private set; }
+        public double FuelPercent { get; private set; }
         public string Airport { get; private set; }
         // Env
         public double AltitudeAGL { get; private set; }
@@ -52,7 +53,10 @@ namespace eSTOL_Training_Tool
         public bool CrashEnabled { get; private set; } = true;
         public bool IsSlew { get; private set; } = true;
         public int TimeAcceleration { get; private set; } = 1;
-
+        // Weight
+        public double PilotWeight { get; private set; }
+        public double TotalWeight { get; private set; }
+        public double MaxTotalWeight { get; private set; }
 
 
 
@@ -150,7 +154,11 @@ namespace eSTOL_Training_Tool
             {
                 EngineOn = this.IsEngineOn,
                 Fuel = this.Fuel,
-                ParkingBrake = this.IsParkingBreak
+                FuelPercent = this.FuelPercent,
+                ParkingBrake = this.IsParkingBreak,
+                Weight = this.TotalWeight,
+                MaxWeightPercent = this.TotalWeight / this.MaxTotalWeight * 100,
+                PilotWeight = this.PilotWeight,
             };
         }
 
@@ -195,12 +203,14 @@ namespace eSTOL_Training_Tool
             CreateDataDefinition("PLANE ALT ABOVE GROUND", "feet");
             // Fuel
             CreateDataDefinition("FUEL TOTAL QUANTITY WEIGHT", "pounds");
+            CreateDataDefinition("FUEL TOTAL QUANTITY", "percent");
+            
             // Action
             CreateDataDefinition("SMOKE ENABLE", "Bool");
             CreateDataDefinition("SIM DISABLED", "Bool");
             // Payload
             //CreateDataDefinition("PAYLOAD STATION COUNT", "number");
-            //CreateDataDefinition("PAYLOAD STATION WEIGHT:0", "lbs");
+            CreateDataDefinition("PAYLOAD STATION WEIGHT:0", "lbs");
             //CreateDataDefinition("PAYLOAD STATION WEIGHT:1", "lbs");
             //CreateDataDefinition("PAYLOAD STATION WEIGHT:2", "lbs");
             //CreateDataDefinition("PAYLOAD STATION WEIGHT:3", "lbs");
@@ -218,6 +228,9 @@ namespace eSTOL_Training_Tool
             //CreateDataDefinition("PAYLOAD STATION WEIGHT:13", "lbs");
             //CreateDataDefinition("PAYLOAD STATION WEIGHT:14", "lbs");
             //CreateDataDefinition("PAYLOAD STATION WEIGHT:15", "lbs");
+
+            CreateDataDefinition("TOTAL WEIGHT", "lbs");
+            CreateDataDefinition("MAX GROSS WEIGHT", "lbs");
 
             RegiserDefinitions();
 
@@ -460,6 +473,16 @@ namespace eSTOL_Training_Tool
                             VerticalSpeed = (double)data.dwData[0];
                             break;
                         }
+                    case "PLANE PITCH DEGREES":
+                        {
+                            pitch = (double)data.dwData[0];
+                            break;
+                        }
+                    case "PLANE BANK DEGREES":
+                        {
+                            bank = (double)data.dwData[0];
+                            break;
+                        }
                     case "VELOCITY WORLD X":
                         {
                             vX = (double)data.dwData[0];
@@ -500,9 +523,14 @@ namespace eSTOL_Training_Tool
                             IsParkingBreak = (double)data.dwData[0] > 0;
                             break;
                         }
-                    case "FUEL TOTAL QUANTITY":
+                    case "FUEL TOTAL QUANTITY WEIGHT":
                         {
                             Fuel = (double)data.dwData[0];
+                            break;
+                        }
+                    case "FUEL TOTAL QUANTITY":
+                        {
+                            FuelPercent = (double)data.dwData[0];
                             break;
                         }
                     case "REALISM CRASH DETECTION":
@@ -515,6 +543,23 @@ namespace eSTOL_Training_Tool
                             IsSlew = (double)data.dwData[0] > 0;
                             break;
                         }
+                    case "PAYLOAD STATION WEIGHT:0":
+                        {
+                            PilotWeight = (double)data.dwData[0];
+                            break;
+                        }
+                    case "TOTAL WEIGHT":
+                        {
+                            TotalWeight = (double)data.dwData[0];
+                            break;
+                        }
+                    case "MAX GROSS WEIGHT":
+                        {
+                            MaxTotalWeight = (double)data.dwData[0];
+                            break;
+                        }
+
+                        
                     default:
                         {
                             break;

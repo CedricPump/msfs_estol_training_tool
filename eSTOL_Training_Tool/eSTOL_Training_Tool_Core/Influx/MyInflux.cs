@@ -3,6 +3,8 @@ using eSTOL_Training_Tool;
 using InfluxDB.Client;
 using InfluxDB.Client.Api.Domain;
 using InfluxDB.Client.Writes;
+using eSTOL_Training_Tool_Core.Model;
+using eSTOL_Training_Tool.Model;
 
 
 namespace eSTOL_Training_Tool_Core.Influx
@@ -10,7 +12,8 @@ namespace eSTOL_Training_Tool_Core.Influx
     public class MyInflux
     {
         const string influxHost = "https://eu-central-1-1.aws.cloud2.influxdata.com/";
-        const string bucket = "eSTOL2";
+        const string bucketResult = "My_eSTOL_Bucket";
+        const string bucketTelemetry = "My_eSTOL_Bucket";
         const string org = "steffieth";
 
         InfluxDBClient influxDBClient;
@@ -50,7 +53,32 @@ namespace eSTOL_Training_Tool_Core.Influx
                 .Timestamp(stolResult.time, WritePrecision.Ns);
 
             var writeApi = influxDBClient.GetWriteApiAsync();
-            await writeApi.WritePointAsync(point, bucket, org);
+            await writeApi.WritePointAsync(point, bucketResult, org);
+        }
+
+        public async void sendTelemetry(string username, Plane plane)
+        {
+            Telemetrie telemetrie = plane.GetTelemetrie();
+            AircraftState state = plane.GetState();
+            var point = PointData.Measurement("stol_telemetry")
+                .Tag("User", username)
+                .Tag("Model", plane.Model)
+                .Field("Heading", telemetrie.Heading)
+                .Field("Latitude", telemetrie.Position.Latitude)
+                .Field("Longitude", telemetrie.Position.Longitude)
+                .Field("Altitude", telemetrie.Altitude)
+                .Field("AltAGL", telemetrie.AltitudeAGL)
+                .Field("GroundSpeed", telemetrie.GroundSpeed)
+                .Field("Fuel", state.Fuel)
+                .Field("FuelPercent", state.FuelPercent)
+                .Field("Weight", state.Weight)
+                .Field("MaxWeightPercent", state.MaxWeightPercent)
+                .Field("ParkingBrake", state.ParkingBrake ? 1.0 : 0.0)
+
+                .Timestamp(DateTime.Now, WritePrecision.Ns);
+
+            var writeApi = influxDBClient.GetWriteApiAsync();
+            await writeApi.WritePointAsync(point, bucketTelemetry, org);
         }
 
         public async void deletAll()
@@ -62,7 +90,8 @@ namespace eSTOL_Training_Tool_Core.Influx
             {
                 // Perform the delete operation
                 var deleteApi = influxDBClient.GetDeleteApi();
-                await deleteApi.Delete(start, stop, "", bucket, org);
+                await deleteApi.Delete(start, stop, "", bucketResult, org);
+                await deleteApi.Delete(start, stop, "", bucketTelemetry, org);
 
                 Console.WriteLine("All data from the bucket has been cleared.");
             }
