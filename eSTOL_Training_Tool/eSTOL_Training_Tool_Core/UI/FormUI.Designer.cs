@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormUI));
             labelResult = new System.Windows.Forms.Label();
             textBoxResult = new System.Windows.Forms.TextBox();
@@ -43,6 +44,10 @@
             comboBoxUnit = new System.Windows.Forms.ComboBox();
             checkBoxResult = new System.Windows.Forms.CheckBox();
             checkBoxTelemetry = new System.Windows.Forms.CheckBox();
+            timer1 = new System.Windows.Forms.Timer(components);
+            labelStopwatch = new System.Windows.Forms.Label();
+            progressBarStopwatch = new System.Windows.Forms.ProgressBar();
+            buttonStartStopwatch = new System.Windows.Forms.Button();
             SuspendLayout();
             // 
             // labelResult
@@ -197,11 +202,48 @@
             checkBoxTelemetry.UseVisualStyleBackColor = true;
             checkBoxTelemetry.CheckedChanged += checkBoxTelemetry_CheckedChanged;
             // 
+            // timer1
+            // 
+            timer1.Enabled = true;
+            timer1.Interval = 333;
+            timer1.Tick += Timer;
+            // 
+            // labelStopwatch
+            // 
+            labelStopwatch.AutoSize = true;
+            labelStopwatch.Font = new System.Drawing.Font("Consolas", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            labelStopwatch.Location = new System.Drawing.Point(747, 561);
+            labelStopwatch.Name = "labelStopwatch";
+            labelStopwatch.Size = new System.Drawing.Size(139, 43);
+            labelStopwatch.TabIndex = 14;
+            labelStopwatch.Text = " 00:00";
+            labelStopwatch.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // progressBarStopwatch
+            // 
+            progressBarStopwatch.Location = new System.Drawing.Point(747, 617);
+            progressBarStopwatch.Name = "progressBarStopwatch";
+            progressBarStopwatch.Size = new System.Drawing.Size(210, 23);
+            progressBarStopwatch.TabIndex = 15;
+            // 
+            // buttonStartStopwatch
+            // 
+            buttonStartStopwatch.Location = new System.Drawing.Point(881, 561);
+            buttonStartStopwatch.Name = "buttonStartStopwatch";
+            buttonStartStopwatch.Size = new System.Drawing.Size(76, 43);
+            buttonStartStopwatch.TabIndex = 16;
+            buttonStartStopwatch.Text = "Start T-15";
+            buttonStartStopwatch.UseVisualStyleBackColor = true;
+            buttonStartStopwatch.Click += buttonStartStopwatch_Click;
+            // 
             // FormUI
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(969, 683);
+            Controls.Add(buttonStartStopwatch);
+            Controls.Add(progressBarStopwatch);
+            Controls.Add(labelStopwatch);
             Controls.Add(checkBoxTelemetry);
             Controls.Add(checkBoxResult);
             Controls.Add(comboBoxUnit);
@@ -239,5 +281,9 @@
         private System.Windows.Forms.ComboBox comboBoxUnit;
         private System.Windows.Forms.CheckBox checkBoxResult;
         private System.Windows.Forms.CheckBox checkBoxTelemetry;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label labelStopwatch;
+        private System.Windows.Forms.ProgressBar progressBarStopwatch;
+        private System.Windows.Forms.Button buttonStartStopwatch;
     }
 }

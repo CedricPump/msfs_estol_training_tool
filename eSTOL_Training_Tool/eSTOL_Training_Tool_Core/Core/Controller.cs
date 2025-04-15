@@ -198,6 +198,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                         {
                                             setState(CycleState.Takeoff);
                                             stol.StartTime = DateTime.Now;
+                                            this.form.StartStopWatch();
                                         }
                                         break;
                                     }
@@ -238,6 +239,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                             setState(CycleState.Hold);
                                             stol.StopPosition = telemetrie.Position;
                                             stol.StopTime = DateTime.Now;
+                                            this.form.StopStopWatch();
 
                                             // End Cycle
                                             STOLResult result = stol.GetResult(unit);
@@ -280,12 +282,6 @@ namespace eSTOL_Training_Tool_Core.Core
                                         }
                                         break;
                                     }
-                            }
-
-                            // show clock when in the air
-                            if (stol.TakeoffTime != null && stol.TouchdownTime == null)
-                            {
-                                Console.Write($"\rtime: {(DateTime.Now - stol.TakeoffTime).Value:mm\\:ss}");
                             }
                         }
                         else

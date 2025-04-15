@@ -2,6 +2,6 @@
 {
     public static class InfluxToken
     {
-        public static string Token { get; } = "CqADKshCEvcOkJG4Qkjm3fsUXWduX3YJ8Nu9I2veTybjSnMqez2Id1rTQ233TOWBU-b93la5TtjM9F5wxts8jg==";
+        public static string Token { get; } = "E3ZugPZ7pFpTGZI7Tx-IVGJni0hEjhjhSfV3HE7uj1gLECja-cGIVq4s8pH7tRbc9XwZZxUJkRRcOHAubwFqjQ==";
     }
 }

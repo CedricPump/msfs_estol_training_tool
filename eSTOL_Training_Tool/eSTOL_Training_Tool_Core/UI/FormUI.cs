@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,8 @@ namespace eSTOL_Training_Tool_Core.UI
         delegate void SetStatusTextCallback(string text);
         private readonly Controller controller;
         private STOLResult? result = null;
+        private TimeSpan StopwatchOffset = TimeSpan.Zero;
+        System.Diagnostics.Stopwatch stopwatch;
 
         public FormUI(Controller controller)
         {
@@ -34,6 +37,10 @@ namespace eSTOL_Training_Tool_Core.UI
             comboBoxUnit.Items.Add("yard");
             comboBoxUnit.Text = "feet";
             // comboBoxUnit.Items.Add("yard");
+
+            this.stopwatch = new System.Diagnostics.Stopwatch();
+            this.progressBarStopwatch.Minimum = 0;
+            this.progressBarStopwatch.Maximum = 180;
         }
 
         public void setPresets(string[] strings)
@@ -228,6 +235,52 @@ namespace eSTOL_Training_Tool_Core.UI
         private void checkBoxTelemetry_CheckedChanged(object sender, EventArgs e)
         {
             controller.issendTelemetry = checkBoxTelemetry.Checked;
+        }
+
+        private void Timer(object sender, EventArgs e)
+        {
+            Console.WriteLine(stopwatch.IsRunning);
+
+            TimeSpan elapsed = this.stopwatch.Elapsed + StopwatchOffset;
+            string minus = elapsed.TotalSeconds < 0 ? "-" : " ";
+            labelStopwatch.Text = string.Format("{0}{1:00}:{2:00}", minus, elapsed.Minutes, Math.Abs(elapsed.Seconds));
+            if (elapsed.TotalSeconds <= 180)
+            {
+                if (elapsed.TotalSeconds >= 0) {
+                    this.progressBarStopwatch.Value = (int)elapsed.TotalSeconds; 
+                }
+                else
+                {
+                    this.progressBarStopwatch.Value = 0;
+                }
+            }
+            
+        }
+
+        public void StartStopWatch()
+        {
+            if (!this.stopwatch.IsRunning)
+            {
+                this.stopwatch.Reset();
+                this.StopwatchOffset = TimeSpan.Zero;
+                this.stopwatch.Start();
+            }
+        }
+
+        public void StopStopWatch()
+        {
+            this.stopwatch.Stop();
+        }
+
+        public void ResetStopWatch()
+        {
+            this.stopwatch.Reset();
+        }
+
+        private void buttonStartStopwatch_Click(object sender, EventArgs e)
+        {
+            this.StopwatchOffset = TimeSpan.FromSeconds(-15);
+            this.stopwatch.Restart();
         }
     }
 }
