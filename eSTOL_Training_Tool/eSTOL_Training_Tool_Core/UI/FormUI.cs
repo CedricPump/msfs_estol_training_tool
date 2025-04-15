@@ -239,7 +239,6 @@ namespace eSTOL_Training_Tool_Core.UI
 
         private void Timer(object sender, EventArgs e)
         {
-            Console.WriteLine(stopwatch.IsRunning);
 
             TimeSpan elapsed = this.stopwatch.Elapsed + StopwatchOffset;
             string minus = elapsed.TotalSeconds < 0 ? "-" : " ";

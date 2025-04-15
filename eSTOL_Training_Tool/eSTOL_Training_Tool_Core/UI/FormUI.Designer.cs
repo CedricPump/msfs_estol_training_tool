@@ -205,7 +205,6 @@
             // timer1
             // 
             timer1.Enabled = true;
-            timer1.Interval = 333;
             timer1.Tick += Timer;
             // 
             // labelStopwatch
