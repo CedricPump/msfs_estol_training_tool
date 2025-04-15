@@ -212,7 +212,13 @@ namespace eSTOL_Training_Tool_Core.Core
                                             Console.WriteLine($"Takoff recorded: {(stol.GetTakeoffDistance() * 3.28084).ToString("0")} ft");
                                             form.setResult($"Takoff recorded: {(stol.GetTakeoffDistance() * 3.28084).ToString("0")} ft");
                                         }
-                                        break;
+                                        if (plane.GroundSpeed < config.GroundspeedThreshold && plane.IsOnGround)
+                                        {
+                                            // parking or alignment
+                                            setState(CycleState.Hold);
+                                            this.form.StopStopWatch();
+                                        }
+                                            break;
                                     }
                                 case CycleState.Fly:
                                     {

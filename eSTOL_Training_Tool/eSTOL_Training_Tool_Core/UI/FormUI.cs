@@ -245,15 +245,16 @@ namespace eSTOL_Training_Tool_Core.UI
             labelStopwatch.Text = string.Format("{0}{1:00}:{2:00}", minus, elapsed.Minutes, Math.Abs(elapsed.Seconds));
             if (elapsed.TotalSeconds <= 180)
             {
-                if (elapsed.TotalSeconds >= 0) {
-                    this.progressBarStopwatch.Value = (int)elapsed.TotalSeconds; 
+                if (elapsed.TotalSeconds >= 0)
+                {
+                    this.progressBarStopwatch.Value = (int)elapsed.TotalSeconds;
                 }
                 else
                 {
                     this.progressBarStopwatch.Value = 0;
                 }
             }
-            
+
         }
 
         public void StartStopWatch()
@@ -279,6 +280,12 @@ namespace eSTOL_Training_Tool_Core.UI
         private void buttonStartStopwatch_Click(object sender, EventArgs e)
         {
             this.StopwatchOffset = TimeSpan.FromSeconds(-15);
+            this.stopwatch.Restart();
+        }
+
+        private void buttonStart_Click(object sender, EventArgs e)
+        {
+            this.StopwatchOffset = TimeSpan.FromSeconds(0);
             this.stopwatch.Restart();
         }
     }

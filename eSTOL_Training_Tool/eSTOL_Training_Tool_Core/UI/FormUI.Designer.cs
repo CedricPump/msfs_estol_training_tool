@@ -48,6 +48,8 @@
             labelStopwatch = new System.Windows.Forms.Label();
             progressBarStopwatch = new System.Windows.Forms.ProgressBar();
             buttonStartStopwatch = new System.Windows.Forms.Button();
+            label1 = new System.Windows.Forms.Label();
+            button1 = new System.Windows.Forms.Button();
             SuspendLayout();
             // 
             // labelResult
@@ -116,7 +118,7 @@
             // 
             buttonTeleport.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             buttonTeleport.AutoSize = true;
-            buttonTeleport.Location = new System.Drawing.Point(747, 646);
+            buttonTeleport.Location = new System.Drawing.Point(749, 254);
             buttonTeleport.Name = "buttonTeleport";
             buttonTeleport.Size = new System.Drawing.Size(210, 25);
             buttonTeleport.TabIndex = 6;
@@ -211,7 +213,7 @@
             // 
             labelStopwatch.AutoSize = true;
             labelStopwatch.Font = new System.Drawing.Font("Consolas", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            labelStopwatch.Location = new System.Drawing.Point(747, 561);
+            labelStopwatch.Location = new System.Drawing.Point(747, 592);
             labelStopwatch.Name = "labelStopwatch";
             labelStopwatch.Size = new System.Drawing.Size(139, 43);
             labelStopwatch.TabIndex = 14;
@@ -220,26 +222,47 @@
             // 
             // progressBarStopwatch
             // 
-            progressBarStopwatch.Location = new System.Drawing.Point(747, 617);
+            progressBarStopwatch.Location = new System.Drawing.Point(747, 648);
             progressBarStopwatch.Name = "progressBarStopwatch";
             progressBarStopwatch.Size = new System.Drawing.Size(210, 23);
             progressBarStopwatch.TabIndex = 15;
             // 
             // buttonStartStopwatch
             // 
-            buttonStartStopwatch.Location = new System.Drawing.Point(881, 561);
+            buttonStartStopwatch.Location = new System.Drawing.Point(881, 611);
             buttonStartStopwatch.Name = "buttonStartStopwatch";
-            buttonStartStopwatch.Size = new System.Drawing.Size(76, 43);
+            buttonStartStopwatch.Size = new System.Drawing.Size(76, 24);
             buttonStartStopwatch.TabIndex = 16;
             buttonStartStopwatch.Text = "Start T-15";
             buttonStartStopwatch.UseVisualStyleBackColor = true;
             buttonStartStopwatch.Click += buttonStartStopwatch_Click;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(749, 559);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(147, 30);
+            label1.TabIndex = 17;
+            label1.Text = "always listen to Airboss for\r\ntiming instructions";
+            // 
+            // button1
+            // 
+            button1.Location = new System.Drawing.Point(881, 592);
+            button1.Name = "button1";
+            button1.Size = new System.Drawing.Size(75, 23);
+            button1.TabIndex = 18;
+            button1.Text = "Start";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += buttonStart_Click;
             // 
             // FormUI
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(969, 683);
+            Controls.Add(button1);
+            Controls.Add(label1);
             Controls.Add(buttonStartStopwatch);
             Controls.Add(progressBarStopwatch);
             Controls.Add(labelStopwatch);
@@ -284,5 +307,7 @@
         private System.Windows.Forms.Label labelStopwatch;
         private System.Windows.Forms.ProgressBar progressBarStopwatch;
         private System.Windows.Forms.Button buttonStartStopwatch;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button1;
     }
 }
