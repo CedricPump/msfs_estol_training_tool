@@ -32,6 +32,7 @@ namespace eSTOL_Training_Tool
         public double vX { get; private set; }
         public double vY { get; private set; }
         public double vZ { get; private set; }
+        public double gforce { get; private set; }
         // Orientation
         public double pitch { get; private set; }
         public double bank { get; private set; }
@@ -42,6 +43,7 @@ namespace eSTOL_Training_Tool
         public bool IsParkingBreak { get; private set; }
         public double Fuel { get; private set; }
         public double FuelPercent { get; private set; }
+        public bool FuelUnlimited { get; private set; }
         public string Airport { get; private set; }
         // Env
         public double AltitudeAGL { get; private set; }
@@ -127,7 +129,8 @@ namespace eSTOL_Training_Tool
                 vZ = this.vZ,
                 pitch = this.pitch,
                 bank = this.bank,
-                verticalSpeed = this.VerticalSpeed
+                verticalSpeed = this.VerticalSpeed,
+                gForce = this.gforce
             };
         }
 
@@ -159,6 +162,7 @@ namespace eSTOL_Training_Tool
                 Weight = this.TotalWeight,
                 MaxWeightPercent = this.TotalWeight / this.MaxTotalWeight * 100,
                 PilotWeight = this.PilotWeight,
+                FuelUnlimited = this.FuelUnlimited,
             };
         }
 
@@ -185,7 +189,8 @@ namespace eSTOL_Training_Tool
             CreateDataDefinition("GROUND VELOCITY", "knots");
             // CreateDataDefinition("AIRSPEED INDICATED", "knots");
             // CreateDataDefinition("AIRSPEED TRUE", "knots");
-            CreateDataDefinition("VERTICAL SPEED", "feet per minute");
+            CreateDataDefinition("VERTICAL SPEED", "feet per minute"); 
+            CreateDataDefinition("G FORCE", "Gforce");
             // CreateDataDefinition("VELOCITY WORLD X", "meter per second");
             // CreateDataDefinition("VELOCITY WORLD Y", "meter per second");
             // CreateDataDefinition("VELOCITY WORLD Z", "meter per second");
@@ -203,8 +208,9 @@ namespace eSTOL_Training_Tool
             CreateDataDefinition("PLANE ALT ABOVE GROUND", "feet");
             // Fuel
             CreateDataDefinition("FUEL TOTAL QUANTITY WEIGHT", "pounds");
-            CreateDataDefinition("FUEL TOTAL QUANTITY", "percent");
-            
+            CreateDataDefinition("FUEL SELECTED QUANTITY PERCENT", "percent over 100");
+            CreateDataDefinition("UNLIMITED FUEL", "Bool");
+
             // Action
             CreateDataDefinition("SMOKE ENABLE", "Bool");
             CreateDataDefinition("SIM DISABLED", "Bool");
@@ -498,6 +504,11 @@ namespace eSTOL_Training_Tool
                             vZ = (double)data.dwData[0];
                             break;
                         }
+                    case "G FORCE":
+                        {
+                            gforce = (double)data.dwData[0];
+                            break;
+                        }
                     case "ON ANY RUNWAY":
                         {
                             IsOnRundway = (double)data.dwData[0] > 0;
@@ -528,9 +539,14 @@ namespace eSTOL_Training_Tool
                             Fuel = (double)data.dwData[0];
                             break;
                         }
-                    case "FUEL TOTAL QUANTITY":
+                    case "FUEL SELECTED QUANTITY PERCENT":
                         {
-                            FuelPercent = (double)data.dwData[0];
+                            FuelPercent = (double)data.dwData[0] * 100;
+                            break;
+                        }
+                    case "UNLIMITED FUEL":
+                        {
+                            FuelUnlimited = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "REALISM CRASH DETECTION":

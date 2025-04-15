@@ -71,6 +71,8 @@ namespace eSTOL_Training_Tool
 
         public double verticalSpeed { get; set; } = 0;
 
+        public double gForce { get; set; } = 0;
+
         public override string ToString()
         {
             return $"[{GeoUtils.ConvertToDMS(Position)}], {Math.Round(Altitude)} ft, {Math.Round(Heading)}°, {Math.Round(GroundSpeed)} knts";

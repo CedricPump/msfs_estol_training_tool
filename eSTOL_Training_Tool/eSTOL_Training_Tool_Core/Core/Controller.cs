@@ -225,11 +225,13 @@ namespace eSTOL_Training_Tool_Core.Core
                                         if (plane.IsOnGround)
                                         {
                                             // Touchdown!!!
+
                                             setState(CycleState.Rollout);
                                             stol.planeType = plane.Title;
                                             stol.TouchdownPosition = telemetrie.Position;
                                             stol.TouchdownTime = DateTime.Now;
                                             stol.TouchdownPitch = lastTelemetrie.pitch;
+                                            stol.TouchdownGs = telemetrie.gForce;
                                             stol.TouchdownGroundSpeed = lastTelemetrie.GroundSpeed;
                                             stol.TouchdownVerticalSpeed = lastTelemetrie.verticalSpeed;
                                             // nextline after clock

@@ -116,7 +116,7 @@
             // 
             // buttonTeleport
             // 
-            buttonTeleport.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            buttonTeleport.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             buttonTeleport.AutoSize = true;
             buttonTeleport.Location = new System.Drawing.Point(749, 254);
             buttonTeleport.Name = "buttonTeleport";
@@ -162,7 +162,7 @@
             // 
             // panel
             // 
-            panel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            panel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             panel.Location = new System.Drawing.Point(481, 27);
             panel.Name = "panel";
             panel.Size = new System.Drawing.Size(260, 616);
@@ -171,6 +171,7 @@
             // 
             // comboBoxUnit
             // 
+            comboBoxUnit.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             comboBoxUnit.FormattingEnabled = true;
             comboBoxUnit.Location = new System.Drawing.Point(747, 90);
             comboBoxUnit.Name = "comboBoxUnit";
@@ -180,10 +181,11 @@
             // 
             // checkBoxResult
             // 
+            checkBoxResult.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             checkBoxResult.AutoSize = true;
             checkBoxResult.Checked = true;
             checkBoxResult.CheckState = System.Windows.Forms.CheckState.Checked;
-            checkBoxResult.Location = new System.Drawing.Point(747, 41);
+            checkBoxResult.Location = new System.Drawing.Point(866, 41);
             checkBoxResult.Name = "checkBoxResult";
             checkBoxResult.Size = new System.Drawing.Size(91, 19);
             checkBoxResult.TabIndex = 12;
@@ -193,10 +195,11 @@
             // 
             // checkBoxTelemetry
             // 
+            checkBoxTelemetry.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             checkBoxTelemetry.AutoSize = true;
             checkBoxTelemetry.Checked = true;
             checkBoxTelemetry.CheckState = System.Windows.Forms.CheckState.Checked;
-            checkBoxTelemetry.Location = new System.Drawing.Point(747, 65);
+            checkBoxTelemetry.Location = new System.Drawing.Point(851, 65);
             checkBoxTelemetry.Name = "checkBoxTelemetry";
             checkBoxTelemetry.Size = new System.Drawing.Size(106, 19);
             checkBoxTelemetry.TabIndex = 13;
@@ -211,17 +214,19 @@
             // 
             // labelStopwatch
             // 
+            labelStopwatch.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             labelStopwatch.AutoSize = true;
-            labelStopwatch.Font = new System.Drawing.Font("Consolas", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            labelStopwatch.Location = new System.Drawing.Point(747, 592);
+            labelStopwatch.Font = new System.Drawing.Font("Consolas", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            labelStopwatch.Location = new System.Drawing.Point(749, 594);
             labelStopwatch.Name = "labelStopwatch";
-            labelStopwatch.Size = new System.Drawing.Size(139, 43);
+            labelStopwatch.Size = new System.Drawing.Size(132, 41);
             labelStopwatch.TabIndex = 14;
             labelStopwatch.Text = " 00:00";
             labelStopwatch.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // progressBarStopwatch
             // 
+            progressBarStopwatch.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             progressBarStopwatch.Location = new System.Drawing.Point(747, 648);
             progressBarStopwatch.Name = "progressBarStopwatch";
             progressBarStopwatch.Size = new System.Drawing.Size(210, 23);
@@ -229,6 +234,7 @@
             // 
             // buttonStartStopwatch
             // 
+            buttonStartStopwatch.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             buttonStartStopwatch.Location = new System.Drawing.Point(881, 611);
             buttonStartStopwatch.Name = "buttonStartStopwatch";
             buttonStartStopwatch.Size = new System.Drawing.Size(76, 24);
@@ -239,6 +245,7 @@
             // 
             // label1
             // 
+            label1.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             label1.AutoSize = true;
             label1.Location = new System.Drawing.Point(749, 559);
             label1.Name = "label1";
@@ -248,7 +255,8 @@
             // 
             // button1
             // 
-            button1.Location = new System.Drawing.Point(881, 592);
+            button1.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            button1.Location = new System.Drawing.Point(882, 592);
             button1.Name = "button1";
             button1.Size = new System.Drawing.Size(75, 23);
             button1.TabIndex = 18;

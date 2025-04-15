@@ -25,6 +25,7 @@ namespace eSTOL_Training_Tool
         public double? TouchdownGroundSpeed = null;
         public double? TouchdownVerticalSpeed = null;
         public double? TouchdownPitch = null;
+        public double? TouchdownGs = null;
 
         // Timing
         public DateTime? StartTime = null;
@@ -90,6 +91,7 @@ namespace eSTOL_Training_Tool
             result.TdPitch = (double)(InitialPitch - TouchdownPitch);
             result.GrndSpeed = Math.Round((double)TouchdownGroundSpeed);
             result.VSpeed = Math.Round((double)TouchdownVerticalSpeed);
+            result.GForce = (double) TouchdownGs;
 
             result.Score = result.Takeoffdist + result.Landingdist;
             if (result.Touchdowndist < 0)
@@ -175,6 +177,7 @@ namespace eSTOL_Training_Tool
         public double VSpeed;
         public double Score;
         public string Unit;
+        public double GForce;
 
         public string getConsoleString() 
         {
@@ -196,6 +199,7 @@ namespace eSTOL_Training_Tool
                 $"TD Pitch:            {TdPitch}°\r\n" +
                 $"TD Grnd-Speed        {GrndSpeed} knots\r\n" +
                 $"TD Vert-Speed        {VSpeed} ft/min\r\n" +
+                $"TD G-Force           {GForce} G\r\n" +
                 $"Start:               {InitHash}\r\n" +
                 $"-----------------------------------\r\n" +
                 $"Score:               {Score}\r\n" +
@@ -205,12 +209,12 @@ namespace eSTOL_Training_Tool
         public string getCsvString() 
         {
             string patternTimeStr = $"{(int)PatternTime.TotalMinutes:00}:{PatternTime.Seconds:00}";
-            return $"{planeType},{time},{Takeoffdist},{Landingdist},{Stoppingdist},{Touchdowndist},{patternTimeStr},{TdPitch},{GrndSpeed},{VSpeed},{Score},{Unit}";
+            return $"{planeType},{time},{Takeoffdist},{Landingdist},{Stoppingdist},{Touchdowndist},{patternTimeStr},{TdPitch},{GrndSpeed},{VSpeed},{Score},{Unit},{GForce}";
         }
 
         public static string getCSVHeader()
         {
-            return "Plane,Time,Takeoff Distance,Landing Dinstance,Stopping Dinstance,Touchdown Dinstance,Pattern Time,TD Pitch,TD Grnd-Speed,TD Vert-Speed,Score,Unit";
+            return "Plane,Time,Takeoff Distance,Landing Dinstance,Stopping Dinstance,Touchdown Dinstance,Pattern Time,TD Pitch,TD Grnd-Speed,TD Vert-Speed,Score,Unit,G-Force";
         }
 
         public string GetInfluxLineProtocol() 
@@ -224,13 +228,17 @@ namespace eSTOL_Training_Tool
                             $"TdPitch={TdPitch}," +
                             $"GrndSpeed={GrndSpeed}," +
                             $"VSpeed={VSpeed}," +
+                            $"GForce={GForce}," +
                             $"Score={Score}," +
                             $"StartHash={InitHash}" +
                             $"PatternTime={PatternTime.TotalSeconds}";
                             
             long timestamp = new DateTimeOffset(time).ToUnixTimeMilliseconds() * 1_000_000; // Convert to nanoseconds.
 
-            return $"{measurement},{tags} {fields} {timestamp}";
+            string query = $"{measurement},{tags} {fields} {timestamp}";
+            Console.WriteLine(query);
+
+            return query;
         }
     }
 }
