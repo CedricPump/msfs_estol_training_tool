@@ -30,6 +30,11 @@ Stopping distance: Distance from TouchdownPoint to StopPoint
 
 This tool has two modes: OpenWorld and Presets
 
+It's not possible to embed videos directly, but you can put an image which links to a YouTube video:
+
+Video:
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/Pc77grlt8Zk/0.jpg)](https://www.youtube.com/watch?v=Pc77grlt8Zk)
+
 ### Open World 
 
 The user can set the startpoint everywhere using parking breake or smoke.
@@ -113,3 +118,21 @@ the result is show as usual in the result box
 Results are shared on [Graphana](https://cedricpump.grafana.net/public-dashboards/2f6cc35cb96247f385380cee7f482206)
 - [eSTOL Scores Overview](https://cedricpump.grafana.net/public-dashboards/2f6cc35cb96247f385380cee7f482206)
 - --[eSTOL Data by User](https://cedricpump.grafana.net/public-dashboards/df511ced3d994fd2b578163e17d9360b)-- broken public
+
+
+
+## Known issues
+
+Application pops up and closes itself directly
+wehn executing on console you can see: 
+```
+user\estol trainig tool> & 'AeSTOL Training Tool.exe' You must install or update .NET to run this application. 
+App: user\estol trainig tool\eSTOL Training Tool.exe Architecture: x6U Framework: 'Microsoft.NETCore.App', version '9.0.0' (x6U) .NET location: C:\Program Files\dotnet\ 
+The following frameworks were found: 6.0.12 at EC:\Program Files\dotnet\shared\Microsoft.NETCore.App] 
+Learn about framework resolution: https://aka.ms/dotnet/app—launch—failed 
+To install missing framework, download: https://aka.ms/dotnet-core-applaunch?framework=Microsoft.NETCore.App&framework_version=9.0.0&arch=x6U&rid=win10—x6U 
+```
+
+dotNet Framework is not present or old. follow the link provided to install or update dotNet Framework.
+https://dotnet.microsoft.com/en-us/download/dotnet/9.0/runtime?cid=getdotnetcore&os=windows
+
