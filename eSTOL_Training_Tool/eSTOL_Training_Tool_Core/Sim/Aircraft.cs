@@ -205,7 +205,7 @@ namespace eSTOL_Training_Tool
             CreateDataDefinition("ON ANY RUNWAY", "Bool");
             //CreateDataDefinition("NAV LOC AIRPORT IDENT", "", true);
             // Environment
-            CreateDataDefinition("PLANE ALT ABOVE GROUND", "feet");
+            CreateDataDefinition("PLANE ALT ABOVE GROUND MINUS CG", "feet");
             // Fuel
             CreateDataDefinition("FUEL TOTAL QUANTITY WEIGHT", "pounds");
             CreateDataDefinition("FUEL SELECTED QUANTITY PERCENT", "percent over 100");
@@ -468,7 +468,7 @@ namespace eSTOL_Training_Tool
                             GroundSpeed = (double)data.dwData[0];
                             break;
                         }
-                    case "PLANE ALT ABOVE GROUND":
+                    case "PLANE ALT ABOVE GROUND MINUS CG":
                         {
                             AltitudeAGL = (double)data.dwData[0];
                             break;
