@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Device.Location;
+using System.Linq;
 using eSTOL_Training_Tool.Model;
+using eSTOL_Training_Tool_Core.Core;
 using eSTOL_Training_Tool_Core.Model;
 using Microsoft.FlightSimulator.SimConnect;
 
@@ -59,6 +61,13 @@ namespace eSTOL_Training_Tool
         public double PilotWeight { get; private set; }
         public double TotalWeight { get; private set; }
         public double MaxTotalWeight { get; private set; }
+
+        public bool IsTaildragger { get
+            {
+                Config conf = Config.GetInstance();
+                return !conf.trikesTypes.Contains(this.Type + "|" + this.Model);
+            }
+        }
 
 
 

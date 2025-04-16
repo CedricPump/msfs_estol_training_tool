@@ -44,6 +44,7 @@ namespace eSTOL_Training_Tool_Core.Core
         public bool issendResults = true;
         public bool issendTelemetry = true;
         DateTime lastTelemetrieTime = DateTime.MinValue;
+        double AGLonGroundThreshold = 0.3; // ft
 
         public Controller()
         {
@@ -227,10 +228,11 @@ namespace eSTOL_Training_Tool_Core.Core
                                     }
                                 case CycleState.Fly:
                                     {
-                                        if (plane.IsOnGround)
+                                        if (plane.IsOnGround && (plane.AltitudeAGL > AGLonGroundThreshold)) Console.WriteLine("Dragging Tial, hope you are a Taildragger: " + plane.IsTaildragger);
+
+                                        if (plane.IsOnGround && (plane.AltitudeAGL < AGLonGroundThreshold || !plane.IsTaildragger))
                                         {
                                             // Touchdown!!!
-
                                             setState(CycleState.Rollout);
                                             stol.planeType = plane.Title;
                                             stol.TouchdownPosition = telemetrie.Position;

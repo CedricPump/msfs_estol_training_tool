@@ -7,5 +7,6 @@
     "PresetsPath": "presets.json",
     "OffsetPath": "GearOffset.json",
     "UserPath": "user.txt",
-    "Unit": "feet"
+    "Unit": "feet",
+    "TrikeFile": "Trikes.csv"
 }
