@@ -99,7 +99,7 @@ namespace eSTOL_Training_Tool_Core.Core
                     "Please enter a nickname or pilot ID to associate with your data.\n" +
                     "To stay anonymous, choose a random or pseudonymous name (e.g., a number or call sign)." +
                     "\nDo not use your real name or personal information.\n\n" +
-                    "By entering a name, you agree that your telemetry and landing performance data will be temporarily stored for up to 30 days and shown on a public dashboard.\n" +
+                    "By entering a name, you agree that your telemetry and landing performance data will be temporarily stored for up to 30 days and may be shown on a public dashboard.\n" +
                     "Input eSTOL Callsign or Pilot-Number: ");
                 string name = Console.ReadLine();
 
