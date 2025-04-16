@@ -131,7 +131,7 @@ namespace eSTOL_Training_Tool_Core.Core
             string? result = await VersionHelper.CheckForUpdateAsync();
             if (result != null)
             {
-                MessageBox.Show($"New Version available: {result}\nhttps://github.com/CedricPump/msfs_estol_training_tool/releases");
+                MessageBox.Show($"New Version available: {result}\nhttps://github.com/CedricPump/msfs_estol_training_tool/releases/latest");
             }
         }
 
