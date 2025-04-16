@@ -1,6 +1,8 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 
 
@@ -19,6 +21,10 @@ namespace eSTOL_Training_Tool_Core.Core
         public string OffsetPath { get; set; } = "GearOffset.json";
         public string UserPath { get; set; } = "user.txt";
         public string Unit { get; set; } = "meters";
+        public string TrikeFile { get; set; } = "Trikes.csv";
+        public string[] trikesTypes { get; set; } = [];
+
+        private static Config instance = null;
 
         public static Config Load()
         {
@@ -27,21 +33,40 @@ namespace eSTOL_Training_Tool_Core.Core
                 try
                 {
                     string json = File.ReadAllText(ConfigFilePath);
-                    return JsonSerializer.Deserialize<Config>(json) ?? new Config();
+                    instance = JsonSerializer.Deserialize<Config>(json) ?? new Config();
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("Error reading config, using defaults: " + ex.Message);
-                    return new Config();
+                    instance = new Config();
                 }
             }
             else
             {
                 var defaultConfig = new Config();
                 defaultConfig.Save(); // Save the default config
-                return defaultConfig;
+                instance = defaultConfig;
             }
+
+            List<string> trikesList = new List<string>();
+            foreach (var line in File.ReadLines(instance.TrikeFile))
+            {
+                string trimmed = line.Trim();
+                if (!string.IsNullOrEmpty(trimmed))
+                    trikesList.Add(trimmed);
+            }
+
+            instance.trikesTypes = trikesList.ToArray();
+
+            
+            return instance;
         }
+
+        public static Config GetInstance() 
+        {
+            if (instance != null) return instance;
+            return Config.Load();
+        }  
 
         public void Save()
         {

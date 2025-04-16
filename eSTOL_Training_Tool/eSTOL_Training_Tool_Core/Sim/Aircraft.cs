@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Device.Location;
+using System.Linq;
 using eSTOL_Training_Tool.Model;
+using eSTOL_Training_Tool_Core.Core;
 using eSTOL_Training_Tool_Core.Model;
 using Microsoft.FlightSimulator.SimConnect;
 
@@ -59,6 +61,13 @@ namespace eSTOL_Training_Tool
         public double PilotWeight { get; private set; }
         public double TotalWeight { get; private set; }
         public double MaxTotalWeight { get; private set; }
+
+        public bool IsTaildragger { get
+            {
+                Config conf = Config.GetInstance();
+                return !conf.trikesTypes.Contains(this.Type + "|" + this.Model);
+            }
+        }
 
 
 
@@ -205,7 +214,7 @@ namespace eSTOL_Training_Tool
             CreateDataDefinition("ON ANY RUNWAY", "Bool");
             //CreateDataDefinition("NAV LOC AIRPORT IDENT", "", true);
             // Environment
-            CreateDataDefinition("PLANE ALT ABOVE GROUND", "feet");
+            CreateDataDefinition("PLANE ALT ABOVE GROUND MINUS CG", "feet");
             // Fuel
             CreateDataDefinition("FUEL TOTAL QUANTITY WEIGHT", "pounds");
             CreateDataDefinition("FUEL SELECTED QUANTITY PERCENT", "percent over 100");
@@ -468,7 +477,7 @@ namespace eSTOL_Training_Tool
                             GroundSpeed = (double)data.dwData[0];
                             break;
                         }
-                    case "PLANE ALT ABOVE GROUND":
+                    case "PLANE ALT ABOVE GROUND MINUS CG":
                         {
                             AltitudeAGL = (double)data.dwData[0];
                             break;
