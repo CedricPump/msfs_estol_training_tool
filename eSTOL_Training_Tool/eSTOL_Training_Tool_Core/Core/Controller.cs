@@ -89,13 +89,18 @@ namespace eSTOL_Training_Tool_Core.Core
             {
                 // Disclaimer
                 string disclaimer = "Disclaimer:\nThis Tool is intended for training purposes only.\nThe numbers give a quick feedback and rough estimate of your performance.They do not guarantee any accuracy.\n"
-                    + "Do not challenge any competition score based on this tools' estimation alone.\nMake sure to record your flight for any necessary score validation.";
+                    + "Do not challenge any competition score based on this tools' estimation alone.\nMake sure to record your flight for any necessary score validation.\n\n";
                 Console.Write("\n"+disclaimer);
 
                 MessageBox.Show(disclaimer);
 
                 // User input
-                Console.Write("You can upload your training data to database. Leave empty to ignore.\nInput eSTOL User Name: ");
+                Console.Write("You can upload your training data to a database. Leave the input empty to skip uploading.\n\n" +
+                    "Please enter a nickname or pilot ID to associate with your data.\n" +
+                    "To stay anonymous, choose a random or pseudonymous name (e.g., a number or call sign)." +
+                    "\nDo not use your real name or personal information.\n\n" +
+                    "By entering a name, you agree that your telemetry and landing performance data will be temporarily stored for up to 30 days and shown on a public dashboard.\n" +
+                    "Input eSTOL Callsign or Pilot-Number: ");
                 string name = Console.ReadLine();
 
                 using (StreamWriter writer = new StreamWriter(config.UserPath))
