@@ -114,10 +114,7 @@ the result is show as usual in the result box
 <center><img src="./doc/states.png" alt="states" width="600"/></center>
 
 ## Results upload
-
-Results are shared on [Graphana](https://cedricpump.grafana.net/public-dashboards/2f6cc35cb96247f385380cee7f482206)
-- [eSTOL Scores Overview](https://cedricpump.grafana.net/public-dashboards/2f6cc35cb96247f385380cee7f482206)
-- --[eSTOL Data by User](https://cedricpump.grafana.net/public-dashboards/df511ced3d994fd2b578163e17d9360b)-- broken public
+Results are uploaded for National eSTOLO Staff to analyse
 
 
 
