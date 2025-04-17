@@ -11,8 +11,9 @@ namespace Bombathlon
         static void Main(string[] args)
         {
             // Influx.GetInstance().deletAll();
-
-
+#pragma warning disable WFO5001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+            Application.SetColorMode(SystemColorMode.Dark);
+#pragma warning restore WFO5001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 
             Console.WriteLine(
                 "┌─────────────────────┐\n" +

@@ -39,6 +39,12 @@ namespace eSTOL_Training_Tool_Core.UI
             this.progressBarStopwatch.Maximum = 180;
 
             this.TopMost = alwaysontop;
+            setDarkmode(true);
+        }
+
+        private void setDarkmode(bool dark)
+        {
+            
         }
 
         public void setPresets(string[] strings)
