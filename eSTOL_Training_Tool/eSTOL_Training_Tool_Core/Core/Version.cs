@@ -59,5 +59,10 @@ namespace eSTOL_Training_Tool_Core.Core
             versionString = versionString.TrimStart('v', 'V');
             return Version.TryParse(versionString, out var version) ? version : new Version(0, 0, 0);
         }
+
+        public static string GetVersion() 
+        {
+            return currentVersion;
+        }
     }
 }

@@ -19,6 +19,9 @@ namespace eSTOL_Training_Tool_Core.UI
         public FormUI(Controller controller)
         {
             InitializeComponent();
+
+            this.Text = "eSTOL Training Tool " + VersionHelper.GetVersion();
+
             this.controller = controller;
             textBoxUser.Text = controller.user;
             textBoxStatus.Text = "No Reference Position selected";
