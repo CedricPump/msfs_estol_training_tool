@@ -1,14 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using eSTOL_Training_Tool;
 using eSTOL_Training_Tool_Core.Core;
 
@@ -22,6 +14,7 @@ namespace eSTOL_Training_Tool_Core.UI
         private STOLResult? result = null;
         private TimeSpan StopwatchOffset = TimeSpan.Zero;
         System.Diagnostics.Stopwatch stopwatch;
+        private bool alwaysontop = false;
 
         public FormUI(Controller controller)
         {
@@ -41,6 +34,8 @@ namespace eSTOL_Training_Tool_Core.UI
             this.stopwatch = new System.Diagnostics.Stopwatch();
             this.progressBarStopwatch.Minimum = 0;
             this.progressBarStopwatch.Maximum = 180;
+
+            this.TopMost = alwaysontop;
         }
 
         public void setPresets(string[] strings)
@@ -287,6 +282,12 @@ namespace eSTOL_Training_Tool_Core.UI
         {
             this.StopwatchOffset = TimeSpan.FromSeconds(0);
             this.stopwatch.Restart();
+        }
+
+        private void checkBoxOntop_CheckedChanged(object sender, EventArgs e)
+        {
+            this.alwaysontop = checkBoxOntop.Checked;
+            this.TopMost = this.alwaysontop;
         }
     }
 }
