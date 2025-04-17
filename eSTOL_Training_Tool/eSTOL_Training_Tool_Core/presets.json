@@ -1,15 +1,15 @@
 [
 	{
 		"title": "3R7 - Jennings N (Swamp STOL)",
-		"start_lat": 30.2417276,
-		"start_long": -92.667847488,
+		"start_lat": 30.241737,
+		"start_long": -92.667863,
 		"start_alt": 8,
 		"start_hdg": 0
 	},
 	{
 		"title": "3R7 - Jennings S (Swamp STOL)",
-		"start_lat": 30.2433959063355,
-		"start_long": -92.6678616953052,
+		"start_lat": 30.243387,
+		"start_long": -92.667860,
 		"start_alt": 8,
 		"start_hdg": 180
 	},
