@@ -50,6 +50,7 @@
             buttonStartStopwatch = new System.Windows.Forms.Button();
             label1 = new System.Windows.Forms.Label();
             button1 = new System.Windows.Forms.Button();
+            checkBoxOntop = new System.Windows.Forms.CheckBox();
             SuspendLayout();
             // 
             // labelResult
@@ -264,11 +265,24 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += buttonStart_Click;
             // 
+            // checkBoxOntop
+            // 
+            checkBoxOntop.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            checkBoxOntop.AutoSize = true;
+            checkBoxOntop.Location = new System.Drawing.Point(642, 8);
+            checkBoxOntop.Name = "checkBoxOntop";
+            checkBoxOntop.Size = new System.Drawing.Size(99, 19);
+            checkBoxOntop.TabIndex = 19;
+            checkBoxOntop.Text = "always on top";
+            checkBoxOntop.UseVisualStyleBackColor = true;
+            checkBoxOntop.CheckedChanged += checkBoxOntop_CheckedChanged;
+            // 
             // FormUI
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(969, 683);
+            Controls.Add(checkBoxOntop);
             Controls.Add(button1);
             Controls.Add(label1);
             Controls.Add(buttonStartStopwatch);
@@ -317,5 +331,6 @@
         private System.Windows.Forms.Button buttonStartStopwatch;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.CheckBox checkBoxOntop;
     }
 }
