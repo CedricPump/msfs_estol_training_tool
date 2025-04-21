@@ -205,7 +205,7 @@ namespace eSTOL_Training_Tool_Core.UI
                 PointF drawPoint = new PointF(fieldStart + fieldWidth / 2 - 50, fieldStart + fieldLength - (toDist + 5));
                 e.Graphics.DrawString("Takeoff", drawFont, drawBrush, drawPoint);
                 drawPoint = new PointF(fieldStart + fieldWidth / 2 + 10, fieldStart + fieldLength - (tdDist + 5));
-                e.Graphics.DrawString("Tochdown", drawFont, drawBrush, drawPoint);
+                e.Graphics.DrawString("Touchdown", drawFont, drawBrush, drawPoint);
                 drawPoint = new PointF(fieldStart + fieldWidth / 2 + 10, fieldStart + fieldLength - (stopDist + 5));
                 e.Graphics.DrawString("Stop", drawFont, drawBrush, drawPoint);
             }
