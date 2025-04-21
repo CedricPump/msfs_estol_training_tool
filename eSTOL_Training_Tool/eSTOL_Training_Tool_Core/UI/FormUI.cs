@@ -15,6 +15,8 @@ namespace eSTOL_Training_Tool_Core.UI
         private TimeSpan StopwatchOffset = TimeSpan.Zero;
         System.Diagnostics.Stopwatch stopwatch;
         private bool alwaysontop = false;
+        private int stopwatchOffsetSeconds = 30;
+        private bool debug = false;
 
         public FormUI(Controller controller)
         {
@@ -39,6 +41,7 @@ namespace eSTOL_Training_Tool_Core.UI
             this.progressBarStopwatch.Maximum = 180;
 
             this.TopMost = alwaysontop;
+            this.numericUpDownStopwatchOffest.Value = stopwatchOffsetSeconds;
         }
 
         public void setPresets(string[] strings)
@@ -205,7 +208,7 @@ namespace eSTOL_Training_Tool_Core.UI
                 PointF drawPoint = new PointF(fieldStart + fieldWidth / 2 - 50, fieldStart + fieldLength - (toDist + 5));
                 e.Graphics.DrawString("Takeoff", drawFont, drawBrush, drawPoint);
                 drawPoint = new PointF(fieldStart + fieldWidth / 2 + 10, fieldStart + fieldLength - (tdDist + 5));
-                e.Graphics.DrawString("Tochdown", drawFont, drawBrush, drawPoint);
+                e.Graphics.DrawString("Touchdown", drawFont, drawBrush, drawPoint);
                 drawPoint = new PointF(fieldStart + fieldWidth / 2 + 10, fieldStart + fieldLength - (stopDist + 5));
                 e.Graphics.DrawString("Stop", drawFont, drawBrush, drawPoint);
             }
@@ -277,13 +280,13 @@ namespace eSTOL_Training_Tool_Core.UI
 
         private void buttonStartStopwatch_Click(object sender, EventArgs e)
         {
-            this.StopwatchOffset = TimeSpan.FromSeconds(-15);
+            this.StopwatchOffset = TimeSpan.FromSeconds(-stopwatchOffsetSeconds);
             this.stopwatch.Restart();
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
-            this.StopwatchOffset = TimeSpan.FromSeconds(0);
+            this.StopwatchOffset = TimeSpan.Zero;
             this.stopwatch.Restart();
         }
 
@@ -291,6 +294,22 @@ namespace eSTOL_Training_Tool_Core.UI
         {
             this.alwaysontop = checkBoxOntop.Checked;
             this.TopMost = this.alwaysontop;
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            this.stopwatchOffsetSeconds = (int)numericUpDownStopwatchOffest.Value;
+        }
+
+        private void labelPreset_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBoxDebugging_CheckedChanged(object sender, EventArgs e)
+        {
+            this.debug = checkBoxDebugging.Checked;
+            Config.GetInstance().debug = this.debug;
         }
     }
 }

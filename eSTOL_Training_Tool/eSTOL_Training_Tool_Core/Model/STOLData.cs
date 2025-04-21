@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Device.Location;
 using eSTOL_Training_Tool_Core.Model;
 
@@ -26,12 +27,17 @@ namespace eSTOL_Training_Tool
         public double? TouchdownVerticalSpeed = null;
         public double? TouchdownPitch = null;
         public double? TouchdownGs = null;
+        public double? maxSpin = null;
+        public double? maxPitch = null;
+        public double? maxBank = null;
 
         // Timing
         public DateTime? StartTime = null;
         public DateTime? TakeoffTime = null;
         public DateTime? TouchdownTime = null;
         public DateTime? StopTime = null;
+
+        public List<STOLViolation> violations = new List<STOLViolation>();
 
 
 
@@ -68,6 +74,13 @@ namespace eSTOL_Training_Tool
         public string GetInitialPosHash()
         {
             return $"{InitialPosition.Latitude:F8},{InitialPosition.Longitude:F8},{InitialHeading:F0}".GetHashCode().ToString("X");
+        }
+
+        public double GetDistanceTo(GeoCoordinate geoCoordinate)
+        {
+            if (InitialPosition == null) throw new ArgumentException("Position null");
+
+            return GeoUtils.GetDistanceAlongAxis(InitialPosition, geoCoordinate, InitialHeading.Value).Item1;
         }
 
         public STOLResult GetResult(string unit = "feet") 
@@ -129,6 +142,7 @@ namespace eSTOL_Training_Tool
             TakeoffTime = null;
             TouchdownTime = null;
             StopTime = null;
+            this.violations = new List<STOLViolation>();
         }
 
         public void Retry() 
@@ -157,6 +171,23 @@ namespace eSTOL_Training_Tool
             throw new NotImplementedException();
             return new STOLData();
             
+        }
+    }
+
+    public class STOLViolation 
+    {
+        public STOLViolation(string type = "", double value = 0.0) 
+        {
+            this.Type = type;
+            this.Value = value;
+        }
+
+        public string Type;
+        public double Value;
+
+        public string ToString() 
+        {
+            return this.Type + ": " + this.Value;
         }
     }
 
@@ -191,10 +222,10 @@ namespace eSTOL_Training_Tool
             string resultStr = $"\r\n-----------------------------------\r\n" +
                 $"Result {User} - {time}\r\n" +
                 $"Plane:               {planeType}\r\n" +
-                $"Takeoff Dinstance:   {Takeoffdist} {Unit}\r\n" +
-                $"Landing Dinstance:   {Landingdist} {Unit}\r\n" +
-                $"Stopping Dinstance:  {Stoppingdist} {Unit}\r\n" +
-                $"Touchdown Dinstance: {Touchdowndist} {Unit}{scratchText}\r\n" +
+                $"Takeoff Distance:    {Takeoffdist} {Unit}\r\n" +
+                $"Landing Distance:    {Landingdist} {Unit}\r\n" +
+                $"Stopping Distance:   {Stoppingdist} {Unit}\r\n" +
+                $"Touchdown Distance:  {Touchdowndist} {Unit}{scratchText}\r\n" +
                 $"Pattern Time:        {patternTimeStr} min\r\n" +
                 $"TD Pitch:            {TdPitch}°\r\n" +
                 $"TD Grnd-Speed        {GrndSpeed} knots\r\n" +

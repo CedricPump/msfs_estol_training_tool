@@ -168,6 +168,20 @@
 		"start_hdg": 125
 	},
 	{
+		"title": "42VA - Virginia Beach W (Heritage)",
+		"start_lat":   36.678321,
+		"start_long": -76.029322,
+		"start_alt": 4,
+		"start_hdg": 281
+	},
+	{
+		"title": "42VA - Virginia Beach E (Heritage)",
+		"start_lat":   36.678725,
+		"start_long": -76.031320,
+		"start_alt": 5,
+		"start_hdg": 103
+	},
+	{
 		"title": "EGBR - Breighton E (The Real STOL Fest)",
 		"start_lat": 53.803071803544,
 		"start_long": -0.919106662751,
