@@ -28,7 +28,7 @@ namespace eSTOL_Training_Tool
         public double? TouchdownPitch = null;
         public double? TouchdownGs = null;
         public double? maxSpin = null;
-        public double? maxPitch = null;
+        public double? minPitch = null;
         public double? maxBank = null;
 
         // Timing
@@ -101,10 +101,13 @@ namespace eSTOL_Training_Tool
             result.Touchdowndist = Math.Round(GetWithUnit(GetTouchdownDistance(), unit));
             result.Stoppingdist = Math.Round(GetWithUnit(GetStoppingDistance(), unit));
             result.Landingdist = Math.Round(GetWithUnit(GetLandingDistance(), unit));
-            result.TdPitch = (double)(InitialPitch - TouchdownPitch);
             result.GrndSpeed = Math.Round((double)TouchdownGroundSpeed);
             result.VSpeed = Math.Round((double)TouchdownVerticalSpeed);
-            result.GForce = (double) TouchdownGs;
+            result.GForce = (double)TouchdownGs;
+
+            result.maxSpin = (double)maxSpin;
+            result.maxBank = (double)maxBank;
+            result.minPitch = (double)minPitch;
 
             result.Score = result.Takeoffdist + result.Landingdist;
             if (result.Touchdowndist < 0)
@@ -143,6 +146,9 @@ namespace eSTOL_Training_Tool
             TouchdownTime = null;
             StopTime = null;
             this.violations = new List<STOLViolation>();
+            maxSpin = null;
+            minPitch = null;
+            maxBank = null;
         }
 
         public void Retry() 
@@ -203,7 +209,9 @@ namespace eSTOL_Training_Tool
         public double Touchdowndist;
         public double Stoppingdist;
         public double Landingdist;
-        public double TdPitch;
+        public double minPitch;
+        public double maxSpin;
+        public double maxBank;
         public double GrndSpeed;
         public double VSpeed;
         public double Score;
@@ -227,7 +235,9 @@ namespace eSTOL_Training_Tool
                 $"Stopping Distance:   {Stoppingdist} {Unit}\r\n" +
                 $"Touchdown Distance:  {Touchdowndist} {Unit}{scratchText}\r\n" +
                 $"Pattern Time:        {patternTimeStr} min\r\n" +
-                $"TD Pitch:            {TdPitch}°\r\n" +
+                $"Max Spin:            {maxSpin}°\r\n" +
+                $"Max Bank:            {maxBank}°\r\n" +
+                $"Min Pitch:           {minPitch}°\r\n" +
                 $"TD Grnd-Speed        {GrndSpeed} knots\r\n" +
                 $"TD Vert-Speed        {VSpeed} ft/min\r\n" +
                 $"TD G-Force           {GForce} G\r\n" +
@@ -240,36 +250,12 @@ namespace eSTOL_Training_Tool
         public string getCsvString() 
         {
             string patternTimeStr = $"{(int)PatternTime.TotalMinutes:00}:{PatternTime.Seconds:00}";
-            return $"{planeType},{time},{Takeoffdist},{Landingdist},{Stoppingdist},{Touchdowndist},{patternTimeStr},{TdPitch},{GrndSpeed},{VSpeed},{Score},{Unit},{GForce}";
+            return $"{planeType},{time},{Takeoffdist},{Landingdist},{Stoppingdist},{Touchdowndist},{patternTimeStr}, ,{GrndSpeed},{VSpeed},{Score},{Unit},{GForce}";
         }
 
         public static string getCSVHeader()
         {
             return "Plane,Time,Takeoff Distance,Landing Dinstance,Stopping Dinstance,Touchdown Dinstance,Pattern Time,TD Pitch,TD Grnd-Speed,TD Vert-Speed,Score,Unit,G-Force";
-        }
-
-        public string GetInfluxLineProtocol() 
-        {
-            string measurement = "stol_results";
-            string tags = $"User={User},planeType={planeType},unit={Unit}";
-            string fields = $"Takeoffdist={Takeoffdist}," +
-                            $"Touchdowndist={Touchdowndist}," +
-                            $"Stoppingdist={Stoppingdist}," +
-                            $"Landingdist={Landingdist}," +
-                            $"TdPitch={TdPitch}," +
-                            $"GrndSpeed={GrndSpeed}," +
-                            $"VSpeed={VSpeed}," +
-                            $"GForce={GForce}," +
-                            $"Score={Score}," +
-                            $"StartHash={InitHash}" +
-                            $"PatternTime={PatternTime.TotalSeconds}";
-                            
-            long timestamp = new DateTimeOffset(time).ToUnixTimeMilliseconds() * 1_000_000; // Convert to nanoseconds.
-
-            string query = $"{measurement},{tags} {fields} {timestamp}";
-            Console.WriteLine(query);
-
-            return query;
         }
     }
 }

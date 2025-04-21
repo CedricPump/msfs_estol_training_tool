@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using eSTOL_Training_Tool;
 using eSTOL_Training_Tool_Core.Model;
 using eSTOL_Training_Tool_Core.Influx;
@@ -34,7 +33,6 @@ namespace eSTOL_Training_Tool_Core.Core
         STOLData lastStol = new STOLData();
         Telemetrie lastTelemetrie;
         bool openWorldMode = true;
-        bool presetOutputEnable = false;
         List<Preset> presets = new();
         Preset preset;
         public string user = "";
@@ -186,7 +184,8 @@ namespace eSTOL_Training_Tool_Core.Core
                                 lastTelemetrieTime = DateTime.Now;
                                 influx.sendTelemetry(stol.user, plane);
 
-                                if (config.debug && stol.IsInit()) Console.WriteLine("lat distance to line: " + stol.GetDistanceTo(telemetrie.Position) * 3.28084);
+                                if (config.debug && stol.IsInit()) Console.WriteLine($"lat distance to line: {stol.GetDistanceTo(telemetrie.Position) * 3.28084} AGL: {telemetrie.AltitudeAGL}");
+                                if (config.debug && stol.IsInit() && ( telemetrie.mainWheelRPM > 1 || telemetrie.centerWheelRPM > 1)) Console.WriteLine($"Wheel RPM: main {telemetrie.mainWheelRPM} rear {telemetrie.centerWheelRPM}");
                             }
                         }
 
@@ -232,7 +231,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                     }
                                 case CycleState.Fly:
                                     {
-                                        if (plane.IsOnGround && (plane.AltitudeAGL > AGLonGroundThreshold)) Console.WriteLine("Dragging Tial, hope you are a Taildragger: " + plane.IsTaildragger);
+                                        if (plane.IsOnGround && (plane.AltitudeAGL > AGLonGroundThreshold) && telemetrie.mainWheelRPM < 1 && telemetrie.centerWheelRPM > 1) Console.WriteLine("Dragging Tial, hope you are a Taildragger: " + plane.IsTaildragger);
 
                                         // Todo: check wheels spinning
 
@@ -247,6 +246,14 @@ namespace eSTOL_Training_Tool_Core.Core
                                             stol.TouchdownGs = telemetrie.gForce;
                                             stol.TouchdownGroundSpeed = lastTelemetrie.GroundSpeed;
                                             stol.TouchdownVerticalSpeed = lastTelemetrie.verticalSpeed;
+                                            double spin = GeoUtils.GetMinDeltaAngle((double)stol.InitialHeading, telemetrie.Heading);
+                                            stol.maxSpin = Math.Abs(spin);
+                                            stol.maxBank = Math.Abs(telemetrie.bank);
+                                            double pitch = (double)(stol.InitialPitch - telemetrie.pitch);
+                                            stol.minPitch = pitch;
+
+                                            if (config.debug && stol.IsInit()) Console.WriteLine($"max spin: {stol.maxSpin}° max bank: {stol.maxBank}° max pitch: {stol.minPitch}°");
+
                                             // nextline after clock
                                             if (config.debug) Console.WriteLine("\nTouchdown recorded");
                                             if (config.debug && stol.IsInit()) Console.WriteLine("TD Pos: " + stol.TouchdownPosition);
@@ -262,6 +269,14 @@ namespace eSTOL_Training_Tool_Core.Core
                                     }
                                 case CycleState.Rollout:
                                     {
+                                        double spin = GeoUtils.GetMinDeltaAngle((double)stol.InitialHeading, telemetrie.Heading);
+                                        stol.maxSpin = Math.Max((double) stol.maxSpin, Math.Abs(spin));
+                                        stol.maxBank = Math.Max((double) stol.maxBank, Math.Abs(telemetrie.bank));
+                                        double pitch = (double)(stol.InitialPitch - telemetrie.pitch);
+                                        stol.minPitch = Math.Min((double)stol.minPitch, pitch);
+
+                                        if (config.debug && stol.IsInit()) Console.WriteLine($"max spin: {stol.maxSpin}° max bank: {stol.maxBank}° max pitch: {stol.minPitch}°");
+
                                         if (plane.GroundSpeed < config.GroundspeedThreshold && plane.IsOnGround)
                                         {
                                             setState(CycleState.Hold);

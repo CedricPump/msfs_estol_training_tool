@@ -140,7 +140,7 @@ namespace eSTOL_Training_Tool
             return (distanceAtAxis, offsetFromAxis);
         }
 
-        private static double GetMinDeltaAngle(double angle1, double angle2)
+        public static double GetMinDeltaAngle(double angle1, double angle2)
         {
             // Normalize both angles to the range [0, 360)
             angle1 = angle1 % 360;
