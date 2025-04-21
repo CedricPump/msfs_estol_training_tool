@@ -24,6 +24,8 @@ namespace eSTOL_Training_Tool_Core.Core
         public string TrikeFile { get; set; } = "Trikes.csv";
         public string[] trikesTypes { get; set; } = [];
 
+        public bool debug { get; set; } = false;
+
         private static Config instance = null;
 
         public static Config Load()
