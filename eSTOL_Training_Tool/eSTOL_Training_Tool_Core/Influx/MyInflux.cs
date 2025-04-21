@@ -66,6 +66,7 @@ namespace eSTOL_Training_Tool_Core.Influx
             var point = PointData.Measurement("stol_telemetry")
                 .Tag("User", username)
                 .Tag("Model", plane.Model)
+                .Tag("VersionTag", VersionHelper.GetVersion())
                 .Field("Heading", telemetrie.Heading)
                 .Field("Latitude", telemetrie.Position.Latitude)
                 .Field("Longitude", telemetrie.Position.Longitude)
@@ -79,7 +80,6 @@ namespace eSTOL_Training_Tool_Core.Influx
                 .Field("PilotWeight", state.PilotWeight)
                 .Field("MaxWeightPercent", state.MaxWeightPercent)
                 .Field("ParkingBrake", state.ParkingBrake ? 1.0 : 0.0)
-                .Field("Version", VersionHelper.GetVersion())
 
                 .Timestamp(DateTime.Now, WritePrecision.Ns);
 
