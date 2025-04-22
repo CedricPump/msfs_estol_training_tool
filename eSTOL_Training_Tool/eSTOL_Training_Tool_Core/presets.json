@@ -1,209 +1,251 @@
 [
 	{
 		"title": "3R7 - Jennings N (Swamp STOL)",
-		"start_lat": 30.241737,
+		"start_lat":   30.241737,
 		"start_long": -92.667863,
-		"start_alt": 8,
-		"start_hdg": 0
+		"start_alt":   8,
+		"start_hdg":   0
 	},
 	{
 		"title": "3R7 - Jennings S (Swamp STOL)",
-		"start_lat": 30.243387,
+		"start_lat":   30.243387,
 		"start_long": -92.667860,
-		"start_alt": 8,
-		"start_hdg": 180
+		"start_alt":    8,
+		"start_hdg":  180
+	},
+	{
+		"title": "42VA - Virginia Beach W (Heritage STOL)",
+		"start_lat":   36.678333,
+		"start_long": -76.029325,
+		"start_alt":   3,
+		"start_hdg": 282
+	},
+	{
+		"title": "42VA - Virginia Beach E (Heritage STOL)",
+		"start_lat":   36.678712,
+		"start_long": -76.031317,
+		"start_alt":    3,
+		"start_hdg":  102
+	},
+	{
+		"title": "KSTJ - St. Joseph S (Pony Express)",
+		"start_lat":   39.775342,
+		"start_long": -94.905872,
+		"start_alt":   249,
+		"start_hdg":   180
+	},
+	{
+		"title": "KSTJ - St. Joseph N (Pony Express)",
+		"start_lat":   39.773694,
+		"start_long": -94.905552,
+		"start_alt":   249,
+		"start_hdg":   0
+	},
+	{
+		"title": "KONO - Ontario Mun S (Oregon Trail)",
+		"start_lat":    44.020739,
+		"start_long": -117.014478,
+		"start_alt": 665,
+		"start_hdg": 158
+	},
+	{
+		"title": "KONO - Ontario Mun N (Oregon Trail)",
+		"start_lat":    44.019202,
+		"start_long": -117.013662,
+		"start_alt":   665,
+		"start_hdg":   338
 	},
 	{
 		"title": "KMWH - Grant Co Intl SW (Moses Lake)",
-		"start_lat": 47.2013943303453,
-		"start_long": -119.326425553688,
-		"start_alt": 360,
-		"start_hdg": 230
+		"start_lat":    47.20139,
+		"start_long": -119.326437,
+		"start_alt":   358,
+		"start_hdg":   234
 	},
 	{
 		"title": "KMWH - Grant Co Intl NE (Moses Lake)",
-		"start_lat": 47.2004170222903,
-		"start_long": -119.328396684347,
-		"start_alt": 361,
-		"start_hdg": 53
+		"start_lat":    47.200428,
+		"start_long": -119.328395,
+		"start_alt":   359,
+		"start_hdg":    54
 	},
 	{
-		"title": "ES01 - Patriot Airpark NW (Arklahoma)",
-		"start_lat": 35.2618638704196,
-		"start_long": -94.4886861540447,
-		"start_alt": 132,
-		"start_hdg": 308
+		"title": "KHXF - Hardford Municipal S (Sodbusters)",
+		"start_lat":   43.349298,
+		"start_long": -88.391102,
+		"start_alt":  321,
+		"start_hdg":  184
 	},
 	{
-		"title": "ES01 - Patriot Airpark SE (Arklahoma)",
-		"start_lat": 35.2629050779166,
-		"start_long": -94.4902724570947,
-		"start_alt": 130,
-		"start_hdg": 128
+		"title": "KHXF - Hardford Municipal N (Sodbusters)",
+		"start_lat":   43.347656,
+		"start_long": -88.391259,
+		"start_alt":  320,
+		"start_hdg":    4
 	},
 	{
-		"title": "ESTOL - National eSTOL Training Grounds N",
-		"start_lat": 39.040377060415,
+		"title": "KPNA - Ralph Wenz Field NW (Rocky Mountain)",
+		"start_lat":    42.792907,
+		"start_long": -109.801631,
+		"start_alt":  2154,
+		"start_hdg":   303
+	},
+	{
+		"title": "KPNA - Ralph Wenz Field SE (Rocky Mountain)",
+		"start_lat":    42.793814,
+		"start_long": -109.802692,
+		"start_alt":  2154,
+		"start_hdg":   123
+	},
+	{
+		"title": "OL42 - Pocola SE (Arklahoma)",
+		"start_lat":   35.261874,
+		"start_long": -94.488691,
+		"start_alt":  127,
+		"start_hdg":  130
+	},
+	{
+		"title": "OL42 - Pocola NW (Arklahoma)",
+		"start_lat":   35.262900,
+		"start_long": -94.490263,
+		"start_alt":  130,
+		"start_hdg":  307
+	},
+	{
+		"title": "KXNX - Gallatin (Music City) N",
+		"start_lat":   36.376647,
+		"start_long": -86.409182,
+		"start_alt":  166,
+		"start_hdg":  351
+	},
+	{
+		"title": "KXNX - Gallatin (Music City) S",
+		"start_lat":   36.378274,
+		"start_long": -86.409501,
+		"start_alt":  166,
+		"start_hdg":  171
+	},
+	{
+		"title": "KSLR - Sulphur Springs (Lonestar) N",
+		"start_lat":   33.159031,
+		"start_long": -95.620804,
+		"start_alt":  144,
+		"start_hdg":    9
+	},
+	{
+		"title": "KSLR - Sulphur Springs (Lonestar) S",
+		"start_lat":   33.160656,
+		"start_long": -95.620472,
+		"start_alt":  144,
+		"start_hdg":  189
+	},
+	{
+		"title": "TBD: ESTOL - National eSTOL Training Grounds N",
+		"start_lat":   39.040377060415,
 		"start_long": -96.0730085678824,
-		"start_alt": 393,
-		"start_hdg": 356
+		"start_alt":  393,
+		"start_hdg":  356
 	},
 	{
-		"title": "ESTOL - National eSTOL Training Grounds S",
-		"start_lat": 39.0420487803341,
+		"title": "TBD: ESTOL - National eSTOL Training Grounds S",
+		"start_lat":   39.0420487803341,
 		"start_long": -96.0731078255539,
-		"start_alt": 393,
-		"start_hdg": 176
+		"start_alt":  393,
+		"start_hdg":  176
 	},
 	{
-		"title": "0VJF - Johnsons Farm NW",
+		"title": "TBD: ES01 - Patriot Airpark NW (Arklahoma, old)",
+		"start_lat":   35.2618638704196,
+		"start_long": -94.4886861540447,
+		"start_alt":  132,
+		"start_hdg":  308
+	},
+	{
+		"title": "TBD: ES01 - Patriot Airpark SE (Arklahoma, old)",
+		"start_lat":   35.2629050779166,
+		"start_long": -94.4902724570947,
+		"start_alt":  130,
+		"start_hdg":  128
+	},
+	{
+		"title": "TBD: KAXQ - Clarion Country SW (Appalachian Mountain, old)",
+		"start_lat":   41.22510084797,
+		"start_long": -79.440931358001,
+		"start_alt":  445,
+		"start_hdg":  227
+	},
+	{
+		"title": "TBD: KAXQ - Clarion Country NE (Appalachian Mountain, old)",
+		"start_lat":   41.223916627295,
+		"start_long": -79.442481809179,
+		"start_alt":  445,
+		"start_hdg":   45
+	},
+	{
+		"title": "TBD: L06 - Furnace Creek N (Death Valey, old)",
+		"start_lat":    36.460798411952,
+		"start_long": -116.879948995855,
+		"start_alt":   -63,
+		"start_hdg":   341
+	},
+	{
+		"title": "TBD: L06 - Furnace Creek S (Death Valey, old)",
+		"start_lat":    36.462383359518,
+		"start_long": -116.88057026395,
+		"start_alt":   -63,
+		"start_hdg":   161
+	},
+	{
+		"title": "TBD: 0VJF - Johnsons Farm NW (old)",
 		"start_lat": 40.1461530425526,
 		"start_long": -122.461802774477,
 		"start_alt": 194,
 		"start_hdg": 306
 	},
 	{
-		"title": "0VJF - Johnsons Farm SE",
+		"title": "TBD: 0VJF - Johnsons Farm SE (old)",
 		"start_lat": 40.1471303521051,
 		"start_long": -122.463570419442,
 		"start_alt": 194,
 		"start_hdg": 126
 	},
 	{
-		"title": "KXNX - Gallatin (Music City) N",
-		"start_lat": 36.3766349,
-		"start_long": -86.409191,
-		"start_alt": 167,
-		"start_hdg": 353
-	},
-	{
-		"title": "KXNX - Gallatin (Music City) S",
-		"start_lat": 36.3782865,
-		"start_long": -86.409491615,
-		"start_alt": 168,
-		"start_hdg": 170
-	},
-	{
-		"title": "KSLR - Sulphur Springs (Lonestar) N",
-		"start_lat": 33.159024128111,
-		"start_long": -95.620816526699,
-		"start_alt": 146,
-		"start_hdg": 9
-	},
-	{
-		"title": "KSLR - Sulphur Springs (Lonestar) S",
-		"start_lat": 33.160664816758,
-		"start_long": -95.620464951416,
-		"start_alt": 146,
-		"start_hdg": 189
-	},
-	{
-		"title": "KONO - Ontario Mun S (Oregon Trail)",
-		"start_lat": 44.021701860335,
-		"start_long": -117.0153260941,
-		"start_alt": 668,
-		"start_hdg": 161
-	},
-	{
-		"title": "KONO - Ontario Mun N (Oregon Trail)",
-		"start_lat": 44.020147346991,
-		"start_long": -117.014507152341,
-		"start_alt": 668,
-		"start_hdg": 339
-	},
-	{
-		"title": "KHXF - Hardford Municipal S (Sodbusters)",
-		"start_lat": 43.349304708799007,
-		"start_long": -88.391085103357,
-		"start_alt": 324,
-		"start_hdg": 184
-	},
-	{
-		"title": "KHXF - Hardford Municipal N (Sodbusters)",
-		"start_lat": 43.347647195204,
-		"start_long": -88.391290802859,
-		"start_alt": 322,
-		"start_hdg": 4
-	},
-	{
-		"title": "KAXQ - Clarion Country SW (Appalachian Mountain)",
-		"start_lat": 41.22510084797,
-		"start_long": -79.440931358001,
-		"start_alt": 445,
-		"start_hdg": 227
-	},
-	{
-		"title": "KAXQ - Clarion Country NE (Appalachian Mountain)",
-		"start_lat": 41.223916627295,
-		"start_long": -79.442481809179,
-		"start_alt": 445,
-		"start_hdg": 45
-	},
-	{
-		"title": "L06 - Furnace Creek N (Death Valey)",
-		"start_lat": 36.460798411952,
-		"start_long": -116.879948995855,
-		"start_alt": -63,
-		"start_hdg": 341
-	},
-	{
-		"title": "L06 - Furnace Creek S (Death Valey)",
-		"start_lat": 36.462383359518,
-		"start_long": -116.88057026395,
-		"start_alt": -63,
-		"start_hdg": 161
-	},
-	{
-		"title": "KPNA - Ralph Wenz Field NW (Rocky Mountain)",
-		"start_lat": 42.792895646558,
-		"start_long": -109.800822338466,
-		"start_alt": 2157,
-		"start_hdg": 303
-	},
-	{
-		"title": "KPNA - Ralph Wenz Field SE (Rocky Mountain)",
-		"start_lat": 42.79382866881,
-		"start_long": -109.802694057771,
-		"start_alt": 2156,
-		"start_hdg": 125
-	},
-	{
-		"title": "EGBR - Breighton E (The Real STOL Fest)",
+		"title": "TBD: EGBR - Breighton E (The Real STOL Fest)",
 		"start_lat": 53.803071803544,
 		"start_long": -0.919106662751,
 		"start_alt": 10,
 		"start_hdg": 103
 	},
 	{
-		"title": "EGBR - Breighton W (The Real STOL Fest)",
+		"title": "TBD: EGBR - Breighton W (The Real STOL Fest)",
 		"start_lat": 53.802746027534,
 		"start_long": -0.91610238998,
 		"start_alt": 9,
 		"start_hdg": 278
 	},
 	{
-		"title": "LKSZ - Sazena N (European STOL Competition)",
+		"title": "TBD: LKSZ - Sazena N (European STOL Competition)",
 		"start_lat": 50.320512583182,
 		"start_long": 14.263155882858,
 		"start_alt": 234,
 		"start_hdg": 325
 	},
 	{
-		"title": "LKSZ - Sazena S (European STOL Competition)",
+		"title": "TBD: LKSZ - Sazena S (European STOL Competition)",
 		"start_lat": 50.322016603341,
 		"start_long": 14.261587847118,
 		"start_alt": 235,
 		"start_hdg": 145
 	},
 	{
-		"title": "LFIF - Belmont W (FFPLUM STOL Competition)",
+		"title": "TBD: LFIF - Belmont W (FFPLUM STOL Competition)",
 		"start_lat": 43.822410277191,
 		"start_long": 2.748311124575,
 		"start_alt": 515,
 		"start_hdg": 297
 	},
 	{
-		"title": "LFIF - Belmont E (FFPLUM STOL Competition)",
+		"title": "TBD: LFIF - Belmont E (FFPLUM STOL Competition)",
 		"start_lat": 43.82328787423,
 		"start_long": 2.746121866693,
 		"start_alt": 513,
