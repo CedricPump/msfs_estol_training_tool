@@ -84,9 +84,9 @@
 		"start_hdg":    4
 	},
 	{
-		"title": "TBD: KPNA - Ralph Wenz Field NW (Rocky Mountain)",
+		"title": "KPNA - Ralph Wenz Field NW (Rocky Mountain)",
 		"start_lat":    42.792907,
-		"start_long": -109.801631,
+		"start_long": -109.800826,
 		"start_alt":  2154,
 		"start_hdg":   303
 	},
@@ -140,32 +140,18 @@
 		"start_hdg":  189
 	},
 	{
-		"title": "TBD: ESTOL - National eSTOL Training Grounds N",
-		"start_lat":   39.040377060415,
-		"start_long": -96.0730085678824,
+		"title": "ESTOL - National eSTOL Training Grounds N",
+		"start_lat":   39.040391,
+		"start_long": -96.073008,
 		"start_alt":  393,
 		"start_hdg":  356
 	},
 	{
-		"title": "TBD: ESTOL - National eSTOL Training Grounds S",
-		"start_lat":   39.0420487803341,
-		"start_long": -96.0731078255539,
+		"title": "ESTOL - National eSTOL Training Grounds S",
+		"start_lat":   39.042037,
+		"start_long": -96.073107,
 		"start_alt":  393,
 		"start_hdg":  176
-	},
-	{
-		"title": "TBD: ES01 - Patriot Airpark NW (Arklahoma, old)",
-		"start_lat":   35.2618638704196,
-		"start_long": -94.4886861540447,
-		"start_alt":  132,
-		"start_hdg":  308
-	},
-	{
-		"title": "TBD: ES01 - Patriot Airpark SE (Arklahoma, old)",
-		"start_lat":   35.2629050779166,
-		"start_long": -94.4902724570947,
-		"start_alt":  130,
-		"start_hdg":  128
 	},
 	{
 		"title": "TBD: KAXQ - Clarion Country SW (Appalachian Mountain, old)",

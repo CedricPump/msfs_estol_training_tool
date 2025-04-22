@@ -155,7 +155,7 @@ namespace eSTOL_Training_Tool
         {
             double offset = GearOffset.getGearOffset(this.Type + "|" + this.Model);
             GeoCoordinate simPos = new GeoCoordinate(this.Latitude, this.Longitude, this.Altitude * 0.3048);
-            return GeoUtils.GetOffsetPosition(simPos, this.Heading, offset);
+            return GeoUtils.GetOffsetPosition(simPos, this.Heading, -offset);
         }
 
         public Ident GetIdent()
