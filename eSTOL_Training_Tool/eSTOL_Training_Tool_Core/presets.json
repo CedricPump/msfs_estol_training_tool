@@ -154,86 +154,86 @@
 		"start_hdg":  176
 	},
 	{
-		"title": "TBD: KAXQ - Clarion Country SW (Appalachian Mountain, old)",
-		"start_lat":   41.22510084797,
-		"start_long": -79.440931358001,
+		"title": "KAXQ - Clarion Country SW (Appalachian Mountain)",
+		"start_lat":   41.225094,
+		"start_long": -79.440941,
 		"start_alt":  445,
 		"start_hdg":  227
 	},
 	{
-		"title": "TBD: KAXQ - Clarion Country NE (Appalachian Mountain, old)",
-		"start_lat":   41.223916627295,
-		"start_long": -79.442481809179,
+		"title": "KAXQ - Clarion Country NE (Appalachian Mountain)",
+		"start_lat":   41.223922,
+		"start_long": -79.442474,
 		"start_alt":  445,
 		"start_hdg":   45
 	},
 	{
-		"title": "TBD: L06 - Furnace Creek N (Death Valey, old)",
-		"start_lat":    36.460798411952,
-		"start_long": -116.879948995855,
+		"title": "L06 - Furnace Creek N (Death Valey)",
+		"start_lat":    36.460806,
+		"start_long": -116.879952,
 		"start_alt":   -63,
 		"start_hdg":   341
 	},
 	{
-		"title": "TBD: L06 - Furnace Creek S (Death Valey, old)",
-		"start_lat":    36.462383359518,
-		"start_long": -116.88057026395,
+		"title": "L06 - Furnace Creek S (Death Valey)",
+		"start_lat":    36.462377,
+		"start_long": -116.880568,
 		"start_alt":   -63,
 		"start_hdg":   161
 	},
 	{
-		"title": "TBD: 0VJF - Johnsons Farm NW (old)",
-		"start_lat": 40.1461530425526,
-		"start_long": -122.461802774477,
-		"start_alt": 194,
-		"start_hdg": 306
+		"title": "0VJF - Johnsons Farm NW",
+		"start_lat":    40.146159,
+		"start_long": -122.461814,
+		"start_alt":   194,
+		"start_hdg":   306
 	},
 	{
-		"title": "TBD: 0VJF - Johnsons Farm SE (old)",
-		"start_lat": 40.1471303521051,
-		"start_long": -122.463570419442,
-		"start_alt": 194,
-		"start_hdg": 126
+		"title": "0VJF - Johnsons Farm SE",
+		"start_lat":    40.147122,
+		"start_long": -122.463556,
+		"start_alt":   194,
+		"start_hdg":   126
 	},
 	{
-		"title": "TBD: EGBR - Breighton E (The Real STOL Fest)",
-		"start_lat": 53.803071803544,
-		"start_long": -0.919106662751,
-		"start_alt": 10,
+		"title": "EGBR - Breighton E (The Real STOL Fest)",
+		"start_lat":  53.803070,
+		"start_long": -0.919095,
+		"start_alt":  10,
 		"start_hdg": 103
 	},
 	{
-		"title": "TBD: EGBR - Breighton W (The Real STOL Fest)",
-		"start_lat": 53.802746027534,
-		"start_long": -0.91610238998,
-		"start_alt": 9,
+		"title": "EGBR - Breighton W (The Real STOL Fest)",
+		"start_lat":  53.802747,
+		"start_long": -0.916115,
+		"start_alt":   9,
 		"start_hdg": 278
 	},
 	{
-		"title": "TBD: LKSZ - Sazena N (European STOL Competition)",
-		"start_lat": 50.320512583182,
-		"start_long": 14.263155882858,
+		"title": "LKSZ - Sazena N (European STOL Competition)",
+		"start_lat":  50.320518,
+		"start_long": 14.263150,
 		"start_alt": 234,
 		"start_hdg": 325
 	},
 	{
-		"title": "TBD: LKSZ - Sazena S (European STOL Competition)",
-		"start_lat": 50.322016603341,
-		"start_long": 14.261587847118,
+		"title": "LKSZ - Sazena S (European STOL Competition)",
+		"start_lat":  50.322009,
+		"start_long": 14.261597,
 		"start_alt": 235,
 		"start_hdg": 145
 	},
 	{
-		"title": "TBD: LFIF - Belmont W (FFPLUM STOL Competition)",
-		"start_lat": 43.822410277191,
-		"start_long": 2.748311124575,
+		"title": "LFIF - Belmont W (FFPLUM STOL Competition)",
+		"start_lat":  43.822415,
+		"start_long":  2.748299,
 		"start_alt": 515,
 		"start_hdg": 297
 	},
 	{
-		"title": "TBD: LFIF - Belmont E (FFPLUM STOL Competition)",
-		"start_lat": 43.82328787423,
-		"start_long": 2.746121866693,
+		"title": "LFIF - Belmont E (FFPLUM STOL Competition)",
+		"start_lat":  43.823283,
+		"start_long":  2.746134,
 		"start_alt": 513,
 		"start_hdg": 118
 	}
