@@ -35,6 +35,12 @@ namespace eSTOL_Training_Tool
         public double vY { get; private set; }
         public double vZ { get; private set; }
         public double gforce { get; private set; }
+
+        public double RWheelRPM { get; private set; }
+        public double LWheelRPM { get; private set; }
+        public double CWheelRPM { get; private set; }
+        public double AuxWheelRPM { get; private set; }
+
         // Orientation
         public double pitch { get; private set; }
         public double bank { get; private set; }
@@ -139,7 +145,9 @@ namespace eSTOL_Training_Tool
                 pitch = this.pitch,
                 bank = this.bank,
                 verticalSpeed = this.VerticalSpeed,
-                gForce = this.gforce
+                gForce = this.gforce,
+                mainWheelRPM = Math.Max(this.RWheelRPM, this.LWheelRPM),
+                centerWheelRPM = this.CWheelRPM,
             };
         }
 
@@ -198,6 +206,12 @@ namespace eSTOL_Training_Tool
             CreateDataDefinition("GROUND VELOCITY", "knots");
             // CreateDataDefinition("AIRSPEED INDICATED", "knots");
             // CreateDataDefinition("AIRSPEED TRUE", "knots");
+
+            CreateDataDefinition("RIGHT WHEEL RPM", "RPM");
+            CreateDataDefinition("LEFT WHEEL RPM", "RPM");
+            CreateDataDefinition("CENTER WHEEL RPM", "RPM");
+            CreateDataDefinition("AUX WHEEL RPM", "RPM");
+
             CreateDataDefinition("VERTICAL SPEED", "feet per minute"); 
             CreateDataDefinition("G FORCE", "Gforce");
             // CreateDataDefinition("VELOCITY WORLD X", "meter per second");
@@ -583,8 +597,29 @@ namespace eSTOL_Training_Tool
                             MaxTotalWeight = (double)data.dwData[0];
                             break;
                         }
+                    case "RIGHT WHEEL RPM":
+                        {
+                            RWheelRPM = (double)data.dwData[0];
+                            break;
+                        }
+                    case "LEFT WHEEL RPM":
+                        {
+                            LWheelRPM = (double)data.dwData[0];
+                            break;
+                        }
+                    case "CENTER WHEEL RPM":
+                        {
+                            CWheelRPM = (double)data.dwData[0];
+                            break;
+                        }
+                    case "AUX WHEEL RPM":
+                        {
+                            AuxWheelRPM = (double)data.dwData[0];
+                            break;
+                        }
 
-                        
+
+
                     default:
                         {
                             break;

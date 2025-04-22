@@ -3,8 +3,8 @@ using eSTOL_Training_Tool;
 using InfluxDB.Client;
 using InfluxDB.Client.Api.Domain;
 using InfluxDB.Client.Writes;
-using eSTOL_Training_Tool_Core.Model;
 using eSTOL_Training_Tool.Model;
+using eSTOL_Training_Tool_Core.Core;
 
 
 namespace eSTOL_Training_Tool_Core.Influx
@@ -44,7 +44,9 @@ namespace eSTOL_Training_Tool_Core.Influx
                 .Field("Touchdowndist", stolResult.Touchdowndist)
                 .Field("Stoppingdist", stolResult.Stoppingdist)
                 .Field("Landingdist", stolResult.Landingdist)
-                .Field("TdPitch", stolResult.TdPitch)
+                .Field("MaxSpin", stolResult.maxSpin)
+                .Field("MaxPitch", stolResult.minPitch)
+                .Field("MaxBank", stolResult.maxBank)
                 .Field("GrndSpeed", stolResult.GrndSpeed)
                 .Field("VSpeed", stolResult.VSpeed)
                 .Field("GForce", stolResult.GForce)
@@ -64,6 +66,7 @@ namespace eSTOL_Training_Tool_Core.Influx
             var point = PointData.Measurement("stol_telemetry")
                 .Tag("User", username)
                 .Tag("Model", plane.Model)
+                .Tag("VersionTag", VersionHelper.GetVersion())
                 .Field("Heading", telemetrie.Heading)
                 .Field("Latitude", telemetrie.Position.Latitude)
                 .Field("Longitude", telemetrie.Position.Longitude)

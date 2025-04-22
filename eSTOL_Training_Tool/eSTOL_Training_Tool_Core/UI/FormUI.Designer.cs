@@ -51,6 +51,10 @@
             label1 = new System.Windows.Forms.Label();
             button1 = new System.Windows.Forms.Button();
             checkBoxOntop = new System.Windows.Forms.CheckBox();
+            numericUpDownStopwatchOffest = new System.Windows.Forms.NumericUpDown();
+            label2 = new System.Windows.Forms.Label();
+            checkBoxDebugging = new System.Windows.Forms.CheckBox();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownStopwatchOffest).BeginInit();
             SuspendLayout();
             // 
             // labelResult
@@ -77,9 +81,9 @@
             // textBoxUser
             // 
             textBoxUser.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            textBoxUser.Location = new System.Drawing.Point(747, 12);
+            textBoxUser.Location = new System.Drawing.Point(747, 27);
             textBoxUser.Name = "textBoxUser";
-            textBoxUser.Size = new System.Drawing.Size(210, 23);
+            textBoxUser.Size = new System.Drawing.Size(212, 23);
             textBoxUser.TabIndex = 2;
             textBoxUser.TextChanged += textBoxUser_TextChanged;
             textBoxUser.KeyDown += textBoxUser_KeyDown;
@@ -88,17 +92,18 @@
             // 
             labelPreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             labelPreset.AutoSize = true;
-            labelPreset.Location = new System.Drawing.Point(919, 116);
+            labelPreset.Location = new System.Drawing.Point(747, 131);
             labelPreset.Name = "labelPreset";
             labelPreset.Size = new System.Drawing.Size(39, 15);
             labelPreset.TabIndex = 3;
             labelPreset.Text = "Preset";
+            labelPreset.Click += labelPreset_Click;
             // 
             // comboBoxPreset
             // 
             comboBoxPreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             comboBoxPreset.FormattingEnabled = true;
-            comboBoxPreset.Location = new System.Drawing.Point(748, 134);
+            comboBoxPreset.Location = new System.Drawing.Point(748, 149);
             comboBoxPreset.Name = "comboBoxPreset";
             comboBoxPreset.Size = new System.Drawing.Size(211, 23);
             comboBoxPreset.TabIndex = 4;
@@ -107,7 +112,7 @@
             // 
             buttonApplyPreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             buttonApplyPreset.AutoSize = true;
-            buttonApplyPreset.Location = new System.Drawing.Point(749, 163);
+            buttonApplyPreset.Location = new System.Drawing.Point(749, 178);
             buttonApplyPreset.Name = "buttonApplyPreset";
             buttonApplyPreset.Size = new System.Drawing.Size(210, 25);
             buttonApplyPreset.TabIndex = 5;
@@ -119,7 +124,7 @@
             // 
             buttonTeleport.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             buttonTeleport.AutoSize = true;
-            buttonTeleport.Location = new System.Drawing.Point(749, 254);
+            buttonTeleport.Location = new System.Drawing.Point(749, 269);
             buttonTeleport.Name = "buttonTeleport";
             buttonTeleport.Size = new System.Drawing.Size(210, 25);
             buttonTeleport.TabIndex = 6;
@@ -130,7 +135,7 @@
             // buttonSetRefPos
             // 
             buttonSetRefPos.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            buttonSetRefPos.Location = new System.Drawing.Point(748, 194);
+            buttonSetRefPos.Location = new System.Drawing.Point(748, 209);
             buttonSetRefPos.Name = "buttonSetRefPos";
             buttonSetRefPos.Size = new System.Drawing.Size(210, 23);
             buttonSetRefPos.TabIndex = 7;
@@ -153,7 +158,7 @@
             // 
             buttonCreatePreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             buttonCreatePreset.AutoSize = true;
-            buttonCreatePreset.Location = new System.Drawing.Point(749, 223);
+            buttonCreatePreset.Location = new System.Drawing.Point(749, 238);
             buttonCreatePreset.Name = "buttonCreatePreset";
             buttonCreatePreset.Size = new System.Drawing.Size(210, 25);
             buttonCreatePreset.TabIndex = 9;
@@ -163,7 +168,7 @@
             // 
             // panel
             // 
-            panel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            panel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             panel.Location = new System.Drawing.Point(481, 27);
             panel.Name = "panel";
             panel.Size = new System.Drawing.Size(260, 616);
@@ -174,9 +179,9 @@
             // 
             comboBoxUnit.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             comboBoxUnit.FormattingEnabled = true;
-            comboBoxUnit.Location = new System.Drawing.Point(747, 90);
+            comboBoxUnit.Location = new System.Drawing.Point(747, 105);
             comboBoxUnit.Name = "comboBoxUnit";
-            comboBoxUnit.Size = new System.Drawing.Size(210, 23);
+            comboBoxUnit.Size = new System.Drawing.Size(212, 23);
             comboBoxUnit.TabIndex = 11;
             comboBoxUnit.SelectedIndexChanged += comboBoxUnit_SelectedIndexChanged;
             // 
@@ -186,7 +191,7 @@
             checkBoxResult.AutoSize = true;
             checkBoxResult.Checked = true;
             checkBoxResult.CheckState = System.Windows.Forms.CheckState.Checked;
-            checkBoxResult.Location = new System.Drawing.Point(866, 41);
+            checkBoxResult.Location = new System.Drawing.Point(747, 56);
             checkBoxResult.Name = "checkBoxResult";
             checkBoxResult.Size = new System.Drawing.Size(91, 19);
             checkBoxResult.TabIndex = 12;
@@ -200,7 +205,7 @@
             checkBoxTelemetry.AutoSize = true;
             checkBoxTelemetry.Checked = true;
             checkBoxTelemetry.CheckState = System.Windows.Forms.CheckState.Checked;
-            checkBoxTelemetry.Location = new System.Drawing.Point(851, 65);
+            checkBoxTelemetry.Location = new System.Drawing.Point(747, 80);
             checkBoxTelemetry.Name = "checkBoxTelemetry";
             checkBoxTelemetry.Size = new System.Drawing.Size(106, 19);
             checkBoxTelemetry.TabIndex = 13;
@@ -240,7 +245,7 @@
             buttonStartStopwatch.Name = "buttonStartStopwatch";
             buttonStartStopwatch.Size = new System.Drawing.Size(76, 24);
             buttonStartStopwatch.TabIndex = 16;
-            buttonStartStopwatch.Text = "Start T-15";
+            buttonStartStopwatch.Text = "T-Offset";
             buttonStartStopwatch.UseVisualStyleBackColor = true;
             buttonStartStopwatch.Click += buttonStartStopwatch_Click;
             // 
@@ -248,11 +253,11 @@
             // 
             label1.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(749, 559);
+            label1.Location = new System.Drawing.Point(828, 530);
             label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(147, 30);
+            label1.Size = new System.Drawing.Size(129, 30);
             label1.TabIndex = 17;
-            label1.Text = "always listen to Airboss for\r\ntiming instructions";
+            label1.Text = "always listen to Airboss\r\nfor timing instructions";
             // 
             // button1
             // 
@@ -269,7 +274,7 @@
             // 
             checkBoxOntop.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             checkBoxOntop.AutoSize = true;
-            checkBoxOntop.Location = new System.Drawing.Point(642, 8);
+            checkBoxOntop.Location = new System.Drawing.Point(858, 5);
             checkBoxOntop.Name = "checkBoxOntop";
             checkBoxOntop.Size = new System.Drawing.Size(99, 19);
             checkBoxOntop.TabIndex = 19;
@@ -277,11 +282,46 @@
             checkBoxOntop.UseVisualStyleBackColor = true;
             checkBoxOntop.CheckedChanged += checkBoxOntop_CheckedChanged;
             // 
+            // numericUpDownStopwatchOffest
+            // 
+            numericUpDownStopwatchOffest.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            numericUpDownStopwatchOffest.Location = new System.Drawing.Point(749, 563);
+            numericUpDownStopwatchOffest.Name = "numericUpDownStopwatchOffest";
+            numericUpDownStopwatchOffest.Size = new System.Drawing.Size(208, 23);
+            numericUpDownStopwatchOffest.TabIndex = 20;
+            numericUpDownStopwatchOffest.Value = new decimal(new int[] { 30, 0, 0, 0 });
+            numericUpDownStopwatchOffest.ValueChanged += numericUpDown1_ValueChanged;
+            // 
+            // label2
+            // 
+            label2.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            label2.AutoSize = true;
+            label2.Location = new System.Drawing.Point(749, 545);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(39, 15);
+            label2.TabIndex = 21;
+            label2.Text = "Offset";
+            // 
+            // checkBoxDebugging
+            // 
+            checkBoxDebugging.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            checkBoxDebugging.AutoSize = true;
+            checkBoxDebugging.Location = new System.Drawing.Point(749, 5);
+            checkBoxDebugging.Name = "checkBoxDebugging";
+            checkBoxDebugging.Size = new System.Drawing.Size(60, 19);
+            checkBoxDebugging.TabIndex = 22;
+            checkBoxDebugging.Text = "debug";
+            checkBoxDebugging.UseVisualStyleBackColor = true;
+            checkBoxDebugging.CheckedChanged += checkBoxDebugging_CheckedChanged;
+            // 
             // FormUI
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(969, 683);
+            Controls.Add(checkBoxDebugging);
+            Controls.Add(label2);
+            Controls.Add(numericUpDownStopwatchOffest);
             Controls.Add(checkBoxOntop);
             Controls.Add(button1);
             Controls.Add(label1);
@@ -305,6 +345,7 @@
             Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             Name = "FormUI";
             Text = "eSTOL Training Tool";
+            ((System.ComponentModel.ISupportInitialize)numericUpDownStopwatchOffest).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -332,5 +373,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.CheckBox checkBoxOntop;
+        private System.Windows.Forms.NumericUpDown numericUpDownStopwatchOffest;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox checkBoxDebugging;
     }
 }

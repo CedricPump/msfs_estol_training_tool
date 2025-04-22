@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using eSTOL_Training_Tool;
 using eSTOL_Training_Tool_Core.Model;
 using eSTOL_Training_Tool_Core.Influx;
@@ -34,7 +33,6 @@ namespace eSTOL_Training_Tool_Core.Core
         STOLData lastStol = new STOLData();
         Telemetrie lastTelemetrie;
         bool openWorldMode = true;
-        bool presetOutputEnable = false;
         List<Preset> presets = new();
         Preset preset;
         public string user = "";
@@ -45,6 +43,7 @@ namespace eSTOL_Training_Tool_Core.Core
         public bool issendTelemetry = true;
         DateTime lastTelemetrieTime = DateTime.MinValue;
         double AGLonGroundThreshold = 0.3; // ft
+        bool debug = false;
 
         public Controller()
         {
@@ -62,7 +61,7 @@ namespace eSTOL_Training_Tool_Core.Core
                     writer.WriteLine(STOLResult.getCSVHeader());
                 }
             }
-            Console.WriteLine("exporting to " + config.ExportPath);
+            if (config.debug) Console.WriteLine("exporting to " + config.ExportPath);
         }
 
         public void SetUI(FormUI form) 
@@ -84,7 +83,7 @@ namespace eSTOL_Training_Tool_Core.Core
             //plane.SpawnObject("Cone",plane.Latitude,plane.Longitude,plane.Altitude);
 
 
-            Console.WriteLine($"Using:\nType: \"{plane.Type}\"\nModel: \"{plane.Model}\"\nTitle: \"{plane.Title}\"\n");
+            if(config.debug) Console.WriteLine($"Using:\nType: \"{plane.Type}\"\nModel: \"{plane.Model}\"\nTitle: \"{plane.Title}\"\n");
 
             if (!File.Exists(config.UserPath))
             {
@@ -184,6 +183,9 @@ namespace eSTOL_Training_Tool_Core.Core
                             {
                                 lastTelemetrieTime = DateTime.Now;
                                 influx.sendTelemetry(stol.user, plane);
+
+                                if (config.debug && stol.IsInit()) Console.WriteLine($"lat distance to line: {stol.GetDistanceTo(telemetrie.Position) * 3.28084} AGL: {telemetrie.AltitudeAGL}");
+                                if (config.debug && stol.IsInit() && ( telemetrie.mainWheelRPM > 1 || telemetrie.centerWheelRPM > 1)) Console.WriteLine($"Wheel RPM: main {telemetrie.mainWheelRPM} rear {telemetrie.centerWheelRPM}");
                             }
                         }
 
@@ -215,8 +217,9 @@ namespace eSTOL_Training_Tool_Core.Core
                                             setState(CycleState.Fly);
                                             stol.TakeoffPosition = telemetrie.Position;
                                             stol.TakeoffTime = DateTime.Now;
-                                            Console.WriteLine($"Takoff recorded: {(stol.GetTakeoffDistance() * 3.28084).ToString("0")} ft");
+                                            if (config.debug) Console.WriteLine($"Takoff recorded: {(stol.GetTakeoffDistance() * 3.28084).ToString("0")} ft");
                                             form.setResult($"Takoff recorded: {(stol.GetTakeoffDistance() * 3.28084).ToString("0")} ft");
+                                            if (config.debug && stol.IsInit()) Console.WriteLine("TO Pos: " + stol.TakeoffPosition);
                                         }
                                         if (plane.GroundSpeed < config.GroundspeedThreshold && plane.IsOnGround)
                                         {
@@ -228,7 +231,9 @@ namespace eSTOL_Training_Tool_Core.Core
                                     }
                                 case CycleState.Fly:
                                     {
-                                        if (plane.IsOnGround && (plane.AltitudeAGL > AGLonGroundThreshold)) Console.WriteLine("Dragging Tial, hope you are a Taildragger: " + plane.IsTaildragger);
+                                        if (plane.IsOnGround && (plane.AltitudeAGL > AGLonGroundThreshold) && telemetrie.mainWheelRPM < 1 && telemetrie.centerWheelRPM > 1) Console.WriteLine("Dragging Tial, hope you are a Taildragger: " + plane.IsTaildragger);
+
+                                        // Todo: check wheels spinning
 
                                         if (plane.IsOnGround && (plane.AltitudeAGL < AGLonGroundThreshold || !plane.IsTaildragger))
                                         {
@@ -241,14 +246,37 @@ namespace eSTOL_Training_Tool_Core.Core
                                             stol.TouchdownGs = telemetrie.gForce;
                                             stol.TouchdownGroundSpeed = lastTelemetrie.GroundSpeed;
                                             stol.TouchdownVerticalSpeed = lastTelemetrie.verticalSpeed;
+                                            double spin = GeoUtils.GetMinDeltaAngle((double)stol.InitialHeading, telemetrie.Heading);
+                                            stol.maxSpin = Math.Abs(spin);
+                                            stol.maxBank = Math.Abs(telemetrie.bank);
+                                            double pitch = (double)(stol.InitialPitch - telemetrie.pitch);
+                                            stol.minPitch = pitch;
+
+                                            if (config.debug && stol.IsInit()) Console.WriteLine($"max spin: {stol.maxSpin}° max bank: {stol.maxBank}° max pitch: {stol.minPitch}°");
+
                                             // nextline after clock
-                                            Console.WriteLine("\nTouchdown recorded");
+                                            if (config.debug) Console.WriteLine("\nTouchdown recorded");
+                                            if (config.debug && stol.IsInit()) Console.WriteLine("TD Pos: " + stol.TouchdownPosition);
                                             form.setResult("Touchdown recorded");
+
+                                            double touchdowndist = stol.GetTouchdownDistance();
+                                            if (touchdowndist < 1)
+                                            {
+                                                stol.violations.Add(new STOLViolation("TouchdownLineViolation", touchdowndist));
+                                            }
                                         }
                                         break;
                                     }
                                 case CycleState.Rollout:
                                     {
+                                        double spin = GeoUtils.GetMinDeltaAngle((double)stol.InitialHeading, telemetrie.Heading);
+                                        stol.maxSpin = Math.Max((double) stol.maxSpin, Math.Abs(spin));
+                                        stol.maxBank = Math.Max((double) stol.maxBank, Math.Abs(telemetrie.bank));
+                                        double pitch = (double)(stol.InitialPitch - telemetrie.pitch);
+                                        stol.minPitch = Math.Min((double)stol.minPitch, pitch);
+
+                                        if (config.debug && stol.IsInit()) Console.WriteLine($"max spin: {stol.maxSpin}° max bank: {stol.maxBank}° max pitch: {stol.minPitch}°");
+
                                         if (plane.GroundSpeed < config.GroundspeedThreshold && plane.IsOnGround)
                                         {
                                             setState(CycleState.Hold);
@@ -355,8 +383,8 @@ namespace eSTOL_Training_Tool_Core.Core
         {
             if (presetTitle == "Open World") 
             {
-                Console.WriteLine("You selected Open World Mode.");
-                Console.WriteLine("set START position and heading.");
+                if (config.debug) Console.WriteLine("You selected Open World Mode.");
+                if (config.debug) Console.WriteLine("set START position and heading.");
                 preset = null;
                 stol.Reset();
                 openWorldMode = true;
@@ -365,7 +393,7 @@ namespace eSTOL_Training_Tool_Core.Core
 
             var selectedPreset = presets.Where(p => p.title == presetTitle).FirstOrDefault();
 
-            Console.WriteLine($"You selected: {selectedPreset.title}");
+            if (config.debug) Console.WriteLine($"You selected: {selectedPreset.title}");
             preset = selectedPreset;
             openWorldMode = false;
             stol.Reset();
@@ -390,14 +418,7 @@ namespace eSTOL_Training_Tool_Core.Core
             stol.InitialPitch = plane.pitch;
             stol.InitialPosition = plane.GetTelemetrie().Position;
             setState(CycleState.Hold);
-            Console.WriteLine($"STOL cycle initiated\nSTART: {GeoUtils.ConvertToDMS(stol.InitialPosition)} HDG: {Math.Round(stol.InitialHeading.Value)}°");
-
-            if(presetOutputEnable)
-            {
-                Console.WriteLine($"Debug - Geo: ({stol.InitialPosition.Latitude} {stol.InitialPosition.Longitude} {stol.InitialPosition.Altitude}) HDG: {Math.Round((double)stol.InitialHeading)}°");
-                NumberFormatInfo nfi = new CultureInfo("en-US", false).NumberFormat;
-                Console.WriteLine($"Preset JSON:\n{{\"title\": \"YOUR TITLE\", \"start_lat\": {stol.InitialPosition.Latitude.ToString("0.000000000000", nfi)}, \"start_long\": {stol.InitialPosition.Longitude.ToString("0.000000000000", nfi)}, \"start_alt\": {stol.InitialPosition.Altitude.ToString("0", nfi)}, \"start_hdg\": {stol.InitialHeading?.ToString("0", nfi)}}}");
-            }
+            if (config.debug) Console.WriteLine($"STOL cycle initiated\nSTART: {GeoUtils.ConvertToDMS(stol.InitialPosition)} HDG: {Math.Round(stol.InitialHeading.Value)}°");
         }
 
         public void TeleportToReferenceLine() 
