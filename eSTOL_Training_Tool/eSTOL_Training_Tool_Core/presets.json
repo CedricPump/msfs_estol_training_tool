@@ -30,7 +30,7 @@
 	{
 		"title": "KSTJ - St. Joseph S (Pony Express)",
 		"start_lat":   39.775342,
-		"start_long": -94.905872,
+		"start_long": -94.905552,
 		"start_alt":   249,
 		"start_hdg":   180
 	},
@@ -84,7 +84,7 @@
 		"start_hdg":    4
 	},
 	{
-		"title": "KPNA - Ralph Wenz Field NW (Rocky Mountain)",
+		"title": "TBD: KPNA - Ralph Wenz Field NW (Rocky Mountain)",
 		"start_lat":    42.792907,
 		"start_long": -109.801631,
 		"start_alt":  2154,
@@ -101,15 +101,15 @@
 		"title": "OL42 - Pocola SE (Arklahoma)",
 		"start_lat":   35.261874,
 		"start_long": -94.488691,
-		"start_alt":  127,
-		"start_hdg":  130
+		"start_alt":  130,
+		"start_hdg":  307
 	},
 	{
 		"title": "OL42 - Pocola NW (Arklahoma)",
 		"start_lat":   35.262900,
 		"start_long": -94.490263,
-		"start_alt":  130,
-		"start_hdg":  307
+		"start_alt":  129,
+		"start_hdg":  127
 	},
 	{
 		"title": "KXNX - Gallatin (Music City) N",
