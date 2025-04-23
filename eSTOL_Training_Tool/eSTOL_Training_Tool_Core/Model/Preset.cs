@@ -29,11 +29,9 @@ namespace eSTOL_Training_Tool_Core.Model
             return new GeoCoordinate(startLatitude, startLongitude, startAltitude);
         }
 
-        public static List<Preset> ReadPresets(string filePath)
+        public static List<Preset> ReadPresets(string filePath, string customFilePath)
         {
-            // Path to the JSON file
-            filePath = "presets.json";
-
+            List<Preset> presets = new List<Preset>();
             // Ensure the file exists
             if (!File.Exists(filePath))
             {
@@ -47,7 +45,16 @@ namespace eSTOL_Training_Tool_Core.Model
                 string json = File.ReadAllText(filePath);
 
                 // Deserialize JSON into a list of Presets
-                List<Preset> presets = JsonConvert.DeserializeObject<List<Preset>>(json);
+                presets = JsonConvert.DeserializeObject<List<Preset>>(json);
+
+                if(File.Exists(customFilePath))
+                {
+                    json = File.ReadAllText(customFilePath);
+                    List<Preset> custom = JsonConvert.DeserializeObject<List<Preset>>(json);
+                    presets.AddRange(custom);
+                }
+
+
                 return presets;
             }
             catch (Exception ex)

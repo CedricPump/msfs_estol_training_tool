@@ -303,7 +303,10 @@ namespace eSTOL_Training_Tool_Core.UI
 
         private void labelPreset_Click(object sender, EventArgs e)
         {
-
+            if(debug)
+            {
+                this.controller.reloadPreset();
+            }
         }
 
         private void checkBoxDebugging_CheckedChanged(object sender, EventArgs e)

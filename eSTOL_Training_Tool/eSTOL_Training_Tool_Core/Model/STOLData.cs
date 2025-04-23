@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Device.Location;
+using System.Security.Cryptography;
+using System.Text;
 using eSTOL_Training_Tool_Core.Model;
 
 namespace eSTOL_Training_Tool
@@ -73,7 +75,14 @@ namespace eSTOL_Training_Tool
 
         public string GetInitialPosHash()
         {
-            return $"{InitialPosition.Latitude:F8},{InitialPosition.Longitude:F8},{InitialHeading:F0}".GetHashCode().ToString("X");
+            return GetDeterministicHash($"{InitialPosition.Latitude:F6},{InitialPosition.Longitude:F6},{InitialHeading:F0}");
+        }
+
+        private static string GetDeterministicHash(string input)
+        {
+            using var sha256 = SHA256.Create();
+            byte[] hash = sha256.ComputeHash(Encoding.UTF8.GetBytes(input));
+            return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
         }
 
         public double GetDistanceTo(GeoCoordinate geoCoordinate)

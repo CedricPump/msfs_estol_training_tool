@@ -72,7 +72,6 @@ namespace eSTOL_Training_Tool_Core.Core
 
         public void Init()
         {
-
             GearOffset.LoadOffsetDict(this.config.OffsetPath);
 
             // Update once to trigger connect to sim
@@ -82,15 +81,27 @@ namespace eSTOL_Training_Tool_Core.Core
 
             //plane.SpawnObject("Cone",plane.Latitude,plane.Longitude,plane.Altitude);
 
+            if (config.debug) Console.WriteLine($"Using:\nType: \"{plane.Type}\"\nModel: \"{plane.Model}\"\nTitle: \"{plane.Title}\"\n");
 
-            if(config.debug) Console.WriteLine($"Using:\nType: \"{plane.Type}\"\nModel: \"{plane.Model}\"\nTitle: \"{plane.Title}\"\n");
+            LoadUser();
 
+            CheckForUpdate();
+
+            // Load presets
+            reloadPreset();
+
+            openWorldMode = true;
+            return;
+        }
+
+        private void LoadUser()
+        {
             if (!File.Exists(config.UserPath))
             {
                 // Disclaimer
                 string disclaimer = "Disclaimer:\nThis Tool is intended for training purposes only.\nThe numbers give a quick feedback and rough estimate of your performance.They do not guarantee any accuracy.\n"
                     + "Do not challenge any competition score based on this tools' estimation alone.\nMake sure to record your flight for any necessary score validation.\n\n";
-                Console.Write("\n"+disclaimer);
+                Console.Write("\n" + disclaimer);
 
                 MessageBox.Show(disclaimer);
 
@@ -100,6 +111,7 @@ namespace eSTOL_Training_Tool_Core.Core
                     "To stay anonymous, choose a random or pseudonymous name (e.g., a number or call sign)." +
                     "\nDo not use your real name or personal information.\n\n" +
                     "By entering a name, you agree that your telemetry and landing performance data will be temporarily stored for up to 30 days and may be shown on a public dashboard.\n" +
+                    "For more information, see the privacy policy: https://github.com/CedricPump/msfs_estol_training_tool/blob/main/doc/Privacy_Policy.md\n\n" +
                     "Input eSTOL Callsign or Pilot-Number: ");
                 string name = Console.ReadLine();
 
@@ -117,18 +129,6 @@ namespace eSTOL_Training_Tool_Core.Core
                 }
             }
             stol.user = user;
-
-            CheckForUpdate();
-
-            // Load presets
-            presets = Preset.ReadPresets(config.PresetsPath);
-            if (form != null)
-            {
-                form.setPresets(presets.Select(p => p.title).ToArray());
-            }
-
-            openWorldMode = true;
-            return;
         }
 
         private async void CheckForUpdate()
@@ -424,6 +424,16 @@ namespace eSTOL_Training_Tool_Core.Core
         public void TeleportToReferenceLine() 
         {           
             plane.setPosition(stol.InitialPosition, stol.InitialHeading ?? 0);
+        }
+
+        public void reloadPreset()
+        {
+            presets = Preset.ReadPresets(config.PresetsPath, config.CustomPresetsPath);
+            if (form != null)
+            {
+                form.setPresets(presets.Select(p => p.title).ToArray());
+            }
+            GearOffset.LoadOffsetDict(this.config.OffsetPath);
         }
     }
 }
