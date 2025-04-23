@@ -8,6 +8,7 @@ namespace eSTOL_Training_Tool_Core.Model
     public static class GearOffset
     {
         private static Dictionary<string, float> offsetDict = new();
+        private static float defaultOffset = -0.6f;
 
         public static void LoadOffsetDict(string filePath)
         {
@@ -24,7 +25,7 @@ namespace eSTOL_Training_Tool_Core.Model
 
         public static float getGearOffset(string aircraftType) 
         {
-            return offsetDict.GetValueOrDefault(aircraftType);
+            return offsetDict.GetValueOrDefault(aircraftType, defaultOffset);
         }
 
 
