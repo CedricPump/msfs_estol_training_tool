@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Device.Location;
+using System.Numerics;
 using System.Security.Cryptography;
 using System.Text;
 using eSTOL_Training_Tool_Core.Model;
@@ -180,15 +181,12 @@ namespace eSTOL_Training_Tool
             Reset();
             Console.WriteLine($"STOL cycle initiated: {GetInitialPosHash()}\nSTART: {GeoUtils.ConvertToDMS(InitialPosition)} HDG: {Math.Round(InitialHeading.Value)}°");
         }
-
-        public STOLData Copy() 
+        public STOLData Copy()
         {
             throw new NotImplementedException();
             return new STOLData();
-            
         }
     }
-
     public class STOLViolation 
     {
         public STOLViolation(string type = "", double value = 0.0) 
