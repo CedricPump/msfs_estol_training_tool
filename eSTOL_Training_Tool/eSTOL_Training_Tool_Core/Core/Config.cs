@@ -18,6 +18,7 @@ namespace eSTOL_Training_Tool_Core.Core
         public double GroundspeedThreshold { get; set; } = 0.7;
         public string ExportPath { get; set; } = "eSTOL_Training_Tool.csv";
         public string PresetsPath { get; set; } = "presets.json";
+        public string CustomPresetsPath { get; set; } = "custom_presets.json";
         public string OffsetPath { get; set; } = "GearOffset.json";
         public string UserPath { get; set; } = "user.txt";
         public string Unit { get; set; } = "meters";

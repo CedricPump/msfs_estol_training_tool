@@ -5,6 +5,7 @@
     "GroundspeedThreshold": 0.7,
     "ExportPath": "eSTOL_Training_Tool.csv",
     "PresetsPath": "presets.json",
+    "CustomPresetsPath": "custom_presets.json",
     "OffsetPath": "GearOffset.json",
     "UserPath": "user.txt",
     "Unit": "feet",

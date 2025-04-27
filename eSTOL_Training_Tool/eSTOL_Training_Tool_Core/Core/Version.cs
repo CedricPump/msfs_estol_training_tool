@@ -11,7 +11,7 @@ namespace eSTOL_Training_Tool_Core.Core
 {
     internal class VersionHelper
     {
-        private const string currentVersion = "v1.2.0";
+        private const string currentVersion = "v1.2.1";
         private const string githubApiUrl = "https://api.github.com/repos/CedricPump/msfs_estol_training_tool/releases/latest";
 
         public static async Task<string> CheckForUpdateAsync()

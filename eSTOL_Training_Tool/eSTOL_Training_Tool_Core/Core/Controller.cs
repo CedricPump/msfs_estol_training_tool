@@ -72,7 +72,6 @@ namespace eSTOL_Training_Tool_Core.Core
 
         public void Init()
         {
-
             GearOffset.LoadOffsetDict(this.config.OffsetPath);
 
             // Update once to trigger connect to sim
@@ -82,15 +81,27 @@ namespace eSTOL_Training_Tool_Core.Core
 
             //plane.SpawnObject("Cone",plane.Latitude,plane.Longitude,plane.Altitude);
 
+            
 
-            if(config.debug) Console.WriteLine($"Using:\nType: \"{plane.Type}\"\nModel: \"{plane.Model}\"\nTitle: \"{plane.Title}\"\n");
+            LoadUser();
 
+            CheckForUpdate();
+
+            // Load presets
+            reloadPreset();
+
+            openWorldMode = true;
+            return;
+        }
+
+        private void LoadUser()
+        {
             if (!File.Exists(config.UserPath))
             {
                 // Disclaimer
                 string disclaimer = "Disclaimer:\nThis Tool is intended for training purposes only.\nThe numbers give a quick feedback and rough estimate of your performance.They do not guarantee any accuracy.\n"
                     + "Do not challenge any competition score based on this tools' estimation alone.\nMake sure to record your flight for any necessary score validation.\n\n";
-                Console.Write("\n"+disclaimer);
+                Console.Write("\n" + disclaimer);
 
                 MessageBox.Show(disclaimer);
 
@@ -100,6 +111,7 @@ namespace eSTOL_Training_Tool_Core.Core
                     "To stay anonymous, choose a random or pseudonymous name (e.g., a number or call sign)." +
                     "\nDo not use your real name or personal information.\n\n" +
                     "By entering a name, you agree that your telemetry and landing performance data will be temporarily stored for up to 30 days and may be shown on a public dashboard.\n" +
+                    "For more information, see the privacy policy: https://github.com/CedricPump/msfs_estol_training_tool/blob/main/doc/Privacy_Policy.md\n\n" +
                     "Input eSTOL Callsign or Pilot-Number: ");
                 string name = Console.ReadLine();
 
@@ -117,18 +129,6 @@ namespace eSTOL_Training_Tool_Core.Core
                 }
             }
             stol.user = user;
-
-            CheckForUpdate();
-
-            // Load presets
-            presets = Preset.ReadPresets(config.PresetsPath);
-            if (form != null)
-            {
-                form.setPresets(presets.Select(p => p.title).ToArray());
-            }
-
-            openWorldMode = true;
-            return;
         }
 
         private async void CheckForUpdate()
@@ -185,7 +185,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                 influx.sendTelemetry(stol.user, plane);
 
                                 if (config.debug && stol.IsInit()) Console.WriteLine($"lat distance to line: {stol.GetDistanceTo(telemetrie.Position) * 3.28084} AGL: {telemetrie.AltitudeAGL}");
-                                if (config.debug && stol.IsInit() && ( telemetrie.mainWheelRPM > 1 || telemetrie.centerWheelRPM > 1)) Console.WriteLine($"Wheel RPM: main {telemetrie.mainWheelRPM} rear {telemetrie.centerWheelRPM}");
+                                if (config.debug && stol.IsInit()) Console.WriteLine($"Gear on Gorund - Main: {( plane.MainGearOnGround() ? 1 : 0 )} N/T: {(plane.TailNoseGearOnGround() ? 1 : 0)}");
                             }
                         }
 
@@ -194,7 +194,7 @@ namespace eSTOL_Training_Tool_Core.Core
                             switch (cycleState)
                             {
                                 case CycleState.Unknown:
-                                    if (plane.GroundSpeed < config.GroundspeedThreshold && plane.IsOnGround)
+                                    if (plane.GroundSpeed < config.GroundspeedThreshold && plane.MainGearOnGround())
                                     {
                                         // Console.WriteLine($"Debug - Geo: ({stol.InitialPosition.Latitude} {stol.InitialPosition.Longitude} {stol.InitialPosition.Altitude}) HDG: {Math.Round((double)stol.InitialHeading)}°");
                                         setState(CycleState.Hold);
@@ -202,7 +202,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                     break;
                                 case CycleState.Hold:
                                     {
-                                        if (plane.GroundSpeed > config.GroundspeedThreshold && plane.IsOnGround)
+                                        if (plane.GroundSpeed > config.GroundspeedThreshold && plane.MainGearOnGround())
                                         {
                                             setState(CycleState.Takeoff);
                                             stol.StartTime = DateTime.Now;
@@ -212,7 +212,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                     }
                                 case CycleState.Takeoff:
                                     {
-                                        if (!plane.IsOnGround)
+                                        if (!plane.MainGearOnGround())
                                         {
                                             setState(CycleState.Fly);
                                             stol.TakeoffPosition = telemetrie.Position;
@@ -221,7 +221,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                             form.setResult($"Takoff recorded: {(stol.GetTakeoffDistance() * 3.28084).ToString("0")} ft");
                                             if (config.debug && stol.IsInit()) Console.WriteLine("TO Pos: " + stol.TakeoffPosition);
                                         }
-                                        if (plane.GroundSpeed < config.GroundspeedThreshold && plane.IsOnGround)
+                                        if (plane.GroundSpeed < config.GroundspeedThreshold && plane.MainGearOnGround())
                                         {
                                             // parking or alignment
                                             setState(CycleState.Hold);
@@ -231,11 +231,11 @@ namespace eSTOL_Training_Tool_Core.Core
                                     }
                                 case CycleState.Fly:
                                     {
-                                        if (plane.IsOnGround && (plane.AltitudeAGL > AGLonGroundThreshold) && telemetrie.mainWheelRPM < 1 && telemetrie.centerWheelRPM > 1) Console.WriteLine("Dragging Tial, hope you are a Taildragger: " + plane.IsTaildragger);
+                                        if (plane.MainGearOnGround() && !plane.TailNoseGearOnGround()) Console.WriteLine("Dragging Tial, hope you are a Taildragger: " + plane.IsTaildragger);
 
                                         // Todo: check wheels spinning
 
-                                        if (plane.IsOnGround && (plane.AltitudeAGL < AGLonGroundThreshold || !plane.IsTaildragger))
+                                        if (plane.MainGearOnGround())
                                         {
                                             // Touchdown!!!
                                             setState(CycleState.Rollout);
@@ -277,7 +277,7 @@ namespace eSTOL_Training_Tool_Core.Core
 
                                         if (config.debug && stol.IsInit()) Console.WriteLine($"max spin: {stol.maxSpin}° max bank: {stol.maxBank}° max pitch: {stol.minPitch}°");
 
-                                        if (plane.GroundSpeed < config.GroundspeedThreshold && plane.IsOnGround)
+                                        if (plane.GroundSpeed < config.GroundspeedThreshold && plane.MainGearOnGround())
                                         {
                                             setState(CycleState.Hold);
                                             stol.StopPosition = telemetrie.Position;
@@ -313,8 +313,8 @@ namespace eSTOL_Training_Tool_Core.Core
                                                 Console.WriteLine("Unable to send result");
                                             }
                                         }
-                                        // Alt AGL > 5 fl to avoid bounce detection
-                                        if (!plane.IsOnGround && plane.AltitudeAGL > 10)
+                                        // Alt AGL > 5 ft to avoid bounce detection
+                                        if (!plane.MainGearOnGround() && plane.AltitudeAGL > 10)
                                         {
                                             // touch n go
                                             setState(CycleState.Fly);
@@ -322,6 +322,8 @@ namespace eSTOL_Training_Tool_Core.Core
                                             // stol.Reset();
                                             Console.WriteLine("Touch 'n' go recorded, try Again");
                                             form.setResult("Touch 'n' go recorded, try Again");
+
+
                                         }
                                         break;
                                     }
@@ -362,7 +364,7 @@ namespace eSTOL_Training_Tool_Core.Core
             {
                 case "PARKING_BRAKES":
                     {
-                        if (openWorldMode && plane.IsOnGround && plane.GroundSpeed < config.GroundspeedThreshold)
+                        if (openWorldMode && plane.MainGearOnGround() && plane.GroundSpeed < config.GroundspeedThreshold)
                         {
                             // initSTOL();
                         }
@@ -370,7 +372,7 @@ namespace eSTOL_Training_Tool_Core.Core
                     }
                 case "SMOKE_TOGGLE":
                     {
-                        if (openWorldMode && plane.IsOnGround && plane.GroundSpeed < config.GroundspeedThreshold)
+                        if (openWorldMode && plane.MainGearOnGround() && plane.GroundSpeed < config.GroundspeedThreshold)
                         {
                             // initSTOL();
                         }
@@ -398,6 +400,7 @@ namespace eSTOL_Training_Tool_Core.Core
             openWorldMode = false;
             stol.Reset();
             stol.ApplyPreset(preset);
+            if (config.debug) Console.WriteLine($"Using:\nType: \"{plane.Type}\"\nModel: \"{plane.Model}\"\nTitle: \"{plane.Title}\"\n");
         }
 
         public void SetStartPos()
@@ -419,11 +422,22 @@ namespace eSTOL_Training_Tool_Core.Core
             stol.InitialPosition = plane.GetTelemetrie().Position;
             setState(CycleState.Hold);
             if (config.debug) Console.WriteLine($"STOL cycle initiated\nSTART: {GeoUtils.ConvertToDMS(stol.InitialPosition)} HDG: {Math.Round(stol.InitialHeading.Value)}°");
+            if (config.debug) Console.WriteLine($"Using:\nType: \"{plane.Type}\"\nModel: \"{plane.Model}\"\nTitle: \"{plane.Title}\"\n");
         }
 
         public void TeleportToReferenceLine() 
         {           
             plane.setPosition(stol.InitialPosition, stol.InitialHeading ?? 0);
+        }
+
+        public void reloadPreset()
+        {
+            presets = Preset.ReadPresets(config.PresetsPath, config.CustomPresetsPath);
+            if (form != null)
+            {
+                form.setPresets(presets.Select(p => p.title).ToArray());
+            }
+            GearOffset.LoadOffsetDict(this.config.OffsetPath);
         }
     }
 }

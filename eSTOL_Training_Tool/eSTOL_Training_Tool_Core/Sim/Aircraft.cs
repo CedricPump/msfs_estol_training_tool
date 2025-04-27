@@ -53,6 +53,13 @@ namespace eSTOL_Training_Tool
         public double FuelPercent { get; private set; }
         public bool FuelUnlimited { get; private set; }
         public string Airport { get; private set; }
+
+        public bool ContactPointNoseTail { get; private set; }
+        public bool ContactPointLeft { get; private set; }
+        public bool ContactPointRight { get; private set; }
+        public bool ContactPointWingtip0 { get; private set; }
+        public bool ContactPointWingtip1 { get; private set; }
+
         // Env
         public double AltitudeAGL { get; private set; }
 
@@ -168,6 +175,21 @@ namespace eSTOL_Training_Tool
             };
         }
 
+        public bool MainGearOnGround()
+        {
+            return ContactPointLeft || ContactPointRight;
+        }
+
+        public bool TailNoseGearOnGround()
+        {
+            return ContactPointNoseTail;
+        }
+
+        public bool WingtipOnGround()
+        {
+            return ContactPointWingtip0 || ContactPointWingtip1;
+        }
+
         public AircraftState GetState()
         {
             return new AircraftState
@@ -239,7 +261,11 @@ namespace eSTOL_Training_Tool
             CreateDataDefinition("SIM DISABLED", "Bool");
             // Payload
             //CreateDataDefinition("PAYLOAD STATION COUNT", "number");
+
+            // Pilot Weight
             CreateDataDefinition("PAYLOAD STATION WEIGHT:1", "lbs");
+
+
             //CreateDataDefinition("PAYLOAD STATION WEIGHT:1", "lbs");
             //CreateDataDefinition("PAYLOAD STATION WEIGHT:2", "lbs");
             //CreateDataDefinition("PAYLOAD STATION WEIGHT:3", "lbs");
@@ -257,6 +283,13 @@ namespace eSTOL_Training_Tool
             //CreateDataDefinition("PAYLOAD STATION WEIGHT:13", "lbs");
             //CreateDataDefinition("PAYLOAD STATION WEIGHT:14", "lbs");
             //CreateDataDefinition("PAYLOAD STATION WEIGHT:15", "lbs");
+
+            CreateDataDefinition("CONTACT POINT IS ON GROUND:0", "Bool");
+            CreateDataDefinition("CONTACT POINT IS ON GROUND:1", "Bool");
+            CreateDataDefinition("CONTACT POINT IS ON GROUND:2", "Bool");
+            CreateDataDefinition("CONTACT POINT IS ON GROUND:3", "Bool");
+            CreateDataDefinition("CONTACT POINT IS ON GROUND:4", "Bool");
+            CreateDataDefinition("CONTACT POINT IS ON GROUND:8", "Bool");
 
             CreateDataDefinition("TOTAL WEIGHT", "lbs");
             CreateDataDefinition("MAX GROSS WEIGHT", "lbs");
@@ -617,7 +650,31 @@ namespace eSTOL_Training_Tool
                             AuxWheelRPM = (double)data.dwData[0];
                             break;
                         }
-
+                    case "CONTACT POINT IS ON GROUND:0":
+                        {
+                            ContactPointNoseTail = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:1":
+                        {
+                            ContactPointLeft = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:2":
+                        {
+                            ContactPointRight = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:3":
+                        {
+                            ContactPointWingtip0 = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:4":
+                        {
+                            ContactPointWingtip1 = (double)data.dwData[0] > 0;
+                            break;
+                        }
 
 
                     default:
