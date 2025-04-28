@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Reactive;
 using System.Windows.Forms;
 using eSTOL_Training_Tool;
 using eSTOL_Training_Tool_Core.Core;
@@ -21,6 +22,8 @@ namespace eSTOL_Training_Tool_Core.UI
         public FormUI(Controller controller)
         {
             InitializeComponent();
+            var config = Config.GetInstance();
+            alwaysontop = config.alwaysOnTop;
 
             this.Text = "eSTOL Training Tool " + VersionHelper.GetVersion();
 
@@ -33,14 +36,19 @@ namespace eSTOL_Training_Tool_Core.UI
             comboBoxUnit.Items.Add("feet");
             comboBoxUnit.Items.Add("meters");
             comboBoxUnit.Items.Add("yard");
-            comboBoxUnit.Text = "feet";
+            comboBoxUnit.Text = config.Unit;
             // comboBoxUnit.Items.Add("yard");
 
             this.stopwatch = new System.Diagnostics.Stopwatch();
             this.progressBarStopwatch.Minimum = 0;
             this.progressBarStopwatch.Maximum = 180;
 
+            this.checkBoxOntop.Checked = alwaysontop;
             this.TopMost = alwaysontop;
+
+            this.checkBoxResult.Checked = config.isSendResults;
+            this.checkBoxTelemetry.Checked = config.isSendTelemetry;
+
             this.numericUpDownStopwatchOffest.Value = stopwatchOffsetSeconds;
         }
 
@@ -225,17 +233,28 @@ namespace eSTOL_Training_Tool_Core.UI
         private void comboBoxUnit_SelectedIndexChanged(object sender, EventArgs e)
         {
             string unit = comboBoxUnit.Text;
+            var config = Config.GetInstance();
+            config.Unit = unit;
+            config.Save();
             controller.setUnit(unit);
         }
 
         private void checkBoxResult_CheckedChanged(object sender, EventArgs e)
         {
-            controller.issendResults = checkBoxResult.Checked;
+            var config = Config.GetInstance();
+            config.isSendResults = checkBoxResult.Checked;
+            if (config.isSendResults) MessageBox.Show("By enabeling, you agree that your landing result data will be temporarily stored for up to 30 days and may be shown on a public dashboard.\n" +
+                "For more information, see the privacy policy: https://github.com/CedricPump/msfs_estol_training_tool/blob/main/doc/Privacy_Policy.md");
+            config.Save();
         }
 
         private void checkBoxTelemetry_CheckedChanged(object sender, EventArgs e)
         {
-            controller.issendTelemetry = checkBoxTelemetry.Checked;
+            var config = Config.GetInstance();
+            config.isSendTelemetry = checkBoxTelemetry.Checked;
+            if(config.isSendTelemetry) MessageBox.Show("By enabeling, you agree that your ingame telemetry data will be temporarily stored for up to 30 days and may be shown on a public dashboard.\n" +
+                "For more information, see the privacy policy: https://github.com/CedricPump/msfs_estol_training_tool/blob/main/doc/Privacy_Policy.md");
+            config.Save();
         }
 
         private void Timer(object sender, EventArgs e)
@@ -294,6 +313,10 @@ namespace eSTOL_Training_Tool_Core.UI
         {
             this.alwaysontop = checkBoxOntop.Checked;
             this.TopMost = this.alwaysontop;
+            var config = Config.GetInstance();
+            config.alwaysOnTop = this.alwaysontop;
+            config.Save();
+
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)

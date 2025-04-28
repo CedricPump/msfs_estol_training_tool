@@ -12,6 +12,7 @@ namespace eSTOL_Training_Tool_Core.Core
     {
         private const string ConfigFilePath = "config.json";
 
+
         public int IdleRefreshInterval { get; set; } = 10000;
         public int RefreshInterval { get; set; } = 250;
         public int TelemetrySendInterval { get; set; } = 3;
@@ -21,11 +22,14 @@ namespace eSTOL_Training_Tool_Core.Core
         public string CustomPresetsPath { get; set; } = "custom_presets.json";
         public string OffsetPath { get; set; } = "GearOffset.json";
         public string UserPath { get; set; } = "user.txt";
-        public string Unit { get; set; } = "meters";
+        public string Unit { get; set; } = "feet";
         public string TrikeFile { get; set; } = "Trikes.csv";
         public string[] trikesTypes { get; set; } = [];
-
         public bool debug { get; set; } = false;
+        public bool alwaysOnTop { get; set; } = false;
+        public bool isSendTelemetry { get; set; } = false;
+        public bool isSendResults { get; set; } = false;
+
 
         private static Config instance = null;
 
@@ -75,7 +79,14 @@ namespace eSTOL_Training_Tool_Core.Core
         {
             var options = new JsonSerializerOptions { WriteIndented = true };
             string json = JsonSerializer.Serialize(this, options);
-            File.WriteAllText(ConfigFilePath, json);
+            try
+            {
+                File.WriteAllText(ConfigFilePath, json);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("unable to save config"); 
+            }
         }
     }
 }

@@ -59,9 +59,6 @@
 </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Update="config.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="GearOffset.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
