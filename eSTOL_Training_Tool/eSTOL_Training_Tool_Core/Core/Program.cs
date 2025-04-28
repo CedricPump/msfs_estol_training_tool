@@ -11,9 +11,6 @@ namespace Bombathlon
         static void Main(string[] args)
         {
             // Influx.GetInstance().deletAll();
-
-
-
             Console.WriteLine(
                 "┌─────────────────────┐\n" +
                 "│ eSTOL Training Tool │\n" +
@@ -25,7 +22,6 @@ namespace Bombathlon
             {
                 controller.Run(); // Run the loop in the background
             });
-
 
             ApplicationConfiguration.Initialize();
             var form = new FormUI(controller);

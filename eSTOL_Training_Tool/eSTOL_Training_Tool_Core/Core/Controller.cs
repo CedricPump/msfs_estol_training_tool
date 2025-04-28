@@ -17,6 +17,7 @@ namespace eSTOL_Training_Tool_Core.Core
         Park,
         Taxi,
         Takeoff,
+        Climbout,
         Fly,
         Land,
         Rollout,
@@ -39,10 +40,9 @@ namespace eSTOL_Training_Tool_Core.Core
         MyInflux influx = MyInflux.GetInstance();
         FormUI? form;
         string unit;
-        public bool issendResults = true;
-        public bool issendTelemetry = true;
         DateTime lastTelemetrieTime = DateTime.MinValue;
         double AGLonGroundThreshold = 0.3; // ft
+        double fieldLength = 600;
         bool debug = false;
 
         public Controller()
@@ -76,12 +76,8 @@ namespace eSTOL_Training_Tool_Core.Core
 
             // Update once to trigger connect to sim
             plane.Update();
-            while (!plane.isInit) { plane.Update(); System.Threading.Thread.Sleep(330); };
-            while (plane.Title == null) { plane.Update(); System.Threading.Thread.Sleep(330); };
 
             //plane.SpawnObject("Cone",plane.Latitude,plane.Longitude,plane.Altitude);
-
-            
 
             LoadUser();
 
@@ -173,16 +169,36 @@ namespace eSTOL_Training_Tool_Core.Core
                 try
                 {
                     plane.Update();
+                    if(!plane.isInit) { 
+                        plane.Update();
+                        System.Threading.Thread.Sleep(330);
+                        continue;
+                    };
+
+                    if (plane.Title == null)
+                    {
+                        plane.Update();
+                        System.Threading.Thread.Sleep(330);
+                        continue;
+                    };
+
                     if (plane.IsSimConnectConnected && !plane.SimDisabled)
                     {
-                        //Console.WriteLine(cycleState);
                         Telemetrie telemetrie = plane.GetTelemetrie();
-                        if (issendTelemetry && stol.user != null && stol.user != "")
+                        // send telemetry and write debug
+                        if (config.isSendTelemetry && stol.user != null && stol.user != "")
                         {
                             if (DateTime.Now - lastTelemetrieTime > TimeSpan.FromSeconds(config.TelemetrySendInterval))
                             {
                                 lastTelemetrieTime = DateTime.Now;
-                                influx.sendTelemetry(stol.user, plane);
+                                try
+                                {
+                                    influx.sendTelemetry(stol.user, plane);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine("Unable to send telemetry - check update");
+                                }
 
                                 if (config.debug && stol.IsInit()) Console.WriteLine($"lat distance to line: {stol.GetDistanceTo(telemetrie.Position) * 3.28084} AGL: {telemetrie.AltitudeAGL}");
                                 if (config.debug && stol.IsInit()) Console.WriteLine($"Gear on Gorund - Main: {( plane.MainGearOnGround() ? 1 : 0 )} N/T: {(plane.TailNoseGearOnGround() ? 1 : 0)}");
@@ -196,15 +212,23 @@ namespace eSTOL_Training_Tool_Core.Core
                                 case CycleState.Unknown:
                                     if (plane.GroundSpeed < config.GroundspeedThreshold && plane.MainGearOnGround())
                                     {
-                                        // Console.WriteLine($"Debug - Geo: ({stol.InitialPosition.Latitude} {stol.InitialPosition.Longitude} {stol.InitialPosition.Altitude}) HDG: {Math.Round((double)stol.InitialHeading)}°");
                                         setState(CycleState.Hold);
                                     }
                                     break;
                                 case CycleState.Hold:
                                     {
+                                        // on start roll -> State Takeoff
                                         if (plane.GroundSpeed > config.GroundspeedThreshold && plane.MainGearOnGround())
                                         {
                                             setState(CycleState.Takeoff);
+                                            stol.StartTime = DateTime.Now;
+                                            this.form.StartStopWatch();
+                                        }
+
+                                        // on (vertical) Takeoff -> State Takeoff
+                                        if (!plane.MainGearOnGround())
+                                        {
+                                            setState(CycleState.Climbout);
                                             stol.StartTime = DateTime.Now;
                                             this.form.StartStopWatch();
                                         }
@@ -212,15 +236,18 @@ namespace eSTOL_Training_Tool_Core.Core
                                     }
                                 case CycleState.Takeoff:
                                     {
+                                        // on Takeoff -> State Climbout
                                         if (!plane.MainGearOnGround())
                                         {
-                                            setState(CycleState.Fly);
+                                            setState(CycleState.Climbout);
                                             stol.TakeoffPosition = telemetrie.Position;
                                             stol.TakeoffTime = DateTime.Now;
                                             if (config.debug) Console.WriteLine($"Takoff recorded: {(stol.GetTakeoffDistance() * 3.28084).ToString("0")} ft");
                                             form.setResult($"Takoff recorded: {(stol.GetTakeoffDistance() * 3.28084).ToString("0")} ft");
                                             if (config.debug && stol.IsInit()) Console.WriteLine("TO Pos: " + stol.TakeoffPosition);
                                         }
+
+                                        // stopping -> State Hold
                                         if (plane.GroundSpeed < config.GroundspeedThreshold && plane.MainGearOnGround())
                                         {
                                             // parking or alignment
@@ -229,12 +256,29 @@ namespace eSTOL_Training_Tool_Core.Core
                                         }
                                             break;
                                     }
+                                case CycleState.Climbout:
+                                    {
+                                        // field length exceeded -> State Fly
+                                        if(stol.GetDistanceTo(telemetrie.Position) * 3.28084 > fieldLength) 
+                                        {
+                                            setState(CycleState.Fly);
+                                            break;
+                                        }
+
+                                        // touchdown -> State Takeoff
+                                        if (plane.MainGearOnGround())
+                                        {
+                                            setState(CycleState.Takeoff);
+                                            break;
+                                        }
+                                        break;
+                                    }
                                 case CycleState.Fly:
                                     {
+                                        // Taildragging Debug
                                         if (plane.MainGearOnGround() && !plane.TailNoseGearOnGround()) Console.WriteLine("Dragging Tial, hope you are a Taildragger: " + plane.IsTaildragger);
 
-                                        // Todo: check wheels spinning
-
+                                        // Touchdown -> State Rollout
                                         if (plane.MainGearOnGround())
                                         {
                                             // Touchdown!!!
@@ -269,6 +313,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                     }
                                 case CycleState.Rollout:
                                     {
+                                        // record attitude on rollout
                                         double spin = GeoUtils.GetMinDeltaAngle((double)stol.InitialHeading, telemetrie.Heading);
                                         stol.maxSpin = Math.Max((double) stol.maxSpin, Math.Abs(spin));
                                         stol.maxBank = Math.Max((double) stol.maxBank, Math.Abs(telemetrie.bank));
@@ -277,6 +322,7 @@ namespace eSTOL_Training_Tool_Core.Core
 
                                         if (config.debug && stol.IsInit()) Console.WriteLine($"max spin: {stol.maxSpin}° max bank: {stol.maxBank}° max pitch: {stol.minPitch}°");
 
+                                        // stopping -> Hold
                                         if (plane.GroundSpeed < config.GroundspeedThreshold && plane.MainGearOnGround())
                                         {
                                             setState(CycleState.Hold);
@@ -306,11 +352,11 @@ namespace eSTOL_Training_Tool_Core.Core
                                             try
                                             {
                                                 // send influx
-                                                if (issendResults && user != null && user != "") influx.sendData(result);
+                                                if (config.isSendResults && user != null && user != "") influx.sendData(result);
                                             }
                                             catch
                                             {
-                                                Console.WriteLine("Unable to send result");
+                                                Console.WriteLine("Unable to send result - check update");
                                             }
                                         }
                                         // Alt AGL > 5 ft to avoid bounce detection
@@ -318,12 +364,8 @@ namespace eSTOL_Training_Tool_Core.Core
                                         {
                                             // touch n go
                                             setState(CycleState.Fly);
-                                            // stol.Retry();
-                                            // stol.Reset();
                                             Console.WriteLine("Touch 'n' go recorded, try Again");
                                             form.setResult("Touch 'n' go recorded, try Again");
-
-
                                         }
                                         break;
                                     }
@@ -331,7 +373,7 @@ namespace eSTOL_Training_Tool_Core.Core
                         }
                         else
                         {
-
+                            // wait until stol is init
                         }
                         lastTelemetrie = telemetrie;
                     }
