@@ -394,7 +394,7 @@ namespace eSTOL_Training_Tool_Core.UI
             g.DrawEllipse(Pens.Black, 2, 2, 60, 60);
 
             // Convert to canvas angle (0° = up, rotate clockwise)
-            double windDirTo = (WindDir + 0) % 360;
+            double windDirTo = (WindDir + 180) % 360;
             double angleRad = (windDirTo - 90) * Math.PI / 180.0;
 
             float centerX = 32;
@@ -405,10 +405,10 @@ namespace eSTOL_Training_Tool_Core.UI
             float dx = (float)(Math.Cos(angleRad) * length);
             float dy = (float)(Math.Sin(angleRad) * length);
 
-            PointF start = new PointF(centerX - dx, centerY - dy); // tail
-            PointF end = new PointF(centerX + dx, centerY + dy);   // arrowhead
+            PointF start = new PointF(centerX + dx, centerY - dy); // tail
+            PointF end = new PointF(centerX - dx, centerY + dy);   // arrowhead
 
-            g.DrawLine(arrowPen, start, end);
+            g.DrawLine(arrowPen,  start, end);
         }
 
 
