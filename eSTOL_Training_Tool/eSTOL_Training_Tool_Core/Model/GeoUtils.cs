@@ -126,19 +126,23 @@ namespace eSTOL_Training_Tool
             return (xRunway, yRunway);
         }
 
-        public static (double distanceAtAxis, double offsetFromAxis) GetDistanceAlongAxis(GeoCoordinate origin, GeoCoordinate point, double headingDegrees)
+        public static (double distanceAtAxis, double offsetFromAxis) GetDistanceAlongAxis(
+            GeoCoordinate origin,
+            GeoCoordinate point,
+            double headingDegrees)
         {
             double distance = origin.GetDistanceTo(point);
             double angleToPoint = GetHeading(origin, point);
-            double deltaAngle = GetMinDeltaAngle(angleToPoint, headingDegrees) * Math.PI / 180; // Delta-Winkel in Bogenmaß
+            double deltaAngle = GetSignedDeltaAngle(headingDegrees, angleToPoint) * Math.PI / 180;
 
-            // Projektionen berechnen
+            // Projections
             double distanceAtAxis = distance * Math.Cos(deltaAngle);
-
-            double offsetFromAxis = distance * Math.Sin(deltaAngle);
+            double offsetFromAxis = distance * Math.Sin(deltaAngle); // now signed
 
             return (distanceAtAxis, offsetFromAxis);
         }
+
+
 
         public static double GetMinDeltaAngle(double angle1, double angle2)
         {
@@ -157,6 +161,14 @@ namespace eSTOL_Training_Tool
 
             return delta;
         }
+
+        public static double GetSignedDeltaAngle(double fromAngle, double toAngle)
+        {
+            // Normalize to [-180, +180)
+            double delta = (toAngle - fromAngle + 540) % 360 - 180;
+            return delta;
+        }
+
 
         public static string ConvertToDMS(GeoCoordinate coordinate)
         {

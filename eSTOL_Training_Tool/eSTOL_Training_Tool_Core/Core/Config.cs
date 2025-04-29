@@ -29,6 +29,7 @@ namespace eSTOL_Training_Tool_Core.Core
         public bool alwaysOnTop { get; set; } = false;
         public bool isSendTelemetry { get; set; } = false;
         public bool isSendResults { get; set; } = false;
+        public int uiRefreshIntervall { get; set; } = 1000;
 
 
         private static Config instance = null;

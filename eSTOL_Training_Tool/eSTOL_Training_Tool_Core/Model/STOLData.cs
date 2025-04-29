@@ -107,6 +107,12 @@ namespace eSTOL_Training_Tool
 
             result.PatternTime = (TimeSpan) (TouchdownTime - TakeoffTime);
 
+            result.InitialPosition = InitialPosition;
+            result.InitialHeading = (double) InitialHeading;
+            result.StopPosition = StopPosition;
+            result.TakeoffPosition = TakeoffPosition;
+            result.TouchdownPosition = TouchdownPosition;
+
             result.Takeoffdist = Math.Round(GetWithUnit(GetTakeoffDistance(), unit));
             result.Touchdowndist = Math.Round(GetWithUnit(GetTouchdownDistance(), unit));
             result.Stoppingdist = Math.Round(GetWithUnit(GetStoppingDistance(), unit));
@@ -212,6 +218,11 @@ namespace eSTOL_Training_Tool
         public DateTime time;
         public string User;
         public string planeType;
+        public GeoCoordinate InitialPosition;
+        public GeoCoordinate TakeoffPosition;
+        public GeoCoordinate TouchdownPosition;
+        public GeoCoordinate StopPosition;
+        public double InitialHeading;
         public double Takeoffdist;
         public double Touchdowndist;
         public double Stoppingdist;
@@ -248,7 +259,6 @@ namespace eSTOL_Training_Tool
                 $"TD Grnd-Speed        {GrndSpeed} knots\r\n" +
                 $"TD Vert-Speed        {VSpeed} ft/min\r\n" +
                 $"TD G-Force           {GForce} G\r\n" +
-                $"Start:               {InitHash}\r\n" +
                 $"-----------------------------------\r\n" +
                 $"Score:               {Score}\r\n" +
                 $"===================================\r\n";

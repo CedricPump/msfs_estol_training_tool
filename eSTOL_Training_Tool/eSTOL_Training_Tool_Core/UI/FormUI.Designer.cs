@@ -54,6 +54,9 @@
             numericUpDownStopwatchOffest = new System.Windows.Forms.NumericUpDown();
             label2 = new System.Windows.Forms.Label();
             checkBoxDebugging = new System.Windows.Forms.CheckBox();
+            panel1 = new System.Windows.Forms.Panel();
+            labelWind = new System.Windows.Forms.Label();
+            label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)numericUpDownStopwatchOffest).BeginInit();
             SuspendLayout();
             // 
@@ -75,7 +78,7 @@
             textBoxResult.Multiline = true;
             textBoxResult.Name = "textBoxResult";
             textBoxResult.ReadOnly = true;
-            textBoxResult.Size = new System.Drawing.Size(463, 616);
+            textBoxResult.Size = new System.Drawing.Size(463, 618);
             textBoxResult.TabIndex = 1;
             // 
             // textBoxUser
@@ -146,7 +149,7 @@
             // textBoxStatus
             // 
             textBoxStatus.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            textBoxStatus.Location = new System.Drawing.Point(12, 649);
+            textBoxStatus.Location = new System.Drawing.Point(12, 651);
             textBoxStatus.Name = "textBoxStatus";
             textBoxStatus.ReadOnly = true;
             textBoxStatus.Size = new System.Drawing.Size(729, 23);
@@ -168,12 +171,14 @@
             // 
             // panel
             // 
-            panel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            panel.Location = new System.Drawing.Point(481, 27);
+            panel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            panel.BackgroundImage = (System.Drawing.Image)resources.GetObject("panel.BackgroundImage");
+            panel.Location = new System.Drawing.Point(481, 29);
             panel.Name = "panel";
             panel.Size = new System.Drawing.Size(260, 616);
             panel.TabIndex = 10;
             panel.Paint += panel_Paint;
+            panel.Resize += panel_Resize;
             // 
             // comboBoxUnit
             // 
@@ -223,7 +228,7 @@
             labelStopwatch.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             labelStopwatch.AutoSize = true;
             labelStopwatch.Font = new System.Drawing.Font("Consolas", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            labelStopwatch.Location = new System.Drawing.Point(749, 594);
+            labelStopwatch.Location = new System.Drawing.Point(749, 596);
             labelStopwatch.Name = "labelStopwatch";
             labelStopwatch.Size = new System.Drawing.Size(132, 41);
             labelStopwatch.TabIndex = 14;
@@ -233,7 +238,7 @@
             // progressBarStopwatch
             // 
             progressBarStopwatch.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            progressBarStopwatch.Location = new System.Drawing.Point(747, 648);
+            progressBarStopwatch.Location = new System.Drawing.Point(747, 650);
             progressBarStopwatch.Name = "progressBarStopwatch";
             progressBarStopwatch.Size = new System.Drawing.Size(210, 23);
             progressBarStopwatch.TabIndex = 15;
@@ -241,7 +246,7 @@
             // buttonStartStopwatch
             // 
             buttonStartStopwatch.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            buttonStartStopwatch.Location = new System.Drawing.Point(881, 611);
+            buttonStartStopwatch.Location = new System.Drawing.Point(881, 613);
             buttonStartStopwatch.Name = "buttonStartStopwatch";
             buttonStartStopwatch.Size = new System.Drawing.Size(76, 24);
             buttonStartStopwatch.TabIndex = 16;
@@ -253,7 +258,7 @@
             // 
             label1.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(828, 530);
+            label1.Location = new System.Drawing.Point(828, 532);
             label1.Name = "label1";
             label1.Size = new System.Drawing.Size(129, 30);
             label1.TabIndex = 17;
@@ -262,7 +267,7 @@
             // button1
             // 
             button1.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            button1.Location = new System.Drawing.Point(882, 592);
+            button1.Location = new System.Drawing.Point(882, 594);
             button1.Name = "button1";
             button1.Size = new System.Drawing.Size(75, 23);
             button1.TabIndex = 18;
@@ -285,7 +290,7 @@
             // numericUpDownStopwatchOffest
             // 
             numericUpDownStopwatchOffest.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            numericUpDownStopwatchOffest.Location = new System.Drawing.Point(749, 563);
+            numericUpDownStopwatchOffest.Location = new System.Drawing.Point(749, 565);
             numericUpDownStopwatchOffest.Name = "numericUpDownStopwatchOffest";
             numericUpDownStopwatchOffest.Size = new System.Drawing.Size(208, 23);
             numericUpDownStopwatchOffest.TabIndex = 20;
@@ -296,7 +301,7 @@
             // 
             label2.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             label2.AutoSize = true;
-            label2.Location = new System.Drawing.Point(749, 545);
+            label2.Location = new System.Drawing.Point(749, 547);
             label2.Name = "label2";
             label2.Size = new System.Drawing.Size(39, 15);
             label2.TabIndex = 21;
@@ -314,11 +319,45 @@
             checkBoxDebugging.UseVisualStyleBackColor = true;
             checkBoxDebugging.CheckedChanged += checkBoxDebugging_CheckedChanged;
             // 
+            // panel1
+            // 
+            panel1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            panel1.Location = new System.Drawing.Point(749, 300);
+            panel1.Name = "panel1";
+            panel1.Size = new System.Drawing.Size(64, 64);
+            panel1.TabIndex = 23;
+            panel1.Paint += panelWind_Paint;
+            // 
+            // labelWind
+            // 
+            labelWind.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            labelWind.AutoSize = true;
+            labelWind.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            labelWind.Location = new System.Drawing.Point(819, 339);
+            labelWind.Name = "labelWind";
+            labelWind.Size = new System.Drawing.Size(60, 25);
+            labelWind.TabIndex = 24;
+            labelWind.Text = "--,- ft";
+            labelWind.Click += label3_Click;
+            // 
+            // label3
+            // 
+            label3.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            label3.AutoSize = true;
+            label3.Location = new System.Drawing.Point(819, 324);
+            label3.Name = "label3";
+            label3.Size = new System.Drawing.Size(35, 15);
+            label3.TabIndex = 25;
+            label3.Text = "Wind";
+            // 
             // FormUI
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(969, 683);
+            ClientSize = new System.Drawing.Size(969, 685);
+            Controls.Add(label3);
+            Controls.Add(labelWind);
+            Controls.Add(panel1);
             Controls.Add(checkBoxDebugging);
             Controls.Add(label2);
             Controls.Add(numericUpDownStopwatchOffest);
@@ -376,5 +415,8 @@
         private System.Windows.Forms.NumericUpDown numericUpDownStopwatchOffest;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox checkBoxDebugging;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label labelWind;
+        private System.Windows.Forms.Label label3;
     }
 }
