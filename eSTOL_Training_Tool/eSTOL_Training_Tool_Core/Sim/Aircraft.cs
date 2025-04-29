@@ -6,6 +6,7 @@ using eSTOL_Training_Tool.Model;
 using eSTOL_Training_Tool_Core.Core;
 using eSTOL_Training_Tool_Core.Model;
 using Microsoft.FlightSimulator.SimConnect;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace eSTOL_Training_Tool
 {
@@ -74,6 +75,10 @@ namespace eSTOL_Training_Tool
         public double PilotWeight { get; private set; }
         public double TotalWeight { get; private set; }
         public double MaxTotalWeight { get; private set; }
+
+        // Ambient
+        public double WindX { get; private set; }
+        public double WindY { get; private set; }
 
         public bool IsTaildragger { get
             {
@@ -189,6 +194,22 @@ namespace eSTOL_Training_Tool
         {
             return ContactPointWingtip0 || ContactPointWingtip1;
         }
+        public double getWindTotal()
+        {
+            return Math.Sqrt(WindX * WindX + WindY * WindY);
+        }
+
+        public double getRelDir()
+        {
+            double angleRad = Math.Atan2(WindX, -WindY); // flip windX to get tailwind at 0°
+            double angleDeg = angleRad * (180.0 / Math.PI);
+
+            // Normalize to [0, 360)
+            if (angleDeg < 0)
+                angleDeg += 360;
+
+            return angleDeg;
+        }
 
         public AircraftState GetState()
         {
@@ -293,6 +314,11 @@ namespace eSTOL_Training_Tool
 
             CreateDataDefinition("TOTAL WEIGHT", "lbs");
             CreateDataDefinition("MAX GROSS WEIGHT", "lbs");
+
+            // Ambient
+            CreateDataDefinition("AIRCRAFT WIND X", "knots");
+            CreateDataDefinition("AIRCRAFT WIND Y", "knots");
+
 
             RegiserDefinitions();
 
@@ -675,8 +701,16 @@ namespace eSTOL_Training_Tool
                             ContactPointWingtip1 = (double)data.dwData[0] > 0;
                             break;
                         }
-
-
+                    case "AIRCRAFT WIND X":
+                        {
+                            WindX = (double)data.dwData[0];
+                            break;
+                        }
+                    case "AIRCRAFT WIND Y":
+                        {
+                            WindY = (double)data.dwData[0];
+                            break;
+                        }
                     default:
                         {
                             break;

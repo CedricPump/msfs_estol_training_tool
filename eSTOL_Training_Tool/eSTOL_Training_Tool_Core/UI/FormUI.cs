@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Device.Location;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Reactive;
 using System.Windows.Forms;
 using eSTOL_Training_Tool;
 using eSTOL_Training_Tool_Core.Core;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace eSTOL_Training_Tool_Core.UI
 {
@@ -18,6 +21,16 @@ namespace eSTOL_Training_Tool_Core.UI
         private bool alwaysontop = false;
         private int stopwatchOffsetSeconds = 30;
         private bool debug = false;
+        private object drawing = new object();
+
+        // stol ref
+        private GeoCoordinate InitailPos = null;
+        private GeoCoordinate PlanePos = null;
+        private double InitialHeading = 0.0;
+
+        private double WindDir = 0.0;
+
+        public double Wind { get; private set; }
 
         public FormUI(Controller controller)
         {
@@ -138,97 +151,107 @@ namespace eSTOL_Training_Tool_Core.UI
             panel.BackColor = Color.FromArgb(0, 128, 0); // Dark Green
         }
 
+        private void panel_Resize(object sender, EventArgs e)
+        {
+            panel.Invalidate(); // Triggers Paint event
+        }
+
         private void panel_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.Clear(Color.FromArgb(0, 128, 0));
-            Graphics g = e.Graphics;
-
-            int fieldStart = 5;
-            int fieldWidth = 250;
-            int fieldLength = 600;
-
-            // Create a pen (color, thickness)
-            Pen whitePen = new Pen(Color.White, 3);
-            Pen redPen = new Pen(Color.Red, 3);
-            Pen BluePen = new Pen(Color.Blue, 3);
-            Pen orangePen = new Pen(Color.Orange, 3);
-            Pen yellowPen = new Pen(Color.Yellow, 3);
-            Pen blackPen = new Pen(Color.Black, 5);
-
-            whitePen = new Pen(Color.White, 3);
-            g.DrawLine(whitePen, 5, 25, 255, 25);
-            g.DrawLine(whitePen, 5, 45, 255, 45);
-            g.DrawLine(whitePen, 5, 65, 255, 65);
-            g.DrawLine(whitePen, 5, 85, 255, 85);
-            g.DrawLine(redPen, 5, 105, 255, 105);
-            g.DrawLine(whitePen, 5, 125, 255, 125);
-            g.DrawLine(whitePen, 5, 145, 255, 145);
-            g.DrawLine(whitePen, 5, 165, 255, 165);
-            g.DrawLine(whitePen, 5, 185, 255, 185);
-            g.DrawLine(redPen, 5, 205, 255, 205);
-            g.DrawLine(whitePen, 5, 225, 255, 225);
-            g.DrawLine(whitePen, 5, 245, 255, 245);
-            g.DrawLine(whitePen, 5, 265, 255, 265);
-            g.DrawLine(whitePen, 5, 285, 255, 285);
-            g.DrawLine(redPen, 5, 305, 255, 305);
-            g.DrawLine(whitePen, 5, 325, 255, 325);
-            g.DrawLine(whitePen, 5, 345, 255, 345);
-            g.DrawLine(whitePen, 5, 365, 255, 365);
-            g.DrawLine(whitePen, 5, 385, 255, 385);
-            g.DrawLine(redPen, 5, 405, 255, 405);
-            g.DrawLine(whitePen, 5, 425, 255, 425);
-            g.DrawLine(whitePen, 5, 445, 255, 445);
-            g.DrawLine(whitePen, 5, 465, 255, 465);
-            g.DrawLine(whitePen, 5, 485, 255, 485);
-            g.DrawLine(redPen, 5, 505, 255, 505);
-            g.DrawLine(whitePen, 5, 525, 255, 525);
-            g.DrawLine(whitePen, 5, 545, 255, 545);
-            g.DrawLine(whitePen, 5, 565, 255, 565);
-            g.DrawLine(whitePen, 5, 585, 255, 585);
-
-            if (result != null)
+            lock (drawing)
             {
-                var toDist = (int)Math.Round(result.Takeoffdist);
-                var tdDist = (int)Math.Round(result.Touchdowndist);
-                var stopDist = (int)Math.Round(result.Landingdist);
+                Graphics g = e.Graphics;
+                g.Clear(Color.Transparent); // Background green
+                g.DrawImage(panel.BackgroundImage, new Rectangle(0, 0, this.Width, this.Height));
 
-                // Takeoff
-                g.DrawLine(BluePen, fieldStart + fieldWidth / 2 - 3, fieldStart + fieldLength, fieldStart + fieldWidth / 2 - 3, fieldStart + fieldLength - toDist);
+                // Canvas size
+                int canvasWidth = e.ClipRectangle.Width;
+                int canvasHeight = e.ClipRectangle.Height;
 
-                // touchdown
-                g.DrawLine(yellowPen, fieldStart + fieldWidth / 2 + 3, fieldStart + fieldLength, fieldStart + fieldWidth / 2 + 3, fieldStart + fieldLength - tdDist);
+                // Logical runway size
+                int logicalFieldWidth = 140;
+                int logicalFieldLength = 600;
 
-                // stop
-                g.DrawLine(orangePen, fieldStart + fieldWidth / 2 + 3, fieldStart + fieldLength - tdDist, fieldStart + fieldWidth / 2 + 3, fieldStart + fieldLength - stopDist);
+                // Independent scaling
+                float scaleX = (float)canvasWidth / logicalFieldWidth;
+                float scaleY = (float)canvasHeight / logicalFieldLength;
 
-                g.DrawEllipse(blackPen, fieldStart + fieldWidth / 2 - 3, fieldStart + fieldLength - toDist, 1, 1);
-                g.DrawEllipse(blackPen, fieldStart + fieldWidth / 2 + 3, fieldStart + fieldLength - tdDist, 1, 1);
-                g.DrawEllipse(blackPen, fieldStart + fieldWidth / 2 + 3, fieldStart + fieldLength - stopDist, 1, 1);
+                // Pens
+                using Pen whitePen = new Pen(Color.White, 2);
+                using Pen redPen = new Pen(Color.Red, 2);
+                using Pen bluePen = new Pen(Color.Blue, 3);
+                using Pen orangePen = new Pen(Color.Orange, 3);
+                using Pen yellowPen = new Pen(Color.Yellow, 3);
+                using Pen blackPen = new Pen(Color.Black, 5);
 
+                // Draw horizontal marker lines every 10feet
+                for (int i = 10; i <= logicalFieldLength; i += 10)
+                {
+                    float y = canvasHeight - i * scaleY;
+                    Pen pen = (i % 100 == 0) ? redPen : whitePen;
+                    g.DrawLine(pen, 0, y, canvasWidth, y);
+                }
 
+                if (this.PlanePos != null)
+                {
+                    (double planeDist_y, double planeOffset_x) = GeoUtils.GetDistanceAlongAxis(this.InitailPos, this.PlanePos, this.InitialHeading);
+                    float planeDist = (float)planeDist_y * scaleY * 3.28084f;
+                    float planeOff = (float)planeOffset_x * scaleX * 3.28084f;
 
+                    Console.WriteLine(planeOff);
 
-                // Create a font and brush
-                Font drawFont = new Font("Arial", 9, FontStyle.Bold);
-                Brush drawBrush = new SolidBrush(Color.Black);
+                    g.DrawEllipse(blackPen, canvasWidth / 2f + planeOff, canvasHeight - planeDist, 1, 1);
+                }
 
+                // Result-dependent lines
+                if (result != null)
+                {
+                    // lets make the distance lines more precise
+                    // result.InitialPosition; // start position on bottom field Line
+                    // result.TakeoffPosition;
+                    // result.TouchdownPosition;
+                    // result.StopPosition;
 
-                PointF drawPoint = new PointF(fieldStart + fieldWidth / 2 - 50, fieldStart + fieldLength - (toDist + 5));
-                e.Graphics.DrawString("Takeoff", drawFont, drawBrush, drawPoint);
-                drawPoint = new PointF(fieldStart + fieldWidth / 2 + 10, fieldStart + fieldLength - (tdDist + 5));
-                e.Graphics.DrawString("Touchdown", drawFont, drawBrush, drawPoint);
-                drawPoint = new PointF(fieldStart + fieldWidth / 2 + 10, fieldStart + fieldLength - (stopDist + 5));
-                e.Graphics.DrawString("Stop", drawFont, drawBrush, drawPoint);
+                    (double toDist_y, double toOffset_x) = GeoUtils.GetDistanceAlongAxis(result.InitialPosition, result.TakeoffPosition, result.InitialHeading);
+                    (double tdDist_y, double tdOffset_x) = GeoUtils.GetDistanceAlongAxis(result.InitialPosition, result.TouchdownPosition, result.InitialHeading);
+                    (double stopDist_y, double stopOffset_x) = GeoUtils.GetDistanceAlongAxis(result.InitialPosition, result.StopPosition, result.InitialHeading);
+
+                    float toDist = (float)toDist_y * scaleY * 3.28084f;
+                    float toOff = (float)toOffset_x * scaleX * 3.28084f;
+
+                    float tdDist = (float)tdDist_y * scaleY * 3.28084f;
+                    float tdOff = (float)tdOffset_x * scaleX * 3.28084f;
+
+                    float stopDist = (float)stopDist_y * scaleY * 3.28084f;
+                    float stopOff = (float)stopOffset_x * scaleX * 3.28084f;
+
+                    // Takeoff line
+                    g.DrawLine(bluePen, canvasWidth / 2f + toOff, canvasHeight, canvasWidth / 2f + toOff, canvasHeight - toDist);
+                    // Touchdown line
+                    g.DrawLine(yellowPen, canvasWidth / 2f + tdOff, canvasHeight, canvasWidth / 2f + tdOff, canvasHeight - tdDist);
+                    // Stop line
+                    g.DrawLine(orangePen, canvasWidth / 2f + tdOff, canvasHeight - tdDist, canvasWidth / 2f + stopOff, canvasHeight - stopDist);
+
+                    // Dots
+                    g.DrawEllipse(blackPen, canvasWidth / 2f + toOff, canvasHeight - toDist, 1, 1);
+                    g.DrawEllipse(blackPen, canvasWidth / 2f + tdOff, canvasHeight - tdDist, 1, 1);
+                    g.DrawEllipse(blackPen, canvasWidth / 2f + stopOff, canvasHeight - stopDist, 1, 1);
+
+                    // Labels
+                    using Font drawFont = new Font("Arial", 9, FontStyle.Bold);
+                    using Brush drawBrush = new SolidBrush(Color.Black);
+
+                    g.DrawString("Takeoff", drawFont, drawBrush, canvasWidth / 2f + toOff - 50, canvasHeight - toDist - 15);
+                    g.DrawString("Touchdown", drawFont, drawBrush, canvasWidth / 2f + tdOff + 5, canvasHeight - tdDist - 15);
+                    g.DrawString("Stop", drawFont, drawBrush, canvasWidth / 2f + stopOff + 5, canvasHeight - stopDist - 15);
+                }
+
+                // Runway border stretched to full canvas
+                using Pen borderPen = new Pen(Color.LightGray, 5);
+                g.DrawRectangle(borderPen, 0, 0, canvasWidth, canvasHeight);
             }
-
-            // Draw borders
-            whitePen = new Pen(Color.White, 5);
-            g.DrawRectangle(whitePen, fieldStart, fieldStart, fieldWidth, fieldLength);
-
-            // Dispose of the pen to free resources
-            whitePen.Dispose();
-            redPen.Dispose();
         }
+
 
         private void comboBoxUnit_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -252,7 +275,7 @@ namespace eSTOL_Training_Tool_Core.UI
         {
             var config = Config.GetInstance();
             config.isSendTelemetry = checkBoxTelemetry.Checked;
-            if(config.isSendTelemetry) MessageBox.Show("By enabeling, you agree that your ingame telemetry data will be temporarily stored for up to 30 days and may be shown on a public dashboard.\n" +
+            if (config.isSendTelemetry) MessageBox.Show("By enabeling, you agree that your ingame telemetry data will be temporarily stored for up to 30 days and may be shown on a public dashboard.\n" +
                 "For more information, see the privacy policy: https://github.com/CedricPump/msfs_estol_training_tool/blob/main/doc/Privacy_Policy.md");
             config.Save();
         }
@@ -326,7 +349,7 @@ namespace eSTOL_Training_Tool_Core.UI
 
         private void labelPreset_Click(object sender, EventArgs e)
         {
-            if(debug)
+            if (debug)
             {
                 this.controller.reloadPreset();
             }
@@ -336,6 +359,62 @@ namespace eSTOL_Training_Tool_Core.UI
         {
             this.debug = checkBoxDebugging.Checked;
             Config.GetInstance().debug = this.debug;
+        }
+
+        internal void setPlanePos(GeoCoordinate initialPosition, double initialHeading, GeoCoordinate position)
+        {
+            this.InitailPos = initialPosition;
+            this.InitialHeading = initialHeading;
+            this.PlanePos = position;
+            panel.Invalidate();
+        }
+
+        public void setWind(double winddir, double wind)
+        {
+            this.WindDir = winddir;
+            this.Wind = wind;
+            panel1.Invalidate();
+        }
+
+        private void panelWind_Paint(object sender, PaintEventArgs e)
+        {
+            labelWind.Text = $"{this.Wind,4:0.0}";
+
+            Graphics g = e.Graphics;
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            g.Clear(Color.WhiteSmoke);
+
+            AdjustableArrowCap bigArrow = new AdjustableArrowCap(5, 10); // width, height
+            Pen arrowPen = new Pen(Color.Black, 2)
+            {
+                CustomEndCap = bigArrow
+            };
+
+            // Draw wind compass circle
+            g.DrawEllipse(Pens.Black, 2, 2, 60, 60);
+
+            // Convert to canvas angle (0° = up, rotate clockwise)
+            double windDirTo = (WindDir + 0) % 360;
+            double angleRad = (windDirTo - 90) * Math.PI / 180.0;
+
+            float centerX = 32;
+            float centerY = 32;
+            float length = 25;
+
+            // Calculate start and end points so arrow pivots around center
+            float dx = (float)(Math.Cos(angleRad) * length);
+            float dy = (float)(Math.Sin(angleRad) * length);
+
+            PointF start = new PointF(centerX - dx, centerY - dy); // tail
+            PointF end = new PointF(centerX + dx, centerY + dy);   // arrowhead
+
+            g.DrawLine(arrowPen, start, end);
+        }
+
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

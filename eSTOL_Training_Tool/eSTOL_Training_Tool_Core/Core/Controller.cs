@@ -41,6 +41,7 @@ namespace eSTOL_Training_Tool_Core.Core
         FormUI? form;
         string unit;
         DateTime lastTelemetrieTime = DateTime.MinValue;
+        DateTime lastUIResfresh = DateTime.MinValue;
         double AGLonGroundThreshold = 0.3; // ft
         double fieldLength = 600;
         bool debug = false;
@@ -205,8 +206,22 @@ namespace eSTOL_Training_Tool_Core.Core
                             }
                         }
 
+                        if (stol.IsInit() && config.debug)
+                        {
+                            if (DateTime.Now - lastUIResfresh > TimeSpan.FromSeconds(config.uiRefreshIntervall))
+                            {
+                                this.form.setPlanePos(stol.InitialPosition, (double)stol.InitialHeading, telemetrie.Position);
+                            }
+                        }
+
                         if (stol.IsInit())
                         {
+                            if (DateTime.Now - lastUIResfresh > TimeSpan.FromMilliseconds(config.uiRefreshIntervall))
+                            {
+                                form.setWind(plane.getRelDir(), plane.getWindTotal());
+                                lastUIResfresh = DateTime.Now;
+                            }
+
                             switch (cycleState)
                             {
                                 case CycleState.Unknown:
