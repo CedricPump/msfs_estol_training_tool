@@ -30,7 +30,7 @@ namespace eSTOL_Training_Tool_Core.UI
 
         private double WindDir = 0.0;
 
-        public double Wind { get; private set; }
+        public double Wind = 0.0;
 
         public FormUI(Controller controller)
         {
