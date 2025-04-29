@@ -196,7 +196,8 @@ namespace eSTOL_Training_Tool
         }
         public double getWindTotal()
         {
-            return Math.Sqrt(WindX * WindX + WindY * WindY);
+            double windTotal = Math.Sqrt(WindX * WindX + WindY * WindY);
+            return windTotal;
         }
 
         public double getRelDir()
@@ -317,7 +318,7 @@ namespace eSTOL_Training_Tool
 
             // Ambient
             CreateDataDefinition("AIRCRAFT WIND X", "knots");
-            CreateDataDefinition("AIRCRAFT WIND Y", "knots");
+            CreateDataDefinition("AIRCRAFT WIND Z", "knots");
 
 
             RegiserDefinitions();
@@ -706,7 +707,7 @@ namespace eSTOL_Training_Tool
                             WindX = (double)data.dwData[0];
                             break;
                         }
-                    case "AIRCRAFT WIND Y":
+                    case "AIRCRAFT WIND Z":
                         {
                             WindY = (double)data.dwData[0];
                             break;
