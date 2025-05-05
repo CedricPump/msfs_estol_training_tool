@@ -214,12 +214,22 @@ namespace eSTOL_Training_Tool_Core.Core
                             }
                         }
 
-                        if (stol.IsInit())
+                        if (plane.isInit && form != null)
                         {
                             if (DateTime.Now - lastUIResfresh > TimeSpan.FromMilliseconds(config.uiRefreshIntervall))
                             {
                                 form.setWind(plane.getRelDir(), plane.getWindTotal());
                                 lastUIResfresh = DateTime.Now;
+
+                                // alingnment help
+                                if(stol.IsInit() && (cycleState == CycleState.Takeoff || cycleState == CycleState.Hold)) 
+                                {
+                                    double linedist = stol.GetDistanceTo(telemetrie.Position) * 3.28084;
+                                    if (linedist >= -50 && linedist <= 1)
+                                    {
+                                        this.form.setResult($"Align: {Math.Round(stol.GetDistanceTo(telemetrie.Position) * 3.28084)} ft to Line");
+                                    }
+                                }
                             }
 
                             switch (cycleState)

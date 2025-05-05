@@ -253,12 +253,12 @@ namespace eSTOL_Training_Tool
                 $"Stopping Distance:   {Stoppingdist} {Unit}\r\n" +
                 $"Touchdown Distance:  {Touchdowndist} {Unit}{scratchText}\r\n" +
                 $"Pattern Time:        {patternTimeStr} min\r\n" +
-                $"Max Spin:            {maxSpin}°\r\n" +
-                $"Max Bank:            {maxBank}°\r\n" +
-                $"Min Pitch:           {minPitch}°\r\n" +
-                $"TD Grnd-Speed        {GrndSpeed} knots\r\n" +
-                $"TD Vert-Speed        {VSpeed} ft/min\r\n" +
-                $"TD G-Force           {GForce} G\r\n" +
+                $"Max Spin:            {Math.Round(maxSpin)}°\r\n" +
+                $"Max Bank:            {Math.Round(maxBank)}°\r\n" +
+                $"Min Pitch:           {Math.Round(minPitch)}°\r\n" +
+                $"TD Grnd-Speed        {Math.Round(GrndSpeed)} knots\r\n" +
+                $"TD Vert-Speed        {VSpeed:F1} ft/min\r\n" +
+                $"TD G-Force           {GForce:F1} G\r\n" +
                 $"-----------------------------------\r\n" +
                 $"Score:               {Score}\r\n" +
                 $"===================================\r\n";

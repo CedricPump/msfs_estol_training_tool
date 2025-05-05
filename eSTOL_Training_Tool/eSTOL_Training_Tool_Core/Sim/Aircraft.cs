@@ -77,8 +77,8 @@ namespace eSTOL_Training_Tool
         public double MaxTotalWeight { get; private set; }
 
         // Ambient
-        public double WindX { get; private set; }
-        public double WindY { get; private set; }
+        public double WindX { get; private set; } = 0.0;
+        public double WindY { get; private set; } = 0.0;
 
         public bool IsTaildragger { get
             {
