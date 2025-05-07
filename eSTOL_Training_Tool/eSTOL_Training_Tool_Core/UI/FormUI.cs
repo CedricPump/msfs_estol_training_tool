@@ -41,7 +41,6 @@ namespace eSTOL_Training_Tool_Core.UI
             var config = Config.GetInstance();
             alwaysontop = config.alwaysOnTop;
             this.checkBoxOntop.Checked = alwaysontop;
-            this.TopMost = alwaysontop;
 
             this.Text = "eSTOL Training Tool " + VersionHelper.GetVersion();
 
@@ -291,7 +290,7 @@ namespace eSTOL_Training_Tool_Core.UI
         private void Timer(object sender, EventArgs e)
         {
             // just to check it periodically
-            this.TopMost = alwaysontop;
+            if(alwaysontop && !this.TopMost) this.TopMost = alwaysontop;
 
             TimeSpan elapsed = this.stopwatch.Elapsed + StopwatchOffset;
             string minus = elapsed.TotalSeconds < 0 ? "-" : " ";

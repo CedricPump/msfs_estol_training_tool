@@ -25,7 +25,9 @@ namespace eSTOL_Training_Tool_Core.Model
 
         public static float getGearOffset(string aircraftType) 
         {
-            return offsetDict.GetValueOrDefault(aircraftType, defaultOffset);
+            var offset = offsetDict.GetValueOrDefault(aircraftType, defaultOffset);
+            // Console.WriteLine($"offset {aircraftType}: {offset}");
+            return offset;
         }
 
 
