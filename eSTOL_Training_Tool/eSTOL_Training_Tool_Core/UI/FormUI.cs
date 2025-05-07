@@ -29,14 +29,18 @@ namespace eSTOL_Training_Tool_Core.UI
         private double InitialHeading = 0.0;
 
         private double WindDir = 0.0;
-
         public double Wind = 0.0;
+
+        private int fieldSizeFull = 600;
+        private int fieldSizeZoom = 220;
+        private int selectedFieldSize = 600;
 
         public FormUI(Controller controller)
         {
             InitializeComponent();
             var config = Config.GetInstance();
             alwaysontop = config.alwaysOnTop;
+            this.checkBoxOntop.Checked = alwaysontop;
 
             this.Text = "eSTOL Training Tool " + VersionHelper.GetVersion();
 
@@ -55,9 +59,6 @@ namespace eSTOL_Training_Tool_Core.UI
             this.stopwatch = new System.Diagnostics.Stopwatch();
             this.progressBarStopwatch.Minimum = 0;
             this.progressBarStopwatch.Maximum = 180;
-
-            this.checkBoxOntop.Checked = alwaysontop;
-            this.TopMost = alwaysontop;
 
             this.checkBoxResult.Checked = config.isSendResults;
             this.checkBoxTelemetry.Checked = config.isSendTelemetry;
@@ -170,14 +171,14 @@ namespace eSTOL_Training_Tool_Core.UI
 
                 // Logical runway size
                 int logicalFieldWidth = 140;
-                int logicalFieldLength = 600;
+                int logicalFieldLength = selectedFieldSize;
 
                 // Independent scaling
                 float scaleX = (float)canvasWidth / logicalFieldWidth;
                 float scaleY = (float)canvasHeight / logicalFieldLength;
 
                 // Pens
-                using Pen whitePen = new Pen(Color.White, 2);
+                using Pen whitePen = new Pen(Color.White, 1);
                 using Pen redPen = new Pen(Color.Red, 2);
                 using Pen bluePen = new Pen(Color.Blue, 3);
                 using Pen orangePen = new Pen(Color.Orange, 3);
@@ -252,6 +253,12 @@ namespace eSTOL_Training_Tool_Core.UI
             }
         }
 
+        void pannel_DoubleClick( object sender, EventArgs e) 
+        {
+            if (selectedFieldSize == fieldSizeFull) selectedFieldSize = fieldSizeZoom;
+            else if (selectedFieldSize == fieldSizeZoom) selectedFieldSize = fieldSizeFull;
+            panel.Invalidate();
+        }
 
         private void comboBoxUnit_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -282,6 +289,8 @@ namespace eSTOL_Training_Tool_Core.UI
 
         private void Timer(object sender, EventArgs e)
         {
+            // just to check it periodically
+            if(alwaysontop && !this.TopMost) this.TopMost = alwaysontop;
 
             TimeSpan elapsed = this.stopwatch.Elapsed + StopwatchOffset;
             string minus = elapsed.TotalSeconds < 0 ? "-" : " ";

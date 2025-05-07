@@ -78,13 +78,13 @@
             textBoxResult.Multiline = true;
             textBoxResult.Name = "textBoxResult";
             textBoxResult.ReadOnly = true;
-            textBoxResult.Size = new System.Drawing.Size(463, 618);
+            textBoxResult.Size = new System.Drawing.Size(300, 478);
             textBoxResult.TabIndex = 1;
             // 
             // textBoxUser
             // 
             textBoxUser.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            textBoxUser.Location = new System.Drawing.Point(747, 27);
+            textBoxUser.Location = new System.Drawing.Point(611, 27);
             textBoxUser.Name = "textBoxUser";
             textBoxUser.Size = new System.Drawing.Size(212, 23);
             textBoxUser.TabIndex = 2;
@@ -95,7 +95,7 @@
             // 
             labelPreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             labelPreset.AutoSize = true;
-            labelPreset.Location = new System.Drawing.Point(747, 131);
+            labelPreset.Location = new System.Drawing.Point(611, 131);
             labelPreset.Name = "labelPreset";
             labelPreset.Size = new System.Drawing.Size(39, 15);
             labelPreset.TabIndex = 3;
@@ -106,7 +106,7 @@
             // 
             comboBoxPreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             comboBoxPreset.FormattingEnabled = true;
-            comboBoxPreset.Location = new System.Drawing.Point(748, 149);
+            comboBoxPreset.Location = new System.Drawing.Point(612, 149);
             comboBoxPreset.Name = "comboBoxPreset";
             comboBoxPreset.Size = new System.Drawing.Size(211, 23);
             comboBoxPreset.TabIndex = 4;
@@ -115,7 +115,7 @@
             // 
             buttonApplyPreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             buttonApplyPreset.AutoSize = true;
-            buttonApplyPreset.Location = new System.Drawing.Point(749, 178);
+            buttonApplyPreset.Location = new System.Drawing.Point(613, 178);
             buttonApplyPreset.Name = "buttonApplyPreset";
             buttonApplyPreset.Size = new System.Drawing.Size(210, 25);
             buttonApplyPreset.TabIndex = 5;
@@ -127,7 +127,7 @@
             // 
             buttonTeleport.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             buttonTeleport.AutoSize = true;
-            buttonTeleport.Location = new System.Drawing.Point(749, 269);
+            buttonTeleport.Location = new System.Drawing.Point(613, 269);
             buttonTeleport.Name = "buttonTeleport";
             buttonTeleport.Size = new System.Drawing.Size(210, 25);
             buttonTeleport.TabIndex = 6;
@@ -138,7 +138,7 @@
             // buttonSetRefPos
             // 
             buttonSetRefPos.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            buttonSetRefPos.Location = new System.Drawing.Point(748, 209);
+            buttonSetRefPos.Location = new System.Drawing.Point(612, 209);
             buttonSetRefPos.Name = "buttonSetRefPos";
             buttonSetRefPos.Size = new System.Drawing.Size(210, 23);
             buttonSetRefPos.TabIndex = 7;
@@ -149,10 +149,10 @@
             // textBoxStatus
             // 
             textBoxStatus.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            textBoxStatus.Location = new System.Drawing.Point(12, 651);
+            textBoxStatus.Location = new System.Drawing.Point(12, 511);
             textBoxStatus.Name = "textBoxStatus";
             textBoxStatus.ReadOnly = true;
-            textBoxStatus.Size = new System.Drawing.Size(729, 23);
+            textBoxStatus.Size = new System.Drawing.Size(593, 23);
             textBoxStatus.TabIndex = 8;
             textBoxStatus.Text = "Status";
             textBoxStatus.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -161,7 +161,7 @@
             // 
             buttonCreatePreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             buttonCreatePreset.AutoSize = true;
-            buttonCreatePreset.Location = new System.Drawing.Point(749, 238);
+            buttonCreatePreset.Location = new System.Drawing.Point(613, 238);
             buttonCreatePreset.Name = "buttonCreatePreset";
             buttonCreatePreset.Size = new System.Drawing.Size(210, 25);
             buttonCreatePreset.TabIndex = 9;
@@ -173,18 +173,20 @@
             // 
             panel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             panel.BackgroundImage = (System.Drawing.Image)resources.GetObject("panel.BackgroundImage");
-            panel.Location = new System.Drawing.Point(481, 29);
+            panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            panel.Location = new System.Drawing.Point(318, 29);
             panel.Name = "panel";
-            panel.Size = new System.Drawing.Size(260, 616);
+            panel.Size = new System.Drawing.Size(287, 476);
             panel.TabIndex = 10;
             panel.Paint += panel_Paint;
+            panel.DoubleClick += pannel_DoubleClick;
             panel.Resize += panel_Resize;
             // 
             // comboBoxUnit
             // 
             comboBoxUnit.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             comboBoxUnit.FormattingEnabled = true;
-            comboBoxUnit.Location = new System.Drawing.Point(747, 105);
+            comboBoxUnit.Location = new System.Drawing.Point(611, 105);
             comboBoxUnit.Name = "comboBoxUnit";
             comboBoxUnit.Size = new System.Drawing.Size(212, 23);
             comboBoxUnit.TabIndex = 11;
@@ -196,7 +198,7 @@
             checkBoxResult.AutoSize = true;
             checkBoxResult.Checked = true;
             checkBoxResult.CheckState = System.Windows.Forms.CheckState.Checked;
-            checkBoxResult.Location = new System.Drawing.Point(747, 56);
+            checkBoxResult.Location = new System.Drawing.Point(611, 56);
             checkBoxResult.Name = "checkBoxResult";
             checkBoxResult.Size = new System.Drawing.Size(91, 19);
             checkBoxResult.TabIndex = 12;
@@ -210,7 +212,7 @@
             checkBoxTelemetry.AutoSize = true;
             checkBoxTelemetry.Checked = true;
             checkBoxTelemetry.CheckState = System.Windows.Forms.CheckState.Checked;
-            checkBoxTelemetry.Location = new System.Drawing.Point(747, 80);
+            checkBoxTelemetry.Location = new System.Drawing.Point(611, 80);
             checkBoxTelemetry.Name = "checkBoxTelemetry";
             checkBoxTelemetry.Size = new System.Drawing.Size(106, 19);
             checkBoxTelemetry.TabIndex = 13;
@@ -228,7 +230,7 @@
             labelStopwatch.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             labelStopwatch.AutoSize = true;
             labelStopwatch.Font = new System.Drawing.Font("Consolas", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            labelStopwatch.Location = new System.Drawing.Point(749, 596);
+            labelStopwatch.Location = new System.Drawing.Point(613, 456);
             labelStopwatch.Name = "labelStopwatch";
             labelStopwatch.Size = new System.Drawing.Size(132, 41);
             labelStopwatch.TabIndex = 14;
@@ -238,7 +240,7 @@
             // progressBarStopwatch
             // 
             progressBarStopwatch.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            progressBarStopwatch.Location = new System.Drawing.Point(747, 650);
+            progressBarStopwatch.Location = new System.Drawing.Point(611, 510);
             progressBarStopwatch.Name = "progressBarStopwatch";
             progressBarStopwatch.Size = new System.Drawing.Size(210, 23);
             progressBarStopwatch.TabIndex = 15;
@@ -246,7 +248,7 @@
             // buttonStartStopwatch
             // 
             buttonStartStopwatch.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            buttonStartStopwatch.Location = new System.Drawing.Point(881, 613);
+            buttonStartStopwatch.Location = new System.Drawing.Point(745, 473);
             buttonStartStopwatch.Name = "buttonStartStopwatch";
             buttonStartStopwatch.Size = new System.Drawing.Size(76, 24);
             buttonStartStopwatch.TabIndex = 16;
@@ -258,7 +260,7 @@
             // 
             label1.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(828, 532);
+            label1.Location = new System.Drawing.Point(692, 392);
             label1.Name = "label1";
             label1.Size = new System.Drawing.Size(129, 30);
             label1.TabIndex = 17;
@@ -267,7 +269,7 @@
             // button1
             // 
             button1.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            button1.Location = new System.Drawing.Point(882, 594);
+            button1.Location = new System.Drawing.Point(746, 454);
             button1.Name = "button1";
             button1.Size = new System.Drawing.Size(75, 23);
             button1.TabIndex = 18;
@@ -279,7 +281,7 @@
             // 
             checkBoxOntop.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             checkBoxOntop.AutoSize = true;
-            checkBoxOntop.Location = new System.Drawing.Point(858, 5);
+            checkBoxOntop.Location = new System.Drawing.Point(722, 5);
             checkBoxOntop.Name = "checkBoxOntop";
             checkBoxOntop.Size = new System.Drawing.Size(99, 19);
             checkBoxOntop.TabIndex = 19;
@@ -290,7 +292,7 @@
             // numericUpDownStopwatchOffest
             // 
             numericUpDownStopwatchOffest.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            numericUpDownStopwatchOffest.Location = new System.Drawing.Point(749, 565);
+            numericUpDownStopwatchOffest.Location = new System.Drawing.Point(613, 425);
             numericUpDownStopwatchOffest.Name = "numericUpDownStopwatchOffest";
             numericUpDownStopwatchOffest.Size = new System.Drawing.Size(208, 23);
             numericUpDownStopwatchOffest.TabIndex = 20;
@@ -301,7 +303,7 @@
             // 
             label2.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             label2.AutoSize = true;
-            label2.Location = new System.Drawing.Point(749, 547);
+            label2.Location = new System.Drawing.Point(613, 407);
             label2.Name = "label2";
             label2.Size = new System.Drawing.Size(39, 15);
             label2.TabIndex = 21;
@@ -311,7 +313,7 @@
             // 
             checkBoxDebugging.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             checkBoxDebugging.AutoSize = true;
-            checkBoxDebugging.Location = new System.Drawing.Point(749, 5);
+            checkBoxDebugging.Location = new System.Drawing.Point(613, 5);
             checkBoxDebugging.Name = "checkBoxDebugging";
             checkBoxDebugging.Size = new System.Drawing.Size(60, 19);
             checkBoxDebugging.TabIndex = 22;
@@ -322,9 +324,10 @@
             // panel1
             // 
             panel1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            panel1.Location = new System.Drawing.Point(749, 300);
+            panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            panel1.Location = new System.Drawing.Point(613, 300);
             panel1.Name = "panel1";
-            panel1.Size = new System.Drawing.Size(64, 64);
+            panel1.Size = new System.Drawing.Size(68, 68);
             panel1.TabIndex = 23;
             panel1.Paint += panelWind_Paint;
             // 
@@ -333,7 +336,7 @@
             labelWind.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             labelWind.AutoSize = true;
             labelWind.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            labelWind.Location = new System.Drawing.Point(819, 339);
+            labelWind.Location = new System.Drawing.Point(683, 339);
             labelWind.Name = "labelWind";
             labelWind.Size = new System.Drawing.Size(60, 25);
             labelWind.TabIndex = 24;
@@ -344,7 +347,7 @@
             // 
             label3.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             label3.AutoSize = true;
-            label3.Location = new System.Drawing.Point(819, 324);
+            label3.Location = new System.Drawing.Point(683, 324);
             label3.Name = "label3";
             label3.Size = new System.Drawing.Size(35, 15);
             label3.TabIndex = 25;
@@ -354,7 +357,7 @@
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(969, 685);
+            ClientSize = new System.Drawing.Size(833, 545);
             Controls.Add(label3);
             Controls.Add(labelWind);
             Controls.Add(panel1);

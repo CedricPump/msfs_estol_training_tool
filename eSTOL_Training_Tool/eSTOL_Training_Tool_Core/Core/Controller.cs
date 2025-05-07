@@ -9,6 +9,9 @@ using System.Linq;
 using Microsoft.FlightSimulator.SimConnect;
 using System.Windows.Forms;
 using eSTOL_Training_Tool_Core.UI;
+using System.Diagnostics;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace eSTOL_Training_Tool_Core.Core
 {
@@ -133,9 +136,44 @@ namespace eSTOL_Training_Tool_Core.Core
             string? result = await VersionHelper.CheckForUpdateAsync();
             if (result != null)
             {
-                MessageBox.Show($"New Version available: {result}\nhttps://github.com/CedricPump/msfs_estol_training_tool/releases/latest");
+                using var dialog = new UpdateDialog(result);
+                dialog.ShowDialog();
+
+                if (dialog.shouldUpdate)
+                {
+                    await PerformUpdate(result);
+                }
             }
         }
+
+        private async Task PerformUpdate(string version)
+        {
+            string zipFileName = $"eSTOL_Training_Tool_portable_{version.Replace(".", "")}.zip";
+            string zipUrl = $"https://github.com/CedricPump/msfs_estol_training_tool/releases/download/{version}/{zipFileName}";
+            string tempZipPath = Path.Combine(Path.GetTempPath(), "update.zip");
+            string bootstrapperPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "update.ps1");
+
+            using HttpClient client = new HttpClient();
+            using var stream = await client.GetStreamAsync(zipUrl);
+            using var fs = new FileStream(tempZipPath, FileMode.Create, FileAccess.Write);
+            await stream.CopyToAsync(fs);
+
+            Console.WriteLine($"Saved update to: {tempZipPath}");
+
+            string arguments = $"-ExecutionPolicy Bypass -File \"{bootstrapperPath}\" \"{tempZipPath}\" \"{AppDomain.CurrentDomain.BaseDirectory.TrimEnd(Path.DirectorySeparatorChar)}\"";
+
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "powershell.exe",
+                Arguments = arguments,
+                UseShellExecute = false
+            });
+
+
+
+            Application.Exit();
+        }
+
 
         public string createPreset() 
         {
@@ -214,12 +252,22 @@ namespace eSTOL_Training_Tool_Core.Core
                             }
                         }
 
-                        if (stol.IsInit())
+                        if (plane.isInit && form != null)
                         {
                             if (DateTime.Now - lastUIResfresh > TimeSpan.FromMilliseconds(config.uiRefreshIntervall))
                             {
                                 form.setWind(plane.getRelDir(), plane.getWindTotal());
                                 lastUIResfresh = DateTime.Now;
+
+                                // alingnment help
+                                if(stol.IsInit() && (cycleState == CycleState.Takeoff || cycleState == CycleState.Hold)) 
+                                {
+                                    double linedist = stol.GetDistanceTo(telemetrie.Position) * 3.28084;
+                                    if (linedist >= -50 && linedist <= 1)
+                                    {
+                                        this.form.setResult($"Align: {Math.Round(stol.GetDistanceTo(telemetrie.Position) * 3.28084)} ft to Line");
+                                    }
+                                }
                             }
 
                             switch (cycleState)
