@@ -1,3 +1,9 @@
+v1.2.4
+
+added piper comanche gear offset
+fixed Rans Gear offset for TD
+added eSTOL Events
+
 v1.2.3
 
 added debug plane position

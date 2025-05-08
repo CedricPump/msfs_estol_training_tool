@@ -87,6 +87,25 @@ namespace eSTOL_Training_Tool_Core.Influx
             await writeApi.WritePointAsync(point, bucketTelemetry, org);
         }
 
+        public async void sendEvent(string username, Plane plane, string eventType, string value)
+        {
+            Telemetrie telemetrie = plane.GetTelemetrie();
+            AircraftState state = plane.GetState();
+            var point = PointData.Measurement("stol_event")
+                .Tag("EventType", eventType)
+                .Tag("User", username)
+                .Field("Value", value)
+                .Field("Latitude", telemetrie.Position.Latitude)
+                .Field("Longitude", telemetrie.Position.Longitude)
+                .Field("Altitude", telemetrie.Altitude)
+                .Field("AltAGL", telemetrie.AltitudeAGL)
+
+                .Timestamp(DateTime.Now, WritePrecision.Ns);
+
+            var writeApi = influxDBClient.GetWriteApiAsync();
+            await writeApi.WritePointAsync(point, bucketTelemetry, org);
+        }
+
         public async void deletAll()
         {
             var start = DateTime.MinValue;
