@@ -309,7 +309,15 @@ namespace eSTOL_Training_Tool_Core.Core
                                             form.setResult($"Takoff recorded: {(stol.GetTakeoffDistance() * 3.28084).ToString("0")} ft");
                                             if (config.debug && stol.IsInit()) Console.WriteLine("TO Pos: " + stol.TakeoffPosition);
 
-                                            influx.sendEvent(user, plane, "TAKEOFF", (stol.GetTakeoffDistance() * 3.28084).ToString("0"));
+                                            try
+                                            {
+                                                // send event
+                                                if (config.isSendResults) influx.sendEvent(user, plane, "TAKEOFF", (stol.GetTakeoffDistance() * 3.28084).ToString("0"));
+                                            }
+                                            catch
+                                            {
+                                                Console.WriteLine("Unable to send event - check update");
+                                            }
                                         }
 
                                         // stopping -> State Hold
@@ -374,7 +382,17 @@ namespace eSTOL_Training_Tool_Core.Core
                                                 stol.violations.Add(new STOLViolation("TouchdownLineViolation", touchdowndist));
                                             }
 
-                                            influx.sendEvent(user, plane, "TOUCHDOWN", (stol.GetTouchdownDistance() * 3.28084).ToString("0"));
+                                            try
+                                            {
+                                                // send event
+                                                if (config.isSendResults) influx.sendEvent(user, plane, "TOUCHDOWN", (stol.GetTouchdownDistance() * 3.28084).ToString("0"));
+                                            }
+                                            catch
+                                            {
+                                                Console.WriteLine("Unable to send event - check update");
+                                            }
+
+                                            
                                         }
                                         break;
                                     }
@@ -403,7 +421,15 @@ namespace eSTOL_Training_Tool_Core.Core
                                             form.setResult(result.getConsoleString());
                                             form.DrawResult(result);
 
-                                            influx.sendEvent(user, plane, "STOP", (stol.GetLandingDistance() * 3.28084).ToString("0"));
+                                            try
+                                            {
+                                                // send event
+                                                if (config.isSendResults) influx.sendEvent(user, plane, "STOP", (stol.GetLandingDistance() * 3.28084).ToString("0"));
+                                            }
+                                            catch
+                                            {
+                                                Console.WriteLine("Unable to send event - check update");
+                                            }
 
                                             lastStol = stol;
                                             stol.Reset();
