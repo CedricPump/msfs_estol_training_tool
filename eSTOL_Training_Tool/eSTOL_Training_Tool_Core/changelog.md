@@ -1,3 +1,12 @@
+v1.2.5
+
+added Maule Tundro to GearOffset
+added gear offset for maule m7
+added exception handling to events
+added send data check to events
+added Violations
+added Events: EXCESSIVE_VSPEED, SCRATCH, EXCESSIVE_SPIN, EXCESSIVE_G, WINGSTRIKE, TOUCH_N_GO
+
 v1.2.4
 
 added piper comanche gear offset
