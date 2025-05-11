@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Device.Location;
+using System.Linq;
 using System.Numerics;
 using System.Security.Cryptography;
 using System.Text;
@@ -131,6 +132,8 @@ namespace eSTOL_Training_Tool
                 result.Score = 0;
             }
 
+            result.violations = violations;
+
             return result;
 
         }
@@ -192,6 +195,11 @@ namespace eSTOL_Training_Tool
             throw new NotImplementedException();
             return new STOLData();
         }
+
+        public bool hasViolation(string key)
+        {
+            return violations.FirstOrDefault((v) => v.Type == key, null) != null;
+        }
     }
     public class STOLViolation 
     {
@@ -235,6 +243,7 @@ namespace eSTOL_Training_Tool
         public double Score;
         public string Unit;
         public double GForce;
+        public List<STOLViolation> violations;
 
         public string getConsoleString() 
         {
@@ -262,6 +271,13 @@ namespace eSTOL_Training_Tool
                 $"-----------------------------------\r\n" +
                 $"Score:               {Score}\r\n" +
                 $"===================================\r\n";
+            
+            if (this.violations != null && this.violations.Count > 0) 
+            {
+                resultStr += $"Violations:               {string.Join(", ", this.violations.Select(v => v.Type))}\r\n";
+            } 
+            
+
             return resultStr;
         }
         public string getCsvString() 

@@ -270,6 +270,27 @@ namespace eSTOL_Training_Tool_Core.Core
                                 }
                             }
 
+                            if( stol.IsInit() && plane.isInit)
+                            {
+                                if(plane.WingtipOnGround()) 
+                                {
+
+                                    if (!stol.hasViolation("WingStrike"))
+                                    {
+                                        stol.violations.Add(new STOLViolation("WingStrike", 1));
+                                        try
+                                        {
+                                            // send event
+                                            if (config.isSendResults) influx.sendEvent(user, plane, "WINGSTRIKE", "ture");
+                                        }
+                                        catch
+                                        {
+                                            Console.WriteLine("Unable to send event - check update");
+                                        }
+                                    }
+                                }
+                            }
+
                             switch (cycleState)
                             {
                                 case CycleState.Unknown:
@@ -309,7 +330,15 @@ namespace eSTOL_Training_Tool_Core.Core
                                             form.setResult($"Takoff recorded: {(stol.GetTakeoffDistance() * 3.28084).ToString("0")} ft");
                                             if (config.debug && stol.IsInit()) Console.WriteLine("TO Pos: " + stol.TakeoffPosition);
 
-                                            influx.sendEvent(user, plane, "TAKEOFF", (stol.GetTakeoffDistance() * 3.28084).ToString("0"));
+                                            try
+                                            {
+                                                // send event
+                                                if (config.isSendResults) influx.sendEvent(user, plane, "TAKEOFF", (stol.GetTakeoffDistance() * 3.28084).ToString("0"));
+                                            }
+                                            catch
+                                            {
+                                                Console.WriteLine("Unable to send event - check update");
+                                            }
                                         }
 
                                         // stopping -> State Hold
@@ -369,12 +398,49 @@ namespace eSTOL_Training_Tool_Core.Core
                                             form.setResult("Touchdown recorded");
 
                                             double touchdowndist = stol.GetTouchdownDistance();
-                                            if (touchdowndist < 1)
+                                            if (touchdowndist <= 0)
                                             {
                                                 stol.violations.Add(new STOLViolation("TouchdownLineViolation", touchdowndist));
                                             }
 
-                                            influx.sendEvent(user, plane, "TOUCHDOWN", (stol.GetTouchdownDistance() * 3.28084).ToString("0"));
+                                            if (stol.TouchdownGs > 2.0)
+                                            {
+                                                stol.violations.Add(new STOLViolation("ExcessiveGs", (double)stol.TouchdownGs));
+                                            }
+
+                                            if (stol.TouchdownVerticalSpeed < -500.0)
+                                            {
+                                                stol.violations.Add(new STOLViolation("ExcessiveVerticalSpeed", (double)stol.TouchdownGs));
+                                            }
+
+
+
+                                            try
+                                            {
+                                                // send event
+                                                if (config.isSendResults)
+                                                {
+                                                    influx.sendEvent(user, plane, "TOUCHDOWN", (stol.GetTouchdownDistance() * 3.28084).ToString("0"));
+                                                }
+                                                if (config.isSendResults && stol.hasViolation("TouchdownLineViolation"))
+                                                {
+                                                    influx.sendEvent(user, plane, "SCRATCH", (stol.GetTouchdownDistance() * 3.28084).ToString("0"));
+                                                }
+                                                if (config.isSendResults && stol.hasViolation("ExcessiveGs"))
+                                                {
+                                                    influx.sendEvent(user, plane, "EXCESSIVE_G", (((double)stol.TouchdownGs).ToString("0.0")));
+                                                }
+                                                if (config.isSendResults && stol.hasViolation("ExcessiveVerticalSpeed"))
+                                                {
+                                                    influx.sendEvent(user, plane, "EXCESSIVE_VSPEED", (((double)stol.TouchdownVerticalSpeed).ToString("0")));
+                                                }
+                                            }
+                                            catch (Exception e)
+                                            {
+                                                Console.WriteLine("Unable to send event - check update: " + e.Message);
+                                            }
+
+                                            
                                         }
                                         break;
                                     }
@@ -397,13 +463,37 @@ namespace eSTOL_Training_Tool_Core.Core
                                             stol.StopTime = DateTime.Now;
                                             this.form.StopStopWatch();
 
+
+                                            if (Math.Abs((double)stol.maxSpin) > 45.0)
+                                            {
+                                                stol.violations.Add(new STOLViolation("ExcessiveSpin", (double)stol.maxSpin));
+                                            }
+
                                             // End Cycle
                                             STOLResult result = stol.GetResult(unit);
                                             Console.WriteLine(result.getConsoleString());
                                             form.setResult(result.getConsoleString());
                                             form.DrawResult(result);
 
-                                            influx.sendEvent(user, plane, "STOP", (stol.GetLandingDistance() * 3.28084).ToString("0"));
+                                            try
+                                            {
+                                                // send event
+                                                if (config.isSendResults)
+                                                {
+                                                    influx.sendEvent(user, plane, "STOP", (stol.GetLandingDistance() * 3.28084).ToString("0"));
+                                                }
+
+                                                if (config.isSendResults && stol.hasViolation("ExcessiveSpin"))
+                                                {
+                                                    influx.sendEvent(user, plane, "EXCESSIVE_SPIN", (((double)stol.maxSpin).ToString("0.0")));
+                                                }
+
+                                            }
+                                            catch
+                                            {
+                                                Console.WriteLine("Unable to send event - check update");
+                                            }
+
 
                                             lastStol = stol;
                                             stol.Reset();
@@ -435,6 +525,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                             setState(CycleState.Fly);
                                             Console.WriteLine("Touch 'n' go recorded, try Again");
                                             form.setResult("Touch 'n' go recorded, try Again");
+                                            if (config.isSendResults) influx.sendEvent(user, plane, "TOUCH_N_GO", "true");
                                         }
                                         break;
                                     }
@@ -457,6 +548,8 @@ namespace eSTOL_Training_Tool_Core.Core
                 System.Threading.Thread.Sleep(intervall);
             };
         }
+
+
 
         private void setState(CycleState state)
         {
