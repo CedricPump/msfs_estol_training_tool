@@ -13,7 +13,7 @@ namespace eSTOL_Training_Tool_Core.Core
 
 
         public int IdleRefreshInterval { get; set; } = 10000;
-        public int RefreshInterval { get; set; } = 250;
+        public int RefreshInterval { get; set; } = 100;
         public int TelemetrySendInterval { get; set; } = 3;
         public double GroundspeedThreshold { get; set; } = 0.7;
         public string ExportPath { get; set; } = "eSTOL_Training_Tool.csv";

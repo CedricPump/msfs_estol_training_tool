@@ -397,6 +397,16 @@ namespace eSTOL_Training_Tool_Core.Core
                                             if (config.debug && stol.IsInit()) Console.WriteLine("TD Pos: " + stol.TouchdownPosition);
                                             form.setResult("Touchdown recorded");
 
+                                            if (Math.Abs(spin) > 45.0)
+                                            {
+                                                stol.violations.Add(new STOLViolation("ExcessiveTouchdownSpin", spin));
+                                            }
+
+                                            if (config.isSendResults && stol.hasViolation("ExcessiveTouchdownSpin"))
+                                            {
+                                                influx.sendEvent(user, plane, "EXCESSIVE_TOUCHDOWN_SPIN", ((spin).ToString("0.0")));
+                                            }
+
                                             double touchdowndist = stol.GetTouchdownDistance();
                                             if (touchdowndist <= 0)
                                             {
@@ -463,10 +473,14 @@ namespace eSTOL_Training_Tool_Core.Core
                                             stol.StopTime = DateTime.Now;
                                             this.form.StopStopWatch();
 
+                                            if (Math.Abs(spin) > 45.0)
+                                            {
+                                                stol.violations.Add(new STOLViolation("ExcessiveStopSpin", (double)stol.maxSpin));
+                                            }
 
                                             if (Math.Abs((double)stol.maxSpin) > 45.0)
                                             {
-                                                stol.violations.Add(new STOLViolation("ExcessiveSpin", (double)stol.maxSpin));
+                                                stol.violations.Add(new STOLViolation("ExcessiveMaxSpin", (double)stol.maxSpin));
                                             }
 
                                             // End Cycle
@@ -483,9 +497,14 @@ namespace eSTOL_Training_Tool_Core.Core
                                                     influx.sendEvent(user, plane, "STOP", (stol.GetLandingDistance() * 3.28084).ToString("0"));
                                                 }
 
-                                                if (config.isSendResults && stol.hasViolation("ExcessiveSpin"))
+                                                if (config.isSendResults && stol.hasViolation("ExcessiveStopSpin"))
                                                 {
-                                                    influx.sendEvent(user, plane, "EXCESSIVE_SPIN", (((double)stol.maxSpin).ToString("0.0")));
+                                                    influx.sendEvent(user, plane, "EXCESSIVE_STOP_SPIN", spin.ToString("0.0"));
+                                                }
+
+                                                if (config.isSendResults && stol.hasViolation("ExcessiveMaxSpin"))
+                                                {
+                                                    influx.sendEvent(user, plane, "EXCESSIVE_MAX_SPIN", (((double)stol.maxSpin).ToString("0.0")));
                                                 }
 
                                             }
