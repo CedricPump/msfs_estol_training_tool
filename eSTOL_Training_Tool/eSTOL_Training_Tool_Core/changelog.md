@@ -5,6 +5,7 @@ seperated excessive spin events stop, touchdown and max
 added gear offset for C152 Trike
 added plane change detection
 changed disclaimer text
+added sim not connected error handling
 
 v1.2.5
 

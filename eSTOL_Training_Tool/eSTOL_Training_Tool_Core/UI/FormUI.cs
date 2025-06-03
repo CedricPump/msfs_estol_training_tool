@@ -98,12 +98,24 @@ namespace eSTOL_Training_Tool_Core.UI
 
         private void buttonSetRefPos_Click(object sender, EventArgs e)
         {
+            if (!controller.IsSimConnected())
+            {
+                MessageBox.Show("Sim not connected");
+                return;
+            }
             controller.SetStartPos();
-            buttonTeleport.Enabled = controller.IsStilInit();
+            buttonTeleport.Enabled = controller.IsStolInit();
         }
 
         private void buttonApplyPreset_Click(object sender, EventArgs e)
         {
+            if (!controller.IsSimConnected())
+            {
+                MessageBox.Show("Sim not connected");
+                return;
+            }
+
+
             string presetStr = comboBoxPreset.Text;
             controller.SetPreset(presetStr);
             if (presetStr != "Open World")
@@ -115,13 +127,18 @@ namespace eSTOL_Training_Tool_Core.UI
             else
             {
                 textBoxResult.Text = $"\"Open World\" Mode selected.";
-                buttonTeleport.Enabled = controller.IsStilInit();
+                buttonTeleport.Enabled = controller.IsStolInit();
                 buttonSetRefPos.Enabled = true;
             }
         }
 
         private void buttonTeleport_Click(object sender, EventArgs e)
         {
+            if (!controller.IsSimConnected())
+            {
+                MessageBox.Show("Sim not connected");
+                return;
+            }
             controller.TeleportToReferenceLine();
             textBoxResult.Text = "";
         }
@@ -142,6 +159,11 @@ namespace eSTOL_Training_Tool_Core.UI
 
         private void buttonCreatePreset_Click(object sender, EventArgs e)
         {
+            if (!controller.IsSimConnected())
+            {
+                MessageBox.Show("Sim not connected");
+                return;
+            }
             textBoxResult.Text = controller.createPreset();
         }
 

@@ -648,7 +648,12 @@ namespace eSTOL_Training_Tool_Core.Core
             initSTOL();
         }
 
-        public bool IsStilInit() 
+        public bool IsSimConnected()
+        {
+            return this.plane.isInit;
+        }
+
+        public bool IsStolInit() 
         {
             return stol.IsInit();
         }
