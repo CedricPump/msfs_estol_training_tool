@@ -99,8 +99,11 @@ namespace eSTOL_Training_Tool_Core.Core
             if (!File.Exists(config.UserPath))
             {
                 // Disclaimer
-                string disclaimer = "Disclaimer:\nThis Tool is intended for training purposes only.\nThe numbers give a quick feedback and rough estimate of your performance.They do not guarantee any accuracy.\n"
-                    + "Do not challenge any competition score based on this tools' estimation alone.\nMake sure to record your flight for any necessary score validation.\n\n";
+                string disclaimer = "Disclaimer:\n"
+                    + "This tool is a work in progress and is primarily intended for training purposes.\n"
+                    + "It may contain bugs or incomplete features, and some values may not reflect perfect accuracy.\n"
+                    + "Final competition results are determined solely by the official judge using all tools of their discretion.\n"
+                    + "Please make sure to record your flight for any required score verification or challenges.\n\n";
                 Console.Write("\n" + disclaimer);
 
                 MessageBox.Show(disclaimer);
@@ -201,6 +204,15 @@ namespace eSTOL_Training_Tool_Core.Core
 
         }
 
+        public void ReinitPlaneType() 
+        {
+            if(this.stol != null) 
+            {
+                this.stol.planeType = plane.Title;
+                this.form.setResult($"Plane Changed: {this.stol.planeType}");
+            }
+        }
+
         public void Run()
         {
             while (true)
@@ -220,6 +232,11 @@ namespace eSTOL_Training_Tool_Core.Core
                         System.Threading.Thread.Sleep(330);
                         continue;
                     };
+
+                    if(this.stol.planeType != "" && plane.Title != this.stol.planeType) 
+                    {
+                        ReinitPlaneType();
+                    }
 
                     if (plane.IsSimConnectConnected && !plane.SimDisabled)
                     {

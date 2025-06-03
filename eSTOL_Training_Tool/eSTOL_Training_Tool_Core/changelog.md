@@ -1,3 +1,11 @@
+v1.2.6
+
+increased polling intervall for more pescise results 250 ms -> 100 ms
+seperated excessive spin events stop, touchdown and max
+added gear offset for C152 Trike
+added plane change detection
+changed disclaimer text
+
 v1.2.5
 
 added Maule Tundro to GearOffset
@@ -28,7 +36,6 @@ improved result decimals
 fixed husky gear offset
 fixed c170bt gear offset
 fixed always on top on start
-
 
 v1.2.2
 
