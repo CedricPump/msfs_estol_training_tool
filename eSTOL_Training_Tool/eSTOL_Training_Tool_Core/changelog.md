@@ -1,3 +1,9 @@
+v1.2.7
+
+changed simvars access to RequestDataOnSimObject
+added get date by frames setting
+increased polling interval
+
 v1.2.6
 
 increased polling intervall for more pescise results 250 ms -> 100 ms

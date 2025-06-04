@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Device.Location;
 using System.Linq;
+using System.Runtime.InteropServices;
 using eSTOL_Training_Tool.Model;
 using eSTOL_Training_Tool_Core.Core;
 using eSTOL_Training_Tool_Core.Model;
@@ -80,9 +81,10 @@ namespace eSTOL_Training_Tool
         public double WindX { get; private set; } = 0.0;
         public double WindY { get; private set; } = 0.0;
 
+        private Config conf;
+
         public bool IsTaildragger { get
             {
-                Config conf = Config.GetInstance();
                 return !conf.trikesTypes.Contains(this.Type + "|" + this.Model);
             }
         }
@@ -94,6 +96,8 @@ namespace eSTOL_Training_Tool
         {
             return Model + " [" + Latitude + "," + Longitude + "," + Altitude + "] " + GroundSpeed + "knts " + Heading + "° ";
         }
+
+        const uint SIMCONNECT_OBJECT_ID_USER = 0;
 
         enum GROUP_ID
         {
@@ -137,6 +141,7 @@ namespace eSTOL_Training_Tool
         public Aircraft()
         {
             IsSimConnectConnected = false;
+            this.conf = Config.GetInstance();
             ConnectSimConnect();
             // simconnect.Text(SIMCONNECT_TEXT_TYPE.SCROLL_GREEN, 5.0f, null, "eSTOL_Training_Tool connected");
         }
@@ -376,6 +381,7 @@ namespace eSTOL_Training_Tool
                 simconnect.OnRecvQuit += new SimConnect.RecvQuitEventHandler(OnRecvQuit);
                 simconnect.OnRecvException += new SimConnect.RecvExceptionEventHandler(OnRecvException);
                 simconnect.OnRecvSimobjectDataBytype += new SimConnect.RecvSimobjectDataBytypeEventHandler(OnRecvSimobjectDataBytype);
+                simconnect.OnRecvSimobjectData += new SimConnect.RecvSimobjectDataEventHandler(OnRecvSimobjectDataBytype);
                 simconnect.OnRecvEvent += new SimConnect.RecvEventEventHandler(simconnect_OnRecvEvent);
 
                 foreach (EVENTS entry in Enum.GetValues(typeof(EVENTS)))
@@ -420,7 +426,9 @@ namespace eSTOL_Training_Tool
                 simconnect.ReceiveDispatch(new SignalProcDelegate(MyDispatchProcA));
                 foreach (int i in definitions.Keys)
                 {
-                    simconnect.RequestDataOnSimObjectType(definitions[(DATA_DEFINE_ID)i].reqId, definitions[(DATA_DEFINE_ID)i].defId, 0, SIMCONNECT_SIMOBJECT_TYPE.USER);
+                    // simconnect.RequestDataOnSimObjectType(definitions[(DATA_DEFINE_ID)i].reqId, definitions[(DATA_DEFINE_ID)i].defId, 0, SIMCONNECT_SIMOBJECT_TYPE.USER);
+
+                    simconnect.RequestDataOnSimObject(definitions[(DATA_DEFINE_ID)i].reqId, definitions[(DATA_DEFINE_ID)i].defId, SimConnect.SIMCONNECT_OBJECT_ID_USER, SIMCONNECT_PERIOD.SIM_FRAME, SIMCONNECT_DATA_REQUEST_FLAG.DEFAULT, 0, this.conf.SimconnectFrames, 0);
                 }
             }
             else
@@ -443,7 +451,7 @@ namespace eSTOL_Training_Tool
 
         private void MyDispatchProcA(SIMCONNECT_RECV pData, uint cData)
         {
-            Console.WriteLine("MyDispatchProcA "+pData+" "+cData);
+            // Console.WriteLine("MyDispatchProcA "+pData+" "+cData);
         }
 
         public void setValue(string name, double value)
@@ -489,7 +497,7 @@ namespace eSTOL_Training_Tool
         }
 
 
-        private void OnRecvSimobjectDataBytype(SimConnect sender, SIMCONNECT_RECV_SIMOBJECT_DATA_BYTYPE data)
+        private void OnRecvSimobjectDataBytype(SimConnect sender, SIMCONNECT_RECV_SIMOBJECT_DATA data) 
         {
             DataDefinition def = definitions[(DATA_DEFINE_ID)data.dwDefineID];
             if (def.isString)
@@ -524,6 +532,239 @@ namespace eSTOL_Training_Tool
             else
             {
                 //Console.WriteLine("SimConnect " + def.dname + " value: " + data.dwData[0]);
+                switch (def.dname)
+                {
+                    case "PLANE ALTITUDE":
+                        {
+                            Altitude = (double)data.dwData[0];
+                            break;
+                        }
+                    case "PLANE LATITUDE":
+                        {
+                            Latitude = (double)data.dwData[0];
+                            break;
+                        }
+                    case "PLANE LONGITUDE":
+                        {
+                            Longitude = (double)data.dwData[0];
+                            break;
+                        }
+                    case "PLANE HEADING DEGREES TRUE":
+                        {
+                            Heading = (double)data.dwData[0];
+                            break;
+                        }
+                    case "GROUND VELOCITY":
+                        {
+                            GroundSpeed = (double)data.dwData[0];
+                            break;
+                        }
+                    case "PLANE ALT ABOVE GROUND MINUS CG":
+                        {
+                            AltitudeAGL = (double)data.dwData[0];
+                            // Console.WriteLine("AltitudeAGL: " + AltitudeAGL);
+                            break;
+                        }
+
+                    case "VERTICAL SPEED":
+                        {
+                            VerticalSpeed = (double)data.dwData[0];
+                            break;
+                        }
+                    case "PLANE PITCH DEGREES":
+                        {
+                            pitch = (double)data.dwData[0];
+                            break;
+                        }
+                    case "PLANE BANK DEGREES":
+                        {
+                            bank = (double)data.dwData[0];
+                            break;
+                        }
+                    case "VELOCITY WORLD X":
+                        {
+                            vX = (double)data.dwData[0];
+                            break;
+                        }
+                    case "VELOCITY WORLD Y":
+                        {
+                            vY = (double)data.dwData[0];
+                            break;
+                        }
+                    case "VELOCITY WORLD Z":
+                        {
+                            vZ = (double)data.dwData[0];
+                            break;
+                        }
+                    case "G FORCE":
+                        {
+                            gforce = (double)data.dwData[0];
+                            break;
+                        }
+                    case "ON ANY RUNWAY":
+                        {
+                            IsOnRundway = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "SIM ON GROUND":
+                        {
+                            IsOnGround = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "ENG COMBUSTION":
+                        {
+                            IsEngineOn = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "SIM DISABLED":
+                        {
+                            SimDisabled = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "BRAKE PARKING POSITION":
+                        {
+                            IsParkingBreak = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "FUEL TOTAL QUANTITY WEIGHT":
+                        {
+                            Fuel = (double)data.dwData[0];
+                            break;
+                        }
+                    case "FUEL SELECTED QUANTITY PERCENT":
+                        {
+                            FuelPercent = (double)data.dwData[0] * 100;
+                            break;
+                        }
+                    case "UNLIMITED FUEL":
+                        {
+                            FuelUnlimited = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "REALISM CRASH DETECTION":
+                        {
+                            CrashEnabled = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "IS SLEW ACTIVE":
+                        {
+                            IsSlew = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "PAYLOAD STATION WEIGHT:1":
+                        {
+                            PilotWeight = (double)data.dwData[0];
+                            break;
+                        }
+                    case "TOTAL WEIGHT":
+                        {
+                            TotalWeight = (double)data.dwData[0];
+                            break;
+                        }
+                    case "MAX GROSS WEIGHT":
+                        {
+                            MaxTotalWeight = (double)data.dwData[0];
+                            break;
+                        }
+                    case "RIGHT WHEEL RPM":
+                        {
+                            RWheelRPM = (double)data.dwData[0];
+                            break;
+                        }
+                    case "LEFT WHEEL RPM":
+                        {
+                            LWheelRPM = (double)data.dwData[0];
+                            break;
+                        }
+                    case "CENTER WHEEL RPM":
+                        {
+                            CWheelRPM = (double)data.dwData[0];
+                            break;
+                        }
+                    case "AUX WHEEL RPM":
+                        {
+                            AuxWheelRPM = (double)data.dwData[0];
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:0":
+                        {
+                            ContactPointNoseTail = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:1":
+                        {
+                            ContactPointLeft = (double)data.dwData[0] > 0;
+                            // Console.WriteLine("ContactPointLeft: " + ContactPointLeft);
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:2":
+                        {
+                            ContactPointRight = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:3":
+                        {
+                            ContactPointWingtip0 = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:4":
+                        {
+                            ContactPointWingtip1 = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "AIRCRAFT WIND X":
+                        {
+                            WindX = (double)data.dwData[0];
+                            break;
+                        }
+                    case "AIRCRAFT WIND Z":
+                        {
+                            WindY = (double)data.dwData[0];
+                            break;
+                        }
+                    default:
+                        {
+                            break;
+                        }
+                }
+            }
+        }
+
+        private void OnRecvSimobjectDataBytype(SimConnect sender, SIMCONNECT_RECV_SIMOBJECT_DATA_BYTYPE data)
+        {
+            DataDefinition def = definitions[(DATA_DEFINE_ID)data.dwDefineID];
+            if (def.isString)
+            {
+                DataStruct result = (DataStruct)data.dwData[0];
+                // Console.WriteLine("SimConnect " + def.dname + " value: " + result.sValue);
+                switch (def.dname)
+                {
+                    case "ATC MODEL":
+                        {
+                            Model = result.sValue;
+                            break;
+                        }
+                    case "ATC TYPE":
+                        {
+                            Type = result.sValue;
+                            break;
+                        }
+                    case "TITLE":
+                        {
+                            Title = result.sValue;
+                            break;
+                        }
+                    case "NAV_LOC_AIRPORT_IDENT":
+                        {
+                            Console.WriteLine(result.sValue);
+                            Airport = result.sValue;
+                            break;
+                        }
+                }
+            }
+            else
+            {
+                // Console.WriteLine("SimConnect " + def.dname + " value: " + data.dwData[0]);
                 switch (def.dname)
                 {
                     case "PLANE ALTITUDE":
