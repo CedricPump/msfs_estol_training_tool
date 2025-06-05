@@ -1,3 +1,7 @@
+v1.2.8
+
+added spin violaton angle to flags calculation
+
 v1.2.7
 
 changed simvars access to RequestDataOnSimObject

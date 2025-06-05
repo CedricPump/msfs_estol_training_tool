@@ -12,6 +12,8 @@ using eSTOL_Training_Tool_Core.UI;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Device.Location;
+using NodaTime;
 
 namespace eSTOL_Training_Tool_Core.Core
 {
@@ -337,6 +339,8 @@ namespace eSTOL_Training_Tool_Core.Core
                                     }
                                 case CycleState.Takeoff:
                                     {
+                                        (double andleL, double angleR) = GetFlagAngles(stol.InitialPosition, (double)stol.InitialHeading, plane);
+
                                         // on Takeoff -> State Climbout
                                         if (!plane.MainGearOnGround())
                                         {
@@ -401,7 +405,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                             stol.TouchdownGs = telemetrie.gForce;
                                             stol.TouchdownGroundSpeed = lastTelemetrie.GroundSpeed;
                                             stol.TouchdownVerticalSpeed = lastTelemetrie.verticalSpeed;
-                                            double spin = GeoUtils.GetMinDeltaAngle((double)stol.InitialHeading, telemetrie.Heading);
+                                            double spin = GeoUtils.GetSignedDeltaAngle((double)stol.InitialHeading, telemetrie.Heading);
                                             stol.maxSpin = Math.Abs(spin);
                                             stol.maxBank = Math.Abs(telemetrie.bank);
                                             double pitch = (double)(stol.InitialPitch - telemetrie.pitch);
@@ -414,7 +418,9 @@ namespace eSTOL_Training_Tool_Core.Core
                                             if (config.debug && stol.IsInit()) Console.WriteLine("TD Pos: " + stol.TouchdownPosition);
                                             form.setResult("Touchdown recorded");
 
-                                            if (Math.Abs(spin) > 45.0)
+                                            (double angleL, double angleR) = GetFlagAngles(stol.InitialPosition, (double)stol.InitialHeading, plane);
+                                            if (config.debug) Console.WriteLine($"spin: {spin:F1}°");
+                                            if (spin > angleR || spin < angleL)
                                             {
                                                 stol.violations.Add(new STOLViolation("ExcessiveTouchdownSpin", spin));
                                             }
@@ -474,13 +480,17 @@ namespace eSTOL_Training_Tool_Core.Core
                                 case CycleState.Rollout:
                                     {
                                         // record attitude on rollout
-                                        double spin = GeoUtils.GetMinDeltaAngle((double)stol.InitialHeading, telemetrie.Heading);
+                                        // double spin = GeoUtils.GetMinDeltaAngle((double)stol.InitialHeading, telemetrie.Heading);
+                                        double spin = GeoUtils.GetSignedDeltaAngle((double)stol.InitialHeading, telemetrie.Heading);
                                         stol.maxSpin = Math.Max((double) stol.maxSpin, Math.Abs(spin));
                                         stol.maxBank = Math.Max((double) stol.maxBank, Math.Abs(telemetrie.bank));
                                         double pitch = (double)(stol.InitialPitch - telemetrie.pitch);
                                         stol.minPitch = Math.Min((double)stol.minPitch, pitch);
 
-                                        if (config.debug && stol.IsInit()) Console.WriteLine($"max spin: {stol.maxSpin}° max bank: {stol.maxBank}° max pitch: {stol.minPitch}°");
+                                        if (config.debug && stol.IsInit())
+                                        { Console.WriteLine($"max spin: {stol.maxSpin}° max bank: {stol.maxBank}° max pitch: {stol.minPitch}°"); }
+                                        (double angleL, double angleR) = GetFlagAngles(stol.InitialPosition, (double)stol.InitialHeading, plane);
+                                        if (config.debug) Console.WriteLine($"spin: {spin:F1}°");
 
                                         // stopping -> Hold
                                         if (plane.GroundSpeed < config.GroundspeedThreshold && plane.MainGearOnGround())
@@ -490,9 +500,9 @@ namespace eSTOL_Training_Tool_Core.Core
                                             stol.StopTime = DateTime.Now;
                                             this.form.StopStopWatch();
 
-                                            if (Math.Abs(spin) > 45.0)
+                                            if (spin > angleR || spin < angleL)
                                             {
-                                                stol.violations.Add(new STOLViolation("ExcessiveStopSpin", (double)stol.maxSpin));
+                                                stol.violations.Add(new STOLViolation("ExcessiveStopSpin", (double)spin));
                                             }
 
                                             if (Math.Abs((double)stol.maxSpin) > 45.0)
@@ -583,6 +593,28 @@ namespace eSTOL_Training_Tool_Core.Core
                 int intervall = plane.IsSimConnectConnected ? config.RefreshInterval : config.IdleRefreshInterval;
                 System.Threading.Thread.Sleep(intervall);
             };
+        }
+
+        private (double, double) GetFlagAngles(GeoCoordinate origin, double initHeading, Plane plane)
+        {
+            (double yOffset, double xOffset) = GeoUtils.GetDistanceAlongAxis(origin, plane.getPositionWithGearOffset(), initHeading);
+
+            if (config.debug) Console.WriteLine($"x: {xOffset:F1} m  y: {yOffset:F1} m");
+
+            double adjacent = 182.88 - yOffset;
+            double halfSpan = 42.672 / 2;
+
+            double oppositeLeft = halfSpan + xOffset;
+            double oppositeRight = halfSpan - xOffset;
+
+            if (config.debug) Console.WriteLine($"adjacent: {adjacent:F1} m  opposites: L={oppositeLeft:F1} m  R={oppositeRight:F1} m");
+
+            double angleLeft = Math.Atan(oppositeLeft / adjacent) * (180.0 / Math.PI);
+            double angleRight = Math.Atan(oppositeRight / adjacent) * (180.0 / Math.PI);
+
+            if (config.debug) Console.WriteLine($"angleL: {angleLeft:F1}°  angleR: {angleRight:F1}°");
+
+            return (-angleLeft, angleRight);
         }
 
 
