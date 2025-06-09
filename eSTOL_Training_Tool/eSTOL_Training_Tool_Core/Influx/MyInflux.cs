@@ -5,6 +5,7 @@ using InfluxDB.Client.Api.Domain;
 using InfluxDB.Client.Writes;
 using eSTOL_Training_Tool.Model;
 using eSTOL_Training_Tool_Core.Core;
+using eSTOL_Training_Tool_Core.Model;
 
 
 namespace eSTOL_Training_Tool_Core.Influx
@@ -59,14 +60,22 @@ namespace eSTOL_Training_Tool_Core.Influx
             await writeApi.WritePointAsync(point, bucketResult, org);
         }
 
-        public async void sendTelemetry(string username, Plane plane)
+        public async void sendTelemetry(string username, Plane plane, STOLData stol)
         {
             Telemetrie telemetrie = plane.GetTelemetrie();
             AircraftState state = plane.GetState();
+
+            string preset = "";
+            if (stol != null && stol.preset != null)
+            {
+                preset = stol.preset.title;
+            }
+
             var point = PointData.Measurement("stol_telemetry")
                 .Tag("User", username)
                 .Tag("Model", plane.Model)
                 .Tag("VersionTag", VersionHelper.GetVersion())
+                .Tag("SelectedPreset", preset)
                 .Field("Heading", telemetrie.Heading)
                 .Field("Latitude", telemetrie.Position.Latitude)
                 .Field("Longitude", telemetrie.Position.Longitude)

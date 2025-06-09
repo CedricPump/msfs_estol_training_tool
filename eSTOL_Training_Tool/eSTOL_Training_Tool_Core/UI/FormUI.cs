@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Reactive;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using eSTOL_Training_Tool;
 using eSTOL_Training_Tool_Core.Core;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
@@ -34,6 +35,9 @@ namespace eSTOL_Training_Tool_Core.UI
         private int fieldSizeFull = 600;
         private int fieldSizeZoom = 220;
         private int selectedFieldSize = 600;
+
+        private string aligned = "";
+        private Color alignColor = SystemColors.Control;
 
         public FormUI(Controller controller)
         {
@@ -275,7 +279,7 @@ namespace eSTOL_Training_Tool_Core.UI
             }
         }
 
-        void pannel_DoubleClick( object sender, EventArgs e) 
+        void pannel_DoubleClick(object sender, EventArgs e)
         {
             if (selectedFieldSize == fieldSizeFull) selectedFieldSize = fieldSizeZoom;
             else if (selectedFieldSize == fieldSizeZoom) selectedFieldSize = fieldSizeFull;
@@ -312,7 +316,7 @@ namespace eSTOL_Training_Tool_Core.UI
         private void Timer(object sender, EventArgs e)
         {
             // just to check it periodically
-            if(alwaysontop && !this.TopMost) this.TopMost = alwaysontop;
+            if (alwaysontop && !this.TopMost) this.TopMost = alwaysontop;
 
             TimeSpan elapsed = this.stopwatch.Elapsed + StopwatchOffset;
             string minus = elapsed.TotalSeconds < 0 ? "-" : " ";
@@ -329,6 +333,8 @@ namespace eSTOL_Training_Tool_Core.UI
                 }
             }
 
+            this.textBoxAligned.Text = aligned;
+            this.textBoxAligned.BackColor = alignColor;
         }
 
         public void StartStopWatch()
@@ -400,6 +406,12 @@ namespace eSTOL_Training_Tool_Core.UI
             panel.Invalidate();
         }
 
+        public void setAligned(string Test, Color color) 
+        {
+            this.aligned = Test;
+            this.alignColor = color;
+        }
+
         public void setWind(double winddir, double wind)
         {
             this.WindDir = winddir;
@@ -439,11 +451,16 @@ namespace eSTOL_Training_Tool_Core.UI
             PointF start = new PointF(centerX + dx, centerY - dy); // tail
             PointF end = new PointF(centerX - dx, centerY + dy);   // arrowhead
 
-            g.DrawLine(arrowPen,  start, end);
+            g.DrawLine(arrowPen, start, end);
         }
 
 
         private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
         }

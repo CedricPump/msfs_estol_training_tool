@@ -16,7 +16,7 @@ namespace eSTOL_Training_Tool
         // meta
         public string planeType = "";
         public string user = "";
-        Preset preset = null;
+        public Preset preset = null;
 
         // Positions
         public GeoCoordinate InitialPosition = null;

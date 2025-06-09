@@ -48,8 +48,9 @@ namespace eSTOL_Training_Tool_Core.Core
         DateTime lastTelemetrieTime = DateTime.MinValue;
         DateTime lastUIResfresh = DateTime.MinValue;
         double AGLonGroundThreshold = 0.3; // ft
-        double fieldLength = 600;
+        double fieldLength = 600; // ft
         bool debug = false;
+        double flagsAngleTreshold = 1; // deg
 
         public Controller()
         {
@@ -251,7 +252,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                 lastTelemetrieTime = DateTime.Now;
                                 try
                                 {
-                                    influx.sendTelemetry(stol.user, plane);
+                                    influx.sendTelemetry(stol.user, plane, stol);
                                 }
                                 catch (Exception ex)
                                 {
@@ -285,6 +286,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                     if (linedist >= -50 && linedist <= 1)
                                     {
                                         this.form.setResult($"Align: {Math.Round(stol.GetDistanceTo(telemetrie.Position) * 3.28084) + 3.93701} ft to Line");
+                                        this.form.setAligned("Aligned", System.Drawing.Color.White);
                                     }
                                 }
                             }
@@ -320,6 +322,34 @@ namespace eSTOL_Training_Tool_Core.Core
                                     break;
                                 case CycleState.Hold:
                                     {
+                                        if (IsStolInit())
+                                        {
+                                            (double yOffset, double xOffset) = GeoUtils.GetDistanceAlongAxis(stol.InitialPosition, plane.getPositionWithGearOffset(), (double)stol.InitialHeading);
+                                            double spin = GeoUtils.GetSignedDeltaAngle((double)stol.InitialHeading, telemetrie.Heading);
+                                            (double angleL, double angleR) = GetFlagAngles(stol.InitialPosition, (double)stol.InitialHeading, plane);
+
+                                            Console.WriteLine($"angleL: {angleL:F1}°  angleR: {angleR:F1}° spin: {spin}°");
+
+                                            if (!(spin > angleR + flagsAngleTreshold || spin < angleL - flagsAngleTreshold) && yOffset > -1.2 && yOffset < 0 && Math.Abs(xOffset) < 21)
+                                            {
+                                                this.form.setAligned("aligned", System.Drawing.Color.LightGreen);
+                                            }
+                                            else if (Math.Abs(spin) < 45 && yOffset > -1.2 && yOffset < 1 && Math.Abs(xOffset) < 21)
+                                            {
+                                                this.form.setAligned("aligned (bad heading)", System.Drawing.Color.LightGreen);
+                                            }
+                                            else if (Math.Abs(spin) < 90 && yOffset > -180 && yOffset < 1 && Math.Abs(xOffset) < 21)
+                                            {
+                                                this.form.setAligned("on lineup", System.Drawing.Color.LightYellow);
+                                            }
+                                            else
+                                            {
+                                                this.form.setAligned("NOT ALIGNED", System.Drawing.Color.IndianRed);
+                                            }
+                                        }
+
+
+
                                         // on start roll -> State Takeoff
                                         if (plane.GroundSpeed > config.GroundspeedThreshold && plane.MainGearOnGround())
                                         {
@@ -339,6 +369,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                     }
                                 case CycleState.Takeoff:
                                     {
+                                        this.form.setAligned("", System.Drawing.SystemColors.Control);
                                         (double andleL, double angleR) = GetFlagAngles(stol.InitialPosition, (double)stol.InitialHeading, plane);
 
                                         // on Takeoff -> State Climbout
@@ -420,7 +451,7 @@ namespace eSTOL_Training_Tool_Core.Core
 
                                             (double angleL, double angleR) = GetFlagAngles(stol.InitialPosition, (double)stol.InitialHeading, plane);
                                             if (config.debug) Console.WriteLine($"spin: {spin:F1}°");
-                                            if (spin > angleR || spin < angleL)
+                                            if (spin > angleR + flagsAngleTreshold || spin < angleL - flagsAngleTreshold)
                                             {
                                                 stol.violations.Add(new STOLViolation("ExcessiveTouchdownSpin", spin));
                                             }
@@ -500,7 +531,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                             stol.StopTime = DateTime.Now;
                                             this.form.StopStopWatch();
 
-                                            if (spin > angleR || spin < angleL)
+                                            if (spin > angleR + flagsAngleTreshold || spin < angleL - flagsAngleTreshold)
                                             {
                                                 stol.violations.Add(new STOLViolation("ExcessiveStopSpin", (double)spin));
                                             }

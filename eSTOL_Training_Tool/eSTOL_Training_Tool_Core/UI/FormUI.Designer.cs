@@ -57,6 +57,7 @@
             panel1 = new System.Windows.Forms.Panel();
             labelWind = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
+            textBoxAligned = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)numericUpDownStopwatchOffest).BeginInit();
             SuspendLayout();
             // 
@@ -73,12 +74,13 @@
             // textBoxResult
             // 
             textBoxResult.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            textBoxResult.BackColor = System.Drawing.SystemColors.Control;
             textBoxResult.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            textBoxResult.Location = new System.Drawing.Point(12, 27);
+            textBoxResult.Location = new System.Drawing.Point(12, 58);
             textBoxResult.Multiline = true;
             textBoxResult.Name = "textBoxResult";
             textBoxResult.ReadOnly = true;
-            textBoxResult.Size = new System.Drawing.Size(300, 478);
+            textBoxResult.Size = new System.Drawing.Size(300, 447);
             textBoxResult.TabIndex = 1;
             // 
             // textBoxUser
@@ -353,11 +355,25 @@
             label3.TabIndex = 25;
             label3.Text = "Wind";
             // 
+            // textBoxAligned
+            // 
+            textBoxAligned.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            textBoxAligned.BackColor = System.Drawing.SystemColors.Control;
+            textBoxAligned.Location = new System.Drawing.Point(12, 29);
+            textBoxAligned.Name = "textBoxAligned";
+            textBoxAligned.ReadOnly = true;
+            textBoxAligned.Size = new System.Drawing.Size(300, 23);
+            textBoxAligned.TabIndex = 26;
+            textBoxAligned.Text = "...";
+            textBoxAligned.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            textBoxAligned.TextChanged += textBox1_TextChanged;
+            // 
             // FormUI
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(833, 545);
+            Controls.Add(textBoxAligned);
             Controls.Add(label3);
             Controls.Add(labelWind);
             Controls.Add(panel1);
@@ -421,5 +437,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label labelWind;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox textBoxAligned;
     }
 }
