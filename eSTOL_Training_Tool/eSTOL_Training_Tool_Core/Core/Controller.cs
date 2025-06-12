@@ -302,7 +302,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                         try
                                         {
                                             // send event
-                                            if (config.isSendResults) influx.sendEvent(user, plane, "WINGSTRIKE", "ture");
+                                            if (config.isSendResults) influx.sendEvent(user, plane, "WINGSTRIKE", "true");
                                         }
                                         catch
                                         {
