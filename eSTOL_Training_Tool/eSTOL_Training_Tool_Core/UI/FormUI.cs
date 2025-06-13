@@ -161,6 +161,15 @@ namespace eSTOL_Training_Tool_Core.UI
             }
         }
 
+        private void textBoxSessionKey_KeyDown(object sender, KeyEventArgs e) 
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                controller.SetSession(textBoxSessionKey.Text);
+                textBoxResult.Text = $"Applied session key";
+            }
+        }
+
         private void buttonCreatePreset_Click(object sender, EventArgs e)
         {
             if (!controller.IsSimConnected())
@@ -406,7 +415,7 @@ namespace eSTOL_Training_Tool_Core.UI
             panel.Invalidate();
         }
 
-        public void setAligned(string Test, Color color) 
+        public void setAligned(string Test, Color color)
         {
             this.aligned = Test;
             this.alignColor = color;
@@ -461,6 +470,21 @@ namespace eSTOL_Training_Tool_Core.UI
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxSessionKey_TextChanged(object sender, EventArgs e)
         {
 
         }

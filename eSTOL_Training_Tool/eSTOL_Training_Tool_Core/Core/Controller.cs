@@ -197,6 +197,11 @@ namespace eSTOL_Training_Tool_Core.Core
             stol.user = username;
         }
 
+        public void SetSession(string sessionKey)
+        {
+            stol.sessionKey = sessionKey;
+        }
+
         public void setUnit(string unit) 
         {
             this.unit = unit;
@@ -302,7 +307,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                         try
                                         {
                                             // send event
-                                            if (config.isSendResults) influx.sendEvent(user, plane, "WINGSTRIKE", "true");
+                                            if (config.isSendResults) influx.sendEvent(user, stol.sessionKey, plane, "WINGSTRIKE", "true");
                                         }
                                         catch
                                         {
@@ -385,7 +390,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                             try
                                             {
                                                 // send event
-                                                if (config.isSendResults) influx.sendEvent(user, plane, "TAKEOFF", (stol.GetTakeoffDistance() * 3.28084).ToString("0"));
+                                                if (config.isSendResults) influx.sendEvent(user, stol.sessionKey, plane, "TAKEOFF", (stol.GetTakeoffDistance() * 3.28084).ToString("0"));
                                             }
                                             catch
                                             {
@@ -458,7 +463,7 @@ namespace eSTOL_Training_Tool_Core.Core
 
                                             if (config.isSendResults && stol.hasViolation("ExcessiveTouchdownSpin"))
                                             {
-                                                influx.sendEvent(user, plane, "EXCESSIVE_TOUCHDOWN_SPIN", ((spin).ToString("0.0")));
+                                                influx.sendEvent(user, stol.sessionKey, plane, "EXCESSIVE_TOUCHDOWN_SPIN", ((spin).ToString("0.0")));
                                             }
 
                                             double touchdowndist = stol.GetTouchdownDistance();
@@ -484,19 +489,19 @@ namespace eSTOL_Training_Tool_Core.Core
                                                 // send event
                                                 if (config.isSendResults)
                                                 {
-                                                    influx.sendEvent(user, plane, "TOUCHDOWN", (stol.GetTouchdownDistance() * 3.28084).ToString("0"));
+                                                    influx.sendEvent(user, stol.sessionKey, plane, "TOUCHDOWN", (stol.GetTouchdownDistance() * 3.28084).ToString("0"));
                                                 }
                                                 if (config.isSendResults && stol.hasViolation("TouchdownLineViolation"))
                                                 {
-                                                    influx.sendEvent(user, plane, "SCRATCH", (stol.GetTouchdownDistance() * 3.28084).ToString("0"));
+                                                    influx.sendEvent(user, stol.sessionKey, plane, "SCRATCH", (stol.GetTouchdownDistance() * 3.28084).ToString("0"));
                                                 }
                                                 if (config.isSendResults && stol.hasViolation("ExcessiveGs"))
                                                 {
-                                                    influx.sendEvent(user, plane, "EXCESSIVE_G", (((double)stol.TouchdownGs).ToString("0.0")));
+                                                    influx.sendEvent(user, stol.sessionKey, plane, "EXCESSIVE_G", (((double)stol.TouchdownGs).ToString("0.0")));
                                                 }
                                                 if (config.isSendResults && stol.hasViolation("ExcessiveVerticalSpeed"))
                                                 {
-                                                    influx.sendEvent(user, plane, "EXCESSIVE_VSPEED", (((double)stol.TouchdownVerticalSpeed).ToString("0")));
+                                                    influx.sendEvent(user, stol.sessionKey, plane, "EXCESSIVE_VSPEED", (((double)stol.TouchdownVerticalSpeed).ToString("0")));
                                                 }
                                             }
                                             catch (Exception e)
@@ -552,17 +557,17 @@ namespace eSTOL_Training_Tool_Core.Core
                                                 // send event
                                                 if (config.isSendResults)
                                                 {
-                                                    influx.sendEvent(user, plane, "STOP", (stol.GetLandingDistance() * 3.28084).ToString("0"));
+                                                    influx.sendEvent(user, stol.sessionKey, plane, "STOP", (stol.GetLandingDistance() * 3.28084).ToString("0"));
                                                 }
 
                                                 if (config.isSendResults && stol.hasViolation("ExcessiveStopSpin"))
                                                 {
-                                                    influx.sendEvent(user, plane, "EXCESSIVE_STOP_SPIN", spin.ToString("0.0"));
+                                                    influx.sendEvent(user, stol.sessionKey, plane, "EXCESSIVE_STOP_SPIN", spin.ToString("0.0"));
                                                 }
 
                                                 if (config.isSendResults && stol.hasViolation("ExcessiveMaxSpin"))
                                                 {
-                                                    influx.sendEvent(user, plane, "EXCESSIVE_MAX_SPIN", (((double)stol.maxSpin).ToString("0.0")));
+                                                    influx.sendEvent(user, stol.sessionKey, plane, "EXCESSIVE_MAX_SPIN", (((double)stol.maxSpin).ToString("0.0")));
                                                 }
 
                                             }
@@ -602,7 +607,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                             setState(CycleState.Fly);
                                             Console.WriteLine("Touch 'n' go recorded, try Again");
                                             form.setResult("Touch 'n' go recorded, try Again");
-                                            if (config.isSendResults) influx.sendEvent(user, plane, "TOUCH_N_GO", "true");
+                                            if (config.isSendResults) influx.sendEvent(user, stol.sessionKey, plane, "TOUCH_N_GO", "true");
                                         }
                                         break;
                                     }

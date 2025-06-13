@@ -7,6 +7,7 @@ using eSTOL_Training_Tool.Model;
 using eSTOL_Training_Tool_Core.Core;
 using eSTOL_Training_Tool_Core.Model;
 using Microsoft.FlightSimulator.SimConnect;
+using static System.Windows.Forms.AxHost;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace eSTOL_Training_Tool
@@ -80,6 +81,7 @@ namespace eSTOL_Training_Tool
         // Ambient
         public double WindX { get; private set; } = 0.0;
         public double WindY { get; private set; } = 0.0;
+        public double Antistall { get; private set; } = 2;
 
         private Config conf;
 
@@ -325,6 +327,11 @@ namespace eSTOL_Training_Tool
             CreateDataDefinition("AIRCRAFT WIND X", "knots");
             CreateDataDefinition("AIRCRAFT WIND Z", "knots");
 
+            CreateDataDefinition("ASSISTANCE LANDING ENABLED", "Bool");
+            CreateDataDefinition("ASSISTANCE TAKEOFF ENABLED", "Bool");
+            CreateDataDefinition("AI ANTISTALL STATE", "Bool");
+            CreateDataDefinition("AI AUTOTRIM ACTIVE", "Number");
+            
 
             RegiserDefinitions();
 
@@ -720,6 +727,11 @@ namespace eSTOL_Training_Tool
                     case "AIRCRAFT WIND Z":
                         {
                             WindY = (double)data.dwData[0];
+                            break;
+                        }
+                    case "AI ANTISTALL STATE":
+                        {
+                            Antistall = (double)data.dwData[0];
                             break;
                         }
                     default:

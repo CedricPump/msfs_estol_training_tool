@@ -6,6 +6,7 @@ using InfluxDB.Client.Writes;
 using eSTOL_Training_Tool.Model;
 using eSTOL_Training_Tool_Core.Core;
 using eSTOL_Training_Tool_Core.Model;
+using System.Web;
 
 
 namespace eSTOL_Training_Tool_Core.Influx
@@ -41,6 +42,7 @@ namespace eSTOL_Training_Tool_Core.Influx
                 .Tag("User", stolResult.User)
                 .Tag("planeType", stolResult.planeType)
                 .Tag("preset", stolResult.preset == null ? "" : stolResult.preset.title)
+                .Tag("SessionKey", stolResult.sessionKey)
                 .Field("Takeoffdist", stolResult.Takeoffdist)
                 .Field("Touchdowndist", stolResult.Touchdowndist)
                 .Field("Stoppingdist", stolResult.Stoppingdist)
@@ -76,6 +78,7 @@ namespace eSTOL_Training_Tool_Core.Influx
                 .Tag("Model", plane.Model)
                 .Tag("VersionTag", VersionHelper.GetVersion())
                 .Tag("SelectedPreset", preset)
+                .Tag("SessionKey", stol.sessionKey)
                 .Field("Heading", telemetrie.Heading)
                 .Field("Latitude", telemetrie.Position.Latitude)
                 .Field("Longitude", telemetrie.Position.Longitude)
@@ -89,6 +92,7 @@ namespace eSTOL_Training_Tool_Core.Influx
                 .Field("PilotWeight", state.PilotWeight)
                 .Field("MaxWeightPercent", state.MaxWeightPercent)
                 .Field("ParkingBrake", state.ParkingBrake ? 1.0 : 0.0)
+                .Field("Antistall", plane.Antistall)
 
                 .Timestamp(DateTime.Now, WritePrecision.Ns);
 
@@ -96,13 +100,14 @@ namespace eSTOL_Training_Tool_Core.Influx
             await writeApi.WritePointAsync(point, bucketTelemetry, org);
         }
 
-        public async void sendEvent(string username, Plane plane, string eventType, string value)
+        public async void sendEvent(string username, string sessionKey, Plane plane, string eventType, string value)
         {
             Telemetrie telemetrie = plane.GetTelemetrie();
             AircraftState state = plane.GetState();
             var point = PointData.Measurement("stol_event")
                 .Tag("EventType", eventType)
                 .Tag("User", username)
+                .Tag("SessionKey", sessionKey)
                 .Field("Value", value)
                 .Field("Latitude", telemetrie.Position.Latitude)
                 .Field("Longitude", telemetrie.Position.Longitude)

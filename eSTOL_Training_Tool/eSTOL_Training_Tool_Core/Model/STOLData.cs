@@ -17,6 +17,7 @@ namespace eSTOL_Training_Tool
         public string planeType = "";
         public string user = "";
         public Preset preset = null;
+        public string sessionKey = "none";
 
         // Positions
         public GeoCoordinate InitialPosition = null;
@@ -100,6 +101,7 @@ namespace eSTOL_Training_Tool
 
             STOLResult result = new STOLResult();
             result.Unit = unit;
+            result.sessionKey = sessionKey;
             result.preset = preset;
             result.InitHash = GetInitialPosHash();
             result.User = user;
@@ -244,6 +246,7 @@ namespace eSTOL_Training_Tool
         public string Unit;
         public double GForce;
         public List<STOLViolation> violations;
+        public string sessionKey;
 
         public string getConsoleString() 
         {
