@@ -14,6 +14,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Device.Location;
 using NodaTime;
+using eSTOL_Training_Tool_Core.GPX;
 
 namespace eSTOL_Training_Tool_Core.Core
 {
@@ -38,6 +39,7 @@ namespace eSTOL_Training_Tool_Core.Core
         STOLData stol = new STOLData();
         STOLData lastStol = new STOLData();
         Telemetrie lastTelemetrie;
+        GPXRecorder GPXRecorder = new GPXRecorder();
         bool openWorldMode = true;
         List<Preset> presets = new();
         Preset preset;
@@ -333,7 +335,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                             double spin = GeoUtils.GetSignedDeltaAngle((double)stol.InitialHeading, telemetrie.Heading);
                                             (double angleL, double angleR) = GetFlagAngles(stol.InitialPosition, (double)stol.InitialHeading, plane);
 
-                                            Console.WriteLine($"angleL: {angleL:F1}°  angleR: {angleR:F1}° spin: {spin}°");
+                                            if(debug) Console.WriteLine($"angleL: {angleL:F1}°  angleR: {angleR:F1}° spin: {spin}°");
 
                                             if (!(spin > angleR + flagsAngleTreshold || spin < angleL - flagsAngleTreshold) && yOffset > -1.2 && yOffset < 0 && Math.Abs(xOffset) < 21)
                                             {
@@ -361,6 +363,11 @@ namespace eSTOL_Training_Tool_Core.Core
                                             setState(CycleState.Takeoff);
                                             stol.StartTime = DateTime.Now;
                                             this.form.StartStopWatch();
+
+                                            if (config.enableGPXRecodering) 
+                                            {
+                                                GPXRecorder.Reset();
+                                            }
                                         }
 
                                         // on (vertical) Takeoff -> State Takeoff
@@ -369,6 +376,11 @@ namespace eSTOL_Training_Tool_Core.Core
                                             setState(CycleState.Climbout);
                                             stol.StartTime = DateTime.Now;
                                             this.form.StartStopWatch();
+
+                                            if (config.enableGPXRecodering)
+                                            {
+                                                GPXRecorder.Reset();
+                                            }
                                         }
                                         break;
                                     }
@@ -405,7 +417,8 @@ namespace eSTOL_Training_Tool_Core.Core
                                             setState(CycleState.Hold);
                                             this.form.StopStopWatch();
                                         }
-                                            break;
+
+                                        break;
                                     }
                                 case CycleState.Climbout:
                                     {
@@ -581,14 +594,16 @@ namespace eSTOL_Training_Tool_Core.Core
                                             stol.Reset();
                                             try
                                             {
-                                                using (StreamWriter writer = new StreamWriter(config.ExportPath, append: true))
+                                                var dir = Path.GetDirectoryName(config.ResultsExportPath);
+                                                Directory.CreateDirectory(dir);
+                                                using (StreamWriter writer = new StreamWriter(config.ResultsExportPath, append: true))
                                                 {
                                                     writer.WriteLine(result.getCsvString());
                                                 }
                                             }
                                             catch
                                             {
-                                                Console.WriteLine("Unable to export to " + config.ExportPath);
+                                                Console.WriteLine("Unable to export to " + config.ResultsExportPath);
                                             }
                                             try
                                             {
@@ -598,6 +613,13 @@ namespace eSTOL_Training_Tool_Core.Core
                                             catch
                                             {
                                                 Console.WriteLine("Unable to send result - check update");
+                                            }
+
+                                            // save gpx
+                                            if (config.enableGPXRecodering)
+                                            {
+                                                GPXRecorder.Append(telemetrie);
+                                                GPXRecorder.Save(stol.user.Trim(), stol.planeType);
                                             }
                                         }
                                         // Alt AGL > 5 ft to avoid bounce detection
@@ -611,6 +633,11 @@ namespace eSTOL_Training_Tool_Core.Core
                                         }
                                         break;
                                     }
+                            }
+
+                            if (config.enableGPXRecodering && cycleState != CycleState.Hold && cycleState != CycleState.Unknown)
+                            {
+                                GPXRecorder.Append(telemetrie);
                             }
                         }
                         else

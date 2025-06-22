@@ -18,7 +18,9 @@ namespace eSTOL_Training_Tool_Core.Core
         public uint SimconnectFrames { get; set; } = 2;
         public int TelemetrySendInterval { get; set; } = 3;
         public double GroundspeedThreshold { get; set; } = 0.7;
-        public string ExportPath { get; set; } = "eSTOL_Training_Tool.csv";
+        public string ResultsExportPath { get; set; } = ".\\export\\eSTOL_Training_Tool.csv";
+        public string RecordingExportPath { get; set; } = ".\\export";
+        public string ExportPath { get; set; } = ".\\export";
         public string PresetsPath { get; set; } = "presets.json";
         public string CustomPresetsPath { get; set; } = "custom_presets.json";
         public string OffsetPath { get; set; } = "GearOffset.json";
@@ -31,6 +33,7 @@ namespace eSTOL_Training_Tool_Core.Core
         public bool isSendTelemetry { get; set; } = false;
         public bool isSendResults { get; set; } = false;
         public int uiRefreshIntervall { get; set; } = 1000;
+        public bool enableGPXRecodering { get; set; } = true;
 
 
         private static Config instance = null;
