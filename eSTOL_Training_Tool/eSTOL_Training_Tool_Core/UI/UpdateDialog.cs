@@ -28,6 +28,8 @@ namespace eSTOL_Training_Tool_Core.UI
 
         private void InitializeComponent()
         {
+            this.TopMost = true;
+
             labeltext = new Label();
             linkLabel = new LinkLabel();
             buttonUpdate = new Button();
@@ -62,7 +64,6 @@ namespace eSTOL_Training_Tool_Core.UI
             buttonUpdate.Size = new System.Drawing.Size(75, 23);
             buttonUpdate.TabIndex = 2;
             buttonUpdate.Text = "Update";
-            buttonUpdate.UseVisualStyleBackColor = true;
             buttonUpdate.Click += btnUpdate_Click;
             // 
             // buttonSkip
@@ -73,7 +74,6 @@ namespace eSTOL_Training_Tool_Core.UI
             buttonSkip.Size = new System.Drawing.Size(75, 23);
             buttonSkip.TabIndex = 3;
             buttonSkip.Text = "Skip";
-            buttonSkip.UseVisualStyleBackColor = true;
             buttonSkip.Click += btnSkip_Click;
             // 
             // UpdateDialog

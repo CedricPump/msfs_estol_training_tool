@@ -34,6 +34,10 @@ namespace eSTOL_Training_Tool_Core.Core
         public bool isSendResults { get; set; } = false;
         public int uiRefreshIntervall { get; set; } = 1000;
         public bool enableGPXRecodering { get; set; } = true;
+        public int transparencyPercent { get; set; } = 0;
+        public bool darkModeEnabled { get; set; } = true;
+        public bool darkModeSystem { get; set; } = true;
+
 
 
         private static Config instance = null;

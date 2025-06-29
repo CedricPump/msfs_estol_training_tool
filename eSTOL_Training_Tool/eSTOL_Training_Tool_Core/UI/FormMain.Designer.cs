@@ -56,7 +56,6 @@
             buttonApplyPreset.Size = new System.Drawing.Size(162, 23);
             buttonApplyPreset.TabIndex = 1;
             buttonApplyPreset.Text = "Apply";
-            buttonApplyPreset.UseVisualStyleBackColor = true;
             buttonApplyPreset.Click += buttonApplyPreset_Click;
             // 
             // buttonTeleport
@@ -66,7 +65,6 @@
             buttonTeleport.Size = new System.Drawing.Size(162, 23);
             buttonTeleport.TabIndex = 2;
             buttonTeleport.Text = "Teleport";
-            buttonTeleport.UseVisualStyleBackColor = true;
             buttonTeleport.Click += buttonTeleport_Click;
             // 
             // textBoxResult
@@ -113,7 +111,6 @@
             buttonSetRefPos.Size = new System.Drawing.Size(162, 23);
             buttonSetRefPos.TabIndex = 7;
             buttonSetRefPos.Text = "Set Start";
-            buttonSetRefPos.UseVisualStyleBackColor = true;
             buttonSetRefPos.Click += buttonSetRefPos_Click;
             // 
             // FormMain

@@ -2,6 +2,7 @@
 using System.Device.Location;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Reactive;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
@@ -39,10 +40,36 @@ namespace eSTOL_Training_Tool_Core.UI
         private string aligned = "";
         private Color alignColor = SystemColors.Control;
 
+        private static readonly Color myDarkControl = Color.FromArgb(0x20, 0x20, 0x20);
+
         public FormUI(Controller controller)
         {
             InitializeComponent();
             var config = Config.GetInstance();
+
+#pragma warning disable CA1416 // Validate platform compatibility
+#pragma warning disable WFO5001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+            if (Application.IsDarkModeEnabled)
+            {
+                Console.WriteLine(this.buttonSetRefPos.BackColor);
+
+                this.textBoxResult.BackColor = myDarkControl;
+                this.textBoxStatus.BackColor = myDarkControl;
+                this.linkLabelRecordings.LinkColor = Color.FromArgb(0x60cdff);
+            }
+#pragma warning restore WFO5001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+#pragma warning restore CA1416 // Validate platform compatibility
+
+
+            if (config.transparencyPercent > 0)
+            {
+                // Clamp between 0 and 100
+                int percent = Math.Max(0, Math.Min(90, config.transparencyPercent));
+
+                // Convert percent to a value between 0.0 (fully transparent) and 1.0 (fully opaque)
+                this.Opacity = 1 - percent / 100.0;
+            }
+
             alwaysontop = config.alwaysOnTop;
             this.checkBoxOntop.Checked = alwaysontop;
 
@@ -66,6 +93,7 @@ namespace eSTOL_Training_Tool_Core.UI
 
             this.checkBoxResult.Checked = config.isSendResults;
             this.checkBoxTelemetry.Checked = config.isSendTelemetry;
+            this.checkBoxSaveRecording.Checked = config.enableGPXRecodering;
 
             this.numericUpDownStopwatchOffest.Value = stopwatchOffsetSeconds;
         }
@@ -143,6 +171,19 @@ namespace eSTOL_Training_Tool_Core.UI
                 MessageBox.Show("Sim not connected");
                 return;
             }
+
+            var result = MessageBox.Show(
+                "Do you really want to move the aircraft location?",
+                "Confirm Teleport",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (result != DialogResult.Yes)
+            {
+                // Abort teleport if the user didn't click Yes
+                return;
+            }
+
             controller.TeleportToReferenceLine();
             textBoxResult.Text = "";
         }
@@ -161,7 +202,7 @@ namespace eSTOL_Training_Tool_Core.UI
             }
         }
 
-        private void textBoxSessionKey_KeyDown(object sender, KeyEventArgs e) 
+        private void textBoxSessionKey_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
@@ -283,7 +324,14 @@ namespace eSTOL_Training_Tool_Core.UI
                 }
 
                 // Runway border stretched to full canvas
-                using Pen borderPen = new Pen(Color.LightGray, 5);
+                Color penColor = SystemColors.Control;
+#pragma warning disable WFO5001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+                if (Application.IsDarkModeEnabled)
+                {
+                    penColor = myDarkControl;
+                }
+#pragma warning restore WFO5001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+                using Pen borderPen = new Pen(penColor, 5);
                 g.DrawRectangle(borderPen, 0, 0, canvasWidth, canvasHeight);
             }
         }
@@ -425,25 +473,37 @@ namespace eSTOL_Training_Tool_Core.UI
         {
             this.WindDir = winddir;
             this.Wind = wind;
-            panel1.Invalidate();
+            panelWind.Invalidate();
         }
 
         private void panelWind_Paint(object sender, PaintEventArgs e)
         {
+            Color backColor = SystemColors.Control;
+            Color foreColor = SystemColors.ControlText;
+#pragma warning disable CA1416 // Validate platform compatibility
+#pragma warning disable WFO5001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+            if (Application.IsDarkModeEnabled)
+            {
+                backColor = myDarkControl;
+                foreColor = Color.White;
+            }
+#pragma warning restore WFO5001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+#pragma warning restore CA1416 // Validate platform compatibility
+
             labelWind.Text = $"{this.Wind,4:0.0}";
 
             Graphics g = e.Graphics;
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            g.Clear(Color.WhiteSmoke);
+            g.Clear(backColor);
 
             AdjustableArrowCap bigArrow = new AdjustableArrowCap(5, 10); // width, height
-            Pen arrowPen = new Pen(Color.Black, 2)
+            Pen arrowPen = new Pen(foreColor, 2)
             {
                 CustomEndCap = bigArrow
             };
 
             // Draw wind compass circle
-            g.DrawEllipse(Pens.Black, 2, 2, 60, 60);
+            g.DrawEllipse(arrowPen, 2, 2, 60, 60);
 
             // Convert to canvas angle (0° = up, rotate clockwise)
             double windDirTo = (WindDir + 180) % 360;
@@ -488,5 +548,32 @@ namespace eSTOL_Training_Tool_Core.UI
         {
 
         }
+
+        private void numericUpDownTransparency_ValueChanged(object sender, EventArgs e)
+        {
+            this.Opacity = (double)(1 - numericUpDownTransparency.Value / 100);
+        }
+
+        private void checkBoxSaveRecording_CheckedChanged(object sender, EventArgs e)
+        {
+            var config = Config.GetInstance();
+            config.enableGPXRecodering = checkBoxSaveRecording.Checked;
+            config.Save();
+        }
+
+        private void linkLabelRecordings_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            string exportPath = Config.GetInstance().RecordingExportPath;
+
+            if (Directory.Exists(exportPath))
+            {
+                System.Diagnostics.Process.Start("explorer.exe", exportPath);
+            }
+            else
+            {
+                MessageBox.Show("Export directory does not exist: " + exportPath);
+            }
+        }
+
     }
 }

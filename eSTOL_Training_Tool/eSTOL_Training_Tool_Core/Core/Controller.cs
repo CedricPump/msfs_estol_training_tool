@@ -62,10 +62,10 @@ namespace eSTOL_Training_Tool_Core.Core
             plane = new Plane(OnPlaneEventCallback);
 
             // init export file
-            if (!File.Exists(config.ExportPath))
+            if (!File.Exists(config.ResultsExportPath))
             {
                 // Create the file and write the header
-                using (StreamWriter writer = new StreamWriter(config.ExportPath))
+                using (StreamWriter writer = new StreamWriter(config.ResultsExportPath))
                 {
                     writer.WriteLine(STOLResult.getCSVHeader());
                 }

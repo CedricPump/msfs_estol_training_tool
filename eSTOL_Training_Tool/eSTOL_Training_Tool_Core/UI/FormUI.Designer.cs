@@ -54,14 +54,18 @@
             numericUpDownStopwatchOffest = new System.Windows.Forms.NumericUpDown();
             label2 = new System.Windows.Forms.Label();
             checkBoxDebugging = new System.Windows.Forms.CheckBox();
-            panel1 = new System.Windows.Forms.Panel();
+            panelWind = new System.Windows.Forms.Panel();
             labelWind = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
             textBoxAligned = new System.Windows.Forms.TextBox();
             labelName = new System.Windows.Forms.Label();
             labelSession = new System.Windows.Forms.Label();
             textBoxSessionKey = new System.Windows.Forms.TextBox();
+            numericUpDownTransparency = new System.Windows.Forms.NumericUpDown();
+            checkBoxSaveRecording = new System.Windows.Forms.CheckBox();
+            linkLabelRecordings = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)numericUpDownStopwatchOffest).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownTransparency).BeginInit();
             SuspendLayout();
             // 
             // labelResult
@@ -71,13 +75,13 @@
             labelResult.Location = new System.Drawing.Point(12, 9);
             labelResult.Name = "labelResult";
             labelResult.Size = new System.Drawing.Size(39, 15);
-            labelResult.TabIndex = 0;
+            labelResult.TabIndex = 99;
             labelResult.Text = "Result";
             // 
             // textBoxResult
             // 
             textBoxResult.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            textBoxResult.BackColor = System.Drawing.SystemColors.Control;
+            textBoxResult.BorderStyle = System.Windows.Forms.BorderStyle.None;
             textBoxResult.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             textBoxResult.Location = new System.Drawing.Point(12, 58);
             textBoxResult.Multiline = true;
@@ -89,9 +93,10 @@
             // textBoxUser
             // 
             textBoxUser.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            textBoxUser.Location = new System.Drawing.Point(664, 43);
+            textBoxUser.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            textBoxUser.Location = new System.Drawing.Point(667, 43);
             textBoxUser.Name = "textBoxUser";
-            textBoxUser.Size = new System.Drawing.Size(212, 23);
+            textBoxUser.Size = new System.Drawing.Size(209, 23);
             textBoxUser.TabIndex = 2;
             textBoxUser.TextChanged += textBoxUser_TextChanged;
             textBoxUser.KeyDown += textBoxUser_KeyDown;
@@ -110,50 +115,52 @@
             // comboBoxPreset
             // 
             comboBoxPreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            comboBoxPreset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             comboBoxPreset.FormattingEnabled = true;
             comboBoxPreset.Location = new System.Drawing.Point(667, 210);
             comboBoxPreset.Name = "comboBoxPreset";
             comboBoxPreset.Size = new System.Drawing.Size(211, 23);
-            comboBoxPreset.TabIndex = 4;
+            comboBoxPreset.TabIndex = 0;
             // 
             // buttonApplyPreset
             // 
             buttonApplyPreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             buttonApplyPreset.AutoSize = true;
-            buttonApplyPreset.Location = new System.Drawing.Point(668, 239);
+            buttonApplyPreset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            buttonApplyPreset.Location = new System.Drawing.Point(667, 239);
             buttonApplyPreset.Name = "buttonApplyPreset";
-            buttonApplyPreset.Size = new System.Drawing.Size(210, 25);
+            buttonApplyPreset.Size = new System.Drawing.Size(211, 27);
             buttonApplyPreset.TabIndex = 5;
             buttonApplyPreset.Text = "Apply";
-            buttonApplyPreset.UseVisualStyleBackColor = true;
             buttonApplyPreset.Click += buttonApplyPreset_Click;
             // 
             // buttonTeleport
             // 
             buttonTeleport.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             buttonTeleport.AutoSize = true;
-            buttonTeleport.Location = new System.Drawing.Point(668, 330);
+            buttonTeleport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            buttonTeleport.Location = new System.Drawing.Point(667, 330);
             buttonTeleport.Name = "buttonTeleport";
-            buttonTeleport.Size = new System.Drawing.Size(210, 25);
+            buttonTeleport.Size = new System.Drawing.Size(211, 27);
             buttonTeleport.TabIndex = 6;
             buttonTeleport.Text = "Teleport";
-            buttonTeleport.UseVisualStyleBackColor = true;
             buttonTeleport.Click += buttonTeleport_Click;
             // 
             // buttonSetRefPos
             // 
             buttonSetRefPos.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            buttonSetRefPos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             buttonSetRefPos.Location = new System.Drawing.Point(667, 270);
             buttonSetRefPos.Name = "buttonSetRefPos";
             buttonSetRefPos.Size = new System.Drawing.Size(210, 23);
             buttonSetRefPos.TabIndex = 7;
             buttonSetRefPos.Text = "Set Start";
-            buttonSetRefPos.UseVisualStyleBackColor = true;
             buttonSetRefPos.Click += buttonSetRefPos_Click;
             // 
             // textBoxStatus
             // 
             textBoxStatus.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            textBoxStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             textBoxStatus.Location = new System.Drawing.Point(12, 613);
             textBoxStatus.Name = "textBoxStatus";
             textBoxStatus.ReadOnly = true;
@@ -166,19 +173,18 @@
             // 
             buttonCreatePreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             buttonCreatePreset.AutoSize = true;
-            buttonCreatePreset.Location = new System.Drawing.Point(668, 299);
+            buttonCreatePreset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            buttonCreatePreset.Location = new System.Drawing.Point(667, 299);
             buttonCreatePreset.Name = "buttonCreatePreset";
-            buttonCreatePreset.Size = new System.Drawing.Size(210, 25);
+            buttonCreatePreset.Size = new System.Drawing.Size(211, 27);
             buttonCreatePreset.TabIndex = 9;
             buttonCreatePreset.Text = "Create Preset";
-            buttonCreatePreset.UseVisualStyleBackColor = true;
             buttonCreatePreset.Click += buttonCreatePreset_Click;
             // 
             // panel
             // 
             panel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             panel.BackgroundImage = (System.Drawing.Image)resources.GetObject("panel.BackgroundImage");
-            panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             panel.Location = new System.Drawing.Point(353, 29);
             panel.Name = "panel";
             panel.Size = new System.Drawing.Size(307, 578);
@@ -190,10 +196,11 @@
             // comboBoxUnit
             // 
             comboBoxUnit.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            comboBoxUnit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             comboBoxUnit.FormattingEnabled = true;
-            comboBoxUnit.Location = new System.Drawing.Point(666, 166);
+            comboBoxUnit.Location = new System.Drawing.Point(667, 166);
             comboBoxUnit.Name = "comboBoxUnit";
-            comboBoxUnit.Size = new System.Drawing.Size(212, 23);
+            comboBoxUnit.Size = new System.Drawing.Size(211, 23);
             comboBoxUnit.TabIndex = 11;
             comboBoxUnit.SelectedIndexChanged += comboBoxUnit_SelectedIndexChanged;
             // 
@@ -203,12 +210,11 @@
             checkBoxResult.AutoSize = true;
             checkBoxResult.Checked = true;
             checkBoxResult.CheckState = System.Windows.Forms.CheckState.Checked;
-            checkBoxResult.Location = new System.Drawing.Point(666, 117);
+            checkBoxResult.Location = new System.Drawing.Point(670, 116);
             checkBoxResult.Name = "checkBoxResult";
-            checkBoxResult.Size = new System.Drawing.Size(91, 19);
+            checkBoxResult.Size = new System.Drawing.Size(88, 19);
             checkBoxResult.TabIndex = 12;
-            checkBoxResult.Text = "send Results";
-            checkBoxResult.UseVisualStyleBackColor = true;
+            checkBoxResult.Text = "send results";
             checkBoxResult.CheckedChanged += checkBoxResult_CheckedChanged;
             // 
             // checkBoxTelemetry
@@ -217,12 +223,11 @@
             checkBoxTelemetry.AutoSize = true;
             checkBoxTelemetry.Checked = true;
             checkBoxTelemetry.CheckState = System.Windows.Forms.CheckState.Checked;
-            checkBoxTelemetry.Location = new System.Drawing.Point(666, 141);
+            checkBoxTelemetry.Location = new System.Drawing.Point(669, 141);
             checkBoxTelemetry.Name = "checkBoxTelemetry";
-            checkBoxTelemetry.Size = new System.Drawing.Size(106, 19);
+            checkBoxTelemetry.Size = new System.Drawing.Size(104, 19);
             checkBoxTelemetry.TabIndex = 13;
-            checkBoxTelemetry.Text = "send Telemetry";
-            checkBoxTelemetry.UseVisualStyleBackColor = true;
+            checkBoxTelemetry.Text = "send telemetry";
             checkBoxTelemetry.CheckedChanged += checkBoxTelemetry_CheckedChanged;
             // 
             // timer1
@@ -253,12 +258,12 @@
             // buttonStartStopwatch
             // 
             buttonStartStopwatch.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            buttonStartStopwatch.Location = new System.Drawing.Point(800, 575);
+            buttonStartStopwatch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            buttonStartStopwatch.Location = new System.Drawing.Point(800, 582);
             buttonStartStopwatch.Name = "buttonStartStopwatch";
             buttonStartStopwatch.Size = new System.Drawing.Size(76, 24);
             buttonStartStopwatch.TabIndex = 16;
             buttonStartStopwatch.Text = "T-Offset";
-            buttonStartStopwatch.UseVisualStyleBackColor = true;
             buttonStartStopwatch.Click += buttonStartStopwatch_Click;
             // 
             // label1
@@ -274,12 +279,12 @@
             // button1
             // 
             button1.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             button1.Location = new System.Drawing.Point(801, 556);
             button1.Name = "button1";
             button1.Size = new System.Drawing.Size(75, 23);
             button1.TabIndex = 18;
             button1.Text = "Start";
-            button1.UseVisualStyleBackColor = true;
             button1.Click += buttonStart_Click;
             // 
             // checkBoxOntop
@@ -291,12 +296,12 @@
             checkBoxOntop.Size = new System.Drawing.Size(99, 19);
             checkBoxOntop.TabIndex = 19;
             checkBoxOntop.Text = "always on top";
-            checkBoxOntop.UseVisualStyleBackColor = true;
             checkBoxOntop.CheckedChanged += checkBoxOntop_CheckedChanged;
             // 
             // numericUpDownStopwatchOffest
             // 
             numericUpDownStopwatchOffest.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            numericUpDownStopwatchOffest.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             numericUpDownStopwatchOffest.Location = new System.Drawing.Point(668, 527);
             numericUpDownStopwatchOffest.Name = "numericUpDownStopwatchOffest";
             numericUpDownStopwatchOffest.Size = new System.Drawing.Size(208, 23);
@@ -318,23 +323,21 @@
             // 
             checkBoxDebugging.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             checkBoxDebugging.AutoSize = true;
-            checkBoxDebugging.Location = new System.Drawing.Point(668, 5);
+            checkBoxDebugging.Location = new System.Drawing.Point(711, 5);
             checkBoxDebugging.Name = "checkBoxDebugging";
             checkBoxDebugging.Size = new System.Drawing.Size(60, 19);
             checkBoxDebugging.TabIndex = 22;
             checkBoxDebugging.Text = "debug";
-            checkBoxDebugging.UseVisualStyleBackColor = true;
             checkBoxDebugging.CheckedChanged += checkBoxDebugging_CheckedChanged;
             // 
-            // panel1
+            // panelWind
             // 
-            panel1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            panel1.Location = new System.Drawing.Point(668, 361);
-            panel1.Name = "panel1";
-            panel1.Size = new System.Drawing.Size(68, 68);
-            panel1.TabIndex = 23;
-            panel1.Paint += panelWind_Paint;
+            panelWind.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            panelWind.Location = new System.Drawing.Point(667, 361);
+            panelWind.Name = "panelWind";
+            panelWind.Size = new System.Drawing.Size(69, 68);
+            panelWind.TabIndex = 23;
+            panelWind.Paint += panelWind_Paint;
             // 
             // labelWind
             // 
@@ -361,7 +364,7 @@
             // textBoxAligned
             // 
             textBoxAligned.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            textBoxAligned.BackColor = System.Drawing.SystemColors.Control;
+            textBoxAligned.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             textBoxAligned.Location = new System.Drawing.Point(12, 29);
             textBoxAligned.Name = "textBoxAligned";
             textBoxAligned.ReadOnly = true;
@@ -376,7 +379,7 @@
             labelName.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             labelName.AutoSize = true;
             labelName.Font = new System.Drawing.Font("Segoe UI", 6F);
-            labelName.Location = new System.Drawing.Point(666, 29);
+            labelName.Location = new System.Drawing.Point(667, 29);
             labelName.Name = "labelName";
             labelName.Size = new System.Drawing.Size(26, 11);
             labelName.TabIndex = 27;
@@ -398,24 +401,66 @@
             // textBoxSessionKey
             // 
             textBoxSessionKey.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            textBoxSessionKey.Location = new System.Drawing.Point(664, 83);
+            textBoxSessionKey.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            textBoxSessionKey.Location = new System.Drawing.Point(667, 83);
             textBoxSessionKey.Name = "textBoxSessionKey";
-            textBoxSessionKey.Size = new System.Drawing.Size(212, 23);
+            textBoxSessionKey.Size = new System.Drawing.Size(209, 23);
             textBoxSessionKey.TabIndex = 29;
             textBoxSessionKey.KeyDown += textBoxSessionKey_KeyDown;
+            // 
+            // numericUpDownTransparency
+            // 
+            numericUpDownTransparency.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            numericUpDownTransparency.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            numericUpDownTransparency.Font = new System.Drawing.Font("Segoe UI", 8F);
+            numericUpDownTransparency.Increment = new decimal(new int[] { 10, 0, 0, 0 });
+            numericUpDownTransparency.Location = new System.Drawing.Point(667, 5);
+            numericUpDownTransparency.Maximum = new decimal(new int[] { 80, 0, 0, 0 });
+            numericUpDownTransparency.Name = "numericUpDownTransparency";
+            numericUpDownTransparency.Size = new System.Drawing.Size(35, 18);
+            numericUpDownTransparency.TabIndex = 30;
+            numericUpDownTransparency.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            numericUpDownTransparency.ValueChanged += numericUpDownTransparency_ValueChanged;
+            // 
+            // checkBoxSaveRecording
+            // 
+            checkBoxSaveRecording.AutoSize = true;
+            checkBoxSaveRecording.Checked = true;
+            checkBoxSaveRecording.CheckState = System.Windows.Forms.CheckState.Checked;
+            checkBoxSaveRecording.Location = new System.Drawing.Point(793, 116);
+            checkBoxSaveRecording.Name = "checkBoxSaveRecording";
+            checkBoxSaveRecording.Size = new System.Drawing.Size(85, 19);
+            checkBoxSaveRecording.TabIndex = 100;
+            checkBoxSaveRecording.Text = "record GPX";
+            checkBoxSaveRecording.UseVisualStyleBackColor = true;
+            checkBoxSaveRecording.CheckedChanged += checkBoxSaveRecording_CheckedChanged;
+            // 
+            // linkLabelRecordings
+            // 
+            linkLabelRecordings.AutoSize = true;
+            linkLabelRecordings.Location = new System.Drawing.Point(777, 142);
+            linkLabelRecordings.Name = "linkLabelRecordings";
+            linkLabelRecordings.Size = new System.Drawing.Size(99, 15);
+            linkLabelRecordings.TabIndex = 101;
+            linkLabelRecordings.TabStop = true;
+            linkLabelRecordings.Text = "GPX export folder";
+            linkLabelRecordings.LinkClicked += linkLabelRecordings_LinkClicked;
             // 
             // FormUI
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(888, 647);
+            Controls.Add(linkLabelRecordings);
+            Controls.Add(checkBoxSaveRecording);
+            Controls.Add(numericUpDownTransparency);
             Controls.Add(textBoxSessionKey);
             Controls.Add(labelSession);
             Controls.Add(labelName);
             Controls.Add(textBoxAligned);
             Controls.Add(label3);
             Controls.Add(labelWind);
-            Controls.Add(panel1);
+            Controls.Add(panelWind);
             Controls.Add(checkBoxDebugging);
             Controls.Add(label2);
             Controls.Add(numericUpDownStopwatchOffest);
@@ -443,6 +488,7 @@
             Name = "FormUI";
             Text = "eSTOL Training Tool";
             ((System.ComponentModel.ISupportInitialize)numericUpDownStopwatchOffest).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownTransparency).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -473,12 +519,15 @@
         private System.Windows.Forms.NumericUpDown numericUpDownStopwatchOffest;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox checkBoxDebugging;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panelWind;
         private System.Windows.Forms.Label labelWind;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBoxAligned;
         private System.Windows.Forms.Label labelName;
         private System.Windows.Forms.Label labelSession;
         private System.Windows.Forms.TextBox textBoxSessionKey;
+        private System.Windows.Forms.NumericUpDown numericUpDownTransparency;
+        private System.Windows.Forms.CheckBox checkBoxSaveRecording;
+        private System.Windows.Forms.LinkLabel linkLabelRecordings;
     }
 }
