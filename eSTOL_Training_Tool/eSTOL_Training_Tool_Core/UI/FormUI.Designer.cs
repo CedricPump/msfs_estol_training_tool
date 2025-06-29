@@ -208,8 +208,6 @@
             // 
             checkBoxResult.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             checkBoxResult.AutoSize = true;
-            checkBoxResult.Checked = true;
-            checkBoxResult.CheckState = System.Windows.Forms.CheckState.Checked;
             checkBoxResult.Location = new System.Drawing.Point(670, 116);
             checkBoxResult.Name = "checkBoxResult";
             checkBoxResult.Size = new System.Drawing.Size(88, 19);
@@ -221,8 +219,6 @@
             // 
             checkBoxTelemetry.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             checkBoxTelemetry.AutoSize = true;
-            checkBoxTelemetry.Checked = true;
-            checkBoxTelemetry.CheckState = System.Windows.Forms.CheckState.Checked;
             checkBoxTelemetry.Location = new System.Drawing.Point(669, 141);
             checkBoxTelemetry.Name = "checkBoxTelemetry";
             checkBoxTelemetry.Size = new System.Drawing.Size(104, 19);

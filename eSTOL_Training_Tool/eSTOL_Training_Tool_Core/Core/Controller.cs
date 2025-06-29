@@ -61,6 +61,10 @@ namespace eSTOL_Training_Tool_Core.Core
             this.unit = config.Unit;
             plane = new Plane(OnPlaneEventCallback);
 
+            // add export dir#
+            var dir = Path.GetDirectoryName(config.ResultsExportPath);
+            Directory.CreateDirectory(dir);
+
             // init export file
             if (!File.Exists(config.ResultsExportPath))
             {
@@ -113,20 +117,23 @@ namespace eSTOL_Training_Tool_Core.Core
 
                 MessageBox.Show(disclaimer);
 
-                // User input
-                Console.Write("You can upload your training data to a database. Leave the input empty to skip uploading.\n\n" +
-                    "Please enter a nickname or pilot ID to associate with your data.\n" +
-                    "To stay anonymous, choose a random or pseudonymous name (e.g., a number or call sign)." +
-                    "\nDo not use your real name or personal information.\n\n" +
-                    "By entering a name, you agree that your telemetry and landing performance data will be temporarily stored for up to 30 days and may be shown on a public dashboard.\n" +
-                    "For more information, see the privacy policy: https://github.com/CedricPump/msfs_estol_training_tool/blob/main/doc/Privacy_Policy.md\n\n" +
-                    "Input eSTOL Callsign or Pilot-Number: ");
-                string name = Console.ReadLine();
-
-                using (StreamWriter writer = new StreamWriter(config.UserPath))
+                using (var userForm = new FormFirstUser())
                 {
-                    writer.WriteLine(name);
-                    user = name;
+                    if (userForm.ShowDialog() == DialogResult.OK)
+                    {
+                        string name = userForm.Username?.Trim() ?? "";
+
+                        using (StreamWriter writer = new StreamWriter(config.UserPath))
+                        {
+                            writer.WriteLine(name);
+                            user = name;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("No username entered. Upload will be skipped.", "Info");
+                        user = "";
+                    }
                 }
             }
             else

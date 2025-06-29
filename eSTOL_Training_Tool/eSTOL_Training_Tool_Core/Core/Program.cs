@@ -16,15 +16,15 @@ namespace Bombathlon
                 "│ eSTOL Training Tool │\n" +
                 "└─────────────────────┘\n");
 
+            ApplicationConfiguration.Initialize();
+            var config = Config.GetInstance();
+
             Controller controller = new Controller();
             controller.Init();
             Task controllerTask = Task.Run(() =>
             {
                 controller.Run(); // Run the loop in the background
             });
-
-            ApplicationConfiguration.Initialize();
-            var config = Config.GetInstance();
 
 #pragma warning disable WFO5001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
             if (config.darkModeEnabled)

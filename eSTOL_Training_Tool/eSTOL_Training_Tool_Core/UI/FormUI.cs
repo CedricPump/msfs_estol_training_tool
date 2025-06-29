@@ -197,8 +197,19 @@ namespace eSTOL_Training_Tool_Core.UI
         {
             if (e.KeyCode == Keys.Enter)
             {
+                string user = textBoxUser.Text;
                 controller.SetUser(textBoxUser.Text);
                 textBoxResult.Text = $"User {textBoxUser.Text} saved";
+
+                if (user == "")
+                {
+                    var config = Config.GetInstance();
+                    config.isSendResults = false;
+                    this.checkBoxResult.Checked = false;
+                    config.isSendTelemetry = false;
+                    this.checkBoxTelemetry.Checked = false;
+                    config.Save();
+                }
             }
         }
 
@@ -354,6 +365,12 @@ namespace eSTOL_Training_Tool_Core.UI
 
         private void checkBoxResult_CheckedChanged(object sender, EventArgs e)
         {
+            if(checkBoxResult.Checked && controller.user == "")
+            {
+                checkBoxResult.Checked = false;
+                MessageBox.Show("Please set Username to enbale sending data.");
+            }
+
             var config = Config.GetInstance();
             config.isSendResults = checkBoxResult.Checked;
             if (config.isSendResults) MessageBox.Show("By enabeling, you agree that your landing result data will be temporarily stored for up to 30 days and may be shown on a public dashboard.\n" +
@@ -363,6 +380,12 @@ namespace eSTOL_Training_Tool_Core.UI
 
         private void checkBoxTelemetry_CheckedChanged(object sender, EventArgs e)
         {
+            if (checkBoxTelemetry.Checked && controller.user == "")
+            {
+                checkBoxTelemetry.Checked = false;
+                MessageBox.Show("Please set Username to enbale sending data.");
+            }
+
             var config = Config.GetInstance();
             config.isSendTelemetry = checkBoxTelemetry.Checked;
             if (config.isSendTelemetry) MessageBox.Show("By enabeling, you agree that your ingame telemetry data will be temporarily stored for up to 30 days and may be shown on a public dashboard.\n" +

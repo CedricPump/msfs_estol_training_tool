@@ -1,3 +1,29 @@
+v1.3.2
+
+added darkmode
+added transparency
+added telport popup
+added gpx recording checkbox
+removed console window
+
+v1.3.1
+
+added GPX Recorder Feature
+
+v1.3.0
+
+added session key
+added anitstall detection wip
+fixed typo in wingstrike
+added sores xml server
+added takeoff score to xml server
+
+v1.2.9
+
+added aligned state display to UI
+added selected preset to telemetry
+added excessive spin buffer threshold of 1°
+
 v1.2.8
 
 added spin violaton angle to flags calculation
