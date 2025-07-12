@@ -12,3 +12,10 @@ To install missing framework, download: https://aka.ms/dotnet-core-applaunch?fra
 
 dotNet Framework is not present or old. follow the link provided to install or update dotNet Framework.  
 https://dotnet.microsoft.com/en-us/download/dotnet/9.0/runtime?cid=getdotnetcore&os=windows
+
+
+
+Application not starting after update 1.3.2
+
+- delete "export" file
+- create new "export" directory
