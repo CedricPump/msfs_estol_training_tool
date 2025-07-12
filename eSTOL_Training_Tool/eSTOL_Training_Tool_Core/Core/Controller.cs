@@ -61,9 +61,17 @@ namespace eSTOL_Training_Tool_Core.Core
             this.unit = config.Unit;
             plane = new Plane(OnPlaneEventCallback);
 
+            var exportDir = Path.GetDirectoryName(config.ResultsExportPath);
+            // fix wrong export file from 1.3.1
+            if (File.Exists(exportDir))
+            {
+                File.Delete(exportDir);
+            }
             // add export dir#
-            var dir = Path.GetDirectoryName(config.ResultsExportPath);
-            Directory.CreateDirectory(dir);
+            if (!Directory.Exists(exportDir))
+            {
+                Directory.CreateDirectory(exportDir);
+            }
 
             // init export file
             if (!File.Exists(config.ResultsExportPath))
