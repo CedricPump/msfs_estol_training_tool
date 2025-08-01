@@ -1,3 +1,14 @@
+v1.3.4
+
+added unflip
+added confirmation option in config
+added debug log
+minor UI fixes
+
+v1.3.3
+
+fixed blocking export file from 1.3.1
+
 v1.3.2
 
 added darkmode
