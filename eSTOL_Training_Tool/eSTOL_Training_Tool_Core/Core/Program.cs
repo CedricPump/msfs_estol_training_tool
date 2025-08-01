@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using eSTOL_Training_Tool_Core.Core;
@@ -10,6 +11,12 @@ namespace Bombathlon
     {
         static void Main(string[] args)
         {
+            var logFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "debug.log");
+            var fileStream = new FileStream(logFile, FileMode.Append, FileAccess.Write);
+            var writer = new StreamWriter(fileStream) { AutoFlush = true };
+            Console.SetOut(writer);
+            Console.SetError(writer);
+
             // Influx.GetInstance().deletAll();
             Console.WriteLine(
                 "┌─────────────────────┐\n" +

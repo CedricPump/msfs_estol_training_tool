@@ -172,11 +172,20 @@ namespace eSTOL_Training_Tool_Core.UI
                 return;
             }
 
-            var result = MessageBox.Show(
+            DialogResult result = DialogResult.None;
+            if (Config.GetInstance().showTelportConfirmation)
+            {
+
+                result = MessageBox.Show(
                 "Do you really want to move the aircraft location?",
                 "Confirm Teleport",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
+            }
+            else
+            {
+                result = DialogResult.Yes;
+            }
 
             if (result != DialogResult.Yes)
             {
@@ -365,7 +374,7 @@ namespace eSTOL_Training_Tool_Core.UI
 
         private void checkBoxResult_CheckedChanged(object sender, EventArgs e)
         {
-            if(checkBoxResult.Checked && controller.user == "")
+            if (checkBoxResult.Checked && controller.user == "")
             {
                 checkBoxResult.Checked = false;
                 MessageBox.Show("Please set Username to enbale sending data.");
@@ -598,5 +607,9 @@ namespace eSTOL_Training_Tool_Core.UI
             }
         }
 
+        private void buttonUnFlip_Click(object sender, EventArgs e)
+        {
+            this.controller.unflip();
+        }
     }
 }

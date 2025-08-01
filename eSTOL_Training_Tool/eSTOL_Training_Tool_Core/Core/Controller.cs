@@ -794,5 +794,13 @@ namespace eSTOL_Training_Tool_Core.Core
             }
             GearOffset.LoadOffsetDict(this.config.OffsetPath);
         }
+
+        internal void unflip()
+        {
+            if (plane.IsOnGround && plane.GroundSpeed < config.GroundspeedThreshold) 
+            {
+                plane.setValue("ROTATION VELOCITY BODY X", -3);
+            }
+        }
     }
 }

@@ -64,6 +64,7 @@
             numericUpDownTransparency = new System.Windows.Forms.NumericUpDown();
             checkBoxSaveRecording = new System.Windows.Forms.CheckBox();
             linkLabelRecordings = new System.Windows.Forms.LinkLabel();
+            buttonUnFlip = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)numericUpDownStopwatchOffest).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownTransparency).BeginInit();
             SuspendLayout();
@@ -152,7 +153,7 @@
             buttonSetRefPos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             buttonSetRefPos.Location = new System.Drawing.Point(667, 270);
             buttonSetRefPos.Name = "buttonSetRefPos";
-            buttonSetRefPos.Size = new System.Drawing.Size(210, 23);
+            buttonSetRefPos.Size = new System.Drawing.Size(211, 23);
             buttonSetRefPos.TabIndex = 7;
             buttonSetRefPos.Text = "Set Start";
             buttonSetRefPos.Click += buttonSetRefPos_Click;
@@ -183,7 +184,7 @@
             // 
             // panel
             // 
-            panel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            panel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             panel.BackgroundImage = (System.Drawing.Image)resources.GetObject("panel.BackgroundImage");
             panel.Location = new System.Drawing.Point(353, 29);
             panel.Name = "panel";
@@ -329,7 +330,7 @@
             // panelWind
             // 
             panelWind.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            panelWind.Location = new System.Drawing.Point(667, 361);
+            panelWind.Location = new System.Drawing.Point(667, 399);
             panelWind.Name = "panelWind";
             panelWind.Size = new System.Drawing.Size(69, 68);
             panelWind.TabIndex = 23;
@@ -340,7 +341,7 @@
             labelWind.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             labelWind.AutoSize = true;
             labelWind.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            labelWind.Location = new System.Drawing.Point(738, 400);
+            labelWind.Location = new System.Drawing.Point(738, 438);
             labelWind.Name = "labelWind";
             labelWind.Size = new System.Drawing.Size(60, 25);
             labelWind.TabIndex = 24;
@@ -351,7 +352,7 @@
             // 
             label3.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             label3.AutoSize = true;
-            label3.Location = new System.Drawing.Point(738, 385);
+            label3.Location = new System.Drawing.Point(738, 423);
             label3.Name = "label3";
             label3.Size = new System.Drawing.Size(35, 15);
             label3.TabIndex = 25;
@@ -442,11 +443,24 @@
             linkLabelRecordings.Text = "GPX export folder";
             linkLabelRecordings.LinkClicked += linkLabelRecordings_LinkClicked;
             // 
+            // buttonUnFlip
+            // 
+            buttonUnFlip.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            buttonUnFlip.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            buttonUnFlip.Location = new System.Drawing.Point(666, 363);
+            buttonUnFlip.Name = "buttonUnFlip";
+            buttonUnFlip.Size = new System.Drawing.Size(212, 23);
+            buttonUnFlip.TabIndex = 102;
+            buttonUnFlip.Text = "UnFlip";
+            buttonUnFlip.UseVisualStyleBackColor = true;
+            buttonUnFlip.Click += buttonUnFlip_Click;
+            // 
             // FormUI
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(888, 647);
+            Controls.Add(buttonUnFlip);
             Controls.Add(linkLabelRecordings);
             Controls.Add(checkBoxSaveRecording);
             Controls.Add(numericUpDownTransparency);
@@ -525,5 +539,6 @@
         private System.Windows.Forms.NumericUpDown numericUpDownTransparency;
         private System.Windows.Forms.CheckBox checkBoxSaveRecording;
         private System.Windows.Forms.LinkLabel linkLabelRecordings;
+        private System.Windows.Forms.Button buttonUnFlip;
     }
 }

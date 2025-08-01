@@ -331,7 +331,11 @@ namespace eSTOL_Training_Tool
             CreateDataDefinition("ASSISTANCE TAKEOFF ENABLED", "Bool");
             CreateDataDefinition("AI ANTISTALL STATE", "Bool");
             CreateDataDefinition("AI AUTOTRIM ACTIVE", "Number");
+
+            CreateDataDefinition("ROTATION VELOCITY BODY X", "Feet per second");
             
+
+
 
             RegiserDefinitions();
 
