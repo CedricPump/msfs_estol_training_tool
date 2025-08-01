@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Device.Location;
 using NodaTime;
 using eSTOL_Training_Tool_Core.GPX;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace eSTOL_Training_Tool_Core.Core
 {
@@ -486,7 +487,8 @@ namespace eSTOL_Training_Tool_Core.Core
                                             if (config.debug) Console.WriteLine($"spin: {spin:F1}°");
                                             if (spin > angleR + flagsAngleTreshold || spin < angleL - flagsAngleTreshold)
                                             {
-                                                stol.violations.Add(new STOLViolation("ExcessiveTouchdownSpin", spin));
+                                                // removed ExcessiveTouchdownSpin on request
+                                                // stol.violations.Add(new STOLViolation("ExcessiveTouchdownSpin", spin));
                                             }
 
                                             if (config.isSendResults && stol.hasViolation("ExcessiveTouchdownSpin"))
@@ -799,6 +801,7 @@ namespace eSTOL_Training_Tool_Core.Core
         {
             if (plane.IsOnGround && plane.GroundSpeed < config.GroundspeedThreshold) 
             {
+                influx.sendEvent(user, stol.sessionKey, plane, "UNFLIP");
                 plane.setValue("ROTATION VELOCITY BODY X", -3);
             }
         }

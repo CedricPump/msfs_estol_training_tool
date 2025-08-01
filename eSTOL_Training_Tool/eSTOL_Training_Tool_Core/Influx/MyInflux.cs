@@ -100,7 +100,7 @@ namespace eSTOL_Training_Tool_Core.Influx
             await writeApi.WritePointAsync(point, bucketTelemetry, org);
         }
 
-        public async void sendEvent(string username, string sessionKey, Plane plane, string eventType, string value)
+        public async void sendEvent(string username, string sessionKey, Plane plane, string eventType, string value = "")
         {
             Telemetrie telemetrie = plane.GetTelemetrie();
             AircraftState state = plane.GetState();
