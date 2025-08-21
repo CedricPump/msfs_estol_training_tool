@@ -382,8 +382,12 @@ namespace eSTOL_Training_Tool_Core.UI
 
             var config = Config.GetInstance();
             config.isSendResults = checkBoxResult.Checked;
-            if (config.isSendResults) MessageBox.Show("By enabeling, you agree that your landing result data will be temporarily stored for up to 30 days and may be shown on a public dashboard.\n" +
+            if (config.isSendResults && !config.hasPrivacyConfirmed)
+            {
+                MessageBox.Show("By enabeling, you agree that your landing result data will be temporarily stored for up to 30 days and may be shown on a public dashboard.\n" +
                 "For more information, see the privacy policy: https://github.com/CedricPump/msfs_estol_training_tool/blob/main/doc/Privacy_Policy.md");
+                config.hasPrivacyConfirmed = true;
+            }
             config.Save();
         }
 
@@ -397,8 +401,12 @@ namespace eSTOL_Training_Tool_Core.UI
 
             var config = Config.GetInstance();
             config.isSendTelemetry = checkBoxTelemetry.Checked;
-            if (config.isSendTelemetry) MessageBox.Show("By enabeling, you agree that your ingame telemetry data will be temporarily stored for up to 30 days and may be shown on a public dashboard.\n" +
+            if (config.isSendTelemetry && !config.hasPrivacyConfirmed)
+            {
+                MessageBox.Show("By enabeling, you agree that your ingame telemetry data will be temporarily stored for up to 30 days and may be shown on a public dashboard.\n" +
                 "For more information, see the privacy policy: https://github.com/CedricPump/msfs_estol_training_tool/blob/main/doc/Privacy_Policy.md");
+                config.hasPrivacyConfirmed = true;
+            }
             config.Save();
         }
 

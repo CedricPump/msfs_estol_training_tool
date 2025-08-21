@@ -38,6 +38,7 @@ namespace eSTOL_Training_Tool_Core.Core
         public bool darkModeEnabled { get; set; } = true;
         public bool darkModeSystem { get; set; } = true;
         public bool showTelportConfirmation { get; set; } = true;
+        public bool hasPrivacyConfirmed { get; set; } = false;
 
 
 
