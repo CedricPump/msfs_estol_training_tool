@@ -11,7 +11,7 @@ namespace eSTOL_Training_Tool_Core.Core
 {
     internal class VersionHelper
     {
-        private const string currentVersion = "v1.3.4";
+        private const string currentVersion = "v1.3.5";
         private const string githubApiUrl = "https://api.github.com/repos/CedricPump/msfs_estol_training_tool/releases/latest";
         public static string githubLatestUrl = "https://github.com/CedricPump/msfs_estol_training_tool/releases/latest";
 
@@ -20,7 +20,7 @@ namespace eSTOL_Training_Tool_Core.Core
             using HttpClient client = new HttpClient();
 
             // GitHub API requires a user-agent header
-            client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("eSTOL_Training_Tool", "1.3.4"));
+            client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("eSTOL_Training_Tool", "1.3.5"));
 
             try
             {
