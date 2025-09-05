@@ -1,3 +1,14 @@
+v1.3.6
+
+adapted startline for new KAXQ Scenery
+
+v1.3.5
+
+fixed too many popups
+updated gear offset for Scout
+added event unflip
+rmoved event ExcessiveTouchdownSpin
+
 v1.3.4
 
 added unflip
