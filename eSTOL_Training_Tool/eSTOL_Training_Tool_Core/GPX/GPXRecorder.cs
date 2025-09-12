@@ -42,8 +42,8 @@ namespace eSTOL_Training_Tool_Core.GPX
 
         public void Save(string user, string planetype)
         {
-            ExportGPX($"{user}_{planetype}_{DateTime.UtcNow:yyyyMMdd_HHmmss}", planetype);
-            ExportCSV($"{user}_{planetype}_{DateTime.UtcNow:yyyyMMdd_HHmmss}");
+            ExportGPX($"{user}_{planetype}_{DateTime.UtcNow:yyyy-MM-ddTHHmmssZ}", planetype);
+            ExportCSV($"{user}_{planetype}_{DateTime.UtcNow:yyyy-MM-ddTHHmmssZ}");
         }
 
         public void ExportGPX(string filename, string planetype)
@@ -104,7 +104,7 @@ namespace eSTOL_Training_Tool_Core.GPX
                     writer.WriteAttributeString("lat", telemetrie.Position.Latitude.ToString(CultureInfo.InvariantCulture));
                     writer.WriteAttributeString("lon", telemetrie.Position.Longitude.ToString(CultureInfo.InvariantCulture));
                     writer.WriteElementString("ele", telemetrie.Altitude.ToString("F2", CultureInfo.InvariantCulture));
-                    writer.WriteElementString("time", timestamp.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"));
+                    writer.WriteElementString("time", timestamp.ToString("o"));
                     writer.WriteEndElement(); // trkpt
                 }
 
@@ -121,7 +121,7 @@ namespace eSTOL_Training_Tool_Core.GPX
             writer.WriteAttributeString("lat", coord.Latitude.ToString(CultureInfo.InvariantCulture));
             writer.WriteAttributeString("lon", coord.Longitude.ToString(CultureInfo.InvariantCulture));
             writer.WriteElementString("ele", coord.Altitude.ToString("F2", CultureInfo.InvariantCulture));
-            writer.WriteElementString("time", timestamp.ToString("yyyy-MM-ddTHH:mm:ss.000Z"));
+            writer.WriteElementString("time", timestamp.ToString("o"));
             writer.WriteElementString("geoidheight", "-17.30"); // Optional, hardcoded for now
             writer.WriteElementString("name", name);
             writer.WriteElementString("desc", desc);
@@ -134,7 +134,7 @@ namespace eSTOL_Training_Tool_Core.GPX
             if (geoCoordinates.Count < 2)
                 return;
 
-            filename ??= $"flight_{DateTime.UtcNow:yyyyMMdd_HHmmss}";
+            filename ??= $"flight_{DateTime.UtcNow:yyyy-MM-ddTHHmmssZ}";
             string path = Path.Combine(config.RecordingExportPath, $"{filename}.csv");
             Directory.CreateDirectory(Path.GetDirectoryName(path));
 
@@ -148,7 +148,7 @@ namespace eSTOL_Training_Tool_Core.GPX
                 {
                     int milliseconds = (int)(timestamp - baseTime).TotalMilliseconds;
 
-                    string utc = timestamp.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture);
+                    string utc = timestamp.ToString("o", CultureInfo.InvariantCulture);
                     string lat = telemetrie.Position.Latitude.ToString("F6", CultureInfo.InvariantCulture);
                     string lon = telemetrie.Position.Longitude.ToString("F6", CultureInfo.InvariantCulture);
                     string alt = Math.Round(telemetrie.Altitude).ToString(CultureInfo.InvariantCulture);
@@ -164,7 +164,7 @@ namespace eSTOL_Training_Tool_Core.GPX
 
         public void ExportCSV(string filename = null)
         {
-            filename ??= $"flight_{DateTime.UtcNow:yyyyMMdd_HHmmss}";
+            filename ??= $"flight_{DateTime.UtcNow:yyyy-MM-ddTHHmmssZ}";
             string path = Path.Combine(config.RecordingExportPath, $"{filename}.csv");
             Directory.CreateDirectory(Path.GetDirectoryName(path));
 
