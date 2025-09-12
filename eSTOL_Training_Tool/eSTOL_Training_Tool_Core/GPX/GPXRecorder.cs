@@ -42,8 +42,20 @@ namespace eSTOL_Training_Tool_Core.GPX
 
         public void Save(string user, string planetype)
         {
-            ExportGPX($"{user}_{planetype}_{DateTime.UtcNow:yyyy-MM-ddTHHmmssZ}", planetype);
-            ExportCSV($"{user}_{planetype}_{DateTime.UtcNow:yyyy-MM-ddTHHmmssZ}");
+            string safePlaneType = MakeValidFileName(planetype);
+            string timestamp = DateTime.UtcNow.ToString("yyyyMMdd_HHmmssZ");
+
+            ExportGPX($"{user}_{safePlaneType}_{DateTime.UtcNow:yyyyMMdd_HHmmss}", planetype);
+            ExportCSV($"{user}_{safePlaneType}_{DateTime.UtcNow:yyyyMMdd_HHmmss}");
+        }
+
+        public static string MakeValidFileName(string name)
+        {
+            foreach (char c in Path.GetInvalidFileNameChars())
+            {
+                name = name.Replace(c, '_'); // or just remove: name = name.Replace(c.ToString(), "");
+            }
+            return name;
         }
 
         public void ExportGPX(string filename, string planetype)
