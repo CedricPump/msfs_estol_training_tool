@@ -58,12 +58,6 @@ namespace eSTOL_Training_Tool
         public string Airport { get; private set; }
         public bool[] ContactPoints { get; private set; } = new bool[20];
 
-        public bool ContactPoint0 { get; private set; }
-        public bool ContactPoint1 { get; private set; }
-        public bool ContactPoint2 { get; private set; }
-        public bool ContactPoint3 { get; private set; }
-        public bool ContactPoint4 { get; private set; }
-
         // Env
         public double AltitudeAGL { get; private set; }
 
@@ -173,7 +167,7 @@ namespace eSTOL_Training_Tool
 
         public GeoCoordinate getPositionWithGearOffset() 
         {
-            double offset = GearOffset.getGearOffset(this.Type + "|" + this.Model);
+            double offset = PlaneConfigsService.GetGearOffset(this.Type + "|" + this.Model);
             GeoCoordinate simPos = new GeoCoordinate(this.Latitude, this.Longitude, this.Altitude * 0.3048);
             return GeoUtils.GetOffsetPosition(simPos, this.Heading, -offset);
         }
@@ -190,17 +184,29 @@ namespace eSTOL_Training_Tool
 
         public bool MainGearOnGround()
         {
-            return ContactPoint1 || ContactPoint2;
+            return LeftGearOnGround() || RightGearOnGround();
+        }
+
+        public bool LeftGearOnGround()
+        {
+            var temp = PlaneConfigsService.GetPlaneConfig(this.Type + "|" + this.Model);
+            var a = temp;
+            return ContactPoints[PlaneConfigsService.GetPlaneConfig(this.Type + "|" + this.Model).CollisionWheelLeftIndex];
+        }
+
+        public bool RightGearOnGround()
+        {
+            return ContactPoints[PlaneConfigsService.GetPlaneConfig(this.Type + "|" + this.Model).CollisionWheelRightIndex];
         }
 
         public bool TailNoseGearOnGround()
         {
-            return ContactPoint0;
+            return ContactPoints[PlaneConfigsService.GetPlaneConfig(this.Type + "|" + this.Model).CollisionWheelNoseTailIndex];
         }
 
         public bool WingtipOnGround()
         {
-            return ContactPoint3 || ContactPoint4;
+            return ContactPoints[3] || ContactPoints[4];
         }
         public double getWindTotal()
         {
@@ -474,7 +480,7 @@ namespace eSTOL_Training_Tool
 
         public void setPosition(GeoCoordinate position, double heading) 
         {
-            double offset = GearOffset.getGearOffset(this.Type + "|" + this.Model);
+            double offset = PlaneConfigsService.GetGearOffset(this.Type + "|" + this.Model);
 
             GeoCoordinate offsetPos = GeoUtils.GetOffsetPosition(position, heading, offset);
 
@@ -701,35 +707,30 @@ namespace eSTOL_Training_Tool
                     case "CONTACT POINT IS ON GROUND:0":
                         {
                             // Nose or TailWheel
-                            ContactPoint0 = (double)data.dwData[0] > 0;
                             ContactPoints[0] = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "CONTACT POINT IS ON GROUND:1":
                         {
                             // Left MainGear
-                            ContactPoint1 = (double)data.dwData[0] > 0;
                             ContactPoints[1] = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "CONTACT POINT IS ON GROUND:2":
                         {
                             // Right MainGear
-                            ContactPoint2 = (double)data.dwData[0] > 0;
                             ContactPoints[2] = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "CONTACT POINT IS ON GROUND:3":
                         {
                             // Wingtip if mapped
-                            ContactPoint3 = (double)data.dwData[0] > 0;
                             ContactPoints[3] = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "CONTACT POINT IS ON GROUND:4":
                         {
                             // Wingtip if mapped
-                            ContactPoint4 = (double)data.dwData[0] > 0;
                             ContactPoints[4] = (double)data.dwData[0] > 0;
                             break;
                         }
@@ -946,27 +947,27 @@ namespace eSTOL_Training_Tool
                         }
                     case "CONTACT POINT IS ON GROUND:0":
                         {
-                            ContactPoint0 = (double)data.dwData[0] > 0;
+                            ContactPoints[0] = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "CONTACT POINT IS ON GROUND:1":
                         {
-                            ContactPoint1 = (double)data.dwData[0] > 0;
+                            ContactPoints[1] = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "CONTACT POINT IS ON GROUND:2":
                         {
-                            ContactPoint2 = (double)data.dwData[0] > 0;
+                            ContactPoints[2] = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "CONTACT POINT IS ON GROUND:3":
                         {
-                            ContactPoint3 = (double)data.dwData[0] > 0;
+                            ContactPoints[3] = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "CONTACT POINT IS ON GROUND:4":
                         {
-                            ContactPoint4 = (double)data.dwData[0] > 0;
+                            ContactPoints[4] = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "AIRCRAFT WIND X":

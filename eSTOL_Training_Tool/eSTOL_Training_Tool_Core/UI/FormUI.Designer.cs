@@ -65,6 +65,7 @@
             checkBoxSaveRecording = new System.Windows.Forms.CheckBox();
             linkLabelRecordings = new System.Windows.Forms.LinkLabel();
             buttonUnFlip = new System.Windows.Forms.Button();
+            panelCollisions = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)numericUpDownStopwatchOffest).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownTransparency).BeginInit();
             SuspendLayout();
@@ -455,11 +456,23 @@
             buttonUnFlip.UseVisualStyleBackColor = true;
             buttonUnFlip.Click += buttonUnFlip_Click;
             // 
+            // panelCollisions
+            // 
+            panelCollisions.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            panelCollisions.BackgroundImage = (System.Drawing.Image)resources.GetObject("panelCollisions.BackgroundImage");
+            panelCollisions.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            panelCollisions.Location = new System.Drawing.Point(810, 399);
+            panelCollisions.Name = "panelCollisions";
+            panelCollisions.Size = new System.Drawing.Size(68, 68);
+            panelCollisions.TabIndex = 103;
+            panelCollisions.Paint += panelCollisions_Paint;
+            // 
             // FormUI
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(888, 647);
+            Controls.Add(panelCollisions);
             Controls.Add(buttonUnFlip);
             Controls.Add(linkLabelRecordings);
             Controls.Add(checkBoxSaveRecording);
@@ -540,5 +553,6 @@
         private System.Windows.Forms.CheckBox checkBoxSaveRecording;
         private System.Windows.Forms.LinkLabel linkLabelRecordings;
         private System.Windows.Forms.Button buttonUnFlip;
+        private System.Windows.Forms.Panel panelCollisions;
     }
 }

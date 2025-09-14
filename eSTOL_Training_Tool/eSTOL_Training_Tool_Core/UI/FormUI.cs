@@ -516,6 +516,11 @@ namespace eSTOL_Training_Tool_Core.UI
             panelWind.Invalidate();
         }
 
+        public void setCollisionWheels() 
+        {
+            panelCollisions.Invalidate();
+        }
+
         private void panelWind_Paint(object sender, PaintEventArgs e)
         {
             Color backColor = SystemColors.Control;
@@ -618,6 +623,74 @@ namespace eSTOL_Training_Tool_Core.UI
         private void buttonUnFlip_Click(object sender, EventArgs e)
         {
             this.controller.unflip();
+        }
+
+        private void panelCollisions_Paint(object sender, PaintEventArgs e)
+        {
+            Color backColor = SystemColors.Control;
+            Color foreColor = SystemColors.ControlText;
+#pragma warning disable CA1416 // Validate platform compatibility
+#pragma warning disable WFO5001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+            if (Application.IsDarkModeEnabled)
+            {
+                backColor = myDarkControl;
+                foreColor = Color.White;
+            }
+#pragma warning restore WFO5001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+#pragma warning restore CA1416 // Validate platform compatibility
+
+            Graphics g = e.Graphics;
+            g.Clear(Color.Transparent); // Background green
+            g.DrawImage(panelCollisions.BackgroundImage, new Rectangle(0, 0, 68, 68));
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+
+            // draw Left Wheel Colision
+            Rectangle rectWL = new Rectangle(24, 19, 4, 6);
+
+            Pen pen = new Pen(Color.Transparent, 2);
+            SolidBrush brush = new SolidBrush(Color.Transparent);
+            if (this.controller.plane.LeftGearOnGround())
+            {
+                pen = new Pen(Color.Green, 2);
+                brush = new SolidBrush(Color.LightGreen);
+            }
+            else
+            {
+                pen = new Pen(Color.Gray, 2);
+                brush = new SolidBrush(Color.LightGray);
+            }
+            g.DrawEllipse(pen, rectWL);
+            g.FillEllipse(brush, rectWL);
+
+            // draw Right Wheel Colision
+            Rectangle rectWR = new Rectangle(37, 19, 4, 6);
+            if (this.controller.plane.RightGearOnGround())
+            {
+                pen = new Pen(Color.Green, 2);
+                brush = new SolidBrush(Color.LightGreen);
+            }
+            else
+            {
+                pen = new Pen(Color.Gray, 2);
+                brush = new SolidBrush(Color.LightGray);
+            }
+            g.DrawEllipse(pen, rectWR);
+            g.FillEllipse(brush, rectWR);
+
+            // draw Tail Wheel Colision
+            Rectangle rectWT = new Rectangle(31, 47, 3, 4);
+            if (this.controller.plane.TailNoseGearOnGround())
+            {
+                pen = new Pen(Color.Green, 2);
+                brush = new SolidBrush(Color.LightGreen);
+            }
+            else
+            {
+                pen = new Pen(Color.Gray, 2);
+                brush = new SolidBrush(Color.LightGray);
+            }
+            g.DrawEllipse(pen, rectWT);
+            g.FillEllipse(brush, rectWT);
         }
     }
 }

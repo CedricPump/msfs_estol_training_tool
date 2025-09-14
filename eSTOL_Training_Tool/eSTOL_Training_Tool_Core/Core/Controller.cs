@@ -34,7 +34,7 @@ namespace eSTOL_Training_Tool_Core.Core
 
     public class Controller
     {
-        Plane plane;
+        public Plane plane;
         Config config;
         CycleState cycleState = CycleState.Unknown;
         STOLData stol = new STOLData();
@@ -94,7 +94,7 @@ namespace eSTOL_Training_Tool_Core.Core
 
         public void Init()
         {
-            GearOffset.LoadOffsetDict(this.config.OffsetPath);
+            PlaneConfigsService.LoadPlaneConfigs(this.config.PlanesConfigPath);
 
             // Update once to trigger connect to sim
             plane.Update();
@@ -300,6 +300,8 @@ namespace eSTOL_Training_Tool_Core.Core
                             if (DateTime.Now - lastUIResfresh > TimeSpan.FromMilliseconds(config.uiRefreshIntervall))
                             {
                                 form.setWind(plane.getRelDir(), plane.getWindTotal());
+                                form.setCollisionWheels();
+
                                 lastUIResfresh = DateTime.Now;
 
                                 // alingnment help
@@ -794,7 +796,7 @@ namespace eSTOL_Training_Tool_Core.Core
             {
                 form.setPresets(presets.Select(p => p.title).ToArray());
             }
-            GearOffset.LoadOffsetDict(this.config.OffsetPath);
+            PlaneConfigsService.LoadPlaneConfigs(this.config.PlanesConfigPath);
         }
 
         internal void unflip()
