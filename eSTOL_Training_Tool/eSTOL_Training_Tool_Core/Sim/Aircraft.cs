@@ -56,12 +56,13 @@ namespace eSTOL_Training_Tool
         public double FuelPercent { get; private set; }
         public bool FuelUnlimited { get; private set; }
         public string Airport { get; private set; }
+        public bool[] ContactPoints { get; private set; } = new bool[20];
 
-        public bool ContactPointNoseTail { get; private set; }
-        public bool ContactPointLeft { get; private set; }
-        public bool ContactPointRight { get; private set; }
-        public bool ContactPointWingtip0 { get; private set; }
-        public bool ContactPointWingtip1 { get; private set; }
+        public bool ContactPoint0 { get; private set; }
+        public bool ContactPoint1 { get; private set; }
+        public bool ContactPoint2 { get; private set; }
+        public bool ContactPoint3 { get; private set; }
+        public bool ContactPoint4 { get; private set; }
 
         // Env
         public double AltitudeAGL { get; private set; }
@@ -189,17 +190,17 @@ namespace eSTOL_Training_Tool
 
         public bool MainGearOnGround()
         {
-            return ContactPointLeft || ContactPointRight;
+            return ContactPoint1 || ContactPoint2;
         }
 
         public bool TailNoseGearOnGround()
         {
-            return ContactPointNoseTail;
+            return ContactPoint0;
         }
 
         public bool WingtipOnGround()
         {
-            return ContactPointWingtip0 || ContactPointWingtip1;
+            return ContactPoint3 || ContactPoint4;
         }
         public double getWindTotal()
         {
@@ -699,28 +700,37 @@ namespace eSTOL_Training_Tool
                         }
                     case "CONTACT POINT IS ON GROUND:0":
                         {
-                            ContactPointNoseTail = (double)data.dwData[0] > 0;
+                            // Nose or TailWheel
+                            ContactPoint0 = (double)data.dwData[0] > 0;
+                            ContactPoints[0] = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "CONTACT POINT IS ON GROUND:1":
                         {
-                            ContactPointLeft = (double)data.dwData[0] > 0;
-                            // Console.WriteLine("ContactPointLeft: " + ContactPointLeft);
+                            // Left MainGear
+                            ContactPoint1 = (double)data.dwData[0] > 0;
+                            ContactPoints[1] = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "CONTACT POINT IS ON GROUND:2":
                         {
-                            ContactPointRight = (double)data.dwData[0] > 0;
+                            // Right MainGear
+                            ContactPoint2 = (double)data.dwData[0] > 0;
+                            ContactPoints[2] = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "CONTACT POINT IS ON GROUND:3":
                         {
-                            ContactPointWingtip0 = (double)data.dwData[0] > 0;
+                            // Wingtip if mapped
+                            ContactPoint3 = (double)data.dwData[0] > 0;
+                            ContactPoints[3] = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "CONTACT POINT IS ON GROUND:4":
                         {
-                            ContactPointWingtip1 = (double)data.dwData[0] > 0;
+                            // Wingtip if mapped
+                            ContactPoint4 = (double)data.dwData[0] > 0;
+                            ContactPoints[4] = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "AIRCRAFT WIND X":
@@ -936,27 +946,27 @@ namespace eSTOL_Training_Tool
                         }
                     case "CONTACT POINT IS ON GROUND:0":
                         {
-                            ContactPointNoseTail = (double)data.dwData[0] > 0;
+                            ContactPoint0 = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "CONTACT POINT IS ON GROUND:1":
                         {
-                            ContactPointLeft = (double)data.dwData[0] > 0;
+                            ContactPoint1 = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "CONTACT POINT IS ON GROUND:2":
                         {
-                            ContactPointRight = (double)data.dwData[0] > 0;
+                            ContactPoint2 = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "CONTACT POINT IS ON GROUND:3":
                         {
-                            ContactPointWingtip0 = (double)data.dwData[0] > 0;
+                            ContactPoint3 = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "CONTACT POINT IS ON GROUND:4":
                         {
-                            ContactPointWingtip1 = (double)data.dwData[0] > 0;
+                            ContactPoint4 = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "AIRCRAFT WIND X":
