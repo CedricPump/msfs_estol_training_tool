@@ -34,7 +34,7 @@ namespace eSTOL_Training_Tool_Core.Core
 
     public class Controller
     {
-        Plane plane;
+        public Plane plane;
         Config config;
         CycleState cycleState = CycleState.Unknown;
         STOLData stol = new STOLData();
@@ -94,7 +94,7 @@ namespace eSTOL_Training_Tool_Core.Core
 
         public void Init()
         {
-            GearOffset.LoadOffsetDict(this.config.OffsetPath);
+            PlaneConfigsService.LoadPlaneConfigs(this.config.PlanesConfigPath);
 
             // Update once to trigger connect to sim
             plane.Update();
@@ -234,7 +234,7 @@ namespace eSTOL_Training_Tool_Core.Core
         {
             if(this.stol != null) 
             {
-                this.stol.planeType = plane.Title;
+                this.stol.planeType = plane.GetDisplayName();
                 this.form.setResult($"Plane Changed: {this.stol.planeType}");
             }
         }
@@ -259,7 +259,7 @@ namespace eSTOL_Training_Tool_Core.Core
                         continue;
                     };
 
-                    if(this.stol.planeType != "" && plane.Title != this.stol.planeType) 
+                    if(this.stol.planeType != "" && plane.GetDisplayName() != this.stol.planeType) 
                     {
                         ReinitPlaneType();
                     }
@@ -300,6 +300,8 @@ namespace eSTOL_Training_Tool_Core.Core
                             if (DateTime.Now - lastUIResfresh > TimeSpan.FromMilliseconds(config.uiRefreshIntervall))
                             {
                                 form.setWind(plane.getRelDir(), plane.getWindTotal());
+                                form.setCollisionWheels();
+
                                 lastUIResfresh = DateTime.Now;
 
                                 // alingnment help
@@ -463,7 +465,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                         {
                                             // Touchdown!!!
                                             setState(CycleState.Rollout);
-                                            stol.planeType = plane.Title;
+                                            stol.planeType = plane.GetDisplayName();
                                             stol.TouchdownPosition = telemetrie.Position;
                                             stol.TouchdownTime = DateTime.Now;
                                             stol.TouchdownPitch = lastTelemetrie.pitch;
@@ -773,7 +775,7 @@ namespace eSTOL_Training_Tool_Core.Core
         private void initSTOL()
         {
             // set STOL initial Values
-            stol.planeType = plane.Title;
+            stol.planeType = plane.GetDisplayName();
             stol.InitialHeading = plane.Heading;
             stol.InitialPitch = plane.pitch;
             stol.InitialPosition = plane.GetTelemetrie().Position;
@@ -794,7 +796,7 @@ namespace eSTOL_Training_Tool_Core.Core
             {
                 form.setPresets(presets.Select(p => p.title).ToArray());
             }
-            GearOffset.LoadOffsetDict(this.config.OffsetPath);
+            PlaneConfigsService.LoadPlaneConfigs(this.config.PlanesConfigPath);
         }
 
         internal void unflip()

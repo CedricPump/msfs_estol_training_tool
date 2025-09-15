@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Device.Location;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 using eSTOL_Training_Tool.Model;
 using eSTOL_Training_Tool_Core.Core;
 using eSTOL_Training_Tool_Core.Model;
@@ -56,12 +57,7 @@ namespace eSTOL_Training_Tool
         public double FuelPercent { get; private set; }
         public bool FuelUnlimited { get; private set; }
         public string Airport { get; private set; }
-
-        public bool ContactPointNoseTail { get; private set; }
-        public bool ContactPointLeft { get; private set; }
-        public bool ContactPointRight { get; private set; }
-        public bool ContactPointWingtip0 { get; private set; }
-        public bool ContactPointWingtip1 { get; private set; }
+        public bool[] ContactPoints { get; private set; } = new bool[20];
 
         // Env
         public double AltitudeAGL { get; private set; }
@@ -87,11 +83,21 @@ namespace eSTOL_Training_Tool
 
         public bool IsTaildragger { get
             {
-                return !conf.trikesTypes.Contains(this.Type + "|" + this.Model);
+                return GetPlaneConfig().IsTaildragger;
             }
         }
 
 
+        public PlaneConfig GetPlaneConfig() 
+        {
+            return PlaneConfigsService.GetPlaneConfig(this.Type + "|" + this.Model);
+        }
+
+        public string GetDisplayName() 
+        {
+            var dispalyName = GetPlaneConfig().DisplayName;
+            return string.IsNullOrEmpty(dispalyName) ? this.Title : dispalyName;
+        }
 
 
         public string toString()
@@ -172,7 +178,7 @@ namespace eSTOL_Training_Tool
 
         public GeoCoordinate getPositionWithGearOffset() 
         {
-            double offset = GearOffset.getGearOffset(this.Type + "|" + this.Model);
+            double offset = PlaneConfigsService.GetGearOffset(this.Type + "|" + this.Model);
             GeoCoordinate simPos = new GeoCoordinate(this.Latitude, this.Longitude, this.Altitude * 0.3048);
             return GeoUtils.GetOffsetPosition(simPos, this.Heading, -offset);
         }
@@ -189,18 +195,39 @@ namespace eSTOL_Training_Tool
 
         public bool MainGearOnGround()
         {
-            return ContactPointLeft || ContactPointRight;
+            return LeftGearOnGround() || RightGearOnGround();
+        }
+
+        public bool LeftGearOnGround()
+        {
+            return ContactPoints[this.GetPlaneConfig().CollisionWheelLeftIndex];
+        }
+
+        public bool RightGearOnGround()
+        {
+            return ContactPoints[this.GetPlaneConfig().CollisionWheelRightIndex];
         }
 
         public bool TailNoseGearOnGround()
         {
-            return ContactPointNoseTail;
+            return ContactPoints[this.GetPlaneConfig().CollisionWheelNoseTailIndex];
         }
 
         public bool WingtipOnGround()
         {
-            return ContactPointWingtip0 || ContactPointWingtip1;
+            return WingtipOnGroundR() || WingtipOnGroundL();
         }
+
+        public bool WingtipOnGroundR()
+        {
+            return ContactPoints[this.GetPlaneConfig().CollisionWheelWingtip2Index];
+        }
+
+        public bool WingtipOnGroundL()
+        {
+            return ContactPoints[this.GetPlaneConfig().CollisionWheelWingtip1Index];
+        }
+
         public double getWindTotal()
         {
             double windTotal = Math.Sqrt(WindX * WindX + WindY * WindY);
@@ -473,7 +500,7 @@ namespace eSTOL_Training_Tool
 
         public void setPosition(GeoCoordinate position, double heading) 
         {
-            double offset = GearOffset.getGearOffset(this.Type + "|" + this.Model);
+            double offset = PlaneConfigsService.GetGearOffset(this.Type + "|" + this.Model);
 
             GeoCoordinate offsetPos = GeoUtils.GetOffsetPosition(position, heading, offset);
 
@@ -699,28 +726,32 @@ namespace eSTOL_Training_Tool
                         }
                     case "CONTACT POINT IS ON GROUND:0":
                         {
-                            ContactPointNoseTail = (double)data.dwData[0] > 0;
+                            // Nose or TailWheel
+                            ContactPoints[0] = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "CONTACT POINT IS ON GROUND:1":
                         {
-                            ContactPointLeft = (double)data.dwData[0] > 0;
-                            // Console.WriteLine("ContactPointLeft: " + ContactPointLeft);
+                            // Left MainGear
+                            ContactPoints[1] = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "CONTACT POINT IS ON GROUND:2":
                         {
-                            ContactPointRight = (double)data.dwData[0] > 0;
+                            // Right MainGear
+                            ContactPoints[2] = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "CONTACT POINT IS ON GROUND:3":
                         {
-                            ContactPointWingtip0 = (double)data.dwData[0] > 0;
+                            // Wingtip if mapped
+                            ContactPoints[3] = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "CONTACT POINT IS ON GROUND:4":
                         {
-                            ContactPointWingtip1 = (double)data.dwData[0] > 0;
+                            // Wingtip if mapped
+                            ContactPoints[4] = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "AIRCRAFT WIND X":
@@ -936,27 +967,27 @@ namespace eSTOL_Training_Tool
                         }
                     case "CONTACT POINT IS ON GROUND:0":
                         {
-                            ContactPointNoseTail = (double)data.dwData[0] > 0;
+                            ContactPoints[0] = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "CONTACT POINT IS ON GROUND:1":
                         {
-                            ContactPointLeft = (double)data.dwData[0] > 0;
+                            ContactPoints[1] = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "CONTACT POINT IS ON GROUND:2":
                         {
-                            ContactPointRight = (double)data.dwData[0] > 0;
+                            ContactPoints[2] = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "CONTACT POINT IS ON GROUND:3":
                         {
-                            ContactPointWingtip0 = (double)data.dwData[0] > 0;
+                            ContactPoints[3] = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "CONTACT POINT IS ON GROUND:4":
                         {
-                            ContactPointWingtip1 = (double)data.dwData[0] > 0;
+                            ContactPoints[4] = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "AIRCRAFT WIND X":
