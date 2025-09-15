@@ -62,6 +62,9 @@
     <None Update="changelog.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="PlanesConfig.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="GearOffset.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

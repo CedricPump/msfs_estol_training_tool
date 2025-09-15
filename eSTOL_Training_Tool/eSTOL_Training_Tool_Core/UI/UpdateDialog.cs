@@ -28,8 +28,6 @@ namespace eSTOL_Training_Tool_Core.UI
 
         private void InitializeComponent()
         {
-            this.TopMost = true;
-
             labeltext = new Label();
             linkLabel = new LinkLabel();
             buttonUpdate = new Button();
@@ -59,6 +57,7 @@ namespace eSTOL_Training_Tool_Core.UI
             // buttonUpdate
             // 
             buttonUpdate.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            buttonUpdate.FlatStyle = FlatStyle.Flat;
             buttonUpdate.Location = new System.Drawing.Point(12, 61);
             buttonUpdate.Name = "buttonUpdate";
             buttonUpdate.Size = new System.Drawing.Size(75, 23);
@@ -69,6 +68,7 @@ namespace eSTOL_Training_Tool_Core.UI
             // buttonSkip
             // 
             buttonSkip.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            buttonSkip.FlatStyle = FlatStyle.Flat;
             buttonSkip.Location = new System.Drawing.Point(328, 61);
             buttonSkip.Name = "buttonSkip";
             buttonSkip.Size = new System.Drawing.Size(75, 23);
@@ -85,6 +85,7 @@ namespace eSTOL_Training_Tool_Core.UI
             Controls.Add(linkLabel);
             Controls.Add(labeltext);
             Name = "UpdateDialog";
+            TopMost = true;
             ResumeLayout(false);
             PerformLayout();
         }
