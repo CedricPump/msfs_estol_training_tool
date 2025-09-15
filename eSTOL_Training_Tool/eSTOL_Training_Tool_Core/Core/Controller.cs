@@ -234,7 +234,7 @@ namespace eSTOL_Training_Tool_Core.Core
         {
             if(this.stol != null) 
             {
-                this.stol.planeType = plane.Title;
+                this.stol.planeType = plane.GetDisplayName();
                 this.form.setResult($"Plane Changed: {this.stol.planeType}");
             }
         }
@@ -259,7 +259,7 @@ namespace eSTOL_Training_Tool_Core.Core
                         continue;
                     };
 
-                    if(this.stol.planeType != "" && plane.Title != this.stol.planeType) 
+                    if(this.stol.planeType != "" && plane.GetDisplayName() != this.stol.planeType) 
                     {
                         ReinitPlaneType();
                     }
@@ -465,7 +465,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                         {
                                             // Touchdown!!!
                                             setState(CycleState.Rollout);
-                                            stol.planeType = plane.Title;
+                                            stol.planeType = plane.GetDisplayName();
                                             stol.TouchdownPosition = telemetrie.Position;
                                             stol.TouchdownTime = DateTime.Now;
                                             stol.TouchdownPitch = lastTelemetrie.pitch;
@@ -775,7 +775,7 @@ namespace eSTOL_Training_Tool_Core.Core
         private void initSTOL()
         {
             // set STOL initial Values
-            stol.planeType = plane.Title;
+            stol.planeType = plane.GetDisplayName();
             stol.InitialHeading = plane.Heading;
             stol.InitialPitch = plane.pitch;
             stol.InitialPosition = plane.GetTelemetrie().Position;

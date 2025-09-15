@@ -691,6 +691,36 @@ namespace eSTOL_Training_Tool_Core.UI
             }
             g.DrawEllipse(pen, rectWT);
             g.FillEllipse(brush, rectWT);
+
+            // draw Left Wing Tip
+            Rectangle rectWingL = new Rectangle(1, 23, 3, 10);
+            if (this.controller.plane.WingtipOnGroundL())
+            {
+                pen = new Pen(Color.Red, 2);
+                brush = new SolidBrush(Color.Pink);
+            }
+            else
+            {
+                pen = new Pen(Color.Gray, 1);
+                brush = new SolidBrush(Color.Transparent);
+            }
+            g.DrawEllipse(pen, rectWingL);
+            g.FillEllipse(brush, rectWingL);
+
+            // draw Right Wing Tip
+            Rectangle rectWingR = new Rectangle(63, 23, 3, 10);
+            if (this.controller.plane.WingtipOnGroundR())
+            {
+                pen = new Pen(Color.Red, 2);
+                brush = new SolidBrush(Color.Pink);
+            }
+            else
+            {
+                pen = new Pen(Color.Gray, 1);
+                brush = new SolidBrush(Color.Transparent);
+            }
+            g.DrawEllipse(pen, rectWingR);
+            g.FillEllipse(brush, rectWingR);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Device.Location;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 using eSTOL_Training_Tool.Model;
 using eSTOL_Training_Tool_Core.Core;
 using eSTOL_Training_Tool_Core.Model;
@@ -82,11 +83,21 @@ namespace eSTOL_Training_Tool
 
         public bool IsTaildragger { get
             {
-                return !conf.trikesTypes.Contains(this.Type + "|" + this.Model);
+                return GetPlaneConfig().IsTaildragger;
             }
         }
 
 
+        public PlaneConfig GetPlaneConfig() 
+        {
+            return PlaneConfigsService.GetPlaneConfig(this.Type + "|" + this.Model);
+        }
+
+        public string GetDisplayName() 
+        {
+            var dispalyName = GetPlaneConfig().DisplayName;
+            return string.IsNullOrEmpty(dispalyName) ? this.Title : dispalyName;
+        }
 
 
         public string toString()
@@ -189,25 +200,34 @@ namespace eSTOL_Training_Tool
 
         public bool LeftGearOnGround()
         {
-            var temp = PlaneConfigsService.GetPlaneConfig(this.Type + "|" + this.Model);
-            var a = temp;
-            return ContactPoints[PlaneConfigsService.GetPlaneConfig(this.Type + "|" + this.Model).CollisionWheelLeftIndex];
+            return ContactPoints[this.GetPlaneConfig().CollisionWheelLeftIndex];
         }
 
         public bool RightGearOnGround()
         {
-            return ContactPoints[PlaneConfigsService.GetPlaneConfig(this.Type + "|" + this.Model).CollisionWheelRightIndex];
+            return ContactPoints[this.GetPlaneConfig().CollisionWheelRightIndex];
         }
 
         public bool TailNoseGearOnGround()
         {
-            return ContactPoints[PlaneConfigsService.GetPlaneConfig(this.Type + "|" + this.Model).CollisionWheelNoseTailIndex];
+            return ContactPoints[this.GetPlaneConfig().CollisionWheelNoseTailIndex];
         }
 
         public bool WingtipOnGround()
         {
-            return ContactPoints[3] || ContactPoints[4];
+            return WingtipOnGroundR() || WingtipOnGroundL();
         }
+
+        public bool WingtipOnGroundR()
+        {
+            return ContactPoints[this.GetPlaneConfig().CollisionWheelWingtip2Index];
+        }
+
+        public bool WingtipOnGroundL()
+        {
+            return ContactPoints[this.GetPlaneConfig().CollisionWheelWingtip1Index];
+        }
+
         public double getWindTotal()
         {
             double windTotal = Math.Sqrt(WindX * WindX + WindY * WindY);

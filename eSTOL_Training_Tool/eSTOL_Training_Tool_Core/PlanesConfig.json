@@ -2,7 +2,7 @@
     {
         "Class": "",
         "CollisionNoseIndex": 10,
-        "CollisionPropIndex": 11,
+        "CollisionPropIndex": 8,
         "CollisionWheelLeftIndex": 1,
         "CollisionWheelNoseTailIndex": 0,
         "CollisionWheelRightIndex": 2,
@@ -16,7 +16,7 @@
     {
         "Class": "Spec",
         "CollisionNoseIndex": 10,
-        "CollisionPropIndex": 11,
+        "CollisionPropIndex": 8,
         "CollisionWheelLeftIndex": 1,
         "CollisionWheelNoseTailIndex": 0,
         "CollisionWheelRightIndex": 2,
@@ -30,7 +30,7 @@
     {
         "Class": "Unlimited",
         "CollisionNoseIndex": 10,
-        "CollisionPropIndex": 11,
+        "CollisionPropIndex": 8,
         "CollisionWheelLeftIndex": 1,
         "CollisionWheelNoseTailIndex": 0,
         "CollisionWheelRightIndex": 2,
@@ -44,7 +44,7 @@
     {
         "Class": "Unlimited",
         "CollisionNoseIndex": 10,
-        "CollisionPropIndex": 11,
+        "CollisionPropIndex": 8,
         "CollisionWheelLeftIndex": 1,
         "CollisionWheelNoseTailIndex": 0,
         "CollisionWheelRightIndex": 2,
@@ -57,8 +57,8 @@
     },
     {
         "Class": "Adventure",
-        "CollisionNoseIndex": 10,
-        "CollisionPropIndex": 11,
+        "CollisionNoseIndex": 8,
+        "CollisionPropIndex": 8,
         "CollisionWheelLeftIndex": 1,
         "CollisionWheelNoseTailIndex": 0,
         "CollisionWheelRightIndex": 2,
@@ -72,7 +72,7 @@
     {
         "Class": "Backcountry",
         "CollisionNoseIndex": 10,
-        "CollisionPropIndex": 11,
+        "CollisionPropIndex": 10,
         "CollisionWheelLeftIndex": 1,
         "CollisionWheelNoseTailIndex": 0,
         "CollisionWheelRightIndex": 2,
@@ -85,8 +85,8 @@
     },
     {
         "Class": "Backcountry",
-        "CollisionNoseIndex": 10,
-        "CollisionPropIndex": 11,
+        "CollisionNoseIndex": 8,
+        "CollisionPropIndex": 8,
         "CollisionWheelLeftIndex": 1,
         "CollisionWheelNoseTailIndex": 0,
         "CollisionWheelRightIndex": 2,
@@ -100,7 +100,7 @@
     {
         "Class": "Backcountry",
         "CollisionNoseIndex": 10,
-        "CollisionPropIndex": 11,
+        "CollisionPropIndex": 8,
         "CollisionWheelLeftIndex": 1,
         "CollisionWheelNoseTailIndex": 0,
         "CollisionWheelRightIndex": 2,
@@ -142,7 +142,7 @@
     {
         "Class": "Backcountry",
         "CollisionNoseIndex": 10,
-        "CollisionPropIndex": 11,
+        "CollisionPropIndex": 8,
         "CollisionWheelLeftIndex": 1,
         "CollisionWheelNoseTailIndex": 0,
         "CollisionWheelRightIndex": 2,
@@ -156,7 +156,7 @@
     {
         "Class": "Spec",
         "CollisionNoseIndex": 10,
-        "CollisionPropIndex": 11,
+        "CollisionPropIndex": 8,
         "CollisionWheelLeftIndex": 1,
         "CollisionWheelNoseTailIndex": 0,
         "CollisionWheelRightIndex": 2,
@@ -166,5 +166,19 @@
         "GearOffset": -0.07,
         "IsTaildragger": true,
         "Key": "ATCCOM.ATC_NAME ACA.0.text|ATCCOM.AC_MODEL SCOUT.0.text"
+    },
+    {
+        "Class": "Unlimited",
+        "CollisionNoseIndex": 5,
+        "CollisionPropIndex": 8,
+        "CollisionWheelLeftIndex": 1,
+        "CollisionWheelNoseTailIndex": 0,
+        "CollisionWheelRightIndex": 2,
+        "CollisionWheelWingtip1Index": 3,
+        "CollisionWheelWingtip2Index": 4,
+        "DisplayName": "Kitfox",
+        "GearOffset": -0.45,
+        "IsTaildragger": true,
+        "Key": "Kitfox|Fox2"
     }
 ]
