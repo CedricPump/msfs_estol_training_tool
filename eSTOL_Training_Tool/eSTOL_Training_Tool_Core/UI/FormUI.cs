@@ -3,6 +3,7 @@ using System.Device.Location;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
+using System.Numerics;
 using System.Reactive;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
@@ -79,7 +80,7 @@ namespace eSTOL_Training_Tool_Core.UI
             textBoxUser.Text = controller.user;
             textBoxStatus.Text = "No Reference Position selected";
             buttonTeleport.Enabled = false;
-            textBoxResult.Text = "Welcome\r\nSelect a eSTOL field preset or \"Open World\" mode set custom start.";
+            textBoxResult.Text = $"Welcome\r\n\r\nSelect a eSTOL field preset or \"Open World\" mode set custom start.";
 
             comboBoxUnit.Items.Add("feet");
             comboBoxUnit.Items.Add("meters");
@@ -96,6 +97,8 @@ namespace eSTOL_Training_Tool_Core.UI
             this.checkBoxSaveRecording.Checked = config.enableGPXRecodering;
 
             this.numericUpDownStopwatchOffest.Value = stopwatchOffsetSeconds;
+
+            this.checkBoxPropStrike.Checked = config.simulatePropStrike;
         }
 
         public void setPresets(string[] strings)
@@ -663,7 +666,7 @@ namespace eSTOL_Training_Tool_Core.UI
             g.FillEllipse(brush, rectWL);
 
             // draw Right Wheel Colision
-            Rectangle rectWR = new Rectangle(37, 19, 4, 6);
+            Rectangle rectWR = new Rectangle(39, 19, 4, 6);
             if (this.controller.plane.RightGearOnGround())
             {
                 pen = new Pen(Color.Green, 2);
@@ -678,7 +681,7 @@ namespace eSTOL_Training_Tool_Core.UI
             g.FillEllipse(brush, rectWR);
 
             // draw Tail Wheel Colision
-            Rectangle rectWT = new Rectangle(31, 47, 3, 4);
+            Rectangle rectWT = new Rectangle(32, 49, 3, 4);
             if (this.controller.plane.TailNoseGearOnGround())
             {
                 pen = new Pen(Color.Green, 2);
@@ -721,6 +724,26 @@ namespace eSTOL_Training_Tool_Core.UI
             }
             g.DrawEllipse(pen, rectWingR);
             g.FillEllipse(brush, rectWingR);
+
+            // draw Prop
+            Rectangle rectProp = new Rectangle(26, 12, 15, 2);
+            if (this.controller.plane.IsPropstrike())
+            {
+                pen = new Pen(Color.Red, 2);
+                brush = new SolidBrush(Color.Pink);
+            }
+            else if (this.controller.plane.IsEngineOn)
+            {
+                pen = new Pen(Color.Green, 2);
+                brush = new SolidBrush(Color.LightGreen);
+            }
+            else
+            {
+                pen = new Pen(Color.Gray, 1);
+                brush = new SolidBrush(Color.Transparent);
+            }
+            g.DrawEllipse(pen, rectProp);
+            g.FillEllipse(brush, rectProp);
         }
     }
 }

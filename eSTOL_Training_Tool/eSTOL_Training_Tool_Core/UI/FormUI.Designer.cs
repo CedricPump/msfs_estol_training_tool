@@ -66,6 +66,7 @@
             linkLabelRecordings = new System.Windows.Forms.LinkLabel();
             buttonUnFlip = new System.Windows.Forms.Button();
             panelCollisions = new System.Windows.Forms.Panel();
+            checkBoxPropStrike = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)numericUpDownStopwatchOffest).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownTransparency).BeginInit();
             SuspendLayout();
@@ -422,6 +423,7 @@
             // 
             // checkBoxSaveRecording
             // 
+            checkBoxSaveRecording.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             checkBoxSaveRecording.AutoSize = true;
             checkBoxSaveRecording.Checked = true;
             checkBoxSaveRecording.CheckState = System.Windows.Forms.CheckState.Checked;
@@ -435,6 +437,7 @@
             // 
             // linkLabelRecordings
             // 
+            linkLabelRecordings.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             linkLabelRecordings.AutoSize = true;
             linkLabelRecordings.Location = new System.Drawing.Point(777, 142);
             linkLabelRecordings.Name = "linkLabelRecordings";
@@ -467,11 +470,26 @@
             panelCollisions.TabIndex = 103;
             panelCollisions.Paint += panelCollisions_Paint;
             // 
+            // checkBoxPropStrike
+            // 
+            checkBoxPropStrike.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            checkBoxPropStrike.AutoSize = true;
+            checkBoxPropStrike.Checked = true;
+            checkBoxPropStrike.CheckState = System.Windows.Forms.CheckState.Checked;
+            checkBoxPropStrike.Enabled = false;
+            checkBoxPropStrike.Location = new System.Drawing.Point(540, 2);
+            checkBoxPropStrike.Name = "checkBoxPropStrike";
+            checkBoxPropStrike.Size = new System.Drawing.Size(120, 19);
+            checkBoxPropStrike.TabIndex = 104;
+            checkBoxPropStrike.Text = "enable prop strike";
+            checkBoxPropStrike.UseVisualStyleBackColor = true;
+            // 
             // FormUI
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(888, 647);
+            Controls.Add(checkBoxPropStrike);
             Controls.Add(panelCollisions);
             Controls.Add(buttonUnFlip);
             Controls.Add(linkLabelRecordings);
@@ -554,5 +572,6 @@
         private System.Windows.Forms.LinkLabel linkLabelRecordings;
         private System.Windows.Forms.Button buttonUnFlip;
         private System.Windows.Forms.Panel panelCollisions;
+        private System.Windows.Forms.CheckBox checkBoxPropStrike;
     }
 }

@@ -98,42 +98,42 @@
 		"start_hdg":   123
 	},
 	{
-		"title": "OL42 - Pocola SE (Arklahoma)",
+		"title": "OL42 - Pocola NW (Arklahoma)",
 		"start_lat":   35.261874,
 		"start_long": -94.488691,
 		"start_alt":  130,
 		"start_hdg":  307
 	},
 	{
-		"title": "OL42 - Pocola NW (Arklahoma)",
+		"title": "OL42 - Pocola SE (Arklahoma)",
 		"start_lat":   35.262900,
 		"start_long": -94.490263,
 		"start_alt":  129,
 		"start_hdg":  127
 	},
 	{
-		"title": "KXNX - Gallatin (Music City) N",
+		"title": "KXNX - Gallatin N (Music City)",
 		"start_lat":   36.376647,
 		"start_long": -86.409182,
 		"start_alt":  166,
 		"start_hdg":  351
 	},
 	{
-		"title": "KXNX - Gallatin (Music City) S",
+		"title": "KXNX - Gallatin S (Music City)",
 		"start_lat":   36.378274,
 		"start_long": -86.409501,
 		"start_alt":  166,
 		"start_hdg":  171
 	},
 	{
-		"title": "KSLR - Sulphur Springs (Lonestar) N",
+		"title": "KSLR - Sulphur Springs N (Lonestar)",
 		"start_lat":   33.159031,
 		"start_long": -95.620804,
 		"start_alt":  144,
 		"start_hdg":    9
 	},
 	{
-		"title": "KSLR - Sulphur Springs (Lonestar) S",
+		"title": "KSLR - Sulphur Springs S (Lonestar)",
 		"start_lat":   33.160656,
 		"start_long": -95.620472,
 		"start_alt":  144,

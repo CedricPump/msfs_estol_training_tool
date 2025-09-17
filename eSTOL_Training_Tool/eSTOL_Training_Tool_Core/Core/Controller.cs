@@ -13,9 +13,7 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Device.Location;
-using NodaTime;
 using eSTOL_Training_Tool_Core.GPX;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace eSTOL_Training_Tool_Core.Core
 {
@@ -235,7 +233,8 @@ namespace eSTOL_Training_Tool_Core.Core
             if(this.stol != null) 
             {
                 this.stol.planeType = plane.GetDisplayName();
-                this.form.setResult($"Plane Changed: {this.stol.planeType}");
+                string hasConfigText = plane.HasPlaneConfig() ? "config found" : "no config";
+                this.form.setResult($"Plane Changed: {this.stol.planeType} {hasConfigText}");
             }
         }
 
@@ -316,7 +315,15 @@ namespace eSTOL_Training_Tool_Core.Core
                                 }
                             }
 
-                            if( stol.IsInit() && plane.isInit)
+                            // kill engine
+                            if (plane.IsPropstrike() && config.simulatePropStrike)
+                            {
+                                plane.setValue("GENERAL ENG COMBUSTION:0", 0);
+                                plane.setValue("GENERAL ENG COMBUSTION:1", 0);
+                                plane.setValue("GENERAL ENG COMBUSTION:2", 0);
+                            }
+
+                            if ( stol.IsInit() && plane.isInit)
                             {
                                 if(plane.WingtipOnGround()) 
                                 {
@@ -328,6 +335,23 @@ namespace eSTOL_Training_Tool_Core.Core
                                         {
                                             // send event
                                             if (config.isSendResults) influx.sendEvent(user, stol.sessionKey, plane, "WINGSTRIKE", "true");
+                                        }
+                                        catch
+                                        {
+                                            Console.WriteLine("Unable to send event - check update");
+                                        }
+                                    }
+                                }
+
+                                if(plane.IsPropstrike()) 
+                                {
+                                    if (!stol.hasViolation("PropStrike"))
+                                    {
+                                        stol.violations.Add(new STOLViolation("PropStrike", 1));
+                                        try
+                                        {
+                                            // send event
+                                            if (config.isSendResults) influx.sendEvent(user, stol.sessionKey, plane, "PROPSTRIKE", "true");
                                         }
                                         catch
                                         {

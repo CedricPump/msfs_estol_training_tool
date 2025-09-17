@@ -96,8 +96,16 @@ namespace eSTOL_Training_Tool_Core.Influx
 
                 .Timestamp(DateTime.Now, WritePrecision.Ns);
 
-            var writeApi = influxDBClient.GetWriteApiAsync();
-            await writeApi.WritePointAsync(point, bucketTelemetry, org);
+            try
+            {
+                var writeApi = influxDBClient.GetWriteApiAsync();
+                await writeApi.WritePointAsync(point, bucketTelemetry, org);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error while sending telemetry: {ex.Message}");
+            }
+
         }
 
         public async void sendEvent(string username, string sessionKey, Plane plane, string eventType, string value = "")

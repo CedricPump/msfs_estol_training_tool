@@ -33,6 +33,11 @@ namespace eSTOL_Training_Tool_Core.Model
             }
         }
 
+        public static bool HasPlaneConfig(string aircraftType) 
+        {
+            return planeConfigByKey.ContainsKey(aircraftType);
+        }
+
         public static PlaneConfig GetPlaneConfig(string aircraftType)
         {
             if (!planeConfigByKey.TryGetValue(aircraftType, out PlaneConfig planeConfig))
@@ -70,7 +75,8 @@ namespace eSTOL_Training_Tool_Core.Model
         public uint CollisionWheelLeftIndex { get; set; } = 1;
         public uint CollisionWheelNoseTailIndex { get; set; } = 0;
         public uint CollisionWheelRightIndex { get; set; } = 2;
-        public uint CollisionWheelWingtip1Index { get; set; } = 3;
-        public uint CollisionWheelWingtip2Index { get; set; } = 4;
+        public uint CollisionWheelWingtipLIndex { get; set; } = 3;
+        public uint CollisionWheelWingtipRIndex { get; set; } = 4;
+        public uint PropStrikeThreshold { get; set; } = 30;
     }
 }

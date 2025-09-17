@@ -57,7 +57,7 @@ namespace eSTOL_Training_Tool
         public double FuelPercent { get; private set; }
         public bool FuelUnlimited { get; private set; }
         public string Airport { get; private set; }
-        public bool[] ContactPoints { get; private set; } = new bool[20];
+        public bool[] ContactPoints { get; private set; } = new bool[21];
 
         // Env
         public double AltitudeAGL { get; private set; }
@@ -91,6 +91,11 @@ namespace eSTOL_Training_Tool
         public PlaneConfig GetPlaneConfig() 
         {
             return PlaneConfigsService.GetPlaneConfig(this.Type + "|" + this.Model);
+        }
+
+        public bool HasPlaneConfig()
+        {
+            return PlaneConfigsService.HasPlaneConfig(this.Type + "|" + this.Model);
         }
 
         public string GetDisplayName() 
@@ -220,12 +225,19 @@ namespace eSTOL_Training_Tool
 
         public bool WingtipOnGroundR()
         {
-            return ContactPoints[this.GetPlaneConfig().CollisionWheelWingtip2Index];
+            return ContactPoints[this.GetPlaneConfig().CollisionWheelWingtipRIndex];
         }
 
         public bool WingtipOnGroundL()
         {
-            return ContactPoints[this.GetPlaneConfig().CollisionWheelWingtip1Index];
+            return ContactPoints[this.GetPlaneConfig().CollisionWheelWingtipLIndex];
+        }
+
+        public bool IsPropstrike()
+        {
+            bool collisionProp = ContactPoints[this.GetPlaneConfig().CollisionPropIndex];
+            bool propStrikeAngleReached = this.IsOnGround && this.pitch > this.GetPlaneConfig().PropStrikeThreshold;
+            return collisionProp || propStrikeAngleReached;
         }
 
         public double getWindTotal()
@@ -299,7 +311,10 @@ namespace eSTOL_Training_Tool
             CreateDataDefinition("REALISM CRASH DETECTION", "");
             CreateDataDefinition("IS SLEW ACTIVE", "");
             // State
-            CreateDataDefinition("ENG COMBUSTION", "Bool");
+            CreateDataDefinition("ENG COMBUSTION:1", "Bool");
+            CreateDataDefinition("GENERAL ENG COMBUSTION:0", "Bool");
+            CreateDataDefinition("GENERAL ENG COMBUSTION:1", "Bool");
+            CreateDataDefinition("GENERAL ENG COMBUSTION:2", "Bool");
             CreateDataDefinition("BRAKE PARKING POSITION", "Bool");
             CreateDataDefinition("GEAR IS ON GROUND", "Bool");
             CreateDataDefinition("SIM ON GROUND", "Bool");
@@ -345,7 +360,23 @@ namespace eSTOL_Training_Tool
             CreateDataDefinition("CONTACT POINT IS ON GROUND:2", "Bool");
             CreateDataDefinition("CONTACT POINT IS ON GROUND:3", "Bool");
             CreateDataDefinition("CONTACT POINT IS ON GROUND:4", "Bool");
+            CreateDataDefinition("CONTACT POINT IS ON GROUND:5", "Bool");
+            CreateDataDefinition("CONTACT POINT IS ON GROUND:6", "Bool");
+            CreateDataDefinition("CONTACT POINT IS ON GROUND:7", "Bool");
             CreateDataDefinition("CONTACT POINT IS ON GROUND:8", "Bool");
+            CreateDataDefinition("CONTACT POINT IS ON GROUND:9", "Bool");
+            CreateDataDefinition("CONTACT POINT IS ON GROUND:10", "Bool");
+            CreateDataDefinition("CONTACT POINT IS ON GROUND:11", "Bool");
+            CreateDataDefinition("CONTACT POINT IS ON GROUND:12", "Bool");
+            CreateDataDefinition("CONTACT POINT IS ON GROUND:13", "Bool");
+            CreateDataDefinition("CONTACT POINT IS ON GROUND:14", "Bool");
+            CreateDataDefinition("CONTACT POINT IS ON GROUND:15", "Bool");
+            CreateDataDefinition("CONTACT POINT IS ON GROUND:16", "Bool");
+            CreateDataDefinition("CONTACT POINT IS ON GROUND:17", "Bool");
+            CreateDataDefinition("CONTACT POINT IS ON GROUND:18", "Bool");
+            CreateDataDefinition("CONTACT POINT IS ON GROUND:19", "Bool");
+            CreateDataDefinition("CONTACT POINT IS ON GROUND:20", "Bool");
+
 
             CreateDataDefinition("TOTAL WEIGHT", "lbs");
             CreateDataDefinition("MAX GROSS WEIGHT", "lbs");
@@ -649,7 +680,7 @@ namespace eSTOL_Training_Tool
                             IsOnGround = (double)data.dwData[0] > 0;
                             break;
                         }
-                    case "ENG COMBUSTION":
+                    case "ENG COMBUSTION:1":
                         {
                             IsEngineOn = (double)data.dwData[0] > 0;
                             break;
@@ -752,6 +783,102 @@ namespace eSTOL_Training_Tool
                         {
                             // Wingtip if mapped
                             ContactPoints[4] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:5":
+                        {
+                            // potential Prop
+                            ContactPoints[5] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:6":
+                        {
+                            // potential Prop
+                            ContactPoints[6] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:7":
+                        {
+                            // potential Prop
+                            ContactPoints[7] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:8":
+                        {
+                            // potential Prop
+                            ContactPoints[8] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:9":
+                        {
+                            // potential Prop
+                            ContactPoints[9] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:10":
+                        {
+                            // potential Prop
+                            ContactPoints[10] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:11":
+                        {
+                            // potential Prop
+                            ContactPoints[11] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:12":
+                        {
+                            // potential Prop
+                            ContactPoints[12] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:13":
+                        {
+                            // potential Prop
+                            ContactPoints[13] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:14":
+                        {
+                            // potential Prop
+                            ContactPoints[14] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:15":
+                        {
+                            // potential Prop
+                            ContactPoints[15] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:16":
+                        {
+                            // potential Prop
+                            ContactPoints[16] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:17":
+                        {
+                            // potential Prop
+                            ContactPoints[17] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:18":
+                        {
+                            // potential Prop
+                            ContactPoints[18] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:19":
+                        {
+                            // potential Prop
+                            ContactPoints[19] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:20":
+                        {
+                            // potential Prop
+                            ContactPoints[20] = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "AIRCRAFT WIND X":
@@ -890,7 +1017,7 @@ namespace eSTOL_Training_Tool
                             IsOnGround = (double)data.dwData[0] > 0;
                             break;
                         }
-                    case "ENG COMBUSTION":
+                    case "ENG COMBUSTION:1":
                         {
                             IsEngineOn = (double)data.dwData[0] > 0;
                             break;
@@ -988,6 +1115,102 @@ namespace eSTOL_Training_Tool
                     case "CONTACT POINT IS ON GROUND:4":
                         {
                             ContactPoints[4] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:5":
+                        {
+                            // potential Prop
+                            ContactPoints[5] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:6":
+                        {
+                            // potential Prop
+                            ContactPoints[6] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:7":
+                        {
+                            // potential Prop
+                            ContactPoints[7] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:8":
+                        {
+                            // potential Prop
+                            ContactPoints[8] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:9":
+                        {
+                            // potential Prop
+                            ContactPoints[9] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:10":
+                        {
+                            // potential Prop
+                            ContactPoints[10] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:11":
+                        {
+                            // potential Prop
+                            ContactPoints[11] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:12":
+                        {
+                            // potential Prop
+                            ContactPoints[12] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:13":
+                        {
+                            // potential Prop
+                            ContactPoints[13] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:14":
+                        {
+                            // potential Prop
+                            ContactPoints[14] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:15":
+                        {
+                            // potential Prop
+                            ContactPoints[15] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:16":
+                        {
+                            // potential Prop
+                            ContactPoints[16] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:17":
+                        {
+                            // potential Prop
+                            ContactPoints[17] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:18":
+                        {
+                            // potential Prop
+                            ContactPoints[18] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:19":
+                        {
+                            // potential Prop
+                            ContactPoints[19] = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "CONTACT POINT IS ON GROUND:20":
+                        {
+                            // potential Prop
+                            ContactPoints[20] = (double)data.dwData[0] > 0;
                             break;
                         }
                     case "AIRCRAFT WIND X":
