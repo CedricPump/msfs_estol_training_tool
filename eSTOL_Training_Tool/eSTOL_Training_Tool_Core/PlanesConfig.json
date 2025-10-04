@@ -153,9 +153,9 @@
         "Class": "Touring",
         "CollisionNoseIndex": 10,
         "CollisionPropIndex": 3,
-        "CollisionWheelLeftIndex": 0,
-        "CollisionWheelNoseTailIndex": 2,
-        "CollisionWheelRightIndex": 1,
+        "CollisionWheelLeftIndex": 1,
+        "CollisionWheelNoseTailIndex": 0,
+        "CollisionWheelRightIndex": 2,
         "CollisionWheelWingtipLIndex": 6,
         "CollisionWheelWingtipRIndex": 7,
         "PropStrikeThreshold": 17,
@@ -268,5 +268,20 @@
         "GearOffset": -0.45,
         "IsTaildragger": true,
         "Key": "Savage|SAVG"
+    },
+    {
+        "Class": "Touring",
+        "CollisionNoseIndex": 10,
+        "CollisionPropIndex": 8,
+        "CollisionWheelLeftIndex": 1,
+        "CollisionWheelNoseTailIndex": 0,
+        "CollisionWheelRightIndex": 2,
+        "CollisionWheelWingtipLIndex": 3,
+        "CollisionWheelWingtipRIndex": 4,
+        "PropStrikeThreshold": 15,
+        "displayName": "DHC-2 Beaver",
+        "GearOffset": -0.45,
+        "IsTaildragger": true,
+        "Key": "DeHavilland|ATCCOM.ATC_NAME BEAVER.0.text"
     }
 ]
