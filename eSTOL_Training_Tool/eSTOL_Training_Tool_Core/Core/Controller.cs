@@ -35,7 +35,7 @@ namespace eSTOL_Training_Tool_Core.Core
         public Plane plane;
         Config config;
         CycleState cycleState = CycleState.Unknown;
-        STOLData stol = new STOLData();
+        public STOLData stol = new STOLData();
         STOLData lastStol = new STOLData();
         Telemetrie lastTelemetrie;
         GPXRecorder GPXRecorder = new GPXRecorder();
@@ -391,6 +391,10 @@ namespace eSTOL_Training_Tool_Core.Core
                                             {
                                                 this.form.setAligned("on lineup", System.Drawing.Color.LightYellow);
                                             }
+                                            else if (Math.Abs(spin) < 90 && yOffset > 1 && yOffset < 600 && Math.Abs(xOffset) < 21)
+                                            {
+                                                this.form.setAligned("down field", System.Drawing.Color.LightYellow);
+                                            }
                                             else
                                             {
                                                 this.form.setAligned("NOT ALIGNED", System.Drawing.Color.IndianRed);
@@ -528,12 +532,12 @@ namespace eSTOL_Training_Tool_Core.Core
                                                 stol.violations.Add(new STOLViolation("TouchdownLineViolation", touchdowndist));
                                             }
 
-                                            if (stol.TouchdownGs > 2.0)
+                                            if (stol.TouchdownGs > plane.GetPlaneConfig().MaxGForce)
                                             {
                                                 stol.violations.Add(new STOLViolation("ExcessiveGs", (double)stol.TouchdownGs));
                                             }
 
-                                            if (stol.TouchdownVerticalSpeed < -500.0)
+                                            if (stol.TouchdownVerticalSpeed < plane.GetPlaneConfig().MaxVSpeed)
                                             {
                                                 stol.violations.Add(new STOLViolation("ExcessiveVerticalSpeed", (double)stol.TouchdownGs));
                                             }
@@ -585,7 +589,8 @@ namespace eSTOL_Training_Tool_Core.Core
                                         if (config.debug) Console.WriteLine($"spin: {spin:F1}°");
 
                                         // stopping -> Hold
-                                        if (plane.GroundSpeed < config.GroundspeedThreshold && plane.MainGearOnGround())
+                                        // checking for save nose up attitude
+                                        if (plane.GroundSpeed < config.GroundspeedThreshold && plane.MainGearOnGround() && plane.pitch < 10) // && plane.TailNoseGearOnGround())
                                         {
                                             setState(CycleState.Hold);
                                             stol.StopPosition = telemetrie.Position;
@@ -779,6 +784,27 @@ namespace eSTOL_Training_Tool_Core.Core
             stol.Reset();
             stol.ApplyPreset(preset);
             if (config.debug) Console.WriteLine($"Using:\nType: \"{plane.Type}\"\nModel: \"{plane.Model}\"\nTitle: \"{plane.Title}\"\n");
+        }
+
+        public void AutoSetPreset()
+        {
+            GeoCoordinate planePosition = plane.GetTelemetrie().Position;
+
+            Preset selectedPreset = presets[0];
+            double minDistance = double.MaxValue;
+            foreach (Preset p in presets) 
+            {
+                GeoCoordinate Line = new GeoCoordinate(p.startLatitude, p.startLongitude);
+                double distance = planePosition.GetDistanceTo(Line);
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    selectedPreset = p;
+                }
+            }
+
+            if (config.debug) Console.WriteLine($"Nearest Reference Line selected: {selectedPreset.title}");
+            form.setSelctedPreset(selectedPreset.title);
         }
 
         public void SetStartPos()

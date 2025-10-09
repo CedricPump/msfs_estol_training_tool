@@ -77,6 +77,8 @@ namespace eSTOL_Training_Tool_Core.Model
         public uint CollisionWheelRightIndex { get; set; } = 2;
         public uint CollisionWheelWingtipLIndex { get; set; } = 3;
         public uint CollisionWheelWingtipRIndex { get; set; } = 4;
-        public uint PropStrikeThreshold { get; set; } = 30;
+        public uint PropStrikeThreshold { get; set; } = 30; // deg
+        public float MaxGForce { get; set; } = 2.0f; // G
+        public int MaxVSpeed { get; set; } = -1000; // ft/min
     }
 }

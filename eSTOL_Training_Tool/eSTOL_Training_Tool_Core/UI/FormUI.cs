@@ -3,6 +3,7 @@ using System.Device.Location;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
+using System.Linq;
 using System.Numerics;
 using System.Reactive;
 using System.Windows.Forms;
@@ -56,6 +57,7 @@ namespace eSTOL_Training_Tool_Core.UI
 
                 this.textBoxResult.BackColor = myDarkControl;
                 this.textBoxStatus.BackColor = myDarkControl;
+                this.textBoxViolations.BackColor = myDarkControl;
                 this.linkLabelRecordings.LinkColor = Color.FromArgb(0x60cdff);
             }
 #pragma warning restore WFO5001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
@@ -149,7 +151,6 @@ namespace eSTOL_Training_Tool_Core.UI
                 MessageBox.Show("Sim not connected");
                 return;
             }
-
 
             string presetStr = comboBoxPreset.Text;
             controller.SetPreset(presetStr);
@@ -435,6 +436,10 @@ namespace eSTOL_Training_Tool_Core.UI
 
             this.textBoxAligned.Text = aligned;
             this.textBoxAligned.BackColor = alignColor;
+            this.textBoxAligned.ForeColor = Color.Black;
+
+            this.textBoxViolations.Text = string.Join(", ", controller.stol.violations.Select(v => v.Type));
+            this.labelPlaneType.Text = "plane: " + controller.plane.GetDisplayName();
         }
 
         public void StartStopWatch()
@@ -519,7 +524,7 @@ namespace eSTOL_Training_Tool_Core.UI
             panelWind.Invalidate();
         }
 
-        public void setCollisionWheels() 
+        public void setCollisionWheels()
         {
             panelCollisions.Invalidate();
         }
@@ -744,6 +749,21 @@ namespace eSTOL_Training_Tool_Core.UI
             }
             g.DrawEllipse(pen, rectProp);
             g.FillEllipse(brush, rectProp);
+        }
+
+        private void buttonAutoSelect_Click(object sender, EventArgs e)
+        {
+            this.controller.AutoSetPreset();
+        }
+
+        private void comboBoxPreset_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        internal void setSelctedPreset(string title)
+        {
+            comboBoxPreset.Text = title;
         }
     }
 }

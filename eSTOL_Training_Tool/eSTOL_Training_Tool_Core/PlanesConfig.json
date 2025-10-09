@@ -9,10 +9,12 @@
         "CollisionWheelWingtipLIndex": 3,
         "CollisionWheelWingtipRIndex": 4,
         "PropStrikeThreshold": 30,
-        "displayName": "DEFAULT",
+        "DisplayName": "DEFAULT",
         "GearOffset": -0.45,
         "IsTaildragger": true,
-        "Key": "DEFAULT"
+        "Key": "DEFAULT",
+        "MaxGForce": 2.0,
+        "MaxVSpeed": -500
     },
     {
         "Class": "Spec",
@@ -24,10 +26,12 @@
         "CollisionWheelWingtipLIndex": 3,
         "CollisionWheelWingtipRIndex": 4,
         "PropStrikeThreshold": 45,
-        "displayName": "Zenith 701",
+        "DisplayName": "Zenith 701",
         "GearOffset": 0.45,
         "IsTaildragger": false,
-        "Key": "Zenith|701"
+        "Key": "Zenith|701",
+        "MaxGForce": 2.5,
+        "MaxVSpeed": -700
     },
     {
         "Class": "Unlimited",
@@ -39,10 +43,12 @@
         "CollisionWheelWingtipLIndex": 3,
         "CollisionWheelWingtipRIndex": 4,
         "PropStrikeThreshold": 45,
-        "displayName": "Monster NX Cub",
+        "DisplayName": "Monster NX Cub",
         "GearOffset": 0.55,
         "IsTaildragger": false,
-        "Key": "$$:Cub Crafters|$$:MonsterNX"
+        "Key": "$$:Cub Crafters|$$:MonsterNX",
+        "MaxGForce": 3.0,
+        "MaxVSpeed": -700
     },
     {
         "Class": "Unlimited",
@@ -54,10 +60,12 @@
         "CollisionWheelWingtipLIndex": 3,
         "CollisionWheelWingtipRIndex": 4,
         "PropStrikeThreshold": 30,
-        "displayName": "Rans S6S",
+        "DisplayName": "Rans S6S",
         "GearOffset": -0.17,
         "IsTaildragger": true,
-        "Key": "Rans|S6S"
+        "Key": "Rans|S6S",
+        "MaxGForce": 3.0,
+        "MaxVSpeed": -700
     },
     {
         "Class": "Adventure",
@@ -69,10 +77,12 @@
         "CollisionWheelWingtipLIndex": 3,
         "CollisionWheelWingtipRIndex": 4,
         "PropStrikeThreshold": 90,
-        "displayName": "BN Islander",
+        "DisplayName": "BN Islander",
         "GearOffset": 0.55,
         "IsTaildragger": false,
-        "Key": "Britten Norman|Islander"
+        "Key": "Britten Norman|Islander",
+        "MaxGForce": 3.0,
+        "MaxVSpeed": -600
     },
     {
         "Class": "Backcountry",
@@ -84,10 +94,12 @@
         "CollisionWheelWingtipLIndex": 4,
         "CollisionWheelWingtipRIndex": 5,
         "PropStrikeThreshold": 24,
-        "displayName": "Husky",
+        "DisplayName": "Husky",
         "GearOffset": -0.68,
         "IsTaildragger": true,
-        "Key": "Husky|Husky"
+        "Key": "Husky|Husky",
+        "MaxGForce": 3.0,
+        "MaxVSpeed": -700
     },
     {
         "Class": "Backcountry",
@@ -99,10 +111,12 @@
         "CollisionWheelWingtipLIndex": 3,
         "CollisionWheelWingtipRIndex": 4,
         "PropStrikeThreshold": 20,
-        "displayName": "Cessna 170B",
+        "DisplayName": "Cessna 170B",
         "GearOffset": -0.54,
         "IsTaildragger": true,
-        "Key": "C170BT|170"
+        "Key": "C170BT|170",
+        "MaxGForce": 2.5,
+        "MaxVSpeed": -600
     },
     {
         "Class": "Backcountry",
@@ -114,10 +128,12 @@
         "CollisionWheelWingtipLIndex": 3,
         "CollisionWheelWingtipRIndex": 4,
         "PropStrikeThreshold": 30,
-        "displayName": "Piper Comanche",
+        "DisplayName": "Piper Comanche",
         "GearOffset": 0.40,
         "IsTaildragger": false,
-        "Key": "Piper|Comanche"
+        "Key": "Piper|Comanche",
+        "MaxGForce": 2.0,
+        "MaxVSpeed": -500
     },
     {
         "Class": "Touring",
@@ -129,10 +145,12 @@
         "CollisionWheelWingtipLIndex": 3,
         "CollisionWheelWingtipRIndex": 4,
         "PropStrikeThreshold": 18,
-        "displayName": "Maule M7",
+        "DisplayName": "Maule M7",
         "GearOffset": -0.6,
         "IsTaildragger": true,
-        "Key": "Maule Orion|M-7-235 Orion"
+        "Key": "Maule Orion|M-7-235 Orion",
+        "MaxGForce": 2.0,
+        "MaxVSpeed": -600
     },
     {
         "Class": "Touring",
@@ -144,10 +162,12 @@
         "CollisionWheelWingtipLIndex": 3,
         "CollisionWheelWingtipRIndex": 4,
         "PropStrikeThreshold": 18,
-        "displayName": "Maule M7",
+        "DisplayName": "Maule M7",
         "GearOffset": -0.6,
         "IsTaildragger": true,
-        "Key": "Maule Orion Tundra|M-7-235 Orion"
+        "Key": "Maule Orion Tundra|M-7-235 Orion",
+        "MaxGForce": 2.5,
+        "MaxVSpeed": -600
     },
     {
         "Class": "Touring",
@@ -159,10 +179,12 @@
         "CollisionWheelWingtipLIndex": 6,
         "CollisionWheelWingtipRIndex": 7,
         "PropStrikeThreshold": 17,
-        "displayName": "Wilga",
+        "DisplayName": "Wilga",
         "GearOffset": -0.45,
         "IsTaildragger": true,
-        "Key": "$$:PZL-104|$$:Wilga"
+        "Key": "$$:PZL-104|$$:Wilga",
+        "MaxGForce": 3.0,
+        "MaxVSpeed": -700
     },
     {
         "Class": "Backcountry",
@@ -174,10 +196,12 @@
         "CollisionWheelWingtipLIndex": 3,
         "CollisionWheelWingtipRIndex": 4,
         "PropStrikeThreshold": 30,
-        "displayName": "Cessna 152",
+        "DisplayName": "Cessna 152",
         "GearOffset": 0.20,
         "IsTaildragger": false,
-        "Key": "Cessna|152"
+        "Key": "Cessna|152",
+        "MaxGForce": 2.0,
+        "MaxVSpeed": -500
     },
     {
         "Class": "Spec",
@@ -192,7 +216,9 @@
         "DisplayName": "Scout",
         "GearOffset": -0.07,
         "IsTaildragger": true,
-        "Key": "ATCCOM.ATC_NAME ACA.0.text|ATCCOM.AC_MODEL SCOUT.0.text"
+        "Key": "ATCCOM.ATC_NAME ACA.0.text|ATCCOM.AC_MODEL SCOUT.0.text",
+        "MaxGForce": 2.5,
+        "MaxVSpeed": -600
     },
     {
         "Class": "Unlimited",
@@ -207,7 +233,9 @@
         "DisplayName": "Kitfox",
         "GearOffset": -0.45,
         "IsTaildragger": true,
-        "Key": "Kitfox|Fox2"
+        "Key": "Kitfox|Fox2",
+        "MaxGForce": 3.0,
+        "MaxVSpeed": -700
     },
     {
         "Class": "Spec",
@@ -222,7 +250,9 @@
         "DisplayName": "Doubleender",
         "GearOffset": -0.45,
         "IsTaildragger": true,
-        "Key": "$$:Twin Cub|$$:Experimental"
+        "Key": "$$:Twin Cub|$$:Experimental",
+        "MaxGForce": 3.0,
+        "MaxVSpeed": -700
     },
     {
         "Class": "Unlimited",
@@ -237,7 +267,9 @@
         "DisplayName": "Savage Grravel",
         "GearOffset": -0.45,
         "IsTaildragger": true,
-        "Key": "$$:Zlin Aviation|$$:Savage Grravel"
+        "Key": "$$:Zlin Aviation|$$:Savage Grravel",
+        "MaxGForce": 3.0,
+        "MaxVSpeed": -700
     },
     {
         "Class": "Unlimited",
@@ -252,7 +284,9 @@
         "DisplayName": "Savage Carbon",
         "GearOffset": -0.45,
         "IsTaildragger": true,
-        "Key": "$$:Zlin Aviation|$$:Savage Carbon"
+        "Key": "$$:Zlin Aviation|$$:Savage Carbon",
+        "MaxGForce": 3.0,
+        "MaxVSpeed": -700
     },
     {
         "Class": "Unlimited",
@@ -267,7 +301,9 @@
         "DisplayName": "Savage Cub",
         "GearOffset": -0.45,
         "IsTaildragger": true,
-        "Key": "Savage|SAVG"
+        "Key": "Savage|SAVG",
+        "MaxGForce": 2.5,
+        "MaxVSpeed": -700
     },
     {
         "Class": "Touring",
@@ -279,9 +315,11 @@
         "CollisionWheelWingtipLIndex": 3,
         "CollisionWheelWingtipRIndex": 4,
         "PropStrikeThreshold": 15,
-        "displayName": "DHC-2 Beaver",
+        "DisplayName": "DHC-2 Beaver",
         "GearOffset": -0.45,
         "IsTaildragger": true,
-        "Key": "DeHavilland|ATCCOM.ATC_NAME BEAVER.0.text"
+        "Key": "DeHavilland|ATCCOM.ATC_NAME BEAVER.0.text",
+        "MaxGForce": 3.0,
+        "MaxVSpeed": -600
     }
 ]
