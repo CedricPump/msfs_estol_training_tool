@@ -479,6 +479,7 @@
             // 
             // buttonAutoSelect
             // 
+            buttonAutoSelect.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             buttonAutoSelect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             buttonAutoSelect.Location = new System.Drawing.Point(667, 239);
             buttonAutoSelect.Name = "buttonAutoSelect";
@@ -490,6 +491,7 @@
             // 
             // textBoxViolations
             // 
+            textBoxViolations.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             textBoxViolations.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             textBoxViolations.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
             textBoxViolations.ForeColor = System.Drawing.Color.Red;

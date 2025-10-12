@@ -134,6 +134,10 @@ namespace eSTOL_Training_Tool
                 result.Score = 0;
             }
 
+            PlaneConfig planeConf = PlaneConfigsService.GetPlaneConfig(planeType);
+            result.MaxG = planeConf.MaxGForce;
+            result.MaxVS = planeConf.MaxVSpeed;
+
             result.violations = violations;
 
             return result;
@@ -242,9 +246,11 @@ namespace eSTOL_Training_Tool
         public double maxBank;
         public double GrndSpeed;
         public double VSpeed;
+        public double MaxVS;
         public double Score;
         public string Unit;
         public double GForce;
+        public double MaxG;
         public List<STOLViolation> violations;
         public string sessionKey;
 
@@ -268,9 +274,9 @@ namespace eSTOL_Training_Tool
                 $"Max Spin:            {Math.Round(maxSpin)}°\r\n" +
                 $"Max Bank:            {Math.Round(maxBank)}°\r\n" +
                 $"Min Pitch:           {Math.Round(minPitch)}°\r\n" +
-                $"TD Grnd-Speed        {Math.Round(GrndSpeed)} knots\r\n" +
-                $"TD Vert-Speed        {VSpeed:F1} ft/min\r\n" +
-                $"TD G-Force           {GForce:F1} G\r\n" +
+                $"TD Grnd-Speed        {Math.Round(GrndSpeed)} kt\r\n" +
+                $"TD Vert-Speed        {VSpeed:F0}/{MaxVS} f/m\r\n" +
+                $"TD G-Force           {GForce:F1}/{MaxG} G\r\n" +
                 $"-----------------------------------\r\n" +
                 $"Score:               {Score}\r\n" +
                 $"===================================\r\n";

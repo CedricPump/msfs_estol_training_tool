@@ -1,4 +1,12 @@
+v1.4.2
+
+- added Prop strike for Rans S6S
+- added max G and VS to result output
+- fixed button anchor
+- added violations / warnings for: HightBankAngle HighClimbRate OverspeedVNE OverspeedFlaps
+
 v1.4.1
+
 - added Auto Select Button (selects nearest reference line)
 - added live violations box
 - added plane type label

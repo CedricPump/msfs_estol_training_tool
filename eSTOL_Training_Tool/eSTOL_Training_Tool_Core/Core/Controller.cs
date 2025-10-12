@@ -359,7 +359,94 @@ namespace eSTOL_Training_Tool_Core.Core
                                         }
                                     }
                                 }
+
+
+                                if (plane.IsSlew)
+                                {
+                                    if (!stol.hasViolation("Slew"))
+                                    {
+                                        stol.violations.Add(new STOLViolation("Slew", 1));
+                                        try
+                                        {
+                                            // send event
+                                            if (config.isSendResults) influx.sendEvent(user, stol.sessionKey, plane, "SLEW", "true");
+                                        }
+                                        catch
+                                        {
+                                            Console.WriteLine("Unable to send event - check update");
+                                        }
+                                    }
+                                }
+
+                                if (plane.IsVNEOverspeed)
+                                {
+                                    if (!stol.hasViolation("OverspeedVNE"))
+                                    {
+                                        stol.violations.Add(new STOLViolation("OverspeedVNE", plane.Airspeed));
+                                        try
+                                        {
+                                            // send event
+                                            if (config.isSendResults) influx.sendEvent(user, stol.sessionKey, plane, "OVERSPEED_VNE", ((double)plane.Airspeed).ToString("0"));
+                                        }
+                                        catch
+                                        {
+                                            Console.WriteLine("Unable to send event - check update");
+                                        }
+                                    }
+                                }
+
+                                if (plane.IsFlapsOverspeed)
+                                {
+                                    if (!stol.hasViolation("OverspeedFlaps"))
+                                    {
+                                        stol.violations.Add(new STOLViolation("OverspeedFlaps", plane.Airspeed));
+                                        try
+                                        {
+                                            // send event
+                                            if (config.isSendResults) influx.sendEvent(user, stol.sessionKey, plane, "OVERSPEED_FLAPS", ((double)plane.Airspeed).ToString("0"));
+                                        }
+                                        catch
+                                        {
+                                            Console.WriteLine("Unable to send event - check update");
+                                        }
+                                    }
+                                }
+
+                                if (plane.VerticalSpeed > 1500)
+                                {
+                                    if (!stol.hasViolation("HighClimbRate"))
+                                    {
+                                        stol.violations.Add(new STOLViolation("HighClimbRate", plane.VerticalSpeed));
+                                        try
+                                        {
+                                            // send event
+                                            if (config.isSendResults) influx.sendEvent(user, stol.sessionKey, plane, "HIGH_CLIMB_RATE", ((double)plane.VerticalSpeed).ToString("0"));
+                                        }
+                                        catch
+                                        {
+                                            Console.WriteLine("Unable to send event - check update");
+                                        }
+                                    }
+                                }
+
+                                if (Math.Abs(plane.bank) > 45)
+                                {
+                                    if (!stol.hasViolation("HightBankAngle"))
+                                    {
+                                        stol.violations.Add(new STOLViolation("HightBankAngle", plane.bank));
+                                        try
+                                        {
+                                            // send event
+                                            if (config.isSendResults) influx.sendEvent(user, stol.sessionKey, plane, "HIGH_BANK_ANGLE", ((double)plane.bank).ToString("0.0"));
+                                        }
+                                        catch
+                                        {
+                                            Console.WriteLine("Unable to send event - check update");
+                                        }
+                                    }
+                                }
                             }
+
 
                             switch (cycleState)
                             {
@@ -543,7 +630,6 @@ namespace eSTOL_Training_Tool_Core.Core
                                             }
 
 
-
                                             try
                                             {
                                                 // send event
@@ -588,6 +674,18 @@ namespace eSTOL_Training_Tool_Core.Core
                                         (double angleL, double angleR) = GetFlagAngles(stol.InitialPosition, (double)stol.InitialHeading, plane);
                                         if (config.debug) Console.WriteLine($"spin: {spin:F1}°");
 
+                                        if (plane.IsParkingBreak)
+                                        {
+                                            if (!stol.hasViolation("ParkingBrake"))
+                                            {
+                                                stol.violations.Add(new STOLViolation("ParkingBrake", 1));
+                                                if (config.isSendResults)
+                                                {
+                                                    influx.sendEvent(user, stol.sessionKey, plane, "PARKING_BRAKE", "true");
+                                                }
+                                            }
+                                        }
+
                                         // stopping -> Hold
                                         // checking for save nose up attitude
                                         if (plane.GroundSpeed < config.GroundspeedThreshold && plane.MainGearOnGround() && plane.pitch < 10) // && plane.TailNoseGearOnGround())
@@ -630,7 +728,6 @@ namespace eSTOL_Training_Tool_Core.Core
                                                 {
                                                     influx.sendEvent(user, stol.sessionKey, plane, "EXCESSIVE_MAX_SPIN", (((double)stol.maxSpin).ToString("0.0")));
                                                 }
-
                                             }
                                             catch
                                             {

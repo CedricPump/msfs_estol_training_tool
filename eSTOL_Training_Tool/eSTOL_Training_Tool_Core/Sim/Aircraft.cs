@@ -39,6 +39,7 @@ namespace eSTOL_Training_Tool
         public double vY { get; private set; }
         public double vZ { get; private set; }
         public double gforce { get; private set; }
+        public double Airspeed { get; private set; }
 
         public double RWheelRPM { get; private set; }
         public double LWheelRPM { get; private set; }
@@ -78,6 +79,9 @@ namespace eSTOL_Training_Tool
         public double WindX { get; private set; } = 0.0;
         public double WindY { get; private set; } = 0.0;
         public double Antistall { get; private set; } = 2;
+
+        public bool IsVNEOverspeed { get; private set; } = false;
+        public bool IsFlapsOverspeed { get; private set; } = false;
 
         private Config conf;
 
@@ -294,7 +298,7 @@ namespace eSTOL_Training_Tool
             // CreateDataDefinition("PLANE HEADING DEGREES MAGNETIC", "degrees");
             // Speed
             CreateDataDefinition("GROUND VELOCITY", "knots");
-            // CreateDataDefinition("AIRSPEED INDICATED", "knots");
+            CreateDataDefinition("AIRSPEED INDICATED", "knots");
             // CreateDataDefinition("AIRSPEED TRUE", "knots");
 
             CreateDataDefinition("RIGHT WHEEL RPM", "RPM");
@@ -391,7 +395,8 @@ namespace eSTOL_Training_Tool
             CreateDataDefinition("AI AUTOTRIM ACTIVE", "Number");
 
             CreateDataDefinition("ROTATION VELOCITY BODY X", "Feet per second");
-            
+            CreateDataDefinition("FLAP SPEED EXCEEDED", "Bool");
+            CreateDataDefinition("OVERSPEED WARNING", "Bool");
 
 
 
@@ -638,6 +643,11 @@ namespace eSTOL_Training_Tool
                     case "VERTICAL SPEED":
                         {
                             VerticalSpeed = (double)data.dwData[0];
+                            break;
+                        }
+                    case "AIRSPEED INDICATED":
+                        {
+                            Airspeed = (double)data.dwData[0];
                             break;
                         }
                     case "PLANE PITCH DEGREES":
@@ -896,6 +906,16 @@ namespace eSTOL_Training_Tool
                             Antistall = (double)data.dwData[0];
                             break;
                         }
+                    case "FLAP SPEED EXCEEDED":
+                        {
+                            IsFlapsOverspeed = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "OVERSPEED WARNING":
+                        {
+                            IsVNEOverspeed = (double)data.dwData[0] > 0;
+                            break;
+                        }
                     default:
                         {
                             break;
@@ -975,6 +995,11 @@ namespace eSTOL_Training_Tool
                     case "VERTICAL SPEED":
                         {
                             VerticalSpeed = (double)data.dwData[0];
+                            break;
+                        }
+                    case "AIRSPEED INDICATED":
+                        {
+                            Airspeed = (double)data.dwData[0];
                             break;
                         }
                     case "PLANE PITCH DEGREES":
@@ -1221,6 +1246,16 @@ namespace eSTOL_Training_Tool
                     case "AIRCRAFT WIND Z":
                         {
                             WindY = (double)data.dwData[0];
+                            break;
+                        }
+                    case "FLAP SPEED EXCEEDED":
+                        {
+                            IsFlapsOverspeed = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "OVERSPEED WARNING":
+                        {
+                            IsVNEOverspeed = (double)data.dwData[0] > 0;
                             break;
                         }
                     default:

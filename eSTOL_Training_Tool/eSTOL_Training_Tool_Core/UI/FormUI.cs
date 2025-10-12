@@ -438,7 +438,7 @@ namespace eSTOL_Training_Tool_Core.UI
             this.textBoxAligned.BackColor = alignColor;
             this.textBoxAligned.ForeColor = Color.Black;
 
-            this.textBoxViolations.Text = string.Join(", ", controller.stol.violations.Select(v => v.Type));
+            this.textBoxViolations.Text = string.Join(", ", controller.stol.violations.Select(v => v.Type+"["+(v.Value < 9 ? v.Value.ToString("0.0") : v.Value.ToString("0")) + "]"));
             this.labelPlaneType.Text = "plane: " + controller.plane.GetDisplayName();
         }
 
