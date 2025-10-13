@@ -1,9 +1,16 @@
+v1.4.3
+
+- incresed BankAngle Threshold to 75
+- renamed violations to deviations
+- added deviation severities
+
 v1.4.2
 
 - added Prop strike for Rans S6S
 - added max G and VS to result output
 - fixed button anchor
 - added violations / warnings for: HightBankAngle HighClimbRate OverspeedVNE OverspeedFlaps
+- added assits violation
 
 v1.4.1
 

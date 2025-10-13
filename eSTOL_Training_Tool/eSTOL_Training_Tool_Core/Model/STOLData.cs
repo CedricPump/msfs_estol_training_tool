@@ -42,7 +42,7 @@ namespace eSTOL_Training_Tool
         public DateTime? TouchdownTime = null;
         public DateTime? StopTime = null;
 
-        public List<STOLViolation> violations = new List<STOLViolation>();
+        public List<STOLDeviation> deviations = new List<STOLDeviation>();
 
 
 
@@ -138,7 +138,7 @@ namespace eSTOL_Training_Tool
             result.MaxG = planeConf.MaxGForce;
             result.MaxVS = planeConf.MaxVSpeed;
 
-            result.violations = violations;
+            result.deviation = deviations;
 
             return result;
 
@@ -170,7 +170,7 @@ namespace eSTOL_Training_Tool
             TakeoffTime = null;
             TouchdownTime = null;
             StopTime = null;
-            this.violations = new List<STOLViolation>();
+            this.deviations = new List<STOLDeviation>();
             maxSpin = null;
             minPitch = null;
             maxBank = null;
@@ -202,21 +202,23 @@ namespace eSTOL_Training_Tool
             return new STOLData();
         }
 
-        public bool hasViolation(string key)
+        public bool hasDeviation(string key)
         {
-            return violations.FirstOrDefault((v) => v.Type == key, null) != null;
+            return deviations.FirstOrDefault((v) => v.Type == key, null) != null;
         }
     }
-    public class STOLViolation 
+    public class STOLDeviation 
     {
-        public STOLViolation(string type = "", double value = 0.0) 
+        public STOLDeviation(string type = "", double value = 0.0, int severyty = 0) 
         {
             this.Type = type;
             this.Value = value;
+            this.Severity = severyty;
         }
 
         public string Type;
         public double Value;
+        public int Severity; // 0: Remark, 1: Waring, 2: Deviation, 3: Violation
 
         public string ToString() 
         {
@@ -251,7 +253,7 @@ namespace eSTOL_Training_Tool
         public string Unit;
         public double GForce;
         public double MaxG;
-        public List<STOLViolation> violations;
+        public List<STOLDeviation> deviation;
         public string sessionKey;
 
         public string getConsoleString() 
@@ -271,9 +273,9 @@ namespace eSTOL_Training_Tool
                 $"Stopping Distance:   {Stoppingdist} {Unit}\r\n" +
                 $"Touchdown Distance:  {Touchdowndist} {Unit}{scratchText}\r\n" +
                 $"Pattern Time:        {patternTimeStr} min\r\n" +
-                $"Max Spin:            {Math.Round(maxSpin)}°\r\n" +
-                $"Max Bank:            {Math.Round(maxBank)}°\r\n" +
-                $"Min Pitch:           {Math.Round(minPitch)}°\r\n" +
+                $"TD Max Spin:            {Math.Round(maxSpin)}°\r\n" +
+                $"TD Max Bank:            {Math.Round(maxBank)}°\r\n" +
+                $"TD Min Pitch:           {Math.Round(minPitch)}°\r\n" +
                 $"TD Grnd-Speed        {Math.Round(GrndSpeed)} kt\r\n" +
                 $"TD Vert-Speed        {VSpeed:F0}/{MaxVS} f/m\r\n" +
                 $"TD G-Force           {GForce:F1}/{MaxG} G\r\n" +
@@ -281,12 +283,11 @@ namespace eSTOL_Training_Tool
                 $"Score:               {Score}\r\n" +
                 $"===================================\r\n";
             
-            if (this.violations != null && this.violations.Count > 0) 
+            if (this.deviation != null && this.deviation.Count > 0) 
             {
-                resultStr += $"Violations:               {string.Join(", ", this.violations.Select(v => v.Type))}\r\n";
+                resultStr += $"Deviations & Remarks:               {string.Join(", ", this.deviation.Select(v => v.Type))}\r\n";
             } 
             
-
             return resultStr;
         }
         public string getCsvString() 

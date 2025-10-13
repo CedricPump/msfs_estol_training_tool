@@ -67,8 +67,9 @@
             panelCollisions = new System.Windows.Forms.Panel();
             checkBoxPropStrike = new System.Windows.Forms.CheckBox();
             buttonAutoSelect = new System.Windows.Forms.Button();
-            textBoxViolations = new System.Windows.Forms.TextBox();
             labelPlaneType = new System.Windows.Forms.Label();
+            richTextBoxDeviations = new System.Windows.Forms.RichTextBox();
+            label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)numericUpDownStopwatchOffest).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownTransparency).BeginInit();
             SuspendLayout();
@@ -82,7 +83,7 @@
             textBoxResult.Multiline = true;
             textBoxResult.Name = "textBoxResult";
             textBoxResult.ReadOnly = true;
-            textBoxResult.Size = new System.Drawing.Size(335, 535);
+            textBoxResult.Size = new System.Drawing.Size(335, 509);
             textBoxResult.TabIndex = 1;
             // 
             // textBoxUser
@@ -489,19 +490,6 @@
             buttonAutoSelect.UseVisualStyleBackColor = true;
             buttonAutoSelect.Click += buttonAutoSelect_Click;
             // 
-            // textBoxViolations
-            // 
-            textBoxViolations.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            textBoxViolations.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            textBoxViolations.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            textBoxViolations.ForeColor = System.Drawing.Color.Red;
-            textBoxViolations.Location = new System.Drawing.Point(12, 599);
-            textBoxViolations.Multiline = true;
-            textBoxViolations.Name = "textBoxViolations";
-            textBoxViolations.ReadOnly = true;
-            textBoxViolations.Size = new System.Drawing.Size(335, 53);
-            textBoxViolations.TabIndex = 106;
-            // 
             // labelPlaneType
             // 
             labelPlaneType.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
@@ -513,13 +501,34 @@
             labelPlaneType.Text = "Unknown";
             labelPlaneType.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // richTextBoxDeviations
+            // 
+            richTextBoxDeviations.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            richTextBoxDeviations.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            richTextBoxDeviations.Location = new System.Drawing.Point(12, 588);
+            richTextBoxDeviations.Name = "richTextBoxDeviations";
+            richTextBoxDeviations.ReadOnly = true;
+            richTextBoxDeviations.Size = new System.Drawing.Size(335, 64);
+            richTextBoxDeviations.TabIndex = 108;
+            richTextBoxDeviations.Text = "";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new System.Drawing.Point(12, 570);
+            label4.Name = "label4";
+            label4.Size = new System.Drawing.Size(129, 15);
+            label4.TabIndex = 109;
+            label4.Text = "remarks and deviations";
+            // 
             // FormUI
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(888, 692);
+            Controls.Add(label4);
+            Controls.Add(richTextBoxDeviations);
             Controls.Add(labelPlaneType);
-            Controls.Add(textBoxViolations);
             Controls.Add(buttonAutoSelect);
             Controls.Add(checkBoxPropStrike);
             Controls.Add(panelCollisions);
@@ -603,7 +612,8 @@
         private System.Windows.Forms.Panel panelCollisions;
         private System.Windows.Forms.CheckBox checkBoxPropStrike;
         private System.Windows.Forms.Button buttonAutoSelect;
-        private System.Windows.Forms.TextBox textBoxViolations;
         private System.Windows.Forms.Label labelPlaneType;
+        private System.Windows.Forms.RichTextBox richTextBoxDeviations;
+        private System.Windows.Forms.Label label4;
     }
 }

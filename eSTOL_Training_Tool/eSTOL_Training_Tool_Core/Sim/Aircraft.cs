@@ -79,6 +79,8 @@ namespace eSTOL_Training_Tool
         public double WindX { get; private set; } = 0.0;
         public double WindY { get; private set; } = 0.0;
         public double Antistall { get; private set; } = 2;
+        public bool Autotrim { get; private set; } = false;
+        public bool AICtrl { get; private set; } = false;
 
         public bool IsVNEOverspeed { get; private set; } = false;
         public bool IsFlapsOverspeed { get; private set; } = false;
@@ -391,8 +393,9 @@ namespace eSTOL_Training_Tool
 
             CreateDataDefinition("ASSISTANCE LANDING ENABLED", "Bool");
             CreateDataDefinition("ASSISTANCE TAKEOFF ENABLED", "Bool");
-            CreateDataDefinition("AI ANTISTALL STATE", "Bool");
-            CreateDataDefinition("AI AUTOTRIM ACTIVE", "Number");
+            CreateDataDefinition("AI ANTISTALL STATE", "number");
+            CreateDataDefinition("AI AUTOTRIM ACTIVE", "number");
+            CreateDataDefinition("AI CONTROLS", "number");
 
             CreateDataDefinition("ROTATION VELOCITY BODY X", "Feet per second");
             CreateDataDefinition("FLAP SPEED EXCEEDED", "Bool");
@@ -906,6 +909,16 @@ namespace eSTOL_Training_Tool
                             Antistall = (double)data.dwData[0];
                             break;
                         }
+                    case "AI AUTOTRIM ACTIVE":
+                        {
+                            Autotrim = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "AI CONTROLS":
+                        {
+                            AICtrl = (double)data.dwData[0] > 0;
+                            break;
+                        }
                     case "FLAP SPEED EXCEEDED":
                         {
                             IsFlapsOverspeed = (double)data.dwData[0] > 0;
@@ -1256,6 +1269,21 @@ namespace eSTOL_Training_Tool
                     case "OVERSPEED WARNING":
                         {
                             IsVNEOverspeed = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "AI ANTISTALL STATE":
+                        {
+                            Antistall = (double)data.dwData[0];
+                            break;
+                        }
+                    case "AI AUTOTRIM ACTIVE":
+                        {
+                            Autotrim = (double)data.dwData[0] > 0;
+                            break;
+                        }
+                    case "AI CONTROLS":
+                        {
+                            AICtrl = (double)data.dwData[0] > 0;
                             break;
                         }
                     default:

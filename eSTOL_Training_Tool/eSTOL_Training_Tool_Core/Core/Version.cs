@@ -11,7 +11,7 @@ namespace eSTOL_Training_Tool_Core.Core
 {
     internal class VersionHelper
     {
-        private const string currentVersion = "1.4.2";
+        private const string currentVersion = "1.4.3";
         private const string githubApiUrl = "https://api.github.com/repos/CedricPump/msfs_estol_training_tool/releases/latest";
         public static string githubLatestUrl = "https://github.com/CedricPump/msfs_estol_training_tool/releases/latest";
 
@@ -31,7 +31,7 @@ namespace eSTOL_Training_Tool_Core.Core
                 using JsonDocument doc = JsonDocument.Parse(json);
                 string latestVersion = doc.RootElement.GetProperty("tag_name").GetString();
 
-                if (IsNewerVersion(latestVersion, "v" + currentVersion))
+                if (IsNewerVersion(latestVersion, "v" + currentVersion) && !latestVersion.Contains("-dev"))
                 {
                     return latestVersion;
                 }

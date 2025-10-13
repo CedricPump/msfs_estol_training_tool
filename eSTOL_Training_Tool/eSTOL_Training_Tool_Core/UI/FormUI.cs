@@ -43,6 +43,9 @@ namespace eSTOL_Training_Tool_Core.UI
         private Color alignColor = SystemColors.Control;
 
         private static readonly Color myDarkControl = Color.FromArgb(0x20, 0x20, 0x20);
+        private static readonly Color myDarkControlText = Color.LightGray;
+
+        private int deviations = 0;
 
         public FormUI(Controller controller)
         {
@@ -51,13 +54,17 @@ namespace eSTOL_Training_Tool_Core.UI
 
 #pragma warning disable CA1416 // Validate platform compatibility
 #pragma warning disable WFO5001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+            Color myForeColor = SystemColors.ControlText;
+            Color myBackColor = SystemColors.Control;
             if (Application.IsDarkModeEnabled)
             {
                 Console.WriteLine(this.buttonSetRefPos.BackColor);
+                myBackColor = myDarkControl;
+                myForeColor = myDarkControlText;
 
-                this.textBoxResult.BackColor = myDarkControl;
-                this.textBoxStatus.BackColor = myDarkControl;
-                this.textBoxViolations.BackColor = myDarkControl;
+                this.textBoxResult.BackColor = myBackColor;
+                this.textBoxStatus.BackColor = myBackColor;
+                this.richTextBoxDeviations.BackColor = myBackColor;
                 this.linkLabelRecordings.LinkColor = Color.FromArgb(0x60cdff);
             }
 #pragma warning restore WFO5001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
@@ -438,9 +445,65 @@ namespace eSTOL_Training_Tool_Core.UI
             this.textBoxAligned.BackColor = alignColor;
             this.textBoxAligned.ForeColor = Color.Black;
 
-            this.textBoxViolations.Text = string.Join(", ", controller.stol.violations.Select(v => v.Type+"["+(v.Value < 9 ? v.Value.ToString("0.0") : v.Value.ToString("0")) + "]"));
             this.labelPlaneType.Text = "plane: " + controller.plane.GetDisplayName();
+
+            SetDeviations();
         }
+
+
+        public void SetDeviations()
+        {
+            if (controller.stol.deviations.Count == deviations) return;
+
+            // Make sure it's a RichTextBox in the Designer or dynamically
+            var box = this.richTextBoxDeviations as RichTextBox;
+            if (box == null) return;
+
+            box.Clear();
+
+            foreach (var deviation in controller.stol.deviations)
+            {
+                // Choose color based on severity
+                Color color = deviation.Severity switch
+                {
+                    0 => myDarkControlText,     // Remark
+                    1 => Color.Yellow,   // Warning
+                    2 => Color.Orange,   // Deviation
+                    3 => Color.Red,      // Violation
+                    _ => myDarkControlText
+                };
+
+                string formattedValue;
+                if (Math.Abs(deviation.Value % 1) < 0.05) // roughly integer (e.g. 1.0)
+                {
+                    formattedValue = ((int)Math.Round(deviation.Value)).ToString();
+                }
+                else if (deviation.Value < 10)
+                {
+                    formattedValue = deviation.Value.ToString("0.0");
+                }
+                else
+                {
+                    formattedValue = deviation.Value.ToString("0");
+                }
+
+                string text = $"{deviation.Type}[{formattedValue}]";
+
+                // Apply color and append
+                box.SelectionColor = color;
+                box.AppendText(text);
+
+                // Add comma if not last
+                if (deviation != controller.stol.deviations.Last())
+                {
+                    box.SelectionColor = myDarkControlText;
+                    box.AppendText(", ");
+                }
+            }
+
+            deviations = controller.stol.deviations.Count;
+        }
+
 
         public void StartStopWatch()
         {

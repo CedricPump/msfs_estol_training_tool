@@ -52,6 +52,7 @@ namespace eSTOL_Training_Tool_Core.Core
         double fieldLength = 600; // ft
         bool debug = false;
         double flagsAngleTreshold = 1; // deg
+        int BankAngleLimit = 75;
 
         public Controller()
         {
@@ -328,9 +329,9 @@ namespace eSTOL_Training_Tool_Core.Core
                                 if(plane.WingtipOnGround()) 
                                 {
 
-                                    if (!stol.hasViolation("WingStrike"))
+                                    if (!stol.hasDeviation("WingStrike"))
                                     {
-                                        stol.violations.Add(new STOLViolation("WingStrike", 1));
+                                        stol.deviations.Add(new STOLDeviation("WingStrike", 1, 3));
                                         try
                                         {
                                             // send event
@@ -345,9 +346,9 @@ namespace eSTOL_Training_Tool_Core.Core
 
                                 if(plane.IsPropstrike()) 
                                 {
-                                    if (!stol.hasViolation("PropStrike"))
+                                    if (!stol.hasDeviation("PropStrike"))
                                     {
-                                        stol.violations.Add(new STOLViolation("PropStrike", 1));
+                                        stol.deviations.Add(new STOLDeviation("PropStrike", 1, 3));
                                         try
                                         {
                                             // send event
@@ -363,9 +364,9 @@ namespace eSTOL_Training_Tool_Core.Core
 
                                 if (plane.IsSlew)
                                 {
-                                    if (!stol.hasViolation("Slew"))
+                                    if (!stol.hasDeviation("Slew"))
                                     {
-                                        stol.violations.Add(new STOLViolation("Slew", 1));
+                                        stol.deviations.Add(new STOLDeviation("Slew", 1, 0));
                                         try
                                         {
                                             // send event
@@ -380,9 +381,9 @@ namespace eSTOL_Training_Tool_Core.Core
 
                                 if (plane.IsVNEOverspeed)
                                 {
-                                    if (!stol.hasViolation("OverspeedVNE"))
+                                    if (!stol.hasDeviation("OverspeedVNE"))
                                     {
-                                        stol.violations.Add(new STOLViolation("OverspeedVNE", plane.Airspeed));
+                                        stol.deviations.Add(new STOLDeviation("OverspeedVNE", plane.Airspeed, 2));
                                         try
                                         {
                                             // send event
@@ -397,9 +398,9 @@ namespace eSTOL_Training_Tool_Core.Core
 
                                 if (plane.IsFlapsOverspeed)
                                 {
-                                    if (!stol.hasViolation("OverspeedFlaps"))
+                                    if (!stol.hasDeviation("OverspeedFlaps"))
                                     {
-                                        stol.violations.Add(new STOLViolation("OverspeedFlaps", plane.Airspeed));
+                                        stol.deviations.Add(new STOLDeviation("OverspeedFlaps", plane.Airspeed, 2));
                                         try
                                         {
                                             // send event
@@ -414,9 +415,9 @@ namespace eSTOL_Training_Tool_Core.Core
 
                                 if (plane.VerticalSpeed > 1500)
                                 {
-                                    if (!stol.hasViolation("HighClimbRate"))
+                                    if (!stol.hasDeviation("HighClimbRate"))
                                     {
-                                        stol.violations.Add(new STOLViolation("HighClimbRate", plane.VerticalSpeed));
+                                        stol.deviations.Add(new STOLDeviation("HighClimbRate", plane.VerticalSpeed));
                                         try
                                         {
                                             // send event
@@ -429,15 +430,32 @@ namespace eSTOL_Training_Tool_Core.Core
                                     }
                                 }
 
-                                if (Math.Abs(plane.bank) > 45)
+                                if (Math.Abs(plane.bank) > BankAngleLimit)
                                 {
-                                    if (!stol.hasViolation("HightBankAngle"))
+                                    if (!stol.hasDeviation("HightBankAngle"))
                                     {
-                                        stol.violations.Add(new STOLViolation("HightBankAngle", plane.bank));
+                                        stol.deviations.Add(new STOLDeviation("HightBankAngle", plane.bank));
                                         try
                                         {
                                             // send event
                                             if (config.isSendResults) influx.sendEvent(user, stol.sessionKey, plane, "HIGH_BANK_ANGLE", ((double)plane.bank).ToString("0.0"));
+                                        }
+                                        catch
+                                        {
+                                            Console.WriteLine("Unable to send event - check update");
+                                        }
+                                    }
+                                }
+
+                                if (plane.Antistall != 0 || plane.Autotrim || plane.AICtrl )
+                                {
+                                    if (!stol.hasDeviation("AssistsAI"))
+                                    {
+                                        stol.deviations.Add(new STOLDeviation("AssistsAI", 1, 3));
+                                        try
+                                        {
+                                            // send event
+                                            if (config.isSendResults) influx.sendEvent(user, stol.sessionKey, plane, "Assits_AI", "true");
                                         }
                                         catch
                                         {
@@ -608,7 +626,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                                 // stol.violations.Add(new STOLViolation("ExcessiveTouchdownSpin", spin));
                                             }
 
-                                            if (config.isSendResults && stol.hasViolation("ExcessiveTouchdownSpin"))
+                                            if (config.isSendResults && stol.hasDeviation("ExcessiveTouchdownSpin"))
                                             {
                                                 influx.sendEvent(user, stol.sessionKey, plane, "EXCESSIVE_TOUCHDOWN_SPIN", ((spin).ToString("0.0")));
                                             }
@@ -616,17 +634,17 @@ namespace eSTOL_Training_Tool_Core.Core
                                             double touchdowndist = stol.GetTouchdownDistance();
                                             if (touchdowndist <= 0)
                                             {
-                                                stol.violations.Add(new STOLViolation("TouchdownLineViolation", touchdowndist));
+                                                stol.deviations.Add(new STOLDeviation("TouchdownLineViolation", touchdowndist, 3));
                                             }
 
                                             if (stol.TouchdownGs > plane.GetPlaneConfig().MaxGForce)
                                             {
-                                                stol.violations.Add(new STOLViolation("ExcessiveGs", (double)stol.TouchdownGs));
+                                                stol.deviations.Add(new STOLDeviation("ExcessiveGs", (double)stol.TouchdownGs, 2));
                                             }
 
                                             if (stol.TouchdownVerticalSpeed < plane.GetPlaneConfig().MaxVSpeed)
                                             {
-                                                stol.violations.Add(new STOLViolation("ExcessiveVerticalSpeed", (double)stol.TouchdownGs));
+                                                stol.deviations.Add(new STOLDeviation("ExcessiveVerticalSpeed", (double)stol.TouchdownGs, 2));
                                             }
 
 
@@ -637,15 +655,15 @@ namespace eSTOL_Training_Tool_Core.Core
                                                 {
                                                     influx.sendEvent(user, stol.sessionKey, plane, "TOUCHDOWN", (stol.GetTouchdownDistance() * 3.28084).ToString("0"));
                                                 }
-                                                if (config.isSendResults && stol.hasViolation("TouchdownLineViolation"))
+                                                if (config.isSendResults && stol.hasDeviation("TouchdownLineViolation"))
                                                 {
                                                     influx.sendEvent(user, stol.sessionKey, plane, "SCRATCH", (stol.GetTouchdownDistance() * 3.28084).ToString("0"));
                                                 }
-                                                if (config.isSendResults && stol.hasViolation("ExcessiveGs"))
+                                                if (config.isSendResults && stol.hasDeviation("ExcessiveGs"))
                                                 {
                                                     influx.sendEvent(user, stol.sessionKey, plane, "EXCESSIVE_G", (((double)stol.TouchdownGs).ToString("0.0")));
                                                 }
-                                                if (config.isSendResults && stol.hasViolation("ExcessiveVerticalSpeed"))
+                                                if (config.isSendResults && stol.hasDeviation("ExcessiveVerticalSpeed"))
                                                 {
                                                     influx.sendEvent(user, stol.sessionKey, plane, "EXCESSIVE_VSPEED", (((double)stol.TouchdownVerticalSpeed).ToString("0")));
                                                 }
@@ -676,9 +694,9 @@ namespace eSTOL_Training_Tool_Core.Core
 
                                         if (plane.IsParkingBreak)
                                         {
-                                            if (!stol.hasViolation("ParkingBrake"))
+                                            if (!stol.hasDeviation("ParkingBrake"))
                                             {
-                                                stol.violations.Add(new STOLViolation("ParkingBrake", 1));
+                                                stol.deviations.Add(new STOLDeviation("ParkingBrake", 1, 1));
                                                 if (config.isSendResults)
                                                 {
                                                     influx.sendEvent(user, stol.sessionKey, plane, "PARKING_BRAKE", "true");
@@ -697,12 +715,12 @@ namespace eSTOL_Training_Tool_Core.Core
 
                                             if (spin > angleR + flagsAngleTreshold || spin < angleL - flagsAngleTreshold)
                                             {
-                                                stol.violations.Add(new STOLViolation("ExcessiveStopSpin", (double)spin));
+                                                stol.deviations.Add(new STOLDeviation("ExcessiveStopSpin", (double)spin, 2));
                                             }
 
                                             if (Math.Abs((double)stol.maxSpin) > 45.0)
                                             {
-                                                stol.violations.Add(new STOLViolation("ExcessiveMaxSpin", (double)stol.maxSpin));
+                                                stol.deviations.Add(new STOLDeviation("ExcessiveMaxSpin", (double)stol.maxSpin, 1));
                                             }
 
                                             // End Cycle
@@ -719,14 +737,14 @@ namespace eSTOL_Training_Tool_Core.Core
                                                     influx.sendEvent(user, stol.sessionKey, plane, "STOP", (stol.GetLandingDistance() * 3.28084).ToString("0"));
                                                 }
 
-                                                if (config.isSendResults && stol.hasViolation("ExcessiveStopSpin"))
+                                                if (config.isSendResults && stol.hasDeviation("ExcessiveStopSpin"))
                                                 {
                                                     influx.sendEvent(user, stol.sessionKey, plane, "EXCESSIVE_STOP_SPIN", spin.ToString("0.0"));
                                                 }
 
-                                                if (config.isSendResults && stol.hasViolation("ExcessiveMaxSpin"))
+                                                if (config.isSendResults && stol.hasDeviation("ExcessiveMaxSpin"))
                                                 {
-                                                    influx.sendEvent(user, stol.sessionKey, plane, "EXCESSIVE_MAX_SPIN", (((double)stol.maxSpin).ToString("0.0")));
+                                                    influx.sendEvent(user, stol.sessionKey, plane, "EXCESSIVE_MAX_SPIN", ((double)stol.maxSpin).ToString("0.0"));
                                                 }
                                             }
                                             catch
@@ -774,6 +792,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                             setState(CycleState.Fly);
                                             Console.WriteLine("Touch 'n' go recorded, try Again");
                                             form.setResult("Touch 'n' go recorded, try Again");
+                                            stol.deviations.Add(new STOLDeviation("TouchNGo", 1, 0));
                                             if (config.isSendResults) influx.sendEvent(user, stol.sessionKey, plane, "TOUCH_N_GO", "true");
                                         }
                                         break;
