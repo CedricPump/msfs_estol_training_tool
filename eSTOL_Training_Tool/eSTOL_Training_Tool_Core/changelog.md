@@ -3,6 +3,9 @@ v1.4.3
 - incresed BankAngle Threshold to 75
 - renamed violations to deviations
 - added deviation severities
+- fixed deviation touchdownVS 
+- fixed result MaxG MaxVS
+- fixed result formatting
 
 v1.4.2
 

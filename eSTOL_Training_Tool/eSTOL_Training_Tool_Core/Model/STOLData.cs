@@ -15,6 +15,7 @@ namespace eSTOL_Training_Tool
 
         // meta
         public string planeType = "";
+        public string planeKey = "";
         public string user = "";
         public Preset preset = null;
         public string sessionKey = "none";
@@ -106,6 +107,7 @@ namespace eSTOL_Training_Tool
             result.InitHash = GetInitialPosHash();
             result.User = user;
             result.planeType = planeType;
+            result.planeKey = planeKey;
             result.time = (DateTime) StopTime;
 
             result.PatternTime = (TimeSpan) (TouchdownTime - TakeoffTime);
@@ -134,7 +136,7 @@ namespace eSTOL_Training_Tool
                 result.Score = 0;
             }
 
-            PlaneConfig planeConf = PlaneConfigsService.GetPlaneConfig(planeType);
+            PlaneConfig planeConf = PlaneConfigsService.GetPlaneConfig(planeKey);
             result.MaxG = planeConf.MaxGForce;
             result.MaxVS = planeConf.MaxVSpeed;
 
@@ -234,6 +236,7 @@ namespace eSTOL_Training_Tool
         public DateTime time;
         public string User;
         public string planeType;
+        public string planeKey;
         public GeoCoordinate InitialPosition;
         public GeoCoordinate TakeoffPosition;
         public GeoCoordinate TouchdownPosition;
@@ -273,9 +276,9 @@ namespace eSTOL_Training_Tool
                 $"Stopping Distance:   {Stoppingdist} {Unit}\r\n" +
                 $"Touchdown Distance:  {Touchdowndist} {Unit}{scratchText}\r\n" +
                 $"Pattern Time:        {patternTimeStr} min\r\n" +
-                $"TD Max Spin:            {Math.Round(maxSpin)}°\r\n" +
-                $"TD Max Bank:            {Math.Round(maxBank)}°\r\n" +
-                $"TD Min Pitch:           {Math.Round(minPitch)}°\r\n" +
+                $"TD Max Spin:         {Math.Round(maxSpin)}°\r\n" +
+                $"TD Max Bank:         {Math.Round(maxBank)}°\r\n" +
+                $"TD Min Pitch:        {Math.Round(minPitch)}°\r\n" +
                 $"TD Grnd-Speed        {Math.Round(GrndSpeed)} kt\r\n" +
                 $"TD Vert-Speed        {VSpeed:F0}/{MaxVS} f/m\r\n" +
                 $"TD G-Force           {GForce:F1}/{MaxG} G\r\n" +

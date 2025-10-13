@@ -234,6 +234,7 @@ namespace eSTOL_Training_Tool_Core.Core
             if(this.stol != null) 
             {
                 this.stol.planeType = plane.GetDisplayName();
+                this.stol.planeKey = plane.Type + "|" + plane.Model;
                 string hasConfigText = plane.HasPlaneConfig() ? "config found" : "no config";
                 this.form.setResult($"Plane Changed: {this.stol.planeType} {hasConfigText}");
             }
@@ -599,6 +600,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                             // Touchdown!!!
                                             setState(CycleState.Rollout);
                                             stol.planeType = plane.GetDisplayName();
+                                            this.stol.planeKey = plane.Type + "|" + plane.Model;
                                             stol.TouchdownPosition = telemetrie.Position;
                                             stol.TouchdownTime = DateTime.Now;
                                             stol.TouchdownPitch = lastTelemetrie.pitch;
@@ -644,7 +646,7 @@ namespace eSTOL_Training_Tool_Core.Core
 
                                             if (stol.TouchdownVerticalSpeed < plane.GetPlaneConfig().MaxVSpeed)
                                             {
-                                                stol.deviations.Add(new STOLDeviation("ExcessiveVerticalSpeed", (double)stol.TouchdownGs, 2));
+                                                stol.deviations.Add(new STOLDeviation("ExcessiveVerticalSpeed", (double)stol.TouchdownVerticalSpeed, 2));
                                             }
 
 
@@ -942,6 +944,7 @@ namespace eSTOL_Training_Tool_Core.Core
         {
             // set STOL initial Values
             stol.planeType = plane.GetDisplayName();
+            this.stol.planeKey = plane.Type + "|" + plane.Model;
             stol.InitialHeading = plane.Heading;
             stol.InitialPitch = plane.pitch;
             stol.InitialPosition = plane.GetTelemetrie().Position;
