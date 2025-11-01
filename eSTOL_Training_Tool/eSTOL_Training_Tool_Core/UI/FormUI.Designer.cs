@@ -72,6 +72,7 @@
             label4 = new System.Windows.Forms.Label();
             buttonClearResultBox = new System.Windows.Forms.Button();
             buttonPauseUnpause = new System.Windows.Forms.Button();
+            buttonCheckUpdate = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)numericUpDownStopwatchOffest).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownTransparency).BeginInit();
             SuspendLayout();
@@ -542,7 +543,7 @@
             // 
             buttonPauseUnpause.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             buttonPauseUnpause.Font = new System.Drawing.Font("Bahnschrift Condensed", 9F);
-            buttonPauseUnpause.Location = new System.Drawing.Point(554, 2);
+            buttonPauseUnpause.Location = new System.Drawing.Point(453, 1);
             buttonPauseUnpause.Name = "buttonPauseUnpause";
             buttonPauseUnpause.Size = new System.Drawing.Size(23, 23);
             buttonPauseUnpause.TabIndex = 111;
@@ -552,11 +553,23 @@
             buttonPauseUnpause.Visible = false;
             buttonPauseUnpause.Click += buttonPauseUnpause_Click;
             // 
+            // buttonCheckUpdate
+            // 
+            buttonCheckUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            buttonCheckUpdate.Location = new System.Drawing.Point(482, 0);
+            buttonCheckUpdate.Name = "buttonCheckUpdate";
+            buttonCheckUpdate.Size = new System.Drawing.Size(95, 23);
+            buttonCheckUpdate.TabIndex = 112;
+            buttonCheckUpdate.Text = "check update";
+            buttonCheckUpdate.UseVisualStyleBackColor = true;
+            buttonCheckUpdate.Click += buttonCheckUpdate_Click;
+            // 
             // FormUI
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(931, 692);
+            Controls.Add(buttonCheckUpdate);
             Controls.Add(buttonPauseUnpause);
             Controls.Add(buttonClearResultBox);
             Controls.Add(label4);
@@ -650,5 +663,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button buttonClearResultBox;
         private System.Windows.Forms.Button buttonPauseUnpause;
+        private System.Windows.Forms.Button buttonCheckUpdate;
     }
 }

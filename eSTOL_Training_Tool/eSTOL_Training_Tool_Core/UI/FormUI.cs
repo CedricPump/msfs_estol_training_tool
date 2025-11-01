@@ -476,7 +476,7 @@ namespace eSTOL_Training_Tool_Core.UI
 
             SetDeviations();
 
-            if(controller.isPaused) 
+            if (controller.isPaused)
             {
                 this.buttonPauseUnpause.Visible = true;
             }
@@ -873,6 +873,11 @@ namespace eSTOL_Training_Tool_Core.UI
         private void buttonPauseUnpause_Click(object sender, EventArgs e)
         {
             controller.Unpause();
+        }
+
+        private void buttonCheckUpdate_Click(object sender, EventArgs e)
+        {
+            controller.CheckForUpdateManual();
         }
     }
 }

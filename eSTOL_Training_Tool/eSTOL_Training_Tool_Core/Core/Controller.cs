@@ -105,7 +105,7 @@ namespace eSTOL_Training_Tool_Core.Core
 
             LoadUser();
 
-            CheckForUpdate();
+            CheckForUpdateStartup();
 
             // Load presets
             reloadPreset();
@@ -157,7 +157,7 @@ namespace eSTOL_Training_Tool_Core.Core
             stol.user = user;
         }
 
-        private async void CheckForUpdate()
+        private async void CheckForUpdateStartup()
         {
             string? result = await VersionHelper.CheckForUpdateAsync();
             if (result != null)
@@ -172,32 +172,51 @@ namespace eSTOL_Training_Tool_Core.Core
             }
         }
 
+        public async void CheckForUpdateManual()
+        {
+            string? result = await VersionHelper.CheckForUpdateAsync();
+
+            using var dialog = new FormCheckUpdate(result != null ? result : "", VersionHelper.GetVersion(), result != null);
+            dialog.ShowDialog();
+
+            if (dialog.shouldUpdate)
+            {
+                await PerformUpdate(dialog.updateVersion);
+            }       
+        }
+
         private async Task PerformUpdate(string version)
         {
-            string zipFileName = $"eSTOL_Training_Tool_portable_{version}.zip";
-            string zipUrl = $"https://github.com/CedricPump/msfs_estol_training_tool/releases/download/{version}/{zipFileName}";
-            string tempZipPath = Path.Combine(Path.GetTempPath(), "update.zip");
-            string bootstrapperPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "update.ps1");
-
-            using HttpClient client = new HttpClient();
-            using var stream = await client.GetStreamAsync(zipUrl);
-            using var fs = new FileStream(tempZipPath, FileMode.Create, FileAccess.Write);
-            await stream.CopyToAsync(fs);
-
-            AppendResult($"Saved update to: {tempZipPath}");
-
-            string arguments = $"-ExecutionPolicy Bypass -File \"{bootstrapperPath}\" \"{tempZipPath}\" \"{AppDomain.CurrentDomain.BaseDirectory.TrimEnd(Path.DirectorySeparatorChar)}\"";
-
-            Process.Start(new ProcessStartInfo
+            try
             {
-                FileName = "powershell.exe",
-                Arguments = arguments,
-                UseShellExecute = false
-            });
+                string zipFileName = $"eSTOL_Training_Tool_portable_{version}.zip";
+                string zipUrl = $"https://github.com/CedricPump/msfs_estol_training_tool/releases/download/{version}/{zipFileName}";
+                string tempZipPath = Path.Combine(Path.GetTempPath(), "update.zip");
+                string bootstrapperPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "update.ps1");
+
+                using HttpClient client = new HttpClient();
+                using var stream = await client.GetStreamAsync(zipUrl);
+                using var fs = new FileStream(tempZipPath, FileMode.Create, FileAccess.Write);
+                await stream.CopyToAsync(fs);
+
+                AppendResult($"Saved update to: {tempZipPath}");
+
+                string arguments = $"-ExecutionPolicy Bypass -File \"{bootstrapperPath}\" \"{tempZipPath}\" \"{AppDomain.CurrentDomain.BaseDirectory.TrimEnd(Path.DirectorySeparatorChar)}\"";
+
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "powershell.exe",
+                    Arguments = arguments,
+                    UseShellExecute = false
+                });
 
 
 
-            Application.Exit();
+                Application.Exit();
+            } catch 
+            {
+                AppendResult("Update failed");
+            }
         }
 
 

@@ -1,3 +1,8 @@
+v1.4.5
+
+- added check update button
+- added manual update option
+
 v1.4.4
 
 - added plane config Savage Norden

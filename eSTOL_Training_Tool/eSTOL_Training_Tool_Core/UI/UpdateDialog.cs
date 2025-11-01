@@ -37,16 +37,17 @@ namespace eSTOL_Training_Tool_Core.UI
             // labeltext
             // 
             labeltext.AutoSize = true;
+            labeltext.Font = new System.Drawing.Font("Segoe UI", 12F);
             labeltext.Location = new System.Drawing.Point(12, 9);
             labeltext.Name = "labeltext";
-            labeltext.Size = new System.Drawing.Size(180, 15);
+            labeltext.Size = new System.Drawing.Size(236, 21);
             labeltext.TabIndex = 0;
             labeltext.Text = "A new version vX.X.X is available.";
             // 
             // linkLabel
             // 
             linkLabel.AutoSize = true;
-            linkLabel.Location = new System.Drawing.Point(12, 24);
+            linkLabel.Location = new System.Drawing.Point(12, 30);
             linkLabel.Name = "linkLabel";
             linkLabel.Size = new System.Drawing.Size(391, 15);
             linkLabel.TabIndex = 1;
@@ -85,6 +86,7 @@ namespace eSTOL_Training_Tool_Core.UI
             Controls.Add(linkLabel);
             Controls.Add(labeltext);
             Name = "UpdateDialog";
+            ShowIcon = false;
             TopMost = true;
             ResumeLayout(false);
             PerformLayout();
