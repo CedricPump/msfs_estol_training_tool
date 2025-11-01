@@ -172,7 +172,7 @@ namespace eSTOL_Training_Tool_Core.Core
             }
         }
 
-        public async void CheckForUpdateManual()
+        public async Task CheckForUpdateManual()
         {
             string? result = await VersionHelper.CheckForUpdateAsync();
 
@@ -182,7 +182,7 @@ namespace eSTOL_Training_Tool_Core.Core
             if (dialog.shouldUpdate)
             {
                 await PerformUpdate(dialog.updateVersion);
-            }       
+            }
         }
 
         private async Task PerformUpdate(string version)

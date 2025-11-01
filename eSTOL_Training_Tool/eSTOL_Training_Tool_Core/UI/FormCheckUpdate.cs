@@ -32,6 +32,7 @@ namespace eSTOL_Training_Tool_Core.UI
                 labelhasVersion.Text = $"Application is up to date: {currentVersion}";
                 linkLabel.Text = "https://github.com/CedricPump/msfs_estol_training_tool/releases";
             }
+            this.TopLevel = true;
         }
 
         private void buttonUpdate_Click(object sender, EventArgs e)

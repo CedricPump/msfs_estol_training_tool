@@ -875,9 +875,14 @@ namespace eSTOL_Training_Tool_Core.UI
             controller.Unpause();
         }
 
-        private void buttonCheckUpdate_Click(object sender, EventArgs e)
+        private async void buttonCheckUpdate_Click(object sender, EventArgs e)
         {
-            controller.CheckForUpdateManual();
+            var alwaysontop = this.alwaysontop;
+            this.TopMost = false;
+            this.TopLevel = false;
+            await controller.CheckForUpdateManual();
+            this.TopLevel = true;
+            this.TopMost = alwaysontop;
         }
     }
 }
