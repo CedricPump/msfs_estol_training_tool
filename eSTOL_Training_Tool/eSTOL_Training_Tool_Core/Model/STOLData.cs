@@ -198,6 +198,16 @@ namespace eSTOL_Training_Tool
             Reset();
             Console.WriteLine($"STOL cycle initiated: {GetInitialPosHash()}\nSTART: {GeoUtils.ConvertToDMS(InitialPosition)} HDG: {Math.Round(InitialHeading.Value)}°");
         }
+
+        public void ApplyOpenWorld(Plane plane)
+        {
+            this.preset = null;
+            InitialPosition = plane.getPositionWithGearOffset();
+            InitialHeading = plane.Heading;
+            InitialPitch = 0;
+            Reset();
+        }
+
         public STOLData Copy()
         {
             throw new NotImplementedException();

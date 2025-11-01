@@ -7,9 +7,6 @@
     <Compile Update="UI\FormFirstUser.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="UI\FormMain.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="UI\FormUI.cs">
       <SubType>Form</SubType>
     </Compile>

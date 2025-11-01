@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using eSTOL_Training_Tool;
 using eSTOL_Training_Tool_Core.Core;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace eSTOL_Training_Tool_Core.UI
@@ -58,7 +59,6 @@ namespace eSTOL_Training_Tool_Core.UI
             Color myBackColor = SystemColors.Control;
             if (Application.IsDarkModeEnabled)
             {
-                Console.WriteLine(this.buttonSetRefPos.BackColor);
                 myBackColor = myDarkControl;
                 myForeColor = myDarkControlText;
 
@@ -89,7 +89,7 @@ namespace eSTOL_Training_Tool_Core.UI
             textBoxUser.Text = controller.user;
             textBoxStatus.Text = "No Reference Position selected";
             buttonTeleport.Enabled = false;
-            textBoxResult.Text = $"Welcome\r\n\r\nSelect a eSTOL field preset or \"Open World\" mode set custom start.";
+            this.appendResult($"Welcome\r\n\r\nSelect a eSTOL field preset or \"Open World\" mode set custom start.");
 
             comboBoxUnit.Items.Add("feet");
             comboBoxUnit.Items.Add("meters");
@@ -140,6 +140,30 @@ namespace eSTOL_Training_Tool_Core.UI
             textBoxResult.Text = resultStr;
         }
 
+        public void appendResult(string text, bool autoscroll = true)
+        {
+            // If we're on a background thread, invoke an action that calls AppendText
+            if (this.textBoxResult.InvokeRequired)
+            {
+                this.textBoxResult.Invoke(new Action(() =>
+                {
+                    textBoxResult.AppendText(text + "\r\n");
+                    if (textBoxResult.Visible && autoscroll)
+                    {
+                        textBoxResult.ScrollToCaret();
+                    }
+                }));
+                return;
+            }
+
+            // UI thread — append directly
+            textBoxResult.AppendText(text + "\r\n");
+            if (textBoxResult.Visible && autoscroll)
+            {
+                textBoxResult.ScrollToCaret();
+            }
+        }
+
         private void buttonSetRefPos_Click(object sender, EventArgs e)
         {
             if (!controller.IsSimConnected())
@@ -165,11 +189,11 @@ namespace eSTOL_Training_Tool_Core.UI
             {
                 buttonTeleport.Enabled = true;
                 buttonSetRefPos.Enabled = false;
-                textBoxResult.Text = $"Preset selected: {comboBoxPreset.Text}.\nTeleport to reference line?";
+                this.appendResult($"Preset selected: {comboBoxPreset.Text}.\r\nTeleport to reference line?");
             }
             else
             {
-                textBoxResult.Text = $"\"Open World\" Mode selected.";
+                this.appendResult($"\"Open World\" Mode selected.");
                 buttonTeleport.Enabled = controller.IsStolInit();
                 buttonSetRefPos.Enabled = true;
             }
@@ -205,7 +229,12 @@ namespace eSTOL_Training_Tool_Core.UI
             }
 
             controller.TeleportToReferenceLine();
-            textBoxResult.Text = "";
+            this.clearResultBox();
+        }
+
+        private void clearResultBox()
+        {
+            this.textBoxResult.Text = "";
         }
 
         private void textBoxUser_TextChanged(object sender, EventArgs e)
@@ -219,7 +248,7 @@ namespace eSTOL_Training_Tool_Core.UI
             {
                 string user = textBoxUser.Text;
                 controller.SetUser(textBoxUser.Text);
-                textBoxResult.Text = $"User {textBoxUser.Text} saved";
+                this.appendResult($"User {textBoxUser.Text} saved");
 
                 if (user == "")
                 {
@@ -238,7 +267,7 @@ namespace eSTOL_Training_Tool_Core.UI
             if (e.KeyCode == Keys.Enter)
             {
                 controller.SetSession(textBoxSessionKey.Text);
-                textBoxResult.Text = $"Applied session key";
+                this.appendResult($"Applied session key");
             }
         }
 
@@ -249,7 +278,7 @@ namespace eSTOL_Training_Tool_Core.UI
                 MessageBox.Show("Sim not connected");
                 return;
             }
-            textBoxResult.Text = controller.createPreset();
+            this.appendResult(controller.createPreset());
         }
 
         public void DrawResult(STOLResult result)
@@ -305,8 +334,6 @@ namespace eSTOL_Training_Tool_Core.UI
                     (double planeDist_y, double planeOffset_x) = GeoUtils.GetDistanceAlongAxis(this.InitailPos, this.PlanePos, this.InitialHeading);
                     float planeDist = (float)planeDist_y * scaleY * 3.28084f;
                     float planeOff = (float)planeOffset_x * scaleX * 3.28084f;
-
-                    Console.WriteLine(planeOff);
 
                     g.DrawEllipse(blackPen, canvasWidth / 2f + planeOff, canvasHeight - planeDist, 1, 1);
                 }
@@ -395,7 +422,7 @@ namespace eSTOL_Training_Tool_Core.UI
             config.isSendResults = checkBoxResult.Checked;
             if (config.isSendResults && !config.hasPrivacyConfirmed)
             {
-                MessageBox.Show("By enabeling, you agree that your landing result data will be temporarily stored for up to 30 days and may be shown on a public dashboard.\n" +
+                MessageBox.Show("By enabeling, you agree that your landing result data will be temporarily stored for up to 30 days and may be shown on a public dashboard.\r\n" +
                 "For more information, see the privacy policy: https://github.com/CedricPump/msfs_estol_training_tool/blob/main/doc/Privacy_Policy.md");
                 config.hasPrivacyConfirmed = true;
             }
@@ -414,7 +441,7 @@ namespace eSTOL_Training_Tool_Core.UI
             config.isSendTelemetry = checkBoxTelemetry.Checked;
             if (config.isSendTelemetry && !config.hasPrivacyConfirmed)
             {
-                MessageBox.Show("By enabeling, you agree that your ingame telemetry data will be temporarily stored for up to 30 days and may be shown on a public dashboard.\n" +
+                MessageBox.Show("By enabeling, you agree that your ingame telemetry data will be temporarily stored for up to 30 days and may be shown on a public dashboard.\r\n" +
                 "For more information, see the privacy policy: https://github.com/CedricPump/msfs_estol_training_tool/blob/main/doc/Privacy_Policy.md");
                 config.hasPrivacyConfirmed = true;
             }
@@ -448,6 +475,15 @@ namespace eSTOL_Training_Tool_Core.UI
             this.labelPlaneType.Text = "plane: " + controller.plane.GetDisplayName();
 
             SetDeviations();
+
+            if(controller.isPaused) 
+            {
+                this.buttonPauseUnpause.Visible = true;
+            }
+            else
+            {
+                this.buttonPauseUnpause.Visible = false;
+            }
         }
 
 
@@ -827,6 +863,16 @@ namespace eSTOL_Training_Tool_Core.UI
         internal void setSelctedPreset(string title)
         {
             comboBoxPreset.Text = title;
+        }
+
+        private void buttonClearResultBox_Click(object sender, EventArgs e)
+        {
+            clearResultBox();
+        }
+
+        private void buttonPauseUnpause_Click(object sender, EventArgs e)
+        {
+            controller.Unpause();
         }
     }
 }

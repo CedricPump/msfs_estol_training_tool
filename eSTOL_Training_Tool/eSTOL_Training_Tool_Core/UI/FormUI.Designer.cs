@@ -70,6 +70,8 @@
             labelPlaneType = new System.Windows.Forms.Label();
             richTextBoxDeviations = new System.Windows.Forms.RichTextBox();
             label4 = new System.Windows.Forms.Label();
+            buttonClearResultBox = new System.Windows.Forms.Button();
+            buttonPauseUnpause = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)numericUpDownStopwatchOffest).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownTransparency).BeginInit();
             SuspendLayout();
@@ -83,14 +85,15 @@
             textBoxResult.Multiline = true;
             textBoxResult.Name = "textBoxResult";
             textBoxResult.ReadOnly = true;
-            textBoxResult.Size = new System.Drawing.Size(335, 509);
+            textBoxResult.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            textBoxResult.Size = new System.Drawing.Size(378, 516);
             textBoxResult.TabIndex = 1;
             // 
             // textBoxUser
             // 
             textBoxUser.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             textBoxUser.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            textBoxUser.Location = new System.Drawing.Point(667, 43);
+            textBoxUser.Location = new System.Drawing.Point(710, 43);
             textBoxUser.Name = "textBoxUser";
             textBoxUser.Size = new System.Drawing.Size(209, 23);
             textBoxUser.TabIndex = 2;
@@ -101,7 +104,7 @@
             // 
             labelPreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             labelPreset.AutoSize = true;
-            labelPreset.Location = new System.Drawing.Point(666, 192);
+            labelPreset.Location = new System.Drawing.Point(709, 192);
             labelPreset.Name = "labelPreset";
             labelPreset.Size = new System.Drawing.Size(39, 15);
             labelPreset.TabIndex = 3;
@@ -113,7 +116,7 @@
             comboBoxPreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             comboBoxPreset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             comboBoxPreset.FormattingEnabled = true;
-            comboBoxPreset.Location = new System.Drawing.Point(667, 210);
+            comboBoxPreset.Location = new System.Drawing.Point(710, 210);
             comboBoxPreset.Name = "comboBoxPreset";
             comboBoxPreset.Size = new System.Drawing.Size(211, 23);
             comboBoxPreset.TabIndex = 0;
@@ -124,7 +127,7 @@
             buttonApplyPreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             buttonApplyPreset.AutoSize = true;
             buttonApplyPreset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            buttonApplyPreset.Location = new System.Drawing.Point(666, 272);
+            buttonApplyPreset.Location = new System.Drawing.Point(709, 272);
             buttonApplyPreset.Name = "buttonApplyPreset";
             buttonApplyPreset.Size = new System.Drawing.Size(211, 27);
             buttonApplyPreset.TabIndex = 5;
@@ -136,7 +139,7 @@
             buttonTeleport.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             buttonTeleport.AutoSize = true;
             buttonTeleport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            buttonTeleport.Location = new System.Drawing.Point(666, 371);
+            buttonTeleport.Location = new System.Drawing.Point(709, 371);
             buttonTeleport.Name = "buttonTeleport";
             buttonTeleport.Size = new System.Drawing.Size(211, 27);
             buttonTeleport.TabIndex = 6;
@@ -147,7 +150,7 @@
             // 
             buttonSetRefPos.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             buttonSetRefPos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            buttonSetRefPos.Location = new System.Drawing.Point(667, 305);
+            buttonSetRefPos.Location = new System.Drawing.Point(710, 305);
             buttonSetRefPos.Name = "buttonSetRefPos";
             buttonSetRefPos.Size = new System.Drawing.Size(211, 27);
             buttonSetRefPos.TabIndex = 7;
@@ -161,7 +164,7 @@
             textBoxStatus.Location = new System.Drawing.Point(12, 658);
             textBoxStatus.Name = "textBoxStatus";
             textBoxStatus.ReadOnly = true;
-            textBoxStatus.Size = new System.Drawing.Size(648, 23);
+            textBoxStatus.Size = new System.Drawing.Size(691, 23);
             textBoxStatus.TabIndex = 8;
             textBoxStatus.Text = "Status";
             textBoxStatus.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -171,7 +174,7 @@
             buttonCreatePreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             buttonCreatePreset.AutoSize = true;
             buttonCreatePreset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            buttonCreatePreset.Location = new System.Drawing.Point(666, 338);
+            buttonCreatePreset.Location = new System.Drawing.Point(709, 338);
             buttonCreatePreset.Name = "buttonCreatePreset";
             buttonCreatePreset.Size = new System.Drawing.Size(211, 27);
             buttonCreatePreset.TabIndex = 9;
@@ -182,7 +185,7 @@
             // 
             panel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             panel.BackgroundImage = (System.Drawing.Image)resources.GetObject("panel.BackgroundImage");
-            panel.Location = new System.Drawing.Point(353, 29);
+            panel.Location = new System.Drawing.Point(396, 29);
             panel.Name = "panel";
             panel.Size = new System.Drawing.Size(307, 623);
             panel.TabIndex = 10;
@@ -195,7 +198,7 @@
             comboBoxUnit.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             comboBoxUnit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             comboBoxUnit.FormattingEnabled = true;
-            comboBoxUnit.Location = new System.Drawing.Point(667, 166);
+            comboBoxUnit.Location = new System.Drawing.Point(710, 166);
             comboBoxUnit.Name = "comboBoxUnit";
             comboBoxUnit.Size = new System.Drawing.Size(211, 23);
             comboBoxUnit.TabIndex = 11;
@@ -205,7 +208,7 @@
             // 
             checkBoxResult.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             checkBoxResult.AutoSize = true;
-            checkBoxResult.Location = new System.Drawing.Point(670, 116);
+            checkBoxResult.Location = new System.Drawing.Point(713, 116);
             checkBoxResult.Name = "checkBoxResult";
             checkBoxResult.Size = new System.Drawing.Size(88, 19);
             checkBoxResult.TabIndex = 12;
@@ -216,7 +219,7 @@
             // 
             checkBoxTelemetry.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             checkBoxTelemetry.AutoSize = true;
-            checkBoxTelemetry.Location = new System.Drawing.Point(669, 141);
+            checkBoxTelemetry.Location = new System.Drawing.Point(712, 141);
             checkBoxTelemetry.Name = "checkBoxTelemetry";
             checkBoxTelemetry.Size = new System.Drawing.Size(104, 19);
             checkBoxTelemetry.TabIndex = 13;
@@ -233,7 +236,7 @@
             labelStopwatch.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             labelStopwatch.AutoSize = true;
             labelStopwatch.Font = new System.Drawing.Font("Consolas", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            labelStopwatch.Location = new System.Drawing.Point(668, 603);
+            labelStopwatch.Location = new System.Drawing.Point(711, 603);
             labelStopwatch.Name = "labelStopwatch";
             labelStopwatch.Size = new System.Drawing.Size(132, 41);
             labelStopwatch.TabIndex = 14;
@@ -243,7 +246,7 @@
             // progressBarStopwatch
             // 
             progressBarStopwatch.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            progressBarStopwatch.Location = new System.Drawing.Point(666, 658);
+            progressBarStopwatch.Location = new System.Drawing.Point(709, 658);
             progressBarStopwatch.Name = "progressBarStopwatch";
             progressBarStopwatch.Size = new System.Drawing.Size(210, 23);
             progressBarStopwatch.TabIndex = 15;
@@ -252,7 +255,7 @@
             // 
             buttonStartStopwatch.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             buttonStartStopwatch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            buttonStartStopwatch.Location = new System.Drawing.Point(800, 628);
+            buttonStartStopwatch.Location = new System.Drawing.Point(843, 628);
             buttonStartStopwatch.Name = "buttonStartStopwatch";
             buttonStartStopwatch.Size = new System.Drawing.Size(76, 24);
             buttonStartStopwatch.TabIndex = 16;
@@ -263,7 +266,7 @@
             // 
             label1.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(747, 537);
+            label1.Location = new System.Drawing.Point(790, 537);
             label1.Name = "label1";
             label1.Size = new System.Drawing.Size(129, 30);
             label1.TabIndex = 17;
@@ -273,7 +276,7 @@
             // 
             button1.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            button1.Location = new System.Drawing.Point(801, 599);
+            button1.Location = new System.Drawing.Point(844, 599);
             button1.Name = "button1";
             button1.Size = new System.Drawing.Size(75, 23);
             button1.TabIndex = 18;
@@ -284,7 +287,7 @@
             // 
             checkBoxOntop.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             checkBoxOntop.AutoSize = true;
-            checkBoxOntop.Location = new System.Drawing.Point(777, 5);
+            checkBoxOntop.Location = new System.Drawing.Point(820, 5);
             checkBoxOntop.Name = "checkBoxOntop";
             checkBoxOntop.Size = new System.Drawing.Size(99, 19);
             checkBoxOntop.TabIndex = 19;
@@ -295,7 +298,7 @@
             // 
             numericUpDownStopwatchOffest.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             numericUpDownStopwatchOffest.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            numericUpDownStopwatchOffest.Location = new System.Drawing.Point(668, 570);
+            numericUpDownStopwatchOffest.Location = new System.Drawing.Point(711, 570);
             numericUpDownStopwatchOffest.Name = "numericUpDownStopwatchOffest";
             numericUpDownStopwatchOffest.Size = new System.Drawing.Size(208, 23);
             numericUpDownStopwatchOffest.TabIndex = 20;
@@ -306,7 +309,7 @@
             // 
             label2.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             label2.AutoSize = true;
-            label2.Location = new System.Drawing.Point(667, 552);
+            label2.Location = new System.Drawing.Point(710, 552);
             label2.Name = "label2";
             label2.Size = new System.Drawing.Size(39, 15);
             label2.TabIndex = 21;
@@ -316,7 +319,7 @@
             // 
             checkBoxDebugging.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             checkBoxDebugging.AutoSize = true;
-            checkBoxDebugging.Location = new System.Drawing.Point(711, 5);
+            checkBoxDebugging.Location = new System.Drawing.Point(754, 5);
             checkBoxDebugging.Name = "checkBoxDebugging";
             checkBoxDebugging.Size = new System.Drawing.Size(60, 19);
             checkBoxDebugging.TabIndex = 22;
@@ -326,7 +329,7 @@
             // panelWind
             // 
             panelWind.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            panelWind.Location = new System.Drawing.Point(667, 466);
+            panelWind.Location = new System.Drawing.Point(710, 466);
             panelWind.Name = "panelWind";
             panelWind.Size = new System.Drawing.Size(69, 68);
             panelWind.TabIndex = 23;
@@ -337,7 +340,7 @@
             labelWind.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             labelWind.AutoSize = true;
             labelWind.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            labelWind.Location = new System.Drawing.Point(742, 481);
+            labelWind.Location = new System.Drawing.Point(785, 481);
             labelWind.Name = "labelWind";
             labelWind.Size = new System.Drawing.Size(60, 25);
             labelWind.TabIndex = 24;
@@ -348,7 +351,7 @@
             // 
             label3.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             label3.AutoSize = true;
-            label3.Location = new System.Drawing.Point(742, 466);
+            label3.Location = new System.Drawing.Point(785, 466);
             label3.Name = "label3";
             label3.Size = new System.Drawing.Size(35, 15);
             label3.TabIndex = 25;
@@ -361,7 +364,7 @@
             textBoxAligned.Location = new System.Drawing.Point(12, 29);
             textBoxAligned.Name = "textBoxAligned";
             textBoxAligned.ReadOnly = true;
-            textBoxAligned.Size = new System.Drawing.Size(335, 23);
+            textBoxAligned.Size = new System.Drawing.Size(378, 23);
             textBoxAligned.TabIndex = 26;
             textBoxAligned.Text = "...";
             textBoxAligned.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -372,7 +375,7 @@
             labelName.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             labelName.AutoSize = true;
             labelName.Font = new System.Drawing.Font("Segoe UI", 6F);
-            labelName.Location = new System.Drawing.Point(667, 29);
+            labelName.Location = new System.Drawing.Point(710, 29);
             labelName.Name = "labelName";
             labelName.Size = new System.Drawing.Size(26, 11);
             labelName.TabIndex = 27;
@@ -384,7 +387,7 @@
             labelSession.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             labelSession.AutoSize = true;
             labelSession.Font = new System.Drawing.Font("Segoe UI", 6F);
-            labelSession.Location = new System.Drawing.Point(664, 69);
+            labelSession.Location = new System.Drawing.Point(707, 69);
             labelSession.Name = "labelSession";
             labelSession.Size = new System.Drawing.Size(31, 11);
             labelSession.TabIndex = 28;
@@ -395,7 +398,7 @@
             // 
             textBoxSessionKey.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             textBoxSessionKey.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            textBoxSessionKey.Location = new System.Drawing.Point(667, 83);
+            textBoxSessionKey.Location = new System.Drawing.Point(710, 83);
             textBoxSessionKey.Name = "textBoxSessionKey";
             textBoxSessionKey.Size = new System.Drawing.Size(209, 23);
             textBoxSessionKey.TabIndex = 29;
@@ -407,7 +410,7 @@
             numericUpDownTransparency.BorderStyle = System.Windows.Forms.BorderStyle.None;
             numericUpDownTransparency.Font = new System.Drawing.Font("Segoe UI", 8F);
             numericUpDownTransparency.Increment = new decimal(new int[] { 10, 0, 0, 0 });
-            numericUpDownTransparency.Location = new System.Drawing.Point(667, 5);
+            numericUpDownTransparency.Location = new System.Drawing.Point(710, 5);
             numericUpDownTransparency.Maximum = new decimal(new int[] { 80, 0, 0, 0 });
             numericUpDownTransparency.Name = "numericUpDownTransparency";
             numericUpDownTransparency.Size = new System.Drawing.Size(35, 18);
@@ -421,7 +424,7 @@
             checkBoxSaveRecording.AutoSize = true;
             checkBoxSaveRecording.Checked = true;
             checkBoxSaveRecording.CheckState = System.Windows.Forms.CheckState.Checked;
-            checkBoxSaveRecording.Location = new System.Drawing.Point(793, 116);
+            checkBoxSaveRecording.Location = new System.Drawing.Point(836, 116);
             checkBoxSaveRecording.Name = "checkBoxSaveRecording";
             checkBoxSaveRecording.Size = new System.Drawing.Size(85, 19);
             checkBoxSaveRecording.TabIndex = 100;
@@ -433,7 +436,7 @@
             // 
             linkLabelRecordings.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             linkLabelRecordings.AutoSize = true;
-            linkLabelRecordings.Location = new System.Drawing.Point(777, 142);
+            linkLabelRecordings.Location = new System.Drawing.Point(820, 142);
             linkLabelRecordings.Name = "linkLabelRecordings";
             linkLabelRecordings.Size = new System.Drawing.Size(99, 15);
             linkLabelRecordings.TabIndex = 101;
@@ -445,7 +448,7 @@
             // 
             buttonUnFlip.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             buttonUnFlip.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            buttonUnFlip.Location = new System.Drawing.Point(666, 404);
+            buttonUnFlip.Location = new System.Drawing.Point(709, 404);
             buttonUnFlip.Name = "buttonUnFlip";
             buttonUnFlip.Size = new System.Drawing.Size(211, 27);
             buttonUnFlip.TabIndex = 102;
@@ -458,7 +461,7 @@
             panelCollisions.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             panelCollisions.BackgroundImage = (System.Drawing.Image)resources.GetObject("panelCollisions.BackgroundImage");
             panelCollisions.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            panelCollisions.Location = new System.Drawing.Point(810, 466);
+            panelCollisions.Location = new System.Drawing.Point(853, 466);
             panelCollisions.Name = "panelCollisions";
             panelCollisions.Size = new System.Drawing.Size(68, 68);
             panelCollisions.TabIndex = 103;
@@ -471,7 +474,7 @@
             checkBoxPropStrike.Checked = true;
             checkBoxPropStrike.CheckState = System.Windows.Forms.CheckState.Checked;
             checkBoxPropStrike.Enabled = false;
-            checkBoxPropStrike.Location = new System.Drawing.Point(540, 2);
+            checkBoxPropStrike.Location = new System.Drawing.Point(583, 2);
             checkBoxPropStrike.Name = "checkBoxPropStrike";
             checkBoxPropStrike.Size = new System.Drawing.Size(120, 19);
             checkBoxPropStrike.TabIndex = 104;
@@ -482,7 +485,7 @@
             // 
             buttonAutoSelect.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             buttonAutoSelect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            buttonAutoSelect.Location = new System.Drawing.Point(667, 239);
+            buttonAutoSelect.Location = new System.Drawing.Point(710, 239);
             buttonAutoSelect.Name = "buttonAutoSelect";
             buttonAutoSelect.Size = new System.Drawing.Size(212, 27);
             buttonAutoSelect.TabIndex = 105;
@@ -505,27 +508,57 @@
             // 
             richTextBoxDeviations.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             richTextBoxDeviations.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            richTextBoxDeviations.Location = new System.Drawing.Point(12, 588);
+            richTextBoxDeviations.Location = new System.Drawing.Point(12, 602);
             richTextBoxDeviations.Name = "richTextBoxDeviations";
             richTextBoxDeviations.ReadOnly = true;
-            richTextBoxDeviations.Size = new System.Drawing.Size(335, 64);
+            richTextBoxDeviations.Size = new System.Drawing.Size(378, 50);
             richTextBoxDeviations.TabIndex = 108;
             richTextBoxDeviations.Text = "";
             // 
             // label4
             // 
+            label4.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             label4.AutoSize = true;
-            label4.Location = new System.Drawing.Point(12, 570);
+            label4.Location = new System.Drawing.Point(12, 584);
             label4.Name = "label4";
             label4.Size = new System.Drawing.Size(129, 15);
             label4.TabIndex = 109;
             label4.Text = "remarks and deviations";
             // 
+            // buttonClearResultBox
+            // 
+            buttonClearResultBox.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            buttonClearResultBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            buttonClearResultBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            buttonClearResultBox.Location = new System.Drawing.Point(367, 580);
+            buttonClearResultBox.Name = "buttonClearResultBox";
+            buttonClearResultBox.Size = new System.Drawing.Size(23, 23);
+            buttonClearResultBox.TabIndex = 110;
+            buttonClearResultBox.Text = "🗑";
+            buttonClearResultBox.UseVisualStyleBackColor = true;
+            buttonClearResultBox.Click += buttonClearResultBox_Click;
+            // 
+            // buttonPauseUnpause
+            // 
+            buttonPauseUnpause.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            buttonPauseUnpause.Font = new System.Drawing.Font("Bahnschrift Condensed", 9F);
+            buttonPauseUnpause.Location = new System.Drawing.Point(554, 2);
+            buttonPauseUnpause.Name = "buttonPauseUnpause";
+            buttonPauseUnpause.Size = new System.Drawing.Size(23, 23);
+            buttonPauseUnpause.TabIndex = 111;
+            buttonPauseUnpause.Text = "▶";
+            buttonPauseUnpause.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            buttonPauseUnpause.UseVisualStyleBackColor = true;
+            buttonPauseUnpause.Visible = false;
+            buttonPauseUnpause.Click += buttonPauseUnpause_Click;
+            // 
             // FormUI
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(888, 692);
+            ClientSize = new System.Drawing.Size(931, 692);
+            Controls.Add(buttonPauseUnpause);
+            Controls.Add(buttonClearResultBox);
             Controls.Add(label4);
             Controls.Add(richTextBoxDeviations);
             Controls.Add(labelPlaneType);
@@ -615,5 +648,7 @@
         private System.Windows.Forms.Label labelPlaneType;
         private System.Windows.Forms.RichTextBox richTextBoxDeviations;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button buttonClearResultBox;
+        private System.Windows.Forms.Button buttonPauseUnpause;
     }
 }

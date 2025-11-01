@@ -1,3 +1,26 @@
+v1.4.4
+
+- added plane config Savage Norden
+- added plane config Top Rudder
+- added plane config Hawk Arrow
+- added plane config XCub
+- fixed gear offset Wilga 80P
+- increased max vs deviation threshold to 3000
+- fixed GPX recording CG offset
+- fixed Open World feature
+- added teleport while flying handling
+- added in flight initialization
+- added debug auto pause feature
+- added unpause button
+- overhauled result textbox log behavior
+- added clear result log button
+- removed trikes config file
+- removed FormMain
+- improved console log
+- improved debug log
+- console cleanup
+- changed version file name (...vX.Y.Z.zip)
+
 v1.4.3
 
 - incresed BankAngle Threshold to 75

@@ -15,6 +15,8 @@ namespace eSTOL_Training_Tool_Core.Core
         public int IdleRefreshInterval { get; set; } = 10000;
         public int RefreshInterval { get; set; } = 50;
 
+        public int PresciseRefreshInterval { get; set; } = 25;
+
         public uint SimconnectFrames { get; set; } = 2;
         public int TelemetrySendInterval { get; set; } = 3;
         public double GroundspeedThreshold { get; set; } = 0.7;
@@ -27,7 +29,6 @@ namespace eSTOL_Training_Tool_Core.Core
         public string PlanesConfigPath { get; set; } = "PlanesConfig.json";
         public string UserPath { get; set; } = "user.txt";
         public string Unit { get; set; } = "feet";
-        public string TrikeFile { get; set; } = "Trikes.csv";
         public string[] trikesTypes { get; set; } = [];
         public bool debug { get; set; } = false;
         public bool alwaysOnTop { get; set; } = false;
@@ -41,6 +42,7 @@ namespace eSTOL_Training_Tool_Core.Core
         public bool showTelportConfirmation { get; set; } = true;
         public bool hasPrivacyConfirmed { get; set; } = false;
         public bool simulatePropStrike { get; set; } = true;
+        public bool DebugAutoPause { get; set; } = true;
 
 
 
@@ -67,17 +69,6 @@ namespace eSTOL_Training_Tool_Core.Core
                 defaultConfig.Save(); // Save the default config
                 instance = defaultConfig;
             }
-
-            List<string> trikesList = new List<string>();
-            foreach (var line in File.ReadLines(instance.TrikeFile))
-            {
-                string trimmed = line.Trim();
-                if (!string.IsNullOrEmpty(trimmed))
-                    trikesList.Add(trimmed);
-            }
-
-            instance.trikesTypes = trikesList.ToArray();
-
             
             return instance;
         }
@@ -98,7 +89,7 @@ namespace eSTOL_Training_Tool_Core.Core
             }
             catch (Exception ex)
             {
-                Console.WriteLine("unable to save config"); 
+                Console.WriteLine("[ERROR]: Unable to save config"); 
             }
         }
     }

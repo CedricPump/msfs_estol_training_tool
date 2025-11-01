@@ -1,4 +1,5 @@
-﻿using eSTOL_Training_Tool.Model;
+﻿using System;
+using eSTOL_Training_Tool.Model;
 
 namespace eSTOL_Training_Tool
 {
@@ -37,6 +38,18 @@ namespace eSTOL_Training_Tool
                         this.callBack(new PlaneEvent
                         {
                             Event = EVENTS.SimStop.ToString(),
+                            Parameter = new object[0]
+                        });
+                        break;
+                    }
+
+                case EVENTS.PAUSE_TOGGLE:
+                case EVENTS.PAUSE_ON:
+                case EVENTS.PAUSE_OFF:
+                    {
+                        this.callBack(new PlaneEvent
+                        {
+                            Event = EVENTS.PAUSE_TOGGLE.ToString(),
                             Parameter = new object[0]
                         });
                         break;

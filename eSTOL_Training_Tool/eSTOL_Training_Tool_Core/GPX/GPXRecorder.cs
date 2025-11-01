@@ -22,6 +22,8 @@ namespace eSTOL_Training_Tool_Core.GPX
 
         public void Append(Telemetrie telemetrie)
         {
+            // Todo: Check Gear Offset not in GPX Position for playback
+
             var now = DateTime.Now;
             if (now - last > interval)
             {
@@ -95,8 +97,8 @@ namespace eSTOL_Training_Tool_Core.GPX
                 writer.WriteEndElement(); // metadata
 
                 // Waypoints
-                WriteWaypoint(writer, start.telemetrie.Position, start.timestamp, "CUSTD", "Departure");
-                WriteWaypoint(writer, end.telemetrie.Position, end.timestamp, "CUSTA", "Arrival");
+                WriteWaypoint(writer, start.telemetrie.PositionCG, start.timestamp, "CUSTD", "Departure");
+                WriteWaypoint(writer, end.telemetrie.PositionCG, end.timestamp, "CUSTA", "Arrival");
 
                 // Track
                 writer.WriteStartElement("trk");
@@ -113,8 +115,8 @@ namespace eSTOL_Training_Tool_Core.GPX
                 foreach (var (telemetrie, timestamp) in geoCoordinates)
                 {
                     writer.WriteStartElement("trkpt");
-                    writer.WriteAttributeString("lat", telemetrie.Position.Latitude.ToString(CultureInfo.InvariantCulture));
-                    writer.WriteAttributeString("lon", telemetrie.Position.Longitude.ToString(CultureInfo.InvariantCulture));
+                    writer.WriteAttributeString("lat", telemetrie.PositionCG.Latitude.ToString(CultureInfo.InvariantCulture));
+                    writer.WriteAttributeString("lon", telemetrie.PositionCG.Longitude.ToString(CultureInfo.InvariantCulture));
                     writer.WriteElementString("ele", telemetrie.Altitude.ToString("F2", CultureInfo.InvariantCulture));
                     writer.WriteElementString("time", timestamp.ToString("o"));
                     writer.WriteEndElement(); // trkpt
@@ -161,8 +163,8 @@ namespace eSTOL_Training_Tool_Core.GPX
                     int milliseconds = (int)(timestamp - baseTime).TotalMilliseconds;
 
                     string utc = timestamp.ToString("o", CultureInfo.InvariantCulture);
-                    string lat = telemetrie.Position.Latitude.ToString("F6", CultureInfo.InvariantCulture);
-                    string lon = telemetrie.Position.Longitude.ToString("F6", CultureInfo.InvariantCulture);
+                    string lat = telemetrie.PositionCG.Latitude.ToString("F6", CultureInfo.InvariantCulture);
+                    string lon = telemetrie.PositionCG.Longitude.ToString("F6", CultureInfo.InvariantCulture);
                     string alt = Math.Round(telemetrie.Altitude).ToString(CultureInfo.InvariantCulture);
                     string speed = Math.Round(telemetrie.GroundSpeed).ToString(CultureInfo.InvariantCulture);
                     string pitch = Math.Round(telemetrie.pitch).ToString(CultureInfo.InvariantCulture);
@@ -193,9 +195,9 @@ namespace eSTOL_Training_Tool_Core.GPX
                 var line = string.Join(",", new[]
 {
     milliseconds.ToString(),
-    telemetrie.Position.Latitude.ToString("F15", CultureInfo.InvariantCulture),
-    telemetrie.Position.Longitude.ToString("F15", CultureInfo.InvariantCulture),
-    (telemetrie.Position.Altitude * 3.28084).ToString("F2", CultureInfo.InvariantCulture),
+    telemetrie.PositionCG.Latitude.ToString("F15", CultureInfo.InvariantCulture),
+    telemetrie.PositionCG.Longitude.ToString("F15", CultureInfo.InvariantCulture),
+    (telemetrie.PositionCG.Altitude * 3.28084).ToString("F2", CultureInfo.InvariantCulture),
     telemetrie.pitch.ToString("F2", CultureInfo.InvariantCulture),
     telemetrie.bank.ToString("F2", CultureInfo.InvariantCulture),
     "148.2872388631069", // GyroHeading

@@ -85,6 +85,10 @@ namespace eSTOL_Training_Tool
         public bool IsVNEOverspeed { get; private set; } = false;
         public bool IsFlapsOverspeed { get; private set; } = false;
 
+        public double FlapsPercent { get; private set; } = 0.0;
+
+        public bool IsFlapsSet { get { return FlapsPercent > 0; } }
+
         private Config conf;
 
         public bool IsTaildragger { get
@@ -120,7 +124,7 @@ namespace eSTOL_Training_Tool
 
         enum GROUP_ID
         {
-            GROUP_A,
+            GROUP_A
         };
 
         public enum EVENTS
@@ -142,6 +146,7 @@ namespace eSTOL_Training_Tool
             PAUSE_TOGGLE,
             PAUSE_ON,
             PAUSE_OFF,
+            PAUSE_SET,
             SIM_RATE,
             SIM_RATE_DECR,
             SIM_RATE_INCR,
@@ -170,6 +175,7 @@ namespace eSTOL_Training_Tool
             return new Telemetrie
             {
                 Position = getPositionWithGearOffset(),
+                PositionCG = getPosition(),
                 Altitude = this.Altitude,
                 AltitudeAGL = this.AltitudeAGL,
                 Height = 0.0,
@@ -185,6 +191,11 @@ namespace eSTOL_Training_Tool
                 mainWheelRPM = Math.Max(this.RWheelRPM, this.LWheelRPM),
                 centerWheelRPM = this.CWheelRPM,
             };
+        }
+
+        private GeoCoordinate getPosition()
+        {
+            return new GeoCoordinate(this.Latitude, this.Longitude, this.Altitude * 0.3048);
         }
 
         public GeoCoordinate getPositionWithGearOffset() 
@@ -310,9 +321,9 @@ namespace eSTOL_Training_Tool
 
             CreateDataDefinition("VERTICAL SPEED", "feet per minute"); 
             CreateDataDefinition("G FORCE", "Gforce");
-            // CreateDataDefinition("VELOCITY WORLD X", "meter per second");
-            // CreateDataDefinition("VELOCITY WORLD Y", "meter per second");
-            // CreateDataDefinition("VELOCITY WORLD Z", "meter per second");
+            CreateDataDefinition("VELOCITY WORLD X", "meter per second");
+            CreateDataDefinition("VELOCITY WORLD Y", "meter per second");
+            CreateDataDefinition("VELOCITY WORLD Z", "meter per second");
             // Anti-Cheat
             CreateDataDefinition("REALISM CRASH DETECTION", "");
             CreateDataDefinition("IS SLEW ACTIVE", "");
@@ -331,6 +342,7 @@ namespace eSTOL_Training_Tool
             // Fuel
             CreateDataDefinition("FUEL TOTAL QUANTITY WEIGHT", "pounds");
             CreateDataDefinition("FUEL SELECTED QUANTITY PERCENT", "percent over 100");
+            CreateDataDefinition("FLAPS HANDLE PERCENT", "percent");
             CreateDataDefinition("UNLIMITED FUEL", "Bool");
 
             // Action
@@ -401,12 +413,9 @@ namespace eSTOL_Training_Tool
             CreateDataDefinition("FLAP SPEED EXCEEDED", "Bool");
             CreateDataDefinition("OVERSPEED WARNING", "Bool");
 
-
-
             RegiserDefinitions();
 
             this.isInit = true;
-            Console.WriteLine("done");
         }
 
         private void RegiserDefinitions()
@@ -481,21 +490,21 @@ namespace eSTOL_Training_Tool
 
                 // set Group Priority
                 simconnect.SetNotificationGroupPriority(GROUP_ID.GROUP_A, SimConnect.SIMCONNECT_GROUP_PRIORITY_HIGHEST);
+                // simconnect.SetNotificationGroupPriority(GROUP_ID.GROUP_B, SimConnect.SIMCONNECT_GROUP_PRIORITY_HIGHEST);
 
-                Console.WriteLine("done");
                 IsSimConnectConnected = true;
                 return simconnect;
             }
             catch
             {
-                Console.WriteLine("Unable to connect, Check if MSFS is running!");
+                Console.WriteLine("[ERROR]: Unable to connect, Check if MSFS is running!");
                 simconnect = null;
                 IsSimConnectConnected = false;
                 return null;
             }
         }
 
-        public void Update()
+        public bool Update()
         {
             if (simconnect != null)
             {
@@ -507,10 +516,11 @@ namespace eSTOL_Training_Tool
 
                     simconnect.RequestDataOnSimObject(definitions[(DATA_DEFINE_ID)i].reqId, definitions[(DATA_DEFINE_ID)i].defId, SimConnect.SIMCONNECT_OBJECT_ID_USER, SIMCONNECT_PERIOD.SIM_FRAME, SIMCONNECT_DATA_REQUEST_FLAG.DEFAULT, 0, this.conf.SimconnectFrames, 0);
                 }
+                return true;
             }
             else
             {
-                ConnectSimConnect();
+                return ConnectSimConnect() == null;
             }
         }
 
@@ -537,6 +547,23 @@ namespace eSTOL_Training_Tool
             simconnect.SetDataOnSimObject(def.defId, SimConnect.SIMCONNECT_OBJECT_ID_USER, SIMCONNECT_DATA_SET_FLAG.DEFAULT, value);
         }
 
+        public void Pause() 
+        {
+            this.sendEvent(EVENTS.PAUSE_SET, 1);
+            // this.sendEvent(EVENTS.PAUSE_ON, 1);
+        }
+
+        public void Unpause()
+        {
+            this.sendEvent(EVENTS.PAUSE_SET, 0);
+            // this.sendEvent(EVENTS.PAUSE_OFF, 1);
+        }
+
+        public void sendEvent(EVENTS myEvent, uint dwData = 1) 
+        {
+            simconnect.TransmitClientEvent(SimConnect.SIMCONNECT_OBJECT_ID_USER, myEvent, dwData, GROUP_ID.GROUP_A, SIMCONNECT_EVENT_FLAG.DEFAULT);
+        }
+
         public void setPosition(GeoCoordinate position, double heading) 
         {
             double offset = PlaneConfigsService.GetGearOffset(this.Type + "|" + this.Model);
@@ -548,8 +575,22 @@ namespace eSTOL_Training_Tool
             this.setValue("PLANE LONGITUDE", offsetPos.Longitude);
             this.setValue("PLANE ALTITUDE", offsetPos.Altitude);
             this.setValue("PLANE HEADING DEGREES TRUE", heading);
+            this.resetSpeed();
+            this.setValue("PLANE PITCH DEGREES", 0);
+            this.setValue("PLANE BANK DEGREES", 0);
+
             System.Threading.Thread.Sleep(100);
             this.setValue("SIM DISABLED", 0);
+        }
+
+
+        internal void resetSpeed()
+        {
+            this.setValue("VELOCITY WORLD X", 0);
+            this.setValue("VELOCITY WORLD Y", 0);
+            this.setValue("VELOCITY WORLD Z", 0);
+            this.setValue("GROUND VELOCITY", 0);
+            this.setValue("AIRSPEED INDICATED", 0);
         }
 
         public void SpawnObject(string objectName, double latitude, double longitude, double altitude)
@@ -929,6 +970,15 @@ namespace eSTOL_Training_Tool
                             IsVNEOverspeed = (double)data.dwData[0] > 0;
                             break;
                         }
+                    case "FLAPS HANDLE PERCENT":
+                        {
+                            FlapsPercent = (double)data.dwData[0];
+                            break;
+                        }
+
+
+                        
+
                     default:
                         {
                             break;
@@ -963,7 +1013,6 @@ namespace eSTOL_Training_Tool
                         }
                     case "NAV_LOC_AIRPORT_IDENT":
                         {
-                            Console.WriteLine(result.sValue);
                             Airport = result.sValue;
                             break;
                         }
@@ -1286,6 +1335,11 @@ namespace eSTOL_Training_Tool
                             AICtrl = (double)data.dwData[0] > 0;
                             break;
                         }
+                    case "FLAPS HANDLE PERCENT":
+                        {
+                            FlapsPercent = (double)data.dwData[0];
+                            break;
+                        }
                     default:
                         {
                             break;
@@ -1301,6 +1355,7 @@ namespace eSTOL_Training_Tool
 
         private void OnRecvQuit(SimConnect sender, SIMCONNECT_RECV data)
         {
+            this.Unpause();
             simconnect.Dispose();
             simconnect = null;
             IsSimConnectConnected = false;

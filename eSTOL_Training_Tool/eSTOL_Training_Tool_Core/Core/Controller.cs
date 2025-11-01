@@ -14,6 +14,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Device.Location;
 using eSTOL_Training_Tool_Core.GPX;
+using System.Drawing;
 
 namespace eSTOL_Training_Tool_Core.Core
 {
@@ -53,6 +54,8 @@ namespace eSTOL_Training_Tool_Core.Core
         bool debug = false;
         double flagsAngleTreshold = 1; // deg
         int BankAngleLimit = 75;
+        Telemetrie telemetrieLocked = null;
+        public bool isPaused = false;
 
         public Controller()
         {
@@ -82,7 +85,7 @@ namespace eSTOL_Training_Tool_Core.Core
                     writer.WriteLine(STOLResult.getCSVHeader());
                 }
             }
-            if (config.debug) Console.WriteLine("exporting to " + config.ExportPath);
+            if (config.debug) AppendResult("[DEBUG]: exporting to " + config.ExportPath);
         }
 
         public void SetUI(FormUI form) 
@@ -171,7 +174,7 @@ namespace eSTOL_Training_Tool_Core.Core
 
         private async Task PerformUpdate(string version)
         {
-            string zipFileName = $"eSTOL_Training_Tool_portable_{version.Replace(".", "")}.zip";
+            string zipFileName = $"eSTOL_Training_Tool_portable_{version}.zip";
             string zipUrl = $"https://github.com/CedricPump/msfs_estol_training_tool/releases/download/{version}/{zipFileName}";
             string tempZipPath = Path.Combine(Path.GetTempPath(), "update.zip");
             string bootstrapperPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "update.ps1");
@@ -181,7 +184,7 @@ namespace eSTOL_Training_Tool_Core.Core
             using var fs = new FileStream(tempZipPath, FileMode.Create, FileAccess.Write);
             await stream.CopyToAsync(fs);
 
-            Console.WriteLine($"Saved update to: {tempZipPath}");
+            AppendResult($"Saved update to: {tempZipPath}");
 
             string arguments = $"-ExecutionPolicy Bypass -File \"{bootstrapperPath}\" \"{tempZipPath}\" \"{AppDomain.CurrentDomain.BaseDirectory.TrimEnd(Path.DirectorySeparatorChar)}\"";
 
@@ -224,9 +227,8 @@ namespace eSTOL_Training_Tool_Core.Core
             this.unit = unit;
             if(stol != null && stol.StopPosition !=  null) 
             {
-                form.setResult(stol.GetResult(this.unit).getConsoleString());
+                AppendResult(stol.GetResult(this.unit).getConsoleString());
             }
-
         }
 
         public void ReinitPlaneType() 
@@ -236,7 +238,7 @@ namespace eSTOL_Training_Tool_Core.Core
                 this.stol.planeType = plane.GetDisplayName();
                 this.stol.planeKey = plane.Type + "|" + plane.Model;
                 string hasConfigText = plane.HasPlaneConfig() ? "config found" : "no config";
-                this.form.setResult($"Plane Changed: {this.stol.planeType} {hasConfigText}");
+                this.AppendResult($"Plane Changed: {this.stol.planeType} {hasConfigText}");
             }
         }
 
@@ -280,11 +282,10 @@ namespace eSTOL_Training_Tool_Core.Core
                                 }
                                 catch (Exception ex)
                                 {
-                                    Console.WriteLine("Unable to send telemetry - check update");
+                                    AppendResult("[ERROR]: Unable to send telemetry - check update");
                                 }
 
-                                if (config.debug && stol.IsInit()) Console.WriteLine($"lat distance to line: {stol.GetDistanceTo(telemetrie.Position) * 3.28084} AGL: {telemetrie.AltitudeAGL}");
-                                if (config.debug && stol.IsInit()) Console.WriteLine($"Gear on Gorund - Main: {( plane.MainGearOnGround() ? 1 : 0 )} N/T: {(plane.TailNoseGearOnGround() ? 1 : 0)}");
+                                if (config.debug && stol.IsInit()) AppendResult($"DEBUG: distance to line: {stol.GetDistanceTo(telemetrie.Position) * 3.28084:F0} AGL: {telemetrie.AltitudeAGL:F0}");
                             }
                         }
 
@@ -296,7 +297,7 @@ namespace eSTOL_Training_Tool_Core.Core
                             }
                         }
 
-                        if (plane.isInit && form != null)
+                        if (stol.IsInit() &&  plane.isInit && form != null)
                         {
                             if (DateTime.Now - lastUIResfresh > TimeSpan.FromMilliseconds(config.uiRefreshIntervall))
                             {
@@ -311,7 +312,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                     double linedist = stol.GetDistanceTo(telemetrie.Position) * 3.28084;
                                     if (linedist >= -50 && linedist <= 1)
                                     {
-                                        this.form.setResult($"Align: {Math.Round(stol.GetDistanceTo(telemetrie.Position) * 3.28084) + 3.93701} ft to Line");
+                                        AppendResult($"Align: {Math.Round(stol.GetDistanceTo(telemetrie.Position) * 3.28084) + 3.93701} ft to Line");
                                         this.form.setAligned("Aligned", System.Drawing.Color.White);
                                     }
                                 }
@@ -320,6 +321,11 @@ namespace eSTOL_Training_Tool_Core.Core
                             // kill engine
                             if (plane.IsPropstrike() && config.simulatePropStrike)
                             {
+                                if(config.debug && config.DebugAutoPause)
+                                {
+                                   this.PauseAndPopup(plane, $"Propstrike detected: {plane.pitch}°");
+                                }
+
                                 plane.setValue("GENERAL ENG COMBUSTION:0", 0);
                                 plane.setValue("GENERAL ENG COMBUSTION:1", 0);
                                 plane.setValue("GENERAL ENG COMBUSTION:2", 0);
@@ -340,7 +346,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                         }
                                         catch
                                         {
-                                            Console.WriteLine("Unable to send event - check update");
+                                            AppendResult("[ERROR]: Unable to send event - check update");
                                         }
                                     }
                                 }
@@ -357,7 +363,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                         }
                                         catch
                                         {
-                                            Console.WriteLine("Unable to send event - check update");
+                                            AppendResult("[ERROR]: Unable to send event - check update");
                                         }
                                     }
                                 }
@@ -375,7 +381,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                         }
                                         catch
                                         {
-                                            Console.WriteLine("Unable to send event - check update");
+                                            AppendResult("[ERROR]: Unable to send event - check update");
                                         }
                                     }
                                 }
@@ -392,7 +398,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                         }
                                         catch
                                         {
-                                            Console.WriteLine("Unable to send event - check update");
+                                            AppendResult("[ERROR]: Unable to send event - check update");
                                         }
                                     }
                                 }
@@ -409,12 +415,12 @@ namespace eSTOL_Training_Tool_Core.Core
                                         }
                                         catch
                                         {
-                                            Console.WriteLine("Unable to send event - check update");
+                                            AppendResult("[ERROR]: Unable to send event - check update");
                                         }
                                     }
                                 }
 
-                                if (plane.VerticalSpeed > 1500)
+                                if (plane.VerticalSpeed > 3000)
                                 {
                                     if (!stol.hasDeviation("HighClimbRate"))
                                     {
@@ -426,7 +432,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                         }
                                         catch
                                         {
-                                            Console.WriteLine("Unable to send event - check update");
+                                            AppendResult("[ERROR]: Unable to send event - check update");
                                         }
                                     }
                                 }
@@ -443,7 +449,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                         }
                                         catch
                                         {
-                                            Console.WriteLine("Unable to send event - check update");
+                                            AppendResult("[ERROR]: Unable to send event - check update");
                                         }
                                     }
                                 }
@@ -460,7 +466,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                         }
                                         catch
                                         {
-                                            Console.WriteLine("Unable to send event - check update");
+                                            AppendResult("[ERROR]: Unable to send event - check update");
                                         }
                                     }
                                 }
@@ -474,6 +480,15 @@ namespace eSTOL_Training_Tool_Core.Core
                                     {
                                         setState(CycleState.Hold);
                                     }
+                                    else if (plane.GroundSpeed > config.GroundspeedThreshold && !plane.MainGearOnGround())
+                                    {
+                                        // hotstart in air
+                                        setState(CycleState.Fly);
+                                        stol.TakeoffPosition = stol.InitialPosition;
+                                        stol.TakeoffTime = DateTime.Now;
+                                        stol.deviations.Add(new STOLDeviation("HotstartInAir", 1, 0));
+                                        if (this.form != null) this.form.setAligned("", SystemColors.Control);
+                                    }
                                     break;
                                 case CycleState.Hold:
                                     {
@@ -481,9 +496,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                         {
                                             (double yOffset, double xOffset) = GeoUtils.GetDistanceAlongAxis(stol.InitialPosition, plane.getPositionWithGearOffset(), (double)stol.InitialHeading);
                                             double spin = GeoUtils.GetSignedDeltaAngle((double)stol.InitialHeading, telemetrie.Heading);
-                                            (double angleL, double angleR) = GetFlagAngles(stol.InitialPosition, (double)stol.InitialHeading, plane);
-
-                                            if(debug) Console.WriteLine($"angleL: {angleL:F1}°  angleR: {angleR:F1}° spin: {spin}°");
+                                            (double angleL, double angleR) = GetFlagAngles(stol.InitialPosition, (double)stol.InitialHeading, plane);;
 
                                             if (!(spin > angleR + flagsAngleTreshold || spin < angleL - flagsAngleTreshold) && yOffset > -1.2 && yOffset < 0 && Math.Abs(xOffset) < 21)
                                             {
@@ -547,9 +560,8 @@ namespace eSTOL_Training_Tool_Core.Core
                                             setState(CycleState.Climbout);
                                             stol.TakeoffPosition = telemetrie.Position;
                                             stol.TakeoffTime = DateTime.Now;
-                                            if (config.debug) Console.WriteLine($"Takoff recorded: {(stol.GetTakeoffDistance() * 3.28084).ToString("0")} ft");
-                                            form.setResult($"Takoff recorded: {(stol.GetTakeoffDistance() * 3.28084).ToString("0")} ft");
-                                            if (config.debug && stol.IsInit()) Console.WriteLine("TO Pos: " + stol.TakeoffPosition);
+                                            AppendResult($"---- New run ---\r\n\r\nTakoff recorded: {(stol.GetTakeoffDistance() * 3.28084):F0} ft");
+                                            if (config.debug && config.DebugAutoPause) this.PauseAndPopup(plane, $"Takeoff: {stol.GetTakeoffDistance():F0}ft");
 
                                             try
                                             {
@@ -558,7 +570,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                             }
                                             catch
                                             {
-                                                Console.WriteLine("Unable to send event - check update");
+                                                AppendResult("[ERROR]: Unable to send event - check update");
                                             }
                                         }
 
@@ -591,12 +603,28 @@ namespace eSTOL_Training_Tool_Core.Core
                                     }
                                 case CycleState.Fly:
                                     {
-                                        // Taildragging Debug
-                                        if (plane.MainGearOnGround() && !plane.TailNoseGearOnGround()) Console.WriteLine("Dragging Tial, hope you are a Taildragger: " + plane.IsTaildragger);
+                                        // Taildragging helper for debugging only
+                                        if (config.debug && config.DebugAutoPause && plane.TailNoseGearOnGround() && !plane.MainGearOnGround())
+                                        {                                         
+                                            if (telemetrieLocked == null)
+                                            {
+                                                this.PauseAndPopup(plane, "Tail touched");
+                                                telemetrieLocked = telemetrie;
+                                            }
+                                        }
+                                        else if(telemetrieLocked != null && plane.IsFlapsSet)
+                                        {
+                                            // continue
+                                        }
+                                        else
+                                        {
+                                            if (telemetrieLocked != null) telemetrieLocked = null;
+                                        }
 
                                         // Touchdown -> State Rollout
                                         if (plane.MainGearOnGround())
-                                        {
+                                        { 
+                                            
                                             // Touchdown!!!
                                             setState(CycleState.Rollout);
                                             stol.planeType = plane.GetDisplayName();
@@ -613,15 +641,11 @@ namespace eSTOL_Training_Tool_Core.Core
                                             double pitch = (double)(stol.InitialPitch - telemetrie.pitch);
                                             stol.minPitch = pitch;
 
-                                            if (config.debug && stol.IsInit()) Console.WriteLine($"max spin: {stol.maxSpin}° max bank: {stol.maxBank}° max pitch: {stol.minPitch}°");
+                                            if (config.debug && config.DebugAutoPause) this.PauseAndPopup(plane, $"Touchdown: {stol.GetTouchdownDistance():F0}ft");
 
-                                            // nextline after clock
-                                            if (config.debug) Console.WriteLine("\nTouchdown recorded");
-                                            if (config.debug && stol.IsInit()) Console.WriteLine("TD Pos: " + stol.TouchdownPosition);
-                                            form.setResult("Touchdown recorded");
+                                            AppendResult($"Touchdown recorded: {stol.GetTouchdownDistance():F0}ft");
 
                                             (double angleL, double angleR) = GetFlagAngles(stol.InitialPosition, (double)stol.InitialHeading, plane);
-                                            if (config.debug) Console.WriteLine($"spin: {spin:F1}°");
                                             if (spin > angleR + flagsAngleTreshold || spin < angleL - flagsAngleTreshold)
                                             {
                                                 // removed ExcessiveTouchdownSpin on request
@@ -672,7 +696,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                             }
                                             catch (Exception e)
                                             {
-                                                Console.WriteLine("Unable to send event - check update: " + e.Message);
+                                                AppendResult("[ERROR]: Unable to send event - check update: " + e.Message);
                                             }
 
                                             
@@ -689,10 +713,8 @@ namespace eSTOL_Training_Tool_Core.Core
                                         double pitch = (double)(stol.InitialPitch - telemetrie.pitch);
                                         stol.minPitch = Math.Min((double)stol.minPitch, pitch);
 
-                                        if (config.debug && stol.IsInit())
-                                        { Console.WriteLine($"max spin: {stol.maxSpin}° max bank: {stol.maxBank}° max pitch: {stol.minPitch}°"); }
                                         (double angleL, double angleR) = GetFlagAngles(stol.InitialPosition, (double)stol.InitialHeading, plane);
-                                        if (config.debug) Console.WriteLine($"spin: {spin:F1}°");
+
 
                                         if (plane.IsParkingBreak)
                                         {
@@ -727,8 +749,7 @@ namespace eSTOL_Training_Tool_Core.Core
 
                                             // End Cycle
                                             STOLResult result = stol.GetResult(unit);
-                                            Console.WriteLine(result.getConsoleString());
-                                            form.setResult(result.getConsoleString());
+                                            AppendResult(result.getConsoleString());
                                             form.DrawResult(result);
 
                                             try
@@ -751,7 +772,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                             }
                                             catch
                                             {
-                                                Console.WriteLine("Unable to send event - check update");
+                                                AppendResult("[ERROR]: Unable to send event - check update");
                                             }
 
 
@@ -768,7 +789,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                             }
                                             catch
                                             {
-                                                Console.WriteLine("Unable to export to " + config.ResultsExportPath);
+                                                AppendResult("[ERROR]: Unable to export to " + config.ResultsExportPath);
                                             }
                                             try
                                             {
@@ -777,7 +798,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                             }
                                             catch
                                             {
-                                                Console.WriteLine("Unable to send result - check update");
+                                                AppendResult("[ERROR]: Unable to send result - check update");
                                             }
 
                                             // save gpx
@@ -792,8 +813,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                         {
                                             // touch n go
                                             setState(CycleState.Fly);
-                                            Console.WriteLine("Touch 'n' go recorded, try Again");
-                                            form.setResult("Touch 'n' go recorded, try Again");
+                                            AppendResult("Touch 'n' go recorded, try Again");
                                             stol.deviations.Add(new STOLDeviation("TouchNGo", 1, 0));
                                             if (config.isSendResults) influx.sendEvent(user, stol.sessionKey, plane, "TOUCH_N_GO", "true");
                                         }
@@ -809,6 +829,7 @@ namespace eSTOL_Training_Tool_Core.Core
                         else
                         {
                             // wait until stol is init
+                            if(this.form != null) this.form.setAligned("No Reference: Apply Preset", System.Drawing.Color.Red);
                         }
                         lastTelemetrie = telemetrie;
                     }
@@ -824,11 +845,23 @@ namespace eSTOL_Training_Tool_Core.Core
             };
         }
 
+        void WriteResult(string text) 
+        {
+            Console.WriteLine(text);
+            if(form != null) form.setResult(text);
+        }
+
+        void AppendResult(string text)
+        {
+            Console.WriteLine(text);
+            if (form != null) form.appendResult(text);
+        }
+
         private (double, double) GetFlagAngles(GeoCoordinate origin, double initHeading, Plane plane)
         {
             (double yOffset, double xOffset) = GeoUtils.GetDistanceAlongAxis(origin, plane.getPositionWithGearOffset(), initHeading);
 
-            if (config.debug) Console.WriteLine($"x: {xOffset:F1} m  y: {yOffset:F1} m");
+            //if (config.debug) Console.WriteLine($"x: {xOffset:F1} m  y: {yOffset:F1} m");
 
             double adjacent = 182.88 - yOffset;
             double halfSpan = 42.672 / 2;
@@ -836,12 +869,12 @@ namespace eSTOL_Training_Tool_Core.Core
             double oppositeLeft = halfSpan + xOffset;
             double oppositeRight = halfSpan - xOffset;
 
-            if (config.debug) Console.WriteLine($"adjacent: {adjacent:F1} m  opposites: L={oppositeLeft:F1} m  R={oppositeRight:F1} m");
+            //if (config.debug) Console.WriteLine($"adjacent: {adjacent:F1} m  opposites: L={oppositeLeft:F1} m  R={oppositeRight:F1} m");
 
             double angleLeft = Math.Atan(oppositeLeft / adjacent) * (180.0 / Math.PI);
             double angleRight = Math.Atan(oppositeRight / adjacent) * (180.0 / Math.PI);
 
-            if (config.debug) Console.WriteLine($"angleL: {angleLeft:F1}°  angleR: {angleRight:F1}°");
+            //if (config.debug) Console.WriteLine($"angleL: {angleLeft:F1}°  angleR: {angleRight:F1}°");
 
             return (-angleLeft, angleRight);
         }
@@ -882,26 +915,42 @@ namespace eSTOL_Training_Tool_Core.Core
             }
         }
 
+        public void PauseAndPopup(Plane plane, string message = "Sim paused") 
+        {
+            plane.Pause();
+            this.isPaused = true;
+            DialogResult result = MessageBox.Show(message, "Sim paused", MessageBoxButtons.OK);
+            if (result == DialogResult.OK)
+            {
+                plane.Unpause();
+                this.isPaused = false;
+            }
+        }
+
+        public void Unpause()
+        {
+            plane.Unpause();
+            this.isPaused = false;
+        }
+
         public void SetPreset(string presetTitle) 
         {
             if (presetTitle == "Open World") 
             {
-                if (config.debug) Console.WriteLine("You selected Open World Mode.");
-                if (config.debug) Console.WriteLine("set START position and heading.");
                 preset = null;
                 stol.Reset();
+                stol.ApplyOpenWorld(plane);
                 openWorldMode = true;
                 return;
             }
 
             var selectedPreset = presets.Where(p => p.title == presetTitle).FirstOrDefault();
 
-            if (config.debug) Console.WriteLine($"You selected: {selectedPreset.title}");
             preset = selectedPreset;
             openWorldMode = false;
             stol.Reset();
             stol.ApplyPreset(preset);
-            if (config.debug) Console.WriteLine($"Using:\nType: \"{plane.Type}\"\nModel: \"{plane.Model}\"\nTitle: \"{plane.Title}\"\n");
+            if (config.debug) AppendResult($"[DEBUG]: Using:\r\nType: \"{plane.Type}\"\r\nModel: \"{plane.Model}\"\r\nTitle: \"{plane.Title}\"\r\nConfig: {plane.HasPlaneConfig()} (\"{plane.GetDisplayName()}\") ");
         }
 
         public void AutoSetPreset()
@@ -921,7 +970,7 @@ namespace eSTOL_Training_Tool_Core.Core
                 }
             }
 
-            if (config.debug) Console.WriteLine($"Nearest Reference Line selected: {selectedPreset.title}");
+            AppendResult($"Nearest Reference Line selected: {selectedPreset.title}");
             form.setSelctedPreset(selectedPreset.title);
         }
 
@@ -949,13 +998,21 @@ namespace eSTOL_Training_Tool_Core.Core
             stol.InitialPitch = plane.pitch;
             stol.InitialPosition = plane.GetTelemetrie().Position;
             setState(CycleState.Hold);
-            if (config.debug) Console.WriteLine($"STOL cycle initiated\nSTART: {GeoUtils.ConvertToDMS(stol.InitialPosition)} HDG: {Math.Round(stol.InitialHeading.Value)}°");
-            if (config.debug) Console.WriteLine($"Using:\nType: \"{plane.Type}\"\nModel: \"{plane.Model}\"\nTitle: \"{plane.Title}\"\n");
+            if (config.debug) AppendResult($"[DEBUG]: STOL cycle initiated\nSTART: {GeoUtils.ConvertToDMS(stol.InitialPosition)} HDG: {Math.Round(stol.InitialHeading.Value)}°");
+            if (config.debug) AppendResult($"[DEBUG]: Using:\nType: \"{plane.Type}\"\nModel: \"{plane.Model}\"\nTitle: \"{plane.Title}\"\n");
         }
 
         public void TeleportToReferenceLine() 
-        {           
+        {
+            bool teleportWhileFlying = !plane.MainGearOnGround() || plane.GroundSpeed > config.GroundspeedThreshold;
+
             plane.setPosition(stol.InitialPosition, stol.InitialHeading ?? 0);
+
+            if (teleportWhileFlying)
+            {
+                this.PauseAndPopup(plane, "Teleported to Reference Line while flying.\r\nThrottle down, Brakes, get ready!");
+                plane.resetSpeed();
+            }
         }
 
         public void reloadPreset()

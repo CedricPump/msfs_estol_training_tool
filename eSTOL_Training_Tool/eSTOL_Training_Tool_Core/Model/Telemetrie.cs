@@ -14,6 +14,12 @@ namespace eSTOL_Training_Tool
         public GeoCoordinate Position { get; set; }
 
         /// <summary>
+        /// Position in lat, long, height
+        /// </summary>
+        [JsonProperty("position")]
+        public GeoCoordinate PositionCG { get; set; }
+
+        /// <summary>
         /// height AGL
         /// </summary>
         [JsonProperty("height")]
