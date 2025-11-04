@@ -1,3 +1,11 @@
+v1.4.6
+
+- added plane config ATR 42-600S
+- added ResultBox character limit (configurable)
+- added Sim not connected warning
+- changed alignment hints
+- UI fixes
+
 v1.4.5
 
 - added check update button
