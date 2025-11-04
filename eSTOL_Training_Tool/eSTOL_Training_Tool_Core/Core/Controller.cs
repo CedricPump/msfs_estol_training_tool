@@ -270,6 +270,8 @@ namespace eSTOL_Training_Tool_Core.Core
                     plane.Update();
                     if(!plane.isInit) { 
                         plane.Update();
+                        // if(form != null) AppendResult("Test " + DateTime.Now.ToFileTimeUtc());
+                        if(form != null) form.setAligned("Sim not connected", Color.Red);
                         System.Threading.Thread.Sleep(330);
                         continue;
                     };
@@ -288,7 +290,7 @@ namespace eSTOL_Training_Tool_Core.Core
 
                     if (plane.IsSimConnectConnected && !plane.SimDisabled)
                     {
-                        Telemetrie telemetrie = plane.GetTelemetrie();
+                                            Telemetrie telemetrie = plane.GetTelemetrie();
                         // send telemetry and write debug
                         if (config.isSendTelemetry && stol.user != null && stol.user != "")
                         {
@@ -324,17 +326,6 @@ namespace eSTOL_Training_Tool_Core.Core
                                 form.setCollisionWheels();
 
                                 lastUIResfresh = DateTime.Now;
-
-                                // alingnment help
-                                if(stol.IsInit() && (cycleState == CycleState.Takeoff || cycleState == CycleState.Hold)) 
-                                {
-                                    double linedist = stol.GetDistanceTo(telemetrie.Position) * 3.28084;
-                                    if (linedist >= -50 && linedist <= 1)
-                                    {
-                                        AppendResult($"Align: {Math.Round(stol.GetDistanceTo(telemetrie.Position) * 3.28084) + 3.93701} ft to Line");
-                                        this.form.setAligned("Aligned", System.Drawing.Color.White);
-                                    }
-                                }
                             }
 
                             // kill engine
@@ -519,15 +510,15 @@ namespace eSTOL_Training_Tool_Core.Core
 
                                             if (!(spin > angleR + flagsAngleTreshold || spin < angleL - flagsAngleTreshold) && yOffset > -1.2 && yOffset < 0 && Math.Abs(xOffset) < 21)
                                             {
-                                                this.form.setAligned("aligned", System.Drawing.Color.LightGreen);
+                                                this.form.setAligned($"aligned ({(Math.Round(stol.GetDistanceTo(telemetrie.Position) * 3.28084) + 3.93701):F0} ft)", System.Drawing.Color.LightGreen);
                                             }
                                             else if (Math.Abs(spin) < 45 && yOffset > -1.2 && yOffset < 1 && Math.Abs(xOffset) < 21)
                                             {
-                                                this.form.setAligned("aligned (bad heading)", System.Drawing.Color.LightGreen);
+                                                this.form.setAligned($"aligned (bad heading,{(Math.Round(stol.GetDistanceTo(telemetrie.Position) * 3.28084) + 3.93701):F0} ft)", System.Drawing.Color.LightGreen);
                                             }
                                             else if (Math.Abs(spin) < 90 && yOffset > -180 && yOffset < 1 && Math.Abs(xOffset) < 21)
                                             {
-                                                this.form.setAligned("on lineup", System.Drawing.Color.LightYellow);
+                                                this.form.setAligned($"on lineup ({(Math.Round(stol.GetDistanceTo(telemetrie.Position) * 3.28084) + 3.93701):F0} ft)", System.Drawing.Color.LightYellow);
                                             }
                                             else if (Math.Abs(spin) < 90 && yOffset > 1 && yOffset < 600 && Math.Abs(xOffset) < 21)
                                             {

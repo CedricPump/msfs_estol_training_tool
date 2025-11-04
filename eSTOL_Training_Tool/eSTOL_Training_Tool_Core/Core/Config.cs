@@ -44,6 +44,8 @@ namespace eSTOL_Training_Tool_Core.Core
         public bool simulatePropStrike { get; set; } = true;
         public bool DebugAutoPause { get; set; } = true;
 
+        public uint ResultTextBoxCharacterLimit { get; set; } = 20000;
+
 
 
         private static Config instance = null;

@@ -530,6 +530,7 @@
             // 
             buttonClearResultBox.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             buttonClearResultBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            buttonClearResultBox.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
             buttonClearResultBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             buttonClearResultBox.Location = new System.Drawing.Point(367, 580);
             buttonClearResultBox.Name = "buttonClearResultBox";
@@ -555,7 +556,9 @@
             // 
             // buttonCheckUpdate
             // 
+            buttonCheckUpdate.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
             buttonCheckUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            buttonCheckUpdate.ForeColor = System.Drawing.SystemColors.ControlText;
             buttonCheckUpdate.Location = new System.Drawing.Point(482, 0);
             buttonCheckUpdate.Name = "buttonCheckUpdate";
             buttonCheckUpdate.Size = new System.Drawing.Size(95, 23);

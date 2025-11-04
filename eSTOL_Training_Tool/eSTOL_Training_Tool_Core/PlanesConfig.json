@@ -389,5 +389,22 @@
         "Key": "DeHavilland|ATCCOM.ATC_NAME BEAVER.0.text",
         "MaxGForce": 3.0,
         "MaxVSpeed": -600
+    },
+    {
+        "Class": "Spec",
+        "CollisionNoseIndex": 10,
+        "CollisionPropIndex": 8,
+        "CollisionWheelLeftIndex": 1,
+        "CollisionWheelNoseTailIndex": 0,
+        "CollisionWheelRightIndex": 2,
+        "CollisionWheelWingtipLIndex": 3,
+        "CollisionWheelWingtipRIndex": 4,
+        "PropStrikeThreshold": 30,
+        "DisplayName": "ATR 42-600S",
+        "GearOffset": 1.5,
+        "IsTaildragger": false,
+        "Key": "ATR|42-600S",
+        "MaxGForce": 2.0,
+        "MaxVSpeed": -500
     }
 ]

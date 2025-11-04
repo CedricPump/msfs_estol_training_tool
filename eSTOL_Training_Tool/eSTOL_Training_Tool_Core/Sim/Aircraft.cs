@@ -111,6 +111,10 @@ namespace eSTOL_Training_Tool
         public string GetDisplayName() 
         {
             var dispalyName = GetPlaneConfig().DisplayName;
+            if (GetPlaneConfig().Key == "DEFAULT")
+            {
+                dispalyName = $"{this.Type} {this.Model}: \"{this.Title}\" ({GetPlaneConfig().DisplayName} config)";
+            }
             return string.IsNullOrEmpty(dispalyName) ? this.Title : dispalyName;
         }
 

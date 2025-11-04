@@ -48,10 +48,11 @@ namespace eSTOL_Training_Tool_Core.UI
 
         private int deviations = 0;
 
+        private Config config = Config.GetInstance();
+
         public FormUI(Controller controller)
         {
             InitializeComponent();
-            var config = Config.GetInstance();
 
 #pragma warning disable CA1416 // Validate platform compatibility
 #pragma warning disable WFO5001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
@@ -142,26 +143,50 @@ namespace eSTOL_Training_Tool_Core.UI
 
         public void appendResult(string text, bool autoscroll = true)
         {
-            // If we're on a background thread, invoke an action that calls AppendText
+            string newText = text + "\r\n";
+            int limit = (int)Math.Min(config.ResultTextBoxCharacterLimit, int.MaxValue);
+
+            Action appendAction = () =>
+            {
+                int currentLen = textBoxResult.TextLength;
+                int excessAfterAppend = currentLen + newText.Length - limit;
+                if (excessAfterAppend > 0 && currentLen > 0)
+                {
+                    int removeCount = Math.Min(excessAfterAppend, currentLen);
+
+                    // Preserve selection/caret
+                    int selStart = textBoxResult.SelectionStart;
+                    int selLength = textBoxResult.SelectionLength;
+                    bool hadFocus = textBoxResult.Focused;
+
+                    // Remove from start by selecting and replacing with empty string
+                    textBoxResult.SelectionStart = 0;
+                    textBoxResult.SelectionLength = removeCount;
+                    textBoxResult.SelectedText = string.Empty;
+
+                    // Adjust selection start if it was after removed block
+                    selStart = selStart <= removeCount ? 0 : selStart - removeCount;
+                    textBoxResult.SelectionStart = selStart;
+                    textBoxResult.SelectionLength = selLength;
+
+                    if (hadFocus) textBoxResult.Focus();
+                }
+
+                // Append new text and optionally scroll
+                textBoxResult.AppendText(newText);
+                if (textBoxResult.Visible && autoscroll)
+                {
+                    textBoxResult.ScrollToCaret();
+                }
+            };
+
             if (this.textBoxResult.InvokeRequired)
             {
-                this.textBoxResult.Invoke(new Action(() =>
-                {
-                    textBoxResult.AppendText(text + "\r\n");
-                    if (textBoxResult.Visible && autoscroll)
-                    {
-                        textBoxResult.ScrollToCaret();
-                    }
-                }));
+                this.textBoxResult.Invoke(appendAction);
                 return;
             }
 
-            // UI thread — append directly
-            textBoxResult.AppendText(text + "\r\n");
-            if (textBoxResult.Visible && autoscroll)
-            {
-                textBoxResult.ScrollToCaret();
-            }
+            appendAction();
         }
 
         private void buttonSetRefPos_Click(object sender, EventArgs e)
@@ -229,7 +254,7 @@ namespace eSTOL_Training_Tool_Core.UI
             }
 
             controller.TeleportToReferenceLine();
-            this.clearResultBox();
+            // this.clearResultBox();
         }
 
         private void clearResultBox()
