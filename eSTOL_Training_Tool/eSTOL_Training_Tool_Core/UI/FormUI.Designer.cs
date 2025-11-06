@@ -140,7 +140,7 @@
             buttonTeleport.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             buttonTeleport.AutoSize = true;
             buttonTeleport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            buttonTeleport.Location = new System.Drawing.Point(709, 371);
+            buttonTeleport.Location = new System.Drawing.Point(709, 338);
             buttonTeleport.Name = "buttonTeleport";
             buttonTeleport.Size = new System.Drawing.Size(211, 27);
             buttonTeleport.TabIndex = 6;
@@ -175,7 +175,7 @@
             buttonCreatePreset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             buttonCreatePreset.AutoSize = true;
             buttonCreatePreset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            buttonCreatePreset.Location = new System.Drawing.Point(709, 338);
+            buttonCreatePreset.Location = new System.Drawing.Point(709, 404);
             buttonCreatePreset.Name = "buttonCreatePreset";
             buttonCreatePreset.Size = new System.Drawing.Size(211, 27);
             buttonCreatePreset.TabIndex = 9;
@@ -449,7 +449,7 @@
             // 
             buttonUnFlip.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             buttonUnFlip.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            buttonUnFlip.Location = new System.Drawing.Point(709, 404);
+            buttonUnFlip.Location = new System.Drawing.Point(709, 371);
             buttonUnFlip.Name = "buttonUnFlip";
             buttonUnFlip.Size = new System.Drawing.Size(211, 27);
             buttonUnFlip.TabIndex = 102;

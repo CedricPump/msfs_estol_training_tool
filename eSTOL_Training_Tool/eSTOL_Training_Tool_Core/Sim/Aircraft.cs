@@ -219,6 +219,16 @@ namespace eSTOL_Training_Tool
             };
         }
 
+        public bool IsFlipped()
+        {
+            return (this.IsStopped() || this.IsOnGround) && this.pitch >= this.GetPlaneConfig().PropStrikeThreshold;
+        }
+
+        public bool IsStopped()
+        {
+            return this.GroundSpeed < Config.GetInstance().GroundspeedThreshold && this.MainGearOnGround();
+        }
+
         public bool MainGearOnGround()
         {
             return LeftGearOnGround() || RightGearOnGround();
@@ -585,7 +595,7 @@ namespace eSTOL_Training_Tool
                 this.setValue("PLANE PITCH DEGREES", 0);
                 this.setValue("PLANE BANK DEGREES", 0);
             }
-            System.Threading.Thread.Sleep(100);
+            System.Threading.Thread.Sleep(333);
             this.setValue("SIM DISABLED", 0);
         }
 
@@ -596,7 +606,7 @@ namespace eSTOL_Training_Tool
             this.setValue("VELOCITY WORLD Y", 0);
             this.setValue("VELOCITY WORLD Z", 0);
             this.setValue("GROUND VELOCITY", 0);
-            this.setValue("AIRSPEED INDICATED", 0);
+            //this.setValue("AIRSPEED INDICATED", 0);
         }
 
         public void SpawnObject(string objectName, double latitude, double longitude, double altitude)

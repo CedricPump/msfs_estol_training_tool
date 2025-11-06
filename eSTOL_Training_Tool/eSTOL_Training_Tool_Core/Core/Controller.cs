@@ -486,7 +486,7 @@ namespace eSTOL_Training_Tool_Core.Core
                             switch (cycleState)
                             {
                                 case CycleState.Unknown:
-                                    if (plane.GroundSpeed < config.GroundspeedThreshold && plane.MainGearOnGround())
+                                    if (plane.IsStopped())
                                     {
                                         setState(CycleState.Hold);
                                     }
@@ -585,7 +585,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                         }
 
                                         // stopping -> State Hold
-                                        if (plane.GroundSpeed < config.GroundspeedThreshold && plane.MainGearOnGround())
+                                        if (plane.IsStopped())
                                         {
                                             // parking or alignment
                                             setState(CycleState.Hold);
@@ -740,7 +740,7 @@ namespace eSTOL_Training_Tool_Core.Core
 
                                         // stopping -> Hold
                                         // checking for save nose up attitude
-                                        if (plane.GroundSpeed < config.GroundspeedThreshold && plane.MainGearOnGround() && plane.pitch < 10) // && plane.TailNoseGearOnGround())
+                                        if (plane.IsStopped() && plane.pitch < 10) // && plane.TailNoseGearOnGround())
                                         {
                                             setState(CycleState.Hold);
                                             stol.StopPosition = telemetrie.Position;
@@ -908,7 +908,7 @@ namespace eSTOL_Training_Tool_Core.Core
             {
                 case "PARKING_BRAKES":
                     {
-                        if (openWorldMode && plane.MainGearOnGround() && plane.GroundSpeed < config.GroundspeedThreshold)
+                        if (openWorldMode && plane.IsStopped())
                         {
                             // initSTOL();
                         }
@@ -916,7 +916,7 @@ namespace eSTOL_Training_Tool_Core.Core
                     }
                 case "SMOKE_TOGGLE":
                     {
-                        if (openWorldMode && plane.MainGearOnGround() && plane.GroundSpeed < config.GroundspeedThreshold)
+                        if (openWorldMode && plane.IsStopped())
                         {
                             // initSTOL();
                         }
@@ -1042,10 +1042,13 @@ namespace eSTOL_Training_Tool_Core.Core
                 plane.setPosition(stol.InitialPosition, stol.InitialHeading ?? 0, true, 2);
                 this.PauseNoPopup(plane, "Teleported to Reference Line while flying.\r\nThrottle down, Brakes, get ready! Unpause");
                 plane.resetSpeed();
-            } else if(config.PauseOnTeleport)
+            } else 
             {
-                plane.setPosition(stol.InitialPosition, stol.InitialHeading ?? 0, false, 0.5);
-                this.PauseNoPopup(plane, "Teleported to Reference Line.\r\nThrottle down, Brakes, get ready! Unpause");
+                plane.setPosition(stol.InitialPosition, stol.InitialHeading ?? 0, false, 2);
+                if (config.PauseOnTeleport)
+                {
+                    this.PauseNoPopup(plane, "Teleported to Reference Line.\r\nThrottle down, Brakes, get ready! Unpause");
+                }
                 plane.resetSpeed();
             }
         }

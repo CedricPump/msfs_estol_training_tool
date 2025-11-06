@@ -1,6 +1,10 @@
 v1.4.8
 
-- added config stop on tail touch
+- reduced popups
+- added teleport popup never show again option
+- no attitude change on static teleport
+- popup fixes (topmost and async)
+- improven button visibility
 
 v1.4.7
 

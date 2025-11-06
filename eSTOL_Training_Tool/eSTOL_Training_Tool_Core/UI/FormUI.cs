@@ -502,14 +502,10 @@ namespace eSTOL_Training_Tool_Core.UI
 
             SetDeviations();
 
-            if (controller.isPaused)
-            {
-                this.buttonPauseUnpause.Visible = true;
-            }
-            else
-            {
-                this.buttonPauseUnpause.Visible = false;
-            }
+            this.buttonPauseUnpause.Visible = controller.isPaused;
+            this.buttonUnFlip.Enabled = controller.plane.isInit && controller.plane.IsFlipped();
+            this.buttonCreatePreset.Enabled = controller.plane.isInit && controller.plane.IsStopped();
+            this.buttonCreatePreset.Visible = debug;
         }
 
 
