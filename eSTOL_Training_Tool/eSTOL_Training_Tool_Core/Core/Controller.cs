@@ -333,7 +333,7 @@ namespace eSTOL_Training_Tool_Core.Core
                             {
                                 if(config.debug && config.DebugAutoPause)
                                 {
-                                   this.PauseAndPopup(plane, $"Propstrike detected: {plane.pitch}°");
+                                   this.PauseNoPopup(plane, $"Propstrike detected: {plane.pitch}°");
                                 }
 
                                 plane.setValue("GENERAL ENG COMBUSTION:0", 0);
@@ -571,7 +571,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                             stol.TakeoffPosition = telemetrie.Position;
                                             stol.TakeoffTime = DateTime.Now;
                                             AppendResult($"---- New run ---\r\n\r\nTakoff recorded: {(stol.GetTakeoffDistance() * 3.28084):F0} ft");
-                                            if (config.debug && config.DebugAutoPause) this.PauseAndPopup(plane, $"Takeoff: {stol.GetTakeoffDistance():F0}ft");
+                                            if (config.debug && config.DebugAutoPause) this.PauseNoPopup(plane, $"Takeoff: {stol.GetTakeoffDistance():F0}ft");
 
                                             try
                                             {
@@ -614,11 +614,11 @@ namespace eSTOL_Training_Tool_Core.Core
                                 case CycleState.Fly:
                                     {
                                         // Taildragging helper for debugging only
-                                        if (config.debug && config.DebugAutoPause && plane.TailNoseGearOnGround() && !plane.MainGearOnGround())
+                                        if (config.debug && config.DebugAutoPause && config.DebugAutoPauseOnTailTouch && plane.TailNoseGearOnGround() && !plane.MainGearOnGround())
                                         {                                         
                                             if (telemetrieLocked == null)
                                             {
-                                                this.PauseAndPopup(plane, "Tail touched");
+                                                this.PauseNoPopup(plane, "Tail touched");
                                                 telemetrieLocked = telemetrie;
                                             }
                                         }
@@ -925,15 +925,36 @@ namespace eSTOL_Training_Tool_Core.Core
             }
         }
 
-        public void PauseAndPopup(Plane plane, string message = "Sim paused") 
+        public async void PauseAndPopup(Plane plane, string message = "Sim paused") 
+        {
+            // Pause immediately and mark paused state
+            plane.Pause();
+            this.isPaused = true;
+
+            // If we have the UI form, schedule the MessageBox on the UI thread without blocking the caller.
+            if (form != null && form.IsHandleCreated)
+            {
+                // BeginInvoke returns immediately; the lambda runs on the UI thread and shows the modal MessageBox there.
+                form.BeginInvoke(new Action(() =>
+                {
+                    var result = MessageBox.Show(form, message, "Sim paused", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (result == DialogResult.OK)
+                    {
+                        plane.Unpause();
+                        this.isPaused = false;
+                    }
+                }));
+                return;
+            }
+        }
+
+        public async void PauseNoPopup(Plane plane, string message = "Sim paused")
         {
             plane.Pause();
             this.isPaused = true;
-            DialogResult result = MessageBox.Show(message, "Sim paused", MessageBoxButtons.OK);
-            if (result == DialogResult.OK)
+            if (form != null)
             {
-                plane.Unpause();
-                this.isPaused = false;
+                form.appendResult(message);
             }
         }
 
@@ -1016,11 +1037,15 @@ namespace eSTOL_Training_Tool_Core.Core
         {
             bool teleportWhileFlying = !plane.MainGearOnGround() || plane.GroundSpeed > config.GroundspeedThreshold;
 
-            plane.setPosition(stol.InitialPosition, stol.InitialHeading ?? 0);
-
             if (teleportWhileFlying)
             {
-                this.PauseAndPopup(plane, "Teleported to Reference Line while flying.\r\nThrottle down, Brakes, get ready!");
+                plane.setPosition(stol.InitialPosition, stol.InitialHeading ?? 0, true, 2);
+                this.PauseNoPopup(plane, "Teleported to Reference Line while flying.\r\nThrottle down, Brakes, get ready! Unpause");
+                plane.resetSpeed();
+            } else if(config.PauseOnTeleport)
+            {
+                plane.setPosition(stol.InitialPosition, stol.InitialHeading ?? 0, false, 0.5);
+                this.PauseNoPopup(plane, "Teleported to Reference Line.\r\nThrottle down, Brakes, get ready! Unpause");
                 plane.resetSpeed();
             }
         }

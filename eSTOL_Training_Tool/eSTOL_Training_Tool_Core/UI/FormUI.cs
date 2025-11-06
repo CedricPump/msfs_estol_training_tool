@@ -235,12 +235,13 @@ namespace eSTOL_Training_Tool_Core.UI
             DialogResult result = DialogResult.None;
             if (Config.GetInstance().showTelportConfirmation)
             {
-
-                result = MessageBox.Show(
-                "Do you really want to move the aircraft location?",
-                "Confirm Teleport",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
+                using var dialog = new TeleportDialog();
+                result = dialog.ShowDialog();
+                if(dialog.DontShowAgain)
+                {
+                    config.showTelportConfirmation = false;
+                    config.Save();
+                }
             }
             else
             {

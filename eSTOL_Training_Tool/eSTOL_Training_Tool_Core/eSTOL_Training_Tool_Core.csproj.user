@@ -13,6 +13,9 @@
     <Compile Update="UI\FormUI.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="UI\TeleportDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="UI\UpdateDialog.cs">
       <SubType>Form</SubType>
     </Compile>

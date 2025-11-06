@@ -568,7 +568,7 @@ namespace eSTOL_Training_Tool
             simconnect.TransmitClientEvent(SimConnect.SIMCONNECT_OBJECT_ID_USER, myEvent, dwData, GROUP_ID.GROUP_A, SIMCONNECT_EVENT_FLAG.DEFAULT);
         }
 
-        public void setPosition(GeoCoordinate position, double heading) 
+        public void setPosition(GeoCoordinate position, double heading, bool setAttitude = false, double altitudeOffset = 0.0) 
         {
             double offset = PlaneConfigsService.GetGearOffset(this.Type + "|" + this.Model);
 
@@ -577,12 +577,14 @@ namespace eSTOL_Training_Tool
             this.setValue("SIM DISABLED", 1);
             this.setValue("PLANE LATITUDE", offsetPos.Latitude);
             this.setValue("PLANE LONGITUDE", offsetPos.Longitude);
-            this.setValue("PLANE ALTITUDE", offsetPos.Altitude);
+            this.setValue("PLANE ALTITUDE", offsetPos.Altitude + altitudeOffset);
             this.setValue("PLANE HEADING DEGREES TRUE", heading);
             this.resetSpeed();
-            this.setValue("PLANE PITCH DEGREES", 0);
-            this.setValue("PLANE BANK DEGREES", 0);
-
+            if (setAttitude)
+            {
+                this.setValue("PLANE PITCH DEGREES", 0);
+                this.setValue("PLANE BANK DEGREES", 0);
+            }
             System.Threading.Thread.Sleep(100);
             this.setValue("SIM DISABLED", 0);
         }

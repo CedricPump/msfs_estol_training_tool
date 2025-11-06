@@ -88,6 +88,7 @@ namespace eSTOL_Training_Tool_Core.UI
             Name = "UpdateDialog";
             ShowIcon = false;
             TopMost = true;
+            Load += UpdateDialog_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -110,6 +111,11 @@ namespace eSTOL_Training_Tool_Core.UI
                 FileName = linkLabel.Text,
                 UseShellExecute = true
             });
+        }
+
+        private void UpdateDialog_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

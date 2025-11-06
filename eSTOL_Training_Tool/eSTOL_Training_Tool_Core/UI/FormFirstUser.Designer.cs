@@ -87,6 +87,7 @@
             Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             Name = "FormFirstUser";
             Text = "First User";
+            TopMost = true;
             ResumeLayout(false);
             PerformLayout();
         }

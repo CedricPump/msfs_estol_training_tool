@@ -43,8 +43,11 @@ namespace eSTOL_Training_Tool_Core.Core
         public bool hasPrivacyConfirmed { get; set; } = false;
         public bool simulatePropStrike { get; set; } = true;
         public bool DebugAutoPause { get; set; } = true;
+        public bool DebugAutoPauseOnTailTouch { get; set; } = true;
 
         public uint ResultTextBoxCharacterLimit { get; set; } = 20000;
+
+        public bool PauseOnTeleport { get; set; } = false;
 
 
 

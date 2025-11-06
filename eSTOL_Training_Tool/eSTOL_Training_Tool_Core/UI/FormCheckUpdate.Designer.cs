@@ -104,6 +104,7 @@
             Name = "FormCheckUpdate";
             ShowIcon = false;
             Text = "Check Update";
+            TopMost = true;
             ResumeLayout(false);
             PerformLayout();
         }

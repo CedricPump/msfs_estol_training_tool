@@ -1,3 +1,11 @@
+v1.4.8
+
+- added config stop on tail touch
+
+v1.4.7
+
+- added config stop on tail touch
+
 v1.4.6
 
 - added plane config ATR 42-600S
