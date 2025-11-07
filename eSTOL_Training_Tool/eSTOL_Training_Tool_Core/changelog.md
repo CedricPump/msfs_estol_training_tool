@@ -1,3 +1,7 @@
+v1.4.9
+
+- added plane config Robin DR40
+
 v1.4.8
 
 - reduced popups
