@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Device.Location;
 using System.Linq;
+using System.Reflection;
+using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using eSTOL_Training_Tool.Model;
@@ -82,12 +84,22 @@ namespace eSTOL_Training_Tool
         public bool Autotrim { get; private set; } = false;
         public bool AICtrl { get; private set; } = false;
 
+        // flight controls
+        public double AileronPosition { get; private set; } = 0.0;
+        public double ElevatorPosition { get; private set; } = 0.0;
+        public double RudderPosition { get; private set; } = 0.0;
+        public double FlapsPercent { get; private set; } = 0.0;
+        public uint FlapsIndex { get; private set; } = 0;
+        public double ThrottlePosition { get; private set; } = 0.0;
+
+        public bool IsFlapsSet { get { return FlapsPercent > 0; } }
+
+
+
         public bool IsVNEOverspeed { get; private set; } = false;
         public bool IsFlapsOverspeed { get; private set; } = false;
 
-        public double FlapsPercent { get; private set; } = 0.0;
 
-        public bool IsFlapsSet { get { return FlapsPercent > 0; } }
 
         private Config conf;
 
@@ -194,6 +206,14 @@ namespace eSTOL_Training_Tool
                 gForce = this.gforce,
                 mainWheelRPM = Math.Max(this.RWheelRPM, this.LWheelRPM),
                 centerWheelRPM = this.CWheelRPM,
+                FlapsPercent = this.FlapsPercent,
+                FlapsHandlePosition = this.FlapsIndex,
+                AileronsPercent = this.AileronPosition,
+                ElevatorsPercent = this.ElevatorPosition,
+                RudderPercent   = this.RudderPosition,
+                OnGround = this.IsOnGround,
+                AirSpeed = this.Airspeed,
+                ThrottlePosition = this.ThrottlePosition
             };
         }
 
@@ -328,10 +348,17 @@ namespace eSTOL_Training_Tool
             CreateDataDefinition("AIRSPEED INDICATED", "knots");
             // CreateDataDefinition("AIRSPEED TRUE", "knots");
 
-            CreateDataDefinition("RIGHT WHEEL RPM", "RPM");
-            CreateDataDefinition("LEFT WHEEL RPM", "RPM");
-            CreateDataDefinition("CENTER WHEEL RPM", "RPM");
-            CreateDataDefinition("AUX WHEEL RPM", "RPM");
+            //FlightControls
+            CreateDataDefinition("AILERON POSITION", "position");
+            CreateDataDefinition("ELEVATOR POSITION", "position");
+            CreateDataDefinition("RUDDER POSITION", "position");
+            CreateDataDefinition("FLAPS HANDLE PERCENT", "percent");
+            CreateDataDefinition("FLAPS HANDLE INDEX", "number");     
+
+            //CreateDataDefinition("RIGHT WHEEL RPM", "RPM");
+            //CreateDataDefinition("LEFT WHEEL RPM", "RPM");
+            //CreateDataDefinition("CENTER WHEEL RPM", "RPM");
+            //CreateDataDefinition("AUX WHEEL RPM", "RPM");
 
             CreateDataDefinition("VERTICAL SPEED", "feet per minute"); 
             CreateDataDefinition("G FORCE", "Gforce");
@@ -356,7 +383,7 @@ namespace eSTOL_Training_Tool
             // Fuel
             CreateDataDefinition("FUEL TOTAL QUANTITY WEIGHT", "pounds");
             CreateDataDefinition("FUEL SELECTED QUANTITY PERCENT", "percent over 100");
-            CreateDataDefinition("FLAPS HANDLE PERCENT", "percent");
+
             CreateDataDefinition("UNLIMITED FUEL", "Bool");
 
             // Action
@@ -481,7 +508,7 @@ namespace eSTOL_Training_Tool
                 simconnect.OnRecvQuit += new SimConnect.RecvQuitEventHandler(OnRecvQuit);
                 simconnect.OnRecvException += new SimConnect.RecvExceptionEventHandler(OnRecvException);
                 simconnect.OnRecvSimobjectDataBytype += new SimConnect.RecvSimobjectDataBytypeEventHandler(OnRecvSimobjectDataBytype);
-                simconnect.OnRecvSimobjectData += new SimConnect.RecvSimobjectDataEventHandler(OnRecvSimobjectDataBytype);
+                simconnect.OnRecvSimobjectData += new SimConnect.RecvSimobjectDataEventHandler(OnRecvSimobjectData);
                 simconnect.OnRecvEvent += new SimConnect.RecvEventEventHandler(simconnect_OnRecvEvent);
 
                 foreach (EVENTS entry in Enum.GetValues(typeof(EVENTS)))
@@ -631,379 +658,7 @@ namespace eSTOL_Training_Tool
         }
 
 
-        private void OnRecvSimobjectDataBytype(SimConnect sender, SIMCONNECT_RECV_SIMOBJECT_DATA data) 
-        {
-            DataDefinition def = definitions[(DATA_DEFINE_ID)data.dwDefineID];
-            if (def.isString)
-            {
-                DataStruct result = (DataStruct)data.dwData[0];
-                //Console.WriteLine("SimConnect " + def.dname + " value: " + result.sValue);
-                switch (def.dname)
-                {
-                    case "ATC MODEL":
-                        {
-                            Model = result.sValue;
-                            break;
-                        }
-                    case "ATC TYPE":
-                        {
-                            Type = result.sValue;
-                            break;
-                        }
-                    case "TITLE":
-                        {
-                            Title = result.sValue;
-                            break;
-                        }
-                    case "NAV_LOC_AIRPORT_IDENT":
-                        {
-                            Console.WriteLine(result.sValue);
-                            Airport = result.sValue;
-                            break;
-                        }
-                }
-            }
-            else
-            {
-                //Console.WriteLine("SimConnect " + def.dname + " value: " + data.dwData[0]);
-                switch (def.dname)
-                {
-                    case "PLANE ALTITUDE":
-                        {
-                            Altitude = (double)data.dwData[0];
-                            break;
-                        }
-                    case "PLANE LATITUDE":
-                        {
-                            Latitude = (double)data.dwData[0];
-                            break;
-                        }
-                    case "PLANE LONGITUDE":
-                        {
-                            Longitude = (double)data.dwData[0];
-                            break;
-                        }
-                    case "PLANE HEADING DEGREES TRUE":
-                        {
-                            Heading = (double)data.dwData[0];
-                            break;
-                        }
-                    case "GROUND VELOCITY":
-                        {
-                            GroundSpeed = (double)data.dwData[0];
-                            break;
-                        }
-                    case "PLANE ALT ABOVE GROUND MINUS CG":
-                        {
-                            AltitudeAGL = (double)data.dwData[0];
-                            // Console.WriteLine("AltitudeAGL: " + AltitudeAGL);
-                            break;
-                        }
-
-                    case "VERTICAL SPEED":
-                        {
-                            VerticalSpeed = (double)data.dwData[0];
-                            break;
-                        }
-                    case "AIRSPEED INDICATED":
-                        {
-                            Airspeed = (double)data.dwData[0];
-                            break;
-                        }
-                    case "PLANE PITCH DEGREES":
-                        {
-                            pitch = (double)data.dwData[0];
-                            break;
-                        }
-                    case "PLANE BANK DEGREES":
-                        {
-                            bank = (double)data.dwData[0];
-                            break;
-                        }
-                    case "VELOCITY WORLD X":
-                        {
-                            vX = (double)data.dwData[0];
-                            break;
-                        }
-                    case "VELOCITY WORLD Y":
-                        {
-                            vY = (double)data.dwData[0];
-                            break;
-                        }
-                    case "VELOCITY WORLD Z":
-                        {
-                            vZ = (double)data.dwData[0];
-                            break;
-                        }
-                    case "G FORCE":
-                        {
-                            gforce = (double)data.dwData[0];
-                            break;
-                        }
-                    case "ON ANY RUNWAY":
-                        {
-                            IsOnRundway = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "SIM ON GROUND":
-                        {
-                            IsOnGround = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "ENG COMBUSTION:1":
-                        {
-                            IsEngineOn = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "SIM DISABLED":
-                        {
-                            SimDisabled = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "BRAKE PARKING POSITION":
-                        {
-                            IsParkingBreak = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "FUEL TOTAL QUANTITY WEIGHT":
-                        {
-                            Fuel = (double)data.dwData[0];
-                            break;
-                        }
-                    case "FUEL SELECTED QUANTITY PERCENT":
-                        {
-                            FuelPercent = (double)data.dwData[0] * 100;
-                            break;
-                        }
-                    case "UNLIMITED FUEL":
-                        {
-                            FuelUnlimited = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "REALISM CRASH DETECTION":
-                        {
-                            CrashEnabled = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "IS SLEW ACTIVE":
-                        {
-                            IsSlew = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "PAYLOAD STATION WEIGHT:1":
-                        {
-                            PilotWeight = (double)data.dwData[0];
-                            break;
-                        }
-                    case "TOTAL WEIGHT":
-                        {
-                            TotalWeight = (double)data.dwData[0];
-                            break;
-                        }
-                    case "MAX GROSS WEIGHT":
-                        {
-                            MaxTotalWeight = (double)data.dwData[0];
-                            break;
-                        }
-                    case "RIGHT WHEEL RPM":
-                        {
-                            RWheelRPM = (double)data.dwData[0];
-                            break;
-                        }
-                    case "LEFT WHEEL RPM":
-                        {
-                            LWheelRPM = (double)data.dwData[0];
-                            break;
-                        }
-                    case "CENTER WHEEL RPM":
-                        {
-                            CWheelRPM = (double)data.dwData[0];
-                            break;
-                        }
-                    case "AUX WHEEL RPM":
-                        {
-                            AuxWheelRPM = (double)data.dwData[0];
-                            break;
-                        }
-                    case "CONTACT POINT IS ON GROUND:0":
-                        {
-                            // Nose or TailWheel
-                            ContactPoints[0] = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "CONTACT POINT IS ON GROUND:1":
-                        {
-                            // Left MainGear
-                            ContactPoints[1] = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "CONTACT POINT IS ON GROUND:2":
-                        {
-                            // Right MainGear
-                            ContactPoints[2] = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "CONTACT POINT IS ON GROUND:3":
-                        {
-                            // Wingtip if mapped
-                            ContactPoints[3] = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "CONTACT POINT IS ON GROUND:4":
-                        {
-                            // Wingtip if mapped
-                            ContactPoints[4] = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "CONTACT POINT IS ON GROUND:5":
-                        {
-                            // potential Prop
-                            ContactPoints[5] = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "CONTACT POINT IS ON GROUND:6":
-                        {
-                            // potential Prop
-                            ContactPoints[6] = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "CONTACT POINT IS ON GROUND:7":
-                        {
-                            // potential Prop
-                            ContactPoints[7] = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "CONTACT POINT IS ON GROUND:8":
-                        {
-                            // potential Prop
-                            ContactPoints[8] = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "CONTACT POINT IS ON GROUND:9":
-                        {
-                            // potential Prop
-                            ContactPoints[9] = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "CONTACT POINT IS ON GROUND:10":
-                        {
-                            // potential Prop
-                            ContactPoints[10] = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "CONTACT POINT IS ON GROUND:11":
-                        {
-                            // potential Prop
-                            ContactPoints[11] = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "CONTACT POINT IS ON GROUND:12":
-                        {
-                            // potential Prop
-                            ContactPoints[12] = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "CONTACT POINT IS ON GROUND:13":
-                        {
-                            // potential Prop
-                            ContactPoints[13] = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "CONTACT POINT IS ON GROUND:14":
-                        {
-                            // potential Prop
-                            ContactPoints[14] = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "CONTACT POINT IS ON GROUND:15":
-                        {
-                            // potential Prop
-                            ContactPoints[15] = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "CONTACT POINT IS ON GROUND:16":
-                        {
-                            // potential Prop
-                            ContactPoints[16] = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "CONTACT POINT IS ON GROUND:17":
-                        {
-                            // potential Prop
-                            ContactPoints[17] = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "CONTACT POINT IS ON GROUND:18":
-                        {
-                            // potential Prop
-                            ContactPoints[18] = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "CONTACT POINT IS ON GROUND:19":
-                        {
-                            // potential Prop
-                            ContactPoints[19] = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "CONTACT POINT IS ON GROUND:20":
-                        {
-                            // potential Prop
-                            ContactPoints[20] = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "AIRCRAFT WIND X":
-                        {
-                            WindX = (double)data.dwData[0];
-                            break;
-                        }
-                    case "AIRCRAFT WIND Z":
-                        {
-                            WindY = (double)data.dwData[0];
-                            break;
-                        }
-                    case "AI ANTISTALL STATE":
-                        {
-                            Antistall = (double)data.dwData[0];
-                            break;
-                        }
-                    case "AI AUTOTRIM ACTIVE":
-                        {
-                            Autotrim = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "AI CONTROLS":
-                        {
-                            AICtrl = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "FLAP SPEED EXCEEDED":
-                        {
-                            IsFlapsOverspeed = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "OVERSPEED WARNING":
-                        {
-                            IsVNEOverspeed = (double)data.dwData[0] > 0;
-                            break;
-                        }
-                    case "FLAPS HANDLE PERCENT":
-                        {
-                            FlapsPercent = (double)data.dwData[0];
-                            break;
-                        }
-
-
-                        
-
-                    default:
-                        {
-                            break;
-                        }
-                }
-            }
-        }
-
-        private void OnRecvSimobjectDataBytype(SimConnect sender, SIMCONNECT_RECV_SIMOBJECT_DATA_BYTYPE data)
+        private void OnRecvSimobjectData(SimConnect sender, SIMCONNECT_RECV_SIMOBJECT_DATA data) 
         {
             DataDefinition def = definitions[(DATA_DEFINE_ID)data.dwDefineID];
             if (def.isString)
@@ -1069,7 +724,7 @@ namespace eSTOL_Training_Tool
                             AltitudeAGL = (double)data.dwData[0];
                             break;
                         }
-                        
+
                     case "VERTICAL SPEED":
                         {
                             VerticalSpeed = (double)data.dwData[0];
@@ -1356,12 +1011,44 @@ namespace eSTOL_Training_Tool
                             FlapsPercent = (double)data.dwData[0];
                             break;
                         }
+                    case "FLAPS HANDLE INDEX":
+                        {
+                            FlapsIndex = (uint)Math.Floor((double)data.dwData[0]);
+                            break;
+                        }
+                    case "AILERON POSITION":
+                        {
+                            AileronPosition = (double)data.dwData[0];
+                            break;
+                        }
+                    case "ELEVATOR POSITION":
+                        {
+                            ElevatorPosition = (double)data.dwData[0];
+                            break;
+                        }
+                    case "RUDDER POSITION":
+                        {
+                            RudderPosition = (double)data.dwData[0];
+                            break;
+                        }
+                    case "GENERAL ENG THROTTLE LEVER POSITION:1":
+                        {
+                            ThrottlePosition = (double)data.dwData[0];
+                            break;
+                        }
                     default:
                         {
                             break;
                         }
                 }
             }
+        }
+
+        private void OnRecvSimobjectDataBytype(SimConnect sender, SIMCONNECT_RECV_SIMOBJECT_DATA_BYTYPE data)
+        {
+            SIMCONNECT_RECV_SIMOBJECT_DATA data2 = (SIMCONNECT_RECV_SIMOBJECT_DATA)data;
+            OnRecvSimobjectData(sender, data2);
+            return;
         }
 
         private void OnRecvException(SimConnect sender, SIMCONNECT_RECV_EXCEPTION data)

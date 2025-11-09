@@ -44,6 +44,12 @@ namespace eSTOL_Training_Tool
         public double GroundSpeed { get; set; }
 
         /// <summary>
+        /// Ground speed in knots
+        /// </summary>
+        [JsonProperty("air_speed")]
+        public double AirSpeed { get; set; }
+
+        /// <summary>
         /// Heading in degrees
         /// </summary>
         [JsonProperty("heading")]
@@ -81,6 +87,15 @@ namespace eSTOL_Training_Tool
 
         public double mainWheelRPM { get; set; } = 0;
         public double centerWheelRPM { get; set; } = 0;
+
+        public double FlapsPercent { get; set; } = 0;
+        public uint FlapsHandlePosition { get; set; } = 0;
+        public double AileronsPercent { get; set; } = 0;
+        public double ElevatorsPercent { get; set; } = 0;
+        public double RudderPercent { get; set; } = 0;
+        public double ThrottlePosition { get; set; } = 0;
+
+        public bool OnGround { get; set; } = false;
 
         public override string ToString()
         {

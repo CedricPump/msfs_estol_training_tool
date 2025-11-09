@@ -73,6 +73,9 @@
             buttonClearResultBox = new System.Windows.Forms.Button();
             buttonPauseUnpause = new System.Windows.Forms.Button();
             buttonCheckUpdate = new System.Windows.Forms.Button();
+            label5 = new System.Windows.Forms.Label();
+            toolTiphint = new System.Windows.Forms.ToolTip(components);
+            toolTipZoom = new System.Windows.Forms.ToolTip(components);
             ((System.ComponentModel.ISupportInitialize)numericUpDownStopwatchOffest).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownTransparency).BeginInit();
             SuspendLayout();
@@ -98,6 +101,7 @@
             textBoxUser.Name = "textBoxUser";
             textBoxUser.Size = new System.Drawing.Size(209, 23);
             textBoxUser.TabIndex = 2;
+            toolTiphint.SetToolTip(textBoxUser, "You can upload your training data to a database. Leave the input empty to skip uploading.");
             textBoxUser.TextChanged += textBoxUser_TextChanged;
             textBoxUser.KeyDown += textBoxUser_KeyDown;
             // 
@@ -133,6 +137,7 @@
             buttonApplyPreset.Size = new System.Drawing.Size(211, 27);
             buttonApplyPreset.TabIndex = 5;
             buttonApplyPreset.Text = "Apply";
+            toolTiphint.SetToolTip(buttonApplyPreset, "apply selected preset");
             buttonApplyPreset.Click += buttonApplyPreset_Click;
             // 
             // buttonTeleport
@@ -145,6 +150,7 @@
             buttonTeleport.Size = new System.Drawing.Size(211, 27);
             buttonTeleport.TabIndex = 6;
             buttonTeleport.Text = "Teleport";
+            toolTiphint.SetToolTip(buttonTeleport, "teleport to reference line");
             buttonTeleport.Click += buttonTeleport_Click;
             // 
             // buttonSetRefPos
@@ -156,6 +162,7 @@
             buttonSetRefPos.Size = new System.Drawing.Size(211, 27);
             buttonSetRefPos.TabIndex = 7;
             buttonSetRefPos.Text = "Set Start";
+            toolTiphint.SetToolTip(buttonSetRefPos, "set reference point to current location");
             buttonSetRefPos.Click += buttonSetRefPos_Click;
             // 
             // textBoxStatus
@@ -190,6 +197,7 @@
             panel.Name = "panel";
             panel.Size = new System.Drawing.Size(307, 623);
             panel.TabIndex = 10;
+            toolTipZoom.SetToolTip(panel, "double click to zoom");
             panel.Paint += panel_Paint;
             panel.DoubleClick += pannel_DoubleClick;
             panel.Resize += panel_Resize;
@@ -214,6 +222,7 @@
             checkBoxResult.Size = new System.Drawing.Size(88, 19);
             checkBoxResult.TabIndex = 12;
             checkBoxResult.Text = "send results";
+            toolTiphint.SetToolTip(checkBoxResult, "sends STOL results\\r\\nBy enabeling, you agree that your landing result data will be temporarily stored for up to 30 days and may be shown on a public dashboard.");
             checkBoxResult.CheckedChanged += checkBoxResult_CheckedChanged;
             // 
             // checkBoxTelemetry
@@ -225,6 +234,7 @@
             checkBoxTelemetry.Size = new System.Drawing.Size(104, 19);
             checkBoxTelemetry.TabIndex = 13;
             checkBoxTelemetry.Text = "send telemetry";
+            toolTiphint.SetToolTip(checkBoxTelemetry, "sends Sim flight telemetry\\r\\nBy enabeling, you agree that your landing result data will be temporarily stored for up to 30 days and may be shown on a public dashboard.");
             checkBoxTelemetry.CheckedChanged += checkBoxTelemetry_CheckedChanged;
             // 
             // timer1
@@ -261,6 +271,7 @@
             buttonStartStopwatch.Size = new System.Drawing.Size(76, 24);
             buttonStartStopwatch.TabIndex = 16;
             buttonStartStopwatch.Text = "T-Offset";
+            toolTiphint.SetToolTip(buttonStartStopwatch, "Start timer with negative offset countdown");
             buttonStartStopwatch.Click += buttonStartStopwatch_Click;
             // 
             // label1
@@ -282,6 +293,7 @@
             button1.Size = new System.Drawing.Size(75, 23);
             button1.TabIndex = 18;
             button1.Text = "Start";
+            toolTiphint.SetToolTip(button1, "start timer manually, continues through takeoff");
             button1.Click += buttonStart_Click;
             // 
             // checkBoxOntop
@@ -325,6 +337,7 @@
             checkBoxDebugging.Size = new System.Drawing.Size(60, 19);
             checkBoxDebugging.TabIndex = 22;
             checkBoxDebugging.Text = "debug";
+            toolTiphint.SetToolTip(checkBoxDebugging, "enable debug output. do NOT use in copetition");
             checkBoxDebugging.CheckedChanged += checkBoxDebugging_CheckedChanged;
             // 
             // panelWind
@@ -403,6 +416,7 @@
             textBoxSessionKey.Name = "textBoxSessionKey";
             textBoxSessionKey.Size = new System.Drawing.Size(209, 23);
             textBoxSessionKey.TabIndex = 29;
+            toolTiphint.SetToolTip(textBoxSessionKey, "additional session key - use if instructed");
             textBoxSessionKey.KeyDown += textBoxSessionKey_KeyDown;
             // 
             // numericUpDownTransparency
@@ -411,7 +425,7 @@
             numericUpDownTransparency.BorderStyle = System.Windows.Forms.BorderStyle.None;
             numericUpDownTransparency.Font = new System.Drawing.Font("Segoe UI", 8F);
             numericUpDownTransparency.Increment = new decimal(new int[] { 10, 0, 0, 0 });
-            numericUpDownTransparency.Location = new System.Drawing.Point(710, 5);
+            numericUpDownTransparency.Location = new System.Drawing.Point(712, 6);
             numericUpDownTransparency.Maximum = new decimal(new int[] { 80, 0, 0, 0 });
             numericUpDownTransparency.Name = "numericUpDownTransparency";
             numericUpDownTransparency.Size = new System.Drawing.Size(35, 18);
@@ -430,6 +444,7 @@
             checkBoxSaveRecording.Size = new System.Drawing.Size(85, 19);
             checkBoxSaveRecording.TabIndex = 100;
             checkBoxSaveRecording.Text = "record GPX";
+            toolTiphint.SetToolTip(checkBoxSaveRecording, "Record your flight path as GPX or CSV file for later review or sharing");
             checkBoxSaveRecording.UseVisualStyleBackColor = true;
             checkBoxSaveRecording.CheckedChanged += checkBoxSaveRecording_CheckedChanged;
             // 
@@ -454,6 +469,7 @@
             buttonUnFlip.Size = new System.Drawing.Size(211, 27);
             buttonUnFlip.TabIndex = 102;
             buttonUnFlip.Text = "UnFlip";
+            toolTiphint.SetToolTip(buttonUnFlip, "unflip plane");
             buttonUnFlip.UseVisualStyleBackColor = true;
             buttonUnFlip.Click += buttonUnFlip_Click;
             // 
@@ -475,7 +491,7 @@
             checkBoxPropStrike.Checked = true;
             checkBoxPropStrike.CheckState = System.Windows.Forms.CheckState.Checked;
             checkBoxPropStrike.Enabled = false;
-            checkBoxPropStrike.Location = new System.Drawing.Point(583, 2);
+            checkBoxPropStrike.Location = new System.Drawing.Point(373, 5);
             checkBoxPropStrike.Name = "checkBoxPropStrike";
             checkBoxPropStrike.Size = new System.Drawing.Size(120, 19);
             checkBoxPropStrike.TabIndex = 104;
@@ -491,6 +507,7 @@
             buttonAutoSelect.Size = new System.Drawing.Size(212, 27);
             buttonAutoSelect.TabIndex = 105;
             buttonAutoSelect.Text = "Auto Select";
+            toolTiphint.SetToolTip(buttonAutoSelect, "Automatically selects the NEAREST reference line");
             buttonAutoSelect.UseVisualStyleBackColor = true;
             buttonAutoSelect.Click += buttonAutoSelect_Click;
             // 
@@ -537,6 +554,7 @@
             buttonClearResultBox.Size = new System.Drawing.Size(23, 23);
             buttonClearResultBox.TabIndex = 110;
             buttonClearResultBox.Text = "🗑";
+            toolTiphint.SetToolTip(buttonClearResultBox, "clear result log");
             buttonClearResultBox.UseVisualStyleBackColor = true;
             buttonClearResultBox.Click += buttonClearResultBox_Click;
             // 
@@ -544,12 +562,13 @@
             // 
             buttonPauseUnpause.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             buttonPauseUnpause.Font = new System.Drawing.Font("Bahnschrift Condensed", 9F);
-            buttonPauseUnpause.Location = new System.Drawing.Point(453, 1);
+            buttonPauseUnpause.Location = new System.Drawing.Point(499, 3);
             buttonPauseUnpause.Name = "buttonPauseUnpause";
             buttonPauseUnpause.Size = new System.Drawing.Size(23, 23);
             buttonPauseUnpause.TabIndex = 111;
             buttonPauseUnpause.Text = "▶";
             buttonPauseUnpause.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            toolTiphint.SetToolTip(buttonPauseUnpause, "Unpause");
             buttonPauseUnpause.UseVisualStyleBackColor = true;
             buttonPauseUnpause.Visible = false;
             buttonPauseUnpause.Click += buttonPauseUnpause_Click;
@@ -559,7 +578,7 @@
             buttonCheckUpdate.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
             buttonCheckUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             buttonCheckUpdate.ForeColor = System.Drawing.SystemColors.ControlText;
-            buttonCheckUpdate.Location = new System.Drawing.Point(482, 0);
+            buttonCheckUpdate.Location = new System.Drawing.Point(528, 2);
             buttonCheckUpdate.Name = "buttonCheckUpdate";
             buttonCheckUpdate.Size = new System.Drawing.Size(95, 23);
             buttonCheckUpdate.TabIndex = 112;
@@ -567,11 +586,33 @@
             buttonCheckUpdate.UseVisualStyleBackColor = true;
             buttonCheckUpdate.Click += buttonCheckUpdate_Click;
             // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new System.Drawing.Point(628, 6);
+            label5.Name = "label5";
+            label5.Size = new System.Drawing.Size(75, 15);
+            label5.TabIndex = 113;
+            label5.Text = "transparency";
+            label5.Click += label5_Click;
+            // 
+            // toolTiphint
+            // 
+            toolTiphint.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            toolTiphint.ToolTipTitle = "Hint";
+            // 
+            // toolTipZoom
+            // 
+            toolTipZoom.AutomaticDelay = 0;
+            toolTipZoom.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            toolTipZoom.ToolTipTitle = "Zoom";
+            // 
             // FormUI
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(931, 692);
+            Controls.Add(label5);
             Controls.Add(buttonCheckUpdate);
             Controls.Add(buttonPauseUnpause);
             Controls.Add(buttonClearResultBox);
@@ -617,6 +658,7 @@
             Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             Name = "FormUI";
             Text = "eSTOL Training Tool";
+            Load += FormUI_Load;
             ((System.ComponentModel.ISupportInitialize)numericUpDownStopwatchOffest).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownTransparency).EndInit();
             ResumeLayout(false);
@@ -667,5 +709,11 @@
         private System.Windows.Forms.Button buttonClearResultBox;
         private System.Windows.Forms.Button buttonPauseUnpause;
         private System.Windows.Forms.Button buttonCheckUpdate;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ToolTip toolTiphint;
+        private System.Windows.Forms.ToolTip toolTipGPX;
+        private System.Windows.Forms.ToolTip toolTipTimer;
+        private System.Windows.Forms.ToolTip toolTipTimerOffset;
+        private System.Windows.Forms.ToolTip toolTipZoom;
     }
 }

@@ -1,3 +1,7 @@
+v1.4.10
+
+- added tooltips
+
 v1.4.9
 
 - added plane config Robin DR40

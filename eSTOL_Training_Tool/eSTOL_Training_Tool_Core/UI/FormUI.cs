@@ -237,7 +237,7 @@ namespace eSTOL_Training_Tool_Core.UI
             {
                 using var dialog = new TeleportDialog();
                 result = dialog.ShowDialog();
-                if(dialog.DontShowAgain)
+                if (dialog.DontShowAgain)
                 {
                     config.showTelportConfirmation = false;
                     config.Save();
@@ -905,6 +905,21 @@ namespace eSTOL_Training_Tool_Core.UI
             await controller.CheckForUpdateManual();
             this.TopLevel = true;
             this.TopMost = alwaysontop;
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FormUI_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolTip1_Popup(object sender, PopupEventArgs e)
+        {
+
         }
     }
 }
