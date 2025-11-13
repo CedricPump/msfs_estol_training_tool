@@ -1,10 +1,20 @@
 <center><img src="./doc/icon.png" alt="drawing" width="200"/></center>
 
-# MSFS eSTOL Training Tool
+# MSFS STOL Training Tool
 
-This Tool is intended for training purposes only.
-The numbers give a quick feedback and rough estimate of your performance. They do not guarantee any accuracy.
-Do not challenge any competition score based on this tools' estimation alone.\n Make sure to record your flight for any necessary score validation.\n\nPress Enter to accept
+## Definition
+
+the MSFS eSTOL Training Tool is an external Application that connects via SimConnect ot MSFS and measures and pilots performace while training for STOL competition stile landings, anywhere in the world or on designated fields.  
+It sends telemetry and score data to a database that can be accessed on demand but has not been published yet due to uncertainty with data protection.  
+STOL competition stile landings are compettative maneuvers that aim to takeoff and land a plane as in competitions like:  National STOL, The REAL STOL Fest, FFPLUME,  european stol competition or NZ Bush Pilot Championships.  
+Therefore The tool supports STOL fields recreated in the simulator of: National STOL, The REAL STOL Fest, FFPLUME,  european stol competition.  
+Since Season 2025 the tool is used by National eSTOL for score judgement.  
+
+## Disclaimer
+
+This Tool is intended for training purposes only.  
+The numbers give a quick feedback and rough estimate of your performance. They do not guarantee any accuracy.  
+Do not challenge any competition score based on this tools' estimation alone.  
 
 This tool is not officially associated with National STOL Series.
 
