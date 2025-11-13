@@ -1,13 +1,12 @@
 ﻿
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 
 
 namespace eSTOL_Training_Tool_Core.Core
 {
-    internal class Config
+    public class Config
     {
         private const string ConfigFilePath = "config.json";
 
@@ -49,7 +48,9 @@ namespace eSTOL_Training_Tool_Core.Core
 
         public bool PauseOnTeleport { get; set; } = false;
 
-
+        public string ConnectionType { get; set; } = "SimConnect"; // or "REST"
+        public int ApiPort { get; set; } = 5001;
+        public string ApiHost { get; set; } = "127.0.0.1";
 
         private static Config instance = null;
 

@@ -423,5 +423,22 @@
         "Key": "Robin|DR40",
         "MaxGForce": 2.0,
         "MaxVSpeed": -500
+    },
+    {
+        "Class": "Spec",
+        "CollisionNoseIndex": 10,
+        "CollisionPropIndex": 3,
+        "CollisionWheelLeftIndex": 6,
+        "CollisionWheelNoseTailIndex": 5,
+        "CollisionWheelRightIndex": 7,
+        "CollisionWheelWingtipLIndex": 0,
+        "CollisionWheelWingtipRIndex": 1,
+        "PropStrikeThreshold": 30,
+        "DisplayName": "XCub",
+        "GearOffset": -0.45,
+        "IsTaildragger": true,
+        "Key": "ATCCOM.ATC_NAME_CUBCRAFTERS.0.text|ATCCOM.AC_MODEL_CC19.0.text",
+        "MaxGForce": 2.0,
+        "MaxVSpeed": -500
     }
 ]

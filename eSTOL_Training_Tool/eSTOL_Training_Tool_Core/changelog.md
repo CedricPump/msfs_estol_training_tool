@@ -1,6 +1,12 @@
+v1.4.11
+
+- added plane config for XCub 2024
+- added REST API for Ingame panel telemetry
+
 v1.4.10
 
 - added tooltips
+- added flight controls to recording
 
 v1.4.9
 

@@ -4,14 +4,10 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
-using System.Numerics;
-using System.Reactive;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using eSTOL_Training_Tool;
 using eSTOL_Training_Tool_Core.Core;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+
 
 namespace eSTOL_Training_Tool_Core.UI
 {
@@ -91,6 +87,11 @@ namespace eSTOL_Training_Tool_Core.UI
             textBoxStatus.Text = "No Reference Position selected";
             buttonTeleport.Enabled = false;
             this.appendResult($"Welcome\r\n\r\nSelect a eSTOL field preset or \"Open World\" mode set custom start.");
+
+            if(config.ConnectionType == "REST") 
+            {
+                this.appendResult($"\r\nConnection Mode: REST API (InGamePanel)\r\nconnect to http://{config.ApiHost}:{config.ApiPort}");
+            }
 
             comboBoxUnit.Items.Add("feet");
             comboBoxUnit.Items.Add("meters");

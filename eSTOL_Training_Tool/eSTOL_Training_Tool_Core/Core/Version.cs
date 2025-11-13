@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.Http;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -11,7 +8,7 @@ namespace eSTOL_Training_Tool_Core.Core
 {
     internal class VersionHelper
     {
-        private const string currentVersion = "1.4.9";
+        private const string currentVersion = "1.4.11";
         private const string githubApiUrl = "https://api.github.com/repos/CedricPump/msfs_estol_training_tool/releases/latest";
         public static string githubLatestUrl = "https://github.com/CedricPump/msfs_estol_training_tool/releases/latest";
 

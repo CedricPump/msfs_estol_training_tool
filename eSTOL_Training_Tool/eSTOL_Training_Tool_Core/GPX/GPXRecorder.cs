@@ -1,5 +1,4 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Device.Location;
 using System.Globalization;
@@ -8,7 +7,6 @@ using System.Text;
 using System.Xml;
 using eSTOL_Training_Tool;
 using eSTOL_Training_Tool_Core.Core;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace eSTOL_Training_Tool_Core.GPX
 {

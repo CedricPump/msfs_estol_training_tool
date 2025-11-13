@@ -62,7 +62,18 @@ namespace eSTOL_Training_Tool_Core.Core
             this.config = Config.Load();
             
             this.unit = config.Unit;
-            plane = new Plane(OnPlaneEventCallback);
+            
+            if(config.ConnectionType == "SimConnect") 
+            {
+                AppendResult("[INFO]: Using SimConnect API");
+                plane = new AircraftSimConnect(OnPlaneEventCallback);
+            }
+            else if(config.ConnectionType == "REST")
+            {
+                AppendResult("[INFO]: Using Telemetry InGamePanel API");
+                plane = new AircraftApi(OnPlaneEventCallback);
+            }
+
 
             var exportDir = Path.GetDirectoryName(config.ResultsExportPath);
             // fix wrong export file from 1.3.1
@@ -278,17 +289,19 @@ namespace eSTOL_Training_Tool_Core.Core
 
                     if (plane.Title == null)
                     {
+                        if (form != null) form.setAligned("Sim not initialized", Color.DarkOrange);
                         plane.Update();
                         System.Threading.Thread.Sleep(330);
                         continue;
                     };
+
 
                     if(this.stol.planeType != "" && plane.GetDisplayName() != this.stol.planeType) 
                     {
                         ReinitPlaneType();
                     }
 
-                    if (plane.IsSimConnectConnected && !plane.SimDisabled)
+                    if (plane.IsSimConnected && !plane.SimDisabled)
                     {
                                             Telemetrie telemetrie = plane.GetTelemetrie();
                         // send telemetry and write debug
@@ -850,7 +863,7 @@ namespace eSTOL_Training_Tool_Core.Core
                 }
 
                 // sllep until next interval
-                int intervall = plane.IsSimConnectConnected ? config.RefreshInterval : config.IdleRefreshInterval;
+                int intervall = plane.IsSimConnected ? config.RefreshInterval : config.IdleRefreshInterval;
                 System.Threading.Thread.Sleep(intervall);
             };
         }

@@ -1,9 +1,8 @@
-﻿using System;
-using eSTOL_Training_Tool.Model;
+﻿using eSTOL_Training_Tool.Model;
 
 namespace eSTOL_Training_Tool
 {
-    public class Plane : Aircraft
+    public abstract class Plane : Aircraft
     {
         public delegate void PlaneEventCallBack(PlaneEvent planeEvent);
         private PlaneEventCallBack callBack = null;
