@@ -16,9 +16,11 @@ namespace eSTOL_Training_Tool
         private readonly Dictionary<(string path, string method), Func<HttpListenerContext, Task>> routes;
         private readonly int port;
         private readonly string host;
+        
 
         public AircraftApi(PlaneEventCallBack callback, string host = "", int port = -1) : base(callback)
         {
+            this.isReadonly = true;
             this.conf = Config.GetInstance();
 
             this.port = port == -1 ? conf.ApiPort : port;
@@ -147,6 +149,9 @@ namespace eSTOL_Training_Tool
                 IsOnGround = telem.OnGround;
 
                 ContactPoints = telem.ContactPoints;
+
+                WindX = telem.WindX;
+                WindY = telem.WindY;
 
                 isInit = true;
                 IsSimConnected = true;

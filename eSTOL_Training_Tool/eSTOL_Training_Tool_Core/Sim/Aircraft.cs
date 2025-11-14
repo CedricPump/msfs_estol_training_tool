@@ -169,7 +169,9 @@ namespace eSTOL_Training_Tool
                 RudderPercent   = this.RudderPosition,
                 OnGround = this.IsOnGround,
                 AirSpeed = this.Airspeed,
-                ThrottlePosition = this.ThrottlePosition
+                ThrottlePosition = this.ThrottlePosition,
+                WindX = this.WindX,
+                WindY = this.WindY,
             };
         }
 

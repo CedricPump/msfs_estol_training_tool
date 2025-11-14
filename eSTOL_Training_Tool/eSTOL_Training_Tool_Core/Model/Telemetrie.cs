@@ -155,7 +155,19 @@ namespace eSTOL_Training_Tool
         /// Boolean array of contact point states
         /// </summary>
         [JsonProperty("contact_points")]
-        public bool[] ContactPoints { get; protected set; } = new bool[21];
+        public bool[] ContactPoints { get; set; } = new bool[21];
+
+        /// <summary>
+        /// wind vector X component (knots)
+        /// </summary>
+        [JsonProperty("wind_x")]
+        public double WindX { get; set; } = 0.0;
+
+        /// <summary>
+        /// wind vector Y component (knots)
+        /// </summary>
+        [JsonProperty("wind_y")]
+        public double WindY { get; set; } = 0.0;
 
         public override string ToString()
         {

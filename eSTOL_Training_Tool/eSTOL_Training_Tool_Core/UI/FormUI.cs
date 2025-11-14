@@ -198,7 +198,7 @@ namespace eSTOL_Training_Tool_Core.UI
                 return;
             }
             controller.SetStartPos();
-            buttonTeleport.Enabled = controller.IsStolInit();
+            buttonTeleport.Enabled = controller.IsStolInit() && !controller.plane.isReadonly;
         }
 
         private void buttonApplyPreset_Click(object sender, EventArgs e)
@@ -213,14 +213,14 @@ namespace eSTOL_Training_Tool_Core.UI
             controller.SetPreset(presetStr);
             if (presetStr != "Open World")
             {
-                buttonTeleport.Enabled = true;
+                buttonTeleport.Enabled = !controller.plane.isReadonly;
                 buttonSetRefPos.Enabled = false;
                 this.appendResult($"Preset selected: {comboBoxPreset.Text}.\r\nTeleport to reference line?");
             }
             else
             {
                 this.appendResult($"\"Open World\" Mode selected.");
-                buttonTeleport.Enabled = controller.IsStolInit();
+                buttonTeleport.Enabled = controller.IsStolInit() && !controller.plane.isReadonly;
                 buttonSetRefPos.Enabled = true;
             }
         }
@@ -504,7 +504,7 @@ namespace eSTOL_Training_Tool_Core.UI
             SetDeviations();
 
             this.buttonPauseUnpause.Visible = controller.isPaused;
-            this.buttonUnFlip.Enabled = controller.plane.isInit && controller.plane.IsFlipped();
+            this.buttonUnFlip.Enabled = controller.plane.isInit && controller.plane.IsFlipped() && !controller.plane.isReadonly;
             this.buttonCreatePreset.Enabled = controller.plane.isInit && controller.plane.IsStopped();
             this.buttonCreatePreset.Visible = debug;
         }
