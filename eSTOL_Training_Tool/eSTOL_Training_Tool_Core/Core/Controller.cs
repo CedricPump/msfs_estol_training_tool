@@ -664,9 +664,9 @@ namespace eSTOL_Training_Tool_Core.Core
                                             double pitch = (double)(stol.InitialPitch - telemetrie.pitch);
                                             stol.minPitch = pitch;
 
-                                            if (config.debug && config.DebugAutoPause) this.PauseAndPopup(plane, $"Touchdown: {stol.GetTouchdownDistance():F0}ft");
+                                            if (config.debug && config.DebugAutoPause) this.PauseAndPopup(plane, $"Touchdown: {(stol.GetTouchdownDistance() * 3.28084):F0}ft");
 
-                                            AppendResult($"Touchdown recorded: {stol.GetTouchdownDistance():F0}ft");
+                                            AppendResult($"Touchdown recorded: {(stol.GetTouchdownDistance() * 3.28084):F0}ft");
 
                                             (double angleL, double angleR) = GetFlagAngles(stol.InitialPosition, (double)stol.InitialHeading, plane);
                                             if (spin > angleR + flagsAngleTreshold || spin < angleL - flagsAngleTreshold)
