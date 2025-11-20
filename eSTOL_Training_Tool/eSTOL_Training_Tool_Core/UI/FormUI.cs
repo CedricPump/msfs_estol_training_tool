@@ -88,7 +88,7 @@ namespace eSTOL_Training_Tool_Core.UI
             buttonTeleport.Enabled = false;
             this.appendResult($"Welcome\r\n\r\nSelect a eSTOL field preset or \"Open World\" mode set custom start.");
 
-            if(config.ConnectionType == "REST") 
+            if (config.ConnectionType == "REST")
             {
                 this.appendResult($"\r\nConnection Mode: REST API (InGamePanel)\r\nconnect to http://{config.ApiHost}:{config.ApiPort}");
             }
@@ -507,6 +507,27 @@ namespace eSTOL_Training_Tool_Core.UI
             this.buttonUnFlip.Enabled = controller.plane.isInit && controller.plane.IsFlipped() && !controller.plane.isReadonly;
             this.buttonCreatePreset.Enabled = controller.plane.isInit && controller.plane.IsStopped();
             this.buttonCreatePreset.Visible = debug;
+
+            // set pattern altitude
+            if (controller.stol != null && controller.stol.preset != null)
+            {
+                int patternAlt = controller.stol.preset.getPatternAltitude();
+                double currentAlt = controller.plane.Altitude;
+                string arrow = "";
+                if (currentAlt - 50 > patternAlt)
+                {
+                    arrow = "⤓";
+                }
+                else if (currentAlt + 50 < patternAlt)
+                {
+                    arrow = "⤒";
+                }
+                else
+                {
+                    arrow = "✓";
+                }
+                this.labelPatternAltitude.Text = $"Pattern Alt: {patternAlt} ft " + arrow;
+            }
         }
 
 
@@ -914,11 +935,6 @@ namespace eSTOL_Training_Tool_Core.UI
         }
 
         private void FormUI_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toolTip1_Popup(object sender, PopupEventArgs e)
         {
 
         }

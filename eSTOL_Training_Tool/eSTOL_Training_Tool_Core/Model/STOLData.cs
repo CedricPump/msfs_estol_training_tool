@@ -25,6 +25,7 @@ namespace eSTOL_Training_Tool
         public GeoCoordinate TakeoffPosition = null;
         public GeoCoordinate TouchdownPosition = null;
         public GeoCoordinate StopPosition = null;
+        public int PatternAlt = 0;
 
         // Meta
         public double? InitialPitch = null;
@@ -195,6 +196,7 @@ namespace eSTOL_Training_Tool
             InitialPosition = preset.getStart();
             InitialHeading = preset.startHeading;
             InitialPitch = 0;
+            PatternAlt = preset.getPatternAltitude();
             Reset();
             Console.WriteLine($"STOL cycle initiated: {GetInitialPosHash()}\nSTART: {GeoUtils.ConvertToDMS(InitialPosition)} HDG: {Math.Round(InitialHeading.Value)}°");
         }
@@ -205,6 +207,7 @@ namespace eSTOL_Training_Tool
             InitialPosition = plane.getPositionWithGearOffset();
             InitialHeading = plane.Heading;
             InitialPitch = 0;
+            PatternAlt = ((int) Math.Ceiling(InitialPosition.Altitude * 3.28084 / 100) * 100) + 500;
             Reset();
         }
 

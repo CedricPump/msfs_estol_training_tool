@@ -1,3 +1,11 @@
+v1.4.12
+
+- added Pattern Alt indicator
+
+v1.4.12
+
+- fixed log touchdown conversion
+
 v1.4.11
 
 - added plane config for XCub 2024

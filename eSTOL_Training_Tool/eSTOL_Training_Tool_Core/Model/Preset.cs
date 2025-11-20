@@ -29,6 +29,11 @@ namespace eSTOL_Training_Tool_Core.Model
             return new GeoCoordinate(startLatitude, startLongitude, startAltitude);
         }
 
+        public int getPatternAltitude()
+        {
+            return (int)(Math.Ceiling(startAltitude * 3.28084 / 100)*100 ) + 500;
+        }
+
         public static List<Preset> ReadPresets(string filePath, string customFilePath)
         {
             List<Preset> presets = new List<Preset>();

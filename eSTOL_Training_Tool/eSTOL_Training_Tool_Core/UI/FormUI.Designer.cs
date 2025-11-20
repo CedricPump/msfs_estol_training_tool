@@ -47,7 +47,6 @@
             labelStopwatch = new System.Windows.Forms.Label();
             progressBarStopwatch = new System.Windows.Forms.ProgressBar();
             buttonStartStopwatch = new System.Windows.Forms.Button();
-            label1 = new System.Windows.Forms.Label();
             button1 = new System.Windows.Forms.Button();
             checkBoxOntop = new System.Windows.Forms.CheckBox();
             numericUpDownStopwatchOffest = new System.Windows.Forms.NumericUpDown();
@@ -76,6 +75,7 @@
             label5 = new System.Windows.Forms.Label();
             toolTiphint = new System.Windows.Forms.ToolTip(components);
             toolTipZoom = new System.Windows.Forms.ToolTip(components);
+            labelPatternAltitude = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)numericUpDownStopwatchOffest).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownTransparency).BeginInit();
             SuspendLayout();
@@ -274,16 +274,6 @@
             toolTiphint.SetToolTip(buttonStartStopwatch, "Start timer with negative offset countdown");
             buttonStartStopwatch.Click += buttonStartStopwatch_Click;
             // 
-            // label1
-            // 
-            label1.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(790, 537);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(129, 30);
-            label1.TabIndex = 17;
-            label1.Text = "always listen to Airboss\r\nfor timing instructions";
-            // 
             // button1
             // 
             button1.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
@@ -327,6 +317,7 @@
             label2.Size = new System.Drawing.Size(39, 15);
             label2.TabIndex = 21;
             label2.Text = "Offset";
+            toolTiphint.SetToolTip(label2, "Always listen to airboss for timing instructions");
             // 
             // checkBoxDebugging
             // 
@@ -343,7 +334,7 @@
             // panelWind
             // 
             panelWind.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            panelWind.Location = new System.Drawing.Point(710, 466);
+            panelWind.Location = new System.Drawing.Point(709, 438);
             panelWind.Name = "panelWind";
             panelWind.Size = new System.Drawing.Size(69, 68);
             panelWind.TabIndex = 23;
@@ -354,7 +345,7 @@
             labelWind.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             labelWind.AutoSize = true;
             labelWind.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            labelWind.Location = new System.Drawing.Point(785, 481);
+            labelWind.Location = new System.Drawing.Point(783, 453);
             labelWind.Name = "labelWind";
             labelWind.Size = new System.Drawing.Size(60, 25);
             labelWind.TabIndex = 24;
@@ -365,7 +356,7 @@
             // 
             label3.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             label3.AutoSize = true;
-            label3.Location = new System.Drawing.Point(785, 466);
+            label3.Location = new System.Drawing.Point(784, 438);
             label3.Name = "label3";
             label3.Size = new System.Drawing.Size(35, 15);
             label3.TabIndex = 25;
@@ -478,7 +469,7 @@
             panelCollisions.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             panelCollisions.BackgroundImage = (System.Drawing.Image)resources.GetObject("panelCollisions.BackgroundImage");
             panelCollisions.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            panelCollisions.Location = new System.Drawing.Point(853, 466);
+            panelCollisions.Location = new System.Drawing.Point(853, 438);
             panelCollisions.Name = "panelCollisions";
             panelCollisions.Size = new System.Drawing.Size(68, 68);
             panelCollisions.TabIndex = 103;
@@ -607,11 +598,23 @@
             toolTipZoom.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             toolTipZoom.ToolTipTitle = "Zoom";
             // 
+            // labelPatternAltitude
+            // 
+            labelPatternAltitude.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            labelPatternAltitude.AutoSize = true;
+            labelPatternAltitude.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            labelPatternAltitude.Location = new System.Drawing.Point(709, 509);
+            labelPatternAltitude.Name = "labelPatternAltitude";
+            labelPatternAltitude.Size = new System.Drawing.Size(171, 25);
+            labelPatternAltitude.TabIndex = 114;
+            labelPatternAltitude.Text = "Pattern Alt: ---- ft _";
+            // 
             // FormUI
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(931, 692);
+            Controls.Add(labelPatternAltitude);
             Controls.Add(label5);
             Controls.Add(buttonCheckUpdate);
             Controls.Add(buttonPauseUnpause);
@@ -638,7 +641,6 @@
             Controls.Add(numericUpDownStopwatchOffest);
             Controls.Add(checkBoxOntop);
             Controls.Add(button1);
-            Controls.Add(label1);
             Controls.Add(buttonStartStopwatch);
             Controls.Add(progressBarStopwatch);
             Controls.Add(labelStopwatch);
@@ -683,7 +685,6 @@
         private System.Windows.Forms.Label labelStopwatch;
         private System.Windows.Forms.ProgressBar progressBarStopwatch;
         private System.Windows.Forms.Button buttonStartStopwatch;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.CheckBox checkBoxOntop;
         private System.Windows.Forms.NumericUpDown numericUpDownStopwatchOffest;
@@ -715,5 +716,6 @@
         private System.Windows.Forms.ToolTip toolTipTimer;
         private System.Windows.Forms.ToolTip toolTipTimerOffset;
         private System.Windows.Forms.ToolTip toolTipZoom;
+        private System.Windows.Forms.Label labelPatternAltitude;
     }
 }
