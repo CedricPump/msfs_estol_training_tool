@@ -44,6 +44,12 @@ namespace eSTOL_Training_Tool
         public DateTime? TouchdownTime = null;
         public DateTime? StopTime = null;
 
+        // wind
+        public double takeoffWindSpeed = 0;
+        public double takeoffWindDirection = 0;
+        public double landingWindSpeed = 0;
+        public double landingWindDirection = 0;
+
         public List<STOLDeviation> deviations = new List<STOLDeviation>();
 
 
@@ -130,6 +136,11 @@ namespace eSTOL_Training_Tool
             result.maxSpin = (double)maxSpin;
             result.maxBank = (double)maxBank;
             result.minPitch = (double)minPitch;
+
+            result.takeoffWindSpeed = takeoffWindSpeed;
+            result.takeoffWindDirection = takeoffWindDirection;
+            result.landingWindSpeed = landingWindSpeed;
+            result.landingWindDirection = landingWindDirection;
 
             result.Score = result.Takeoffdist + result.Landingdist;
             if (result.Touchdowndist < 0)
@@ -271,6 +282,10 @@ namespace eSTOL_Training_Tool
         public double MaxG;
         public List<STOLDeviation> deviation;
         public string sessionKey;
+        public double takeoffWindSpeed;
+        public double takeoffWindDirection;
+        public double landingWindSpeed;
+        public double landingWindDirection;
 
         public string getConsoleString() 
         {
@@ -295,6 +310,8 @@ namespace eSTOL_Training_Tool
                 $"TD Grnd-Speed        {Math.Round(GrndSpeed)} kt\r\n" +
                 $"TD Vert-Speed        {VSpeed:F0}/{MaxVS} f/m\r\n" +
                 $"TD G-Force           {GForce:F1}/{MaxG} G\r\n" +
+                $"Takeoff Wind:        {takeoffWindSpeed:F1} kt @ {takeoffWindDirection:F0}°\r\n" +
+                $"Landing Wind:        {landingWindSpeed:F1} kt @ {landingWindDirection:F0}°\r\n" +
                 $"-----------------------------------\r\n" +
                 $"Score:               {Score}\r\n" +
                 $"===================================\r\n";

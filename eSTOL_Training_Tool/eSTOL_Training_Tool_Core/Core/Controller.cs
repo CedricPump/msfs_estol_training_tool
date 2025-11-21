@@ -303,7 +303,10 @@ namespace eSTOL_Training_Tool_Core.Core
 
                     if (plane.IsSimConnected && !plane.SimDisabled)
                     {
-                                            Telemetrie telemetrie = plane.GetTelemetrie();
+                        Telemetrie telemetrie = plane.GetTelemetrie();
+
+                        // if (config.debug) AppendResult($"Wind: {Math.Round(plane.getWindTotal()):F1} knt @ {Math.Round(plane.GetWindDirectionRelativeRL()):F0}° rel");
+
                         // send telemetry and write debug
                         if (config.isSendTelemetry && stol.user != null && stol.user != "")
                         {
@@ -335,7 +338,7 @@ namespace eSTOL_Training_Tool_Core.Core
                         {
                             if (DateTime.Now - lastUIResfresh > TimeSpan.FromMilliseconds(config.uiRefreshIntervall))
                             {
-                                form.setWind(plane.getRelDir(), plane.getWindTotal());
+                                form.setWind(plane.getRelWindDir(), plane.getWindTotal());
                                 form.setCollisionWheels();
 
                                 lastUIResfresh = DateTime.Now;
@@ -583,6 +586,8 @@ namespace eSTOL_Training_Tool_Core.Core
                                             setState(CycleState.Climbout);
                                             stol.TakeoffPosition = telemetrie.Position;
                                             stol.TakeoffTime = DateTime.Now;
+                                            stol.takeoffWindSpeed = plane.getAmbientWindTotal();
+                                            stol.takeoffWindDirection = plane.getAmbientWindDir();
                                             AppendResult($"---- New run ---\r\n\r\nTakoff recorded: {(stol.GetTakeoffDistance() * 3.28084):F0} ft");
                                             if (config.debug && config.DebugAutoPause) this.PauseNoPopup(plane, $"Takeoff: {stol.GetTakeoffDistance():F0}ft");
 
@@ -663,6 +668,9 @@ namespace eSTOL_Training_Tool_Core.Core
                                             stol.maxBank = Math.Abs(telemetrie.bank);
                                             double pitch = (double)(stol.InitialPitch - telemetrie.pitch);
                                             stol.minPitch = pitch;
+                                            stol.landingWindSpeed = plane.getAmbientWindTotal();
+                                            stol.landingWindDirection = plane.getAmbientWindDir();
+                                            
 
                                             if (config.debug && config.DebugAutoPause) this.PauseAndPopup(plane, $"Touchdown: {(stol.GetTouchdownDistance() * 3.28084):F0}ft");
 

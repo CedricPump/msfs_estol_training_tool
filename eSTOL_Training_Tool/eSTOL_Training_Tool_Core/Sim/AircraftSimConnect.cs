@@ -157,6 +157,9 @@ namespace eSTOL_Training_Tool
             CreateDataDefinition("AIRCRAFT WIND X", "knots");
             CreateDataDefinition("AIRCRAFT WIND Z", "knots");
 
+            CreateDataDefinition("AMBIENT WIND X", "knots");
+            CreateDataDefinition("AMBIENT WIND Y", "knots");
+
             CreateDataDefinition("ASSISTANCE LANDING ENABLED", "Bool");
             CreateDataDefinition("ASSISTANCE TAKEOFF ENABLED", "Bool");
             CreateDataDefinition("AI ANTISTALL STATE", "number");
@@ -658,6 +661,16 @@ namespace eSTOL_Training_Tool
                     case "AIRCRAFT WIND Z":
                         {
                             WindY = (double)data.dwData[0];
+                            break;
+                        }
+                    case "AMBIENT WIND X":
+                        {
+                            AmbientWindX = (double)data.dwData[0];
+                            break;
+                        }
+                    case "AMBIENT WIND Y":
+                        {
+                            AmbientWindY = (double)data.dwData[0];
                             break;
                         }
                     case "FLAP SPEED EXCEEDED":

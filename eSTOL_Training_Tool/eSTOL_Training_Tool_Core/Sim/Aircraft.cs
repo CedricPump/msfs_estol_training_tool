@@ -66,6 +66,8 @@ namespace eSTOL_Training_Tool
         // Ambient
         public double WindX { get; protected set; } = 0.0;
         public double WindY { get; protected set; } = 0.0;
+        public double AmbientWindX { get; protected set; } = 0.0;
+        public double AmbientWindY { get; protected set; } = 0.0;
         public double Antistall { get; protected set; } = 0;
         public bool Autotrim { get; protected set; } = false;
         public bool AICtrl { get; protected set; } = false;
@@ -255,7 +257,25 @@ namespace eSTOL_Training_Tool
             return windTotal;
         }
 
-        public double getRelDir()
+        public double getAmbientWindTotal()
+        {
+            double windTotal = Math.Sqrt(AmbientWindX * AmbientWindX + AmbientWindY * AmbientWindY);
+            return windTotal;
+        }
+
+        public double getAmbientWindDir()
+        {
+            double angleRad = Math.Atan2(AmbientWindX, AmbientWindY);
+            double angleDeg = angleRad * (180.0 / Math.PI);
+
+            // Normalize to [0, 360)
+            if (angleDeg < 0)
+                angleDeg += 360;
+
+            return angleDeg;
+        }
+
+        public double getRelWindDir()
         {
             double angleRad = Math.Atan2(WindX, -WindY); // flip windX to get tailwind at 0°
             double angleDeg = angleRad * (180.0 / Math.PI);
@@ -265,6 +285,16 @@ namespace eSTOL_Training_Tool
                 angleDeg += 360;
 
             return angleDeg;
+        }
+
+        public double GetWindDirectionRelativeRL()
+        {
+            // relative wind direction to aircraft heading
+            double relDir = getRelWindDir();
+            // return relative wind left or right 
+            // wind from right 0° to  +180° wind from left 0° to -180°
+            // crosswind is +-90°
+            return relDir;
         }
 
         public AircraftState GetState()
