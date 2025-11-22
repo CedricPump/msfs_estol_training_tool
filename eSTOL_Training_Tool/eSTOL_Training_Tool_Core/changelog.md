@@ -1,4 +1,4 @@
-v1.4.12
+v1.4.13
 
 - added Pattern Alt indicator
 
