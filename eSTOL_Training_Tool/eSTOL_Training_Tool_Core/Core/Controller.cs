@@ -632,11 +632,15 @@ namespace eSTOL_Training_Tool_Core.Core
                                 case CycleState.Fly:
                                     {
                                         // Taildragging helper for debugging only
-                                        if (config.debug && config.DebugAutoPause && config.DebugAutoPauseOnTailTouch && plane.TailNoseGearOnGround() && !plane.MainGearOnGround())
+                                        if (plane.TailNoseGearOnGround() && !plane.MainGearOnGround())
                                         {                                         
                                             if (telemetrieLocked == null)
                                             {
-                                                this.PauseNoPopup(plane, "Tail touched");
+                                                if(config.debug && config.DebugAutoPause && config.DebugAutoPauseOnTailTouch) this.PauseNoPopup(plane, "Tail touched");
+                                                TimeSpan? time = (DateTime.Now - stol.StartTime);
+                                                // time string format mm:ss.sss
+                                                string timeStr = time.Value.Minutes.ToString("0") + ":" + time.Value.Seconds.ToString("00") + "." + time.Value.Milliseconds.ToString("000");
+                                                AppendResult($"Tail Touchdown recorded {timeStr}: {(this.stol.GetDistanceTo(plane.GetTelemetrie().Position) * 3.28084):F0}ft");
                                                 telemetrieLocked = telemetrie;
                                             }
                                         }
@@ -674,7 +678,10 @@ namespace eSTOL_Training_Tool_Core.Core
 
                                             if (config.debug && config.DebugAutoPause) this.PauseAndPopup(plane, $"Touchdown: {(stol.GetTouchdownDistance() * 3.28084):F0}ft");
 
-                                            AppendResult($"Touchdown recorded: {(stol.GetTouchdownDistance() * 3.28084):F0}ft");
+                                            TimeSpan? time = (DateTime.Now - stol.StartTime);
+                                            // time string format mm:ss.sss
+                                            string timeStr = time.Value.Minutes.ToString("0") + ":" + time.Value.Seconds.ToString("00") + "." + time.Value.Milliseconds.ToString("000");
+                                            AppendResult($"Main Touchdown recorded {timeStr}: {(stol.GetTouchdownDistance() * 3.28084):F0}ft");
 
                                             (double angleL, double angleR) = GetFlagAngles(stol.InitialPosition, (double)stol.InitialHeading, plane);
                                             if (spin > angleR + flagsAngleTreshold || spin < angleL - flagsAngleTreshold)

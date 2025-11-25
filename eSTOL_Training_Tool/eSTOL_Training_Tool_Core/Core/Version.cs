@@ -8,7 +8,7 @@ namespace eSTOL_Training_Tool_Core.Core
 {
     internal class VersionHelper
     {
-        private const string currentVersion = "1.4.13";
+        private const string currentVersion = "1.4.14";
         private const string githubApiUrl = "https://api.github.com/repos/CedricPump/msfs_estol_training_tool/releases/latest";
         public static string githubLatestUrl = "https://github.com/CedricPump/msfs_estol_training_tool/releases/latest";
 
