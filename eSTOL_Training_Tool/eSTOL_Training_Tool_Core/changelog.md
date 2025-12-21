@@ -1,3 +1,12 @@
+
+v1.4.15
+
+- added preset ui improvements
+
+v1.4.14
+
+- added seperate tail touch entry with time
+
 v1.4.13
 
 - added Pattern Alt indicator

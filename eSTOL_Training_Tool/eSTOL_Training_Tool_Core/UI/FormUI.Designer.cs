@@ -90,7 +90,7 @@
             textBoxResult.Name = "textBoxResult";
             textBoxResult.ReadOnly = true;
             textBoxResult.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            textBoxResult.Size = new System.Drawing.Size(378, 516);
+            textBoxResult.Size = new System.Drawing.Size(378, 535);
             textBoxResult.TabIndex = 1;
             // 
             // textBoxUser
@@ -169,7 +169,7 @@
             // 
             textBoxStatus.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             textBoxStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            textBoxStatus.Location = new System.Drawing.Point(12, 658);
+            textBoxStatus.Location = new System.Drawing.Point(12, 677);
             textBoxStatus.Name = "textBoxStatus";
             textBoxStatus.ReadOnly = true;
             textBoxStatus.Size = new System.Drawing.Size(691, 23);
@@ -195,7 +195,7 @@
             panel.BackgroundImage = (System.Drawing.Image)resources.GetObject("panel.BackgroundImage");
             panel.Location = new System.Drawing.Point(396, 29);
             panel.Name = "panel";
-            panel.Size = new System.Drawing.Size(307, 623);
+            panel.Size = new System.Drawing.Size(307, 642);
             panel.TabIndex = 10;
             toolTipZoom.SetToolTip(panel, "double click to zoom");
             panel.Paint += panel_Paint;
@@ -247,7 +247,7 @@
             labelStopwatch.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             labelStopwatch.AutoSize = true;
             labelStopwatch.Font = new System.Drawing.Font("Consolas", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            labelStopwatch.Location = new System.Drawing.Point(711, 603);
+            labelStopwatch.Location = new System.Drawing.Point(711, 622);
             labelStopwatch.Name = "labelStopwatch";
             labelStopwatch.Size = new System.Drawing.Size(132, 41);
             labelStopwatch.TabIndex = 14;
@@ -257,7 +257,7 @@
             // progressBarStopwatch
             // 
             progressBarStopwatch.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            progressBarStopwatch.Location = new System.Drawing.Point(709, 658);
+            progressBarStopwatch.Location = new System.Drawing.Point(709, 677);
             progressBarStopwatch.Name = "progressBarStopwatch";
             progressBarStopwatch.Size = new System.Drawing.Size(210, 23);
             progressBarStopwatch.TabIndex = 15;
@@ -266,7 +266,7 @@
             // 
             buttonStartStopwatch.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             buttonStartStopwatch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            buttonStartStopwatch.Location = new System.Drawing.Point(843, 628);
+            buttonStartStopwatch.Location = new System.Drawing.Point(843, 647);
             buttonStartStopwatch.Name = "buttonStartStopwatch";
             buttonStartStopwatch.Size = new System.Drawing.Size(76, 24);
             buttonStartStopwatch.TabIndex = 16;
@@ -278,7 +278,7 @@
             // 
             button1.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            button1.Location = new System.Drawing.Point(844, 599);
+            button1.Location = new System.Drawing.Point(844, 618);
             button1.Name = "button1";
             button1.Size = new System.Drawing.Size(75, 23);
             button1.TabIndex = 18;
@@ -301,7 +301,7 @@
             // 
             numericUpDownStopwatchOffest.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             numericUpDownStopwatchOffest.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            numericUpDownStopwatchOffest.Location = new System.Drawing.Point(711, 570);
+            numericUpDownStopwatchOffest.Location = new System.Drawing.Point(711, 589);
             numericUpDownStopwatchOffest.Name = "numericUpDownStopwatchOffest";
             numericUpDownStopwatchOffest.Size = new System.Drawing.Size(208, 23);
             numericUpDownStopwatchOffest.TabIndex = 20;
@@ -312,7 +312,7 @@
             // 
             label2.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             label2.AutoSize = true;
-            label2.Location = new System.Drawing.Point(710, 552);
+            label2.Location = new System.Drawing.Point(710, 571);
             label2.Name = "label2";
             label2.Size = new System.Drawing.Size(39, 15);
             label2.TabIndex = 21;
@@ -334,7 +334,7 @@
             // panelWind
             // 
             panelWind.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            panelWind.Location = new System.Drawing.Point(709, 438);
+            panelWind.Location = new System.Drawing.Point(710, 461);
             panelWind.Name = "panelWind";
             panelWind.Size = new System.Drawing.Size(69, 68);
             panelWind.TabIndex = 23;
@@ -345,7 +345,7 @@
             labelWind.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             labelWind.AutoSize = true;
             labelWind.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            labelWind.Location = new System.Drawing.Point(783, 453);
+            labelWind.Location = new System.Drawing.Point(783, 484);
             labelWind.Name = "labelWind";
             labelWind.Size = new System.Drawing.Size(60, 25);
             labelWind.TabIndex = 24;
@@ -356,7 +356,7 @@
             // 
             label3.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             label3.AutoSize = true;
-            label3.Location = new System.Drawing.Point(784, 438);
+            label3.Location = new System.Drawing.Point(785, 469);
             label3.Name = "label3";
             label3.Size = new System.Drawing.Size(35, 15);
             label3.TabIndex = 25;
@@ -469,7 +469,7 @@
             panelCollisions.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             panelCollisions.BackgroundImage = (System.Drawing.Image)resources.GetObject("panelCollisions.BackgroundImage");
             panelCollisions.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            panelCollisions.Location = new System.Drawing.Point(853, 438);
+            panelCollisions.Location = new System.Drawing.Point(852, 461);
             panelCollisions.Name = "panelCollisions";
             panelCollisions.Size = new System.Drawing.Size(68, 68);
             panelCollisions.TabIndex = 103;
@@ -528,7 +528,7 @@
             // 
             label4.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             label4.AutoSize = true;
-            label4.Location = new System.Drawing.Point(12, 584);
+            label4.Location = new System.Drawing.Point(12, 603);
             label4.Name = "label4";
             label4.Size = new System.Drawing.Size(129, 15);
             label4.TabIndex = 109;
@@ -540,7 +540,7 @@
             buttonClearResultBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             buttonClearResultBox.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
             buttonClearResultBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            buttonClearResultBox.Location = new System.Drawing.Point(367, 580);
+            buttonClearResultBox.Location = new System.Drawing.Point(367, 599);
             buttonClearResultBox.Name = "buttonClearResultBox";
             buttonClearResultBox.Size = new System.Drawing.Size(23, 23);
             buttonClearResultBox.TabIndex = 110;
@@ -603,7 +603,7 @@
             labelPatternAltitude.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             labelPatternAltitude.AutoSize = true;
             labelPatternAltitude.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            labelPatternAltitude.Location = new System.Drawing.Point(709, 509);
+            labelPatternAltitude.Location = new System.Drawing.Point(707, 532);
             labelPatternAltitude.Name = "labelPatternAltitude";
             labelPatternAltitude.Size = new System.Drawing.Size(171, 25);
             labelPatternAltitude.TabIndex = 114;
@@ -613,7 +613,7 @@
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(931, 692);
+            ClientSize = new System.Drawing.Size(931, 711);
             Controls.Add(labelPatternAltitude);
             Controls.Add(label5);
             Controls.Add(buttonCheckUpdate);

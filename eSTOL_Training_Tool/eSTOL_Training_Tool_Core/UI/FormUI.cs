@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows.Forms;
 using eSTOL_Training_Tool;
 using eSTOL_Training_Tool_Core.Core;
+using eSTOL_Training_Tool_Core.Model;
 
 
 namespace eSTOL_Training_Tool_Core.UI
@@ -114,6 +115,7 @@ namespace eSTOL_Training_Tool_Core.UI
 
         public void setPresets(string[] strings)
         {
+            comboBoxPreset.Items.Clear();
             comboBoxPreset.Items.Add("Open World");
             comboBoxPreset.Items.AddRange(strings);
             comboBoxPreset.Text = "Open World";
@@ -305,7 +307,28 @@ namespace eSTOL_Training_Tool_Core.UI
                 MessageBox.Show("Sim not connected");
                 return;
             }
-            this.appendResult(controller.createPreset());
+
+            Preset preset = controller.createPresetFromCurrent();
+            this.TopMost = false;
+            this.TopLevel = false;
+
+            try
+            {
+
+                using var dialog = new FormCreatePresset(preset, controller);
+                dialog.ShowDialog();
+                if (dialog.success)
+                {
+                    this.appendResult($"Preset \"{preset.title}\" created and saved to custom presets.");
+                    // reload presets
+                    controller.reloadPresets();
+                }
+            }
+            finally
+            {
+                this.TopLevel = true;
+                this.TopMost = alwaysontop;
+            }
         }
 
         public void DrawResult(STOLResult result)
@@ -506,7 +529,6 @@ namespace eSTOL_Training_Tool_Core.UI
             this.buttonPauseUnpause.Visible = controller.isPaused;
             this.buttonUnFlip.Enabled = controller.plane.isInit && controller.plane.IsFlipped() && !controller.plane.isReadonly;
             this.buttonCreatePreset.Enabled = controller.plane.isInit && controller.plane.IsStopped();
-            this.buttonCreatePreset.Visible = debug;
 
             // set pattern altitude
             if (controller.stol != null && controller.stol.preset != null)
@@ -636,7 +658,7 @@ namespace eSTOL_Training_Tool_Core.UI
         {
             if (debug)
             {
-                this.controller.reloadPreset();
+                this.controller.reloadPresets();
             }
         }
 

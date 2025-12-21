@@ -4,6 +4,7 @@ using System;
 using System.Device.Location;
 using System.Text.Json;
 using System.IO;
+using eSTOL_Training_Tool_Core.Core;
 
 namespace eSTOL_Training_Tool_Core.Model
 {
@@ -37,28 +38,25 @@ namespace eSTOL_Training_Tool_Core.Model
         public static List<Preset> ReadPresets(string filePath, string customFilePath)
         {
             List<Preset> presets = new List<Preset>();
-            // Ensure the file exists
-            if (!File.Exists(filePath))
-            {
-                Console.WriteLine($"File not found: {filePath}");
-                return new List<Preset>();
-            }
 
             try
             {
-                // Read the JSON content from the file
-                string json = File.ReadAllText(filePath);
-
-                // Deserialize JSON into a list of Presets
-                presets = JsonConvert.DeserializeObject<List<Preset>>(json);
-
-                if(File.Exists(customFilePath))
+                // read all files of format "{filePath}_*.json"
+                string[] files = Directory.GetFiles(".", $"{Path.GetFileNameWithoutExtension(filePath)}*.json");
+                foreach (string file in files)
                 {
-                    json = File.ReadAllText(customFilePath);
+                    string json = File.ReadAllText(file);
                     List<Preset> custom = JsonConvert.DeserializeObject<List<Preset>>(json);
                     presets.AddRange(custom);
                 }
 
+                files = Directory.GetFiles(".", $"{Path.GetFileNameWithoutExtension(customFilePath)}_*.json");
+                foreach (string file in files)
+                {
+                    string json = File.ReadAllText(file);
+                    List<Preset> custom = JsonConvert.DeserializeObject<List<Preset>>(json);
+                    presets.AddRange(custom);
+                }
 
                 return presets;
             }
@@ -68,5 +66,40 @@ namespace eSTOL_Training_Tool_Core.Model
                 return new List<Preset>();
             }
         }
+
+        public static void SaveCustomPresets(string filePath, Preset preset, string username)
+        {
+            try
+            {
+                // trim username for using in filename safely
+                username = username.Replace(" ", "").Replace("\\", "").Replace("/", "").Replace(":", "").Replace("*", "").Replace("?", "").Replace("\"", "").Replace("<", "").Replace(">", "").Replace("|", "").ToLower();
+                filePath = $"{Path.GetFileNameWithoutExtension(filePath)}_{username}.json";
+
+                // Serialize the Preset to JSON
+                List<Preset> presets = new List<Preset>();
+                // load existing presets if the file exists
+                if (File.Exists(filePath))
+                {
+                    string existingJson = File.ReadAllText(filePath);
+                    presets = JsonConvert.DeserializeObject<List<Preset>>(existingJson) ?? new List<Preset>();
+                }
+                // check for duplicates based on title
+                if (presets.Exists(p => p.title == preset.title))
+                {
+                    Console.WriteLine($"Preset with title '{preset.title}' already exists. Skipping save.");
+                    return;
+                }
+
+                presets.Add(preset);
+                string json = JsonConvert.SerializeObject(presets, Formatting.Indented);
+                // Write the JSON content to the file
+                File.WriteAllText(filePath, json);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error serializing or writing JSON file: {ex.Message}");
+            }
+        }
+
     }
 }

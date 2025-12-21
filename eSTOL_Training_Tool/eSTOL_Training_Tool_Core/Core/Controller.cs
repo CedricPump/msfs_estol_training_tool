@@ -119,7 +119,7 @@ namespace eSTOL_Training_Tool_Core.Core
             CheckForUpdateStartup();
 
             // Load presets
-            reloadPreset();
+            reloadPresets();
 
             openWorldMode = true;
             return;
@@ -235,6 +235,17 @@ namespace eSTOL_Training_Tool_Core.Core
         {
             NumberFormatInfo nfi = new CultureInfo("en-US", false).NumberFormat;
             return $"Preset JSON:\r\n\r\n{{\"title\": \"YOUR TITLE\", \"start_lat\": {plane.GetTelemetrie().Position.Latitude.ToString("0.000000", nfi)}, \"start_long\": {plane.GetTelemetrie().Position.Longitude.ToString("0.000000", nfi)}, \"start_alt\": {plane.GetTelemetrie().Position.Altitude.ToString("0", nfi)}, \"start_hdg\": {plane.GetTelemetrie().Heading.ToString("0", nfi)}}}\r\n\r\ncopy and insert to presets.json";
+        }
+
+        public Preset createPresetFromCurrent() 
+        {
+            Preset preset = new Preset();
+            preset.startLatitude = plane.GetTelemetrie().Position.Latitude;
+            preset.startLongitude = plane.GetTelemetrie().Position.Longitude;
+            preset.startAltitude = plane.GetTelemetrie().Position.Altitude;
+            preset.startHeading = plane.GetTelemetrie().Heading;
+            preset.title = "";
+            return preset;
         }
 
         public void SetUser(string username)
@@ -1081,7 +1092,7 @@ namespace eSTOL_Training_Tool_Core.Core
             }
         }
 
-        public void reloadPreset()
+        public void reloadPresets()
         {
             presets = Preset.ReadPresets(config.PresetsPath, config.CustomPresetsPath);
             if (form != null)
@@ -1089,6 +1100,7 @@ namespace eSTOL_Training_Tool_Core.Core
                 form.setPresets(presets.Select(p => p.title).ToArray());
             }
             PlaneConfigsService.LoadPlaneConfigs(this.config.PlanesConfigPath);
+            stol.Reset();
         }
 
         internal void unflip()

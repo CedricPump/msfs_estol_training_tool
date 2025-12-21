@@ -7,6 +7,9 @@
     <Compile Update="UI\FormCheckUpdate.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="UI\FormCreatePresset.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="UI\FormFirstUser.cs">
       <SubType>Form</SubType>
     </Compile>
