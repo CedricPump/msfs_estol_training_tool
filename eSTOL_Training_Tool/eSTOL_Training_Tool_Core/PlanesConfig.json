@@ -491,5 +491,22 @@
         "Key": "ATCCOM.ATC_NAME BOEING.0.text|",
         "MaxGForce": 2.0,
         "MaxVSpeed": -2000
+    },
+    {
+        "Class": "Spec",
+        "CollisionNoseIndex": 10,
+        "CollisionPropIndex": 10,
+        "CollisionWheelLeftIndex": 3,
+        "CollisionWheelNoseTailIndex": 0,
+        "CollisionWheelRightIndex": 2,
+        "CollisionWheelWingtipLIndex": 10,
+        "CollisionWheelWingtipRIndex": 10,
+        "PropStrikeThreshold": 90,
+        "DisplayName": "A380-800",
+        "GearOffset": 4,
+        "IsTaildragger": true,
+        "Key": "ATCCOM.ATC_NAME AIRBUS.0.text|ATCCOM.AC_MODEL A380.0.text",
+        "MaxGForce": 2.0,
+        "MaxVSpeed": -2000
     }
 ]

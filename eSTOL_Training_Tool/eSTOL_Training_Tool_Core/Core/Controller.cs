@@ -369,9 +369,9 @@ namespace eSTOL_Training_Tool_Core.Core
                                    this.PauseNoPopup(plane, $"Propstrike detected: {plane.pitch}°");
                                 }
 
-                                plane.setValue("GENERAL ENG COMBUSTION:0", 0);
-                                plane.setValue("GENERAL ENG COMBUSTION:1", 0);
-                                plane.setValue("GENERAL ENG COMBUSTION:2", 0);
+                                plane.setDoubleValue("GENERAL ENG COMBUSTION:0", 0);
+                                plane.setDoubleValue("GENERAL ENG COMBUSTION:1", 0);
+                                plane.setDoubleValue("GENERAL ENG COMBUSTION:2", 0);
                             }
 
                             if ( stol.IsInit() && plane.isInit)
@@ -634,8 +634,8 @@ namespace eSTOL_Training_Tool_Core.Core
                                         var xy = stol.GetDistanceAndOffsetTo(telemetrie.Position);
 
                                         // lateral field diversion > 90^ or distance > 100ft -> State Fly
-                                        if ((Math.Abs(Math.Round(xy.Item2 * 3.28084)) > 100) ||
-                                            (GeoUtils.GetSignedDeltaAngle((double)stol.InitialHeading, telemetrie.Heading) > 90))
+                                        // if ((Math.Abs(Math.Round(xy.Item2 * 3.28084)) > 100) ||
+                                        if(    (GeoUtils.GetSignedDeltaAngle((double)stol.InitialHeading, telemetrie.Heading) > 90))
                                         {
                                             setState(CycleState.Fly);
                                             break;
@@ -1117,7 +1117,7 @@ namespace eSTOL_Training_Tool_Core.Core
             if (plane.IsOnGround && plane.GroundSpeed < config.GroundspeedThreshold) 
             {
                 influx.sendEvent(user, stol.sessionKey, plane, "UNFLIP");
-                plane.setValue("ROTATION VELOCITY BODY X", -3);
+                plane.setDoubleValue("ROTATION VELOCITY BODY X", -3);
             }
         }
     }

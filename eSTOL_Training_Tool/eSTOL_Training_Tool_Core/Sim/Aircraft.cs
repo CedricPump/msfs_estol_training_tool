@@ -320,7 +320,9 @@ namespace eSTOL_Training_Tool
 
         public abstract void OnQuit();
 
-        public abstract void setValue(string name, double value);
+        public abstract bool setDoubleValue(string name, double value);
+        public abstract bool setBoolValue(string name, bool value);
+        public abstract bool setIntValue(string name, int value);
 
         public abstract void Pause();
 
@@ -334,28 +336,28 @@ namespace eSTOL_Training_Tool
 
             GeoCoordinate offsetPos = GeoUtils.GetOffsetPosition(position, heading, offset);
 
-            this.setValue("SIM DISABLED", 1);
-            this.setValue("PLANE LATITUDE", offsetPos.Latitude);
-            this.setValue("PLANE LONGITUDE", offsetPos.Longitude);
-            this.setValue("PLANE ALTITUDE", offsetPos.Altitude + altitudeOffset);
-            this.setValue("PLANE HEADING DEGREES TRUE", heading);
-            this.resetSpeed();
+            this.setBoolValue("SIM DISABLED", true);
+            this.setDoubleValue("PLANE LATITUDE", offsetPos.Latitude);
+            this.setDoubleValue("PLANE LONGITUDE", offsetPos.Longitude);
+            this.setDoubleValue("PLANE ALTITUDE", offsetPos.Altitude + altitudeOffset);
+            this.setDoubleValue("PLANE HEADING DEGREES TRUE", heading);
+            //this.resetSpeed();
             if (setAttitude)
             {
-                this.setValue("PLANE PITCH DEGREES", 0);
-                this.setValue("PLANE BANK DEGREES", 0);
+                this.setDoubleValue("PLANE PITCH DEGREES", 0.0);
+                this.setDoubleValue("PLANE BANK DEGREES",  0.0);
             }
             System.Threading.Thread.Sleep(333);
-            this.setValue("SIM DISABLED", 0);
+            this.setBoolValue("SIM DISABLED", false);
         }
 
 
         public void resetSpeed()
         {
-            this.setValue("VELOCITY WORLD X", 0);
-            this.setValue("VELOCITY WORLD Y", 0);
-            this.setValue("VELOCITY WORLD Z", 0);
-            this.setValue("GROUND VELOCITY", 0);
+            this.setDoubleValue("VELOCITY WORLD X", 0.0);
+            this.setDoubleValue("VELOCITY WORLD Y", 0.0);
+            this.setDoubleValue("VELOCITY WORLD Z", 0.0);
+            this.setDoubleValue("GROUND VELOCITY",  0.0);
             //this.setValue("AIRSPEED INDICATED", 0);
         }
 

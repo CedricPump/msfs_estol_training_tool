@@ -1,4 +1,13 @@
 
+v1.4.16
+
+- fixed telemetry freeze on teleport
+- fixed save preset brakes transparency
+- added B748
+- added B744
+- added A388
+- changed climout cancelatrion condition to angle 90° off
+
 v1.4.15
 
 - added preset ui improvements

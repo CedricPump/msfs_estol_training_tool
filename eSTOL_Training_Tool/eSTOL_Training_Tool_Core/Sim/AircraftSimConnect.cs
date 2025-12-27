@@ -294,16 +294,56 @@ namespace eSTOL_Training_Tool
             // Console.WriteLine("MyDispatchProcA "+pData+" "+cData);
         }
 
-        public override void setValue(string name, double value)
+        public override bool setDoubleValue(string name, double value)
         {
+            // disable any write funktion until bug is fixed
+            //return;
             try
             {
                 DataDefinition def = getDefinitionByName(name);
                 simconnect.SetDataOnSimObject(def.defId, SimConnect.SIMCONNECT_OBJECT_ID_USER, SIMCONNECT_DATA_SET_FLAG.DEFAULT, value);
+                return true;
             }
             catch (Exception e)
             {
                 Console.WriteLine("SimConnect setValue error: " + e.Message);
+                return false;
+                // throw e;
+            }
+        }
+
+        public override bool setBoolValue(string name, bool value)
+        {
+            // disable any write funktion until bug is fixed
+            //return;
+            try
+            {
+                DataDefinition def = getDefinitionByName(name);
+                simconnect.SetDataOnSimObject(def.defId, SimConnect.SIMCONNECT_OBJECT_ID_USER, SIMCONNECT_DATA_SET_FLAG.DEFAULT, value);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("SimConnect setValue error: " + e.Message);
+                return false;
+                // throw e;
+            }
+        }
+
+        public override bool setIntValue(string name, int value)
+        {
+            // disable any write funktion until bug is fixed
+            //return;
+            try
+            {
+                DataDefinition def = getDefinitionByName(name);
+                simconnect.SetDataOnSimObject(def.defId, SimConnect.SIMCONNECT_OBJECT_ID_USER, SIMCONNECT_DATA_SET_FLAG.DEFAULT, value);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("SimConnect setValue error: " + e.Message);
+                return false;
                 // throw e;
             }
         }
@@ -322,7 +362,14 @@ namespace eSTOL_Training_Tool
 
         public override void sendEvent(EVENTS myEvent, uint dwData = 1)
         {
-            simconnect.TransmitClientEvent(SimConnect.SIMCONNECT_OBJECT_ID_USER, myEvent, dwData, GROUP_ID.GROUP_A, SIMCONNECT_EVENT_FLAG.DEFAULT);
+            try
+            {
+                simconnect.TransmitClientEvent(SimConnect.SIMCONNECT_OBJECT_ID_USER, myEvent, dwData, GROUP_ID.GROUP_A, SIMCONNECT_EVENT_FLAG.DEFAULT);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("SimConnect sendEvent error: " + e.Message);
+            }
         }
 
 
