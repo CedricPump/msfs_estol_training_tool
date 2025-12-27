@@ -103,6 +103,13 @@ namespace eSTOL_Training_Tool
             return GeoUtils.GetDistanceAlongAxis(InitialPosition, geoCoordinate, InitialHeading.Value).Item1;
         }
 
+        public (double, double) GetDistanceAndOffsetTo(GeoCoordinate geoCoordinate)
+        {
+            if (InitialPosition == null) throw new ArgumentException("Position null");
+
+            return GeoUtils.GetOffsetXYByHeading(InitialPosition, geoCoordinate, InitialHeading.Value);
+        }
+
         public STOLResult GetResult(string unit = "feet") 
         {
             if (!IsInit()) return null;

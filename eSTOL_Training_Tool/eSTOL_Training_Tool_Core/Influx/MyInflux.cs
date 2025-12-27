@@ -58,9 +58,15 @@ namespace eSTOL_Training_Tool_Core.Influx
                 .Field("InitHash", stolResult.InitHash)
                 .Timestamp(stolResult.time, WritePrecision.Ns);
 
-            var writeApi = influxDBClient.GetWriteApiAsync();
-            await writeApi.WritePointAsync(point, bucketResult, org);
+            try { 
+                var writeApi = influxDBClient.GetWriteApiAsync();
+                await writeApi.WritePointAsync(point, bucketResult, org);
         }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error while sending telemetry: {ex.Message}");
+            }
+}
 
         public async void sendTelemetry(string username, Plane plane, STOLData stol)
         {
@@ -110,6 +116,7 @@ namespace eSTOL_Training_Tool_Core.Influx
 
         public async void sendEvent(string username, string sessionKey, Plane plane, string eventType, string value = "")
         {
+
             Telemetrie telemetrie = plane.GetTelemetrie();
             AircraftState state = plane.GetState();
             var point = PointData.Measurement("stol_event")
@@ -123,9 +130,15 @@ namespace eSTOL_Training_Tool_Core.Influx
                 .Field("AltAGL", telemetrie.AltitudeAGL)
 
                 .Timestamp(DateTime.Now, WritePrecision.Ns);
-
-            var writeApi = influxDBClient.GetWriteApiAsync();
-            await writeApi.WritePointAsync(point, bucketTelemetry, org);
+            try
+            {
+                var writeApi = influxDBClient.GetWriteApiAsync();
+                await writeApi.WritePointAsync(point, bucketTelemetry, org);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error while sending event: {ex.Message}");
+            }
         }
 
         public async void deletAll()

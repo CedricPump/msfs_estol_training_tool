@@ -236,7 +236,9 @@ namespace eSTOL_Training_Tool
 
         public override void Pause() { }
         public override void sendEvent(EVENTS myEvent, uint dwData = 1) { }
-        public override void setValue(string name, double value) { }
+        public override bool setDoubleValue(string name, double value) { return false; }
+        public override bool setBoolValue(string name, bool value) { return false; }
+        public override bool setIntValue(string name, int value) { return false; }
         public override void SpawnObject(string objectName, double latitude, double longitude, double altitude) { }
         public override void Unpause() { }
 

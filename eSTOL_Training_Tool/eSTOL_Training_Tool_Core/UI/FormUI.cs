@@ -310,7 +310,6 @@ namespace eSTOL_Training_Tool_Core.UI
 
             Preset preset = controller.createPresetFromCurrent();
             this.TopMost = false;
-            this.TopLevel = false;
 
             try
             {
@@ -326,7 +325,6 @@ namespace eSTOL_Training_Tool_Core.UI
             }
             finally
             {
-                this.TopLevel = true;
                 this.TopMost = alwaysontop;
             }
         }
