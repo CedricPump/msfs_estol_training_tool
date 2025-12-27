@@ -312,7 +312,7 @@ namespace eSTOL_Training_Tool_Core.Core
                         ReinitPlaneType();
                     }
 
-                    if (plane.IsSimConnected && !plane.SimDisabled)
+                    if (plane.IsSimConnected && plane.isInit) // && !plane.SimDisabled)
                     {
                         Telemetrie telemetrie = plane.GetTelemetrie();
 
@@ -333,7 +333,13 @@ namespace eSTOL_Training_Tool_Core.Core
                                     AppendResult("[ERROR]: Unable to send telemetry - check update");
                                 }
 
-                                if (config.debug && stol.IsInit()) AppendResult($"DEBUG: distance to line: {stol.GetDistanceTo(telemetrie.Position) * 3.28084:F0} AGL: {telemetrie.AltitudeAGL:F0}");
+                                if (config.debug && stol.IsInit()) AppendResult($"DEBUG: distance to line: {stol.GetDistanceTo(telemetrie.Position) * 3.28084:F0}ft AGL: {telemetrie.AltitudeAGL:F0}");
+
+                                if (config.debug && stol.IsInit())
+                                {
+                                    (double, double) xy = stol.GetDistanceAndOffsetTo(telemetrie.Position);
+                                    AppendResult($"DEBUG: offset: (x={Math.Round(xy.Item1)}m, y={Math.Round(xy.Item2)}m");
+                                }
                             }
                         }
 
@@ -625,8 +631,11 @@ namespace eSTOL_Training_Tool_Core.Core
                                     }
                                 case CycleState.Climbout:
                                     {
-                                        // field length exceeded -> State Fly
-                                        if(stol.GetDistanceTo(telemetrie.Position) * 3.28084 > fieldLength) 
+                                        var xy = stol.GetDistanceAndOffsetTo(telemetrie.Position);
+
+                                        // lateral field diversion > 90^ or distance > 100ft -> State Fly
+                                        if ((Math.Abs(Math.Round(xy.Item2 * 3.28084)) > 100) ||
+                                            (GeoUtils.GetSignedDeltaAngle((double)stol.InitialHeading, telemetrie.Heading) > 90))
                                         {
                                             setState(CycleState.Fly);
                                             break;

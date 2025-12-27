@@ -296,8 +296,16 @@ namespace eSTOL_Training_Tool
 
         public override void setValue(string name, double value)
         {
-            DataDefinition def = getDefinitionByName(name);
-            simconnect.SetDataOnSimObject(def.defId, SimConnect.SIMCONNECT_OBJECT_ID_USER, SIMCONNECT_DATA_SET_FLAG.DEFAULT, value);
+            try
+            {
+                DataDefinition def = getDefinitionByName(name);
+                simconnect.SetDataOnSimObject(def.defId, SimConnect.SIMCONNECT_OBJECT_ID_USER, SIMCONNECT_DATA_SET_FLAG.DEFAULT, value);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("SimConnect setValue error: " + e.Message);
+                // throw e;
+            }
         }
 
         public override void Pause()
