@@ -48,6 +48,8 @@ namespace eSTOL_Training_Tool
         public string Airport { get; protected set; }
         public bool[] ContactPoints { get; protected set; } = new bool[21];
 
+        public double PropRPM { get; protected set; } = 0.0;
+
         // Env
         public double AltitudeAGL { get; protected set; }
 
@@ -71,6 +73,10 @@ namespace eSTOL_Training_Tool
         public double Antistall { get; protected set; } = 0;
         public bool Autotrim { get; protected set; } = false;
         public bool AICtrl { get; protected set; } = false;
+
+        public double TemperatureAmbient { get; protected set; } = 0.0;
+        public double PressureAmbient { get; protected set; } = 0.0;
+
 
         // flight controls
         public double AileronPosition { get; protected set; } = 0.0;

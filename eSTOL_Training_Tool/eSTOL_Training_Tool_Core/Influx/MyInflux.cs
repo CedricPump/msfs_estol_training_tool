@@ -43,6 +43,7 @@ namespace eSTOL_Training_Tool_Core.Influx
                 .Tag("planeType", stolResult.planeType)
                 .Tag("preset", stolResult.preset == null ? "" : stolResult.preset.title)
                 .Tag("SessionKey", stolResult.sessionKey)
+                .Tag("UUID", stolResult.UUID)
                 .Field("Takeoffdist", stolResult.Takeoffdist)
                 .Field("Touchdowndist", stolResult.Touchdowndist)
                 .Field("Stoppingdist", stolResult.Stoppingdist)
@@ -56,6 +57,14 @@ namespace eSTOL_Training_Tool_Core.Influx
                 .Field("Score", stolResult.Score)
                 .Field("PatternTime", stolResult.PatternTime.TotalSeconds)
                 .Field("InitHash", stolResult.InitHash)
+                .Field("Pressure", stolResult.ambientPressure)
+                .Field("Temperature", stolResult.ambientTemperature)
+                .Field("FieldElevation", stolResult.fieldElevation)
+                .Field("LandingFuelPercent", stolResult.landingFuelPercent)
+                .Field("TakeoffWindSpeed", stolResult.takeoffWindSpeed)
+                .Field("TakeoffWindDirection", stolResult.takeoffWindDirection)
+                .Field("LandingWindSpeed", stolResult.landingWindSpeed)
+                .Field("LandingWindDirection", stolResult.landingWindDirection)
                 .Timestamp(stolResult.time, WritePrecision.Ns);
 
             try { 
@@ -85,6 +94,7 @@ namespace eSTOL_Training_Tool_Core.Influx
                 .Tag("VersionTag", VersionHelper.GetVersion())
                 .Tag("SelectedPreset", preset)
                 .Tag("SessionKey", stol.sessionKey)
+                .Tag("UUID", stol.UUID)
                 .Field("Heading", telemetrie.Heading)
                 .Field("Latitude", telemetrie.Position.Latitude)
                 .Field("Longitude", telemetrie.Position.Longitude)
@@ -99,7 +109,7 @@ namespace eSTOL_Training_Tool_Core.Influx
                 .Field("MaxWeightPercent", state.MaxWeightPercent)
                 .Field("ParkingBrake", state.ParkingBrake ? 1.0 : 0.0)
                 .Field("Antistall", plane.Antistall)
-
+                .Field("PropRpm", plane.PropRPM)
                 .Timestamp(DateTime.Now, WritePrecision.Ns);
 
             try
@@ -114,7 +124,7 @@ namespace eSTOL_Training_Tool_Core.Influx
 
         }
 
-        public async void sendEvent(string username, string sessionKey, Plane plane, string eventType, string value = "")
+        public async void sendEvent(string username, STOLData stol, Plane plane, string eventType, string value = "")
         {
 
             Telemetrie telemetrie = plane.GetTelemetrie();
@@ -122,13 +132,13 @@ namespace eSTOL_Training_Tool_Core.Influx
             var point = PointData.Measurement("stol_event")
                 .Tag("EventType", eventType)
                 .Tag("User", username)
-                .Tag("SessionKey", sessionKey)
+                .Tag("SessionKey", stol.sessionKey)
+                .Tag("UUID", stol.UUID)
                 .Field("Value", value)
                 .Field("Latitude", telemetrie.Position.Latitude)
                 .Field("Longitude", telemetrie.Position.Longitude)
                 .Field("Altitude", telemetrie.Altitude)
                 .Field("AltAGL", telemetrie.AltitudeAGL)
-
                 .Timestamp(DateTime.Now, WritePrecision.Ns);
             try
             {

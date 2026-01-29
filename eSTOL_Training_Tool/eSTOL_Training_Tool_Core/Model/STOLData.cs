@@ -13,6 +13,8 @@ namespace eSTOL_Training_Tool
     {
         public STOLData() { }
 
+        public string UUID = "";
+
         // meta
         public string planeType = "";
         public string planeKey = "";
@@ -37,6 +39,7 @@ namespace eSTOL_Training_Tool
         public double? maxSpin = null;
         public double? minPitch = null;
         public double? maxBank = null;
+        public double? landingFuelPercent = null;
 
         // Timing
         public DateTime? StartTime = null;
@@ -49,6 +52,8 @@ namespace eSTOL_Training_Tool
         public double takeoffWindDirection = 0;
         public double landingWindSpeed = 0;
         public double landingWindDirection = 0;
+        public double ambientTemperature = 0.0;
+        public double ambientPressure = 0.0;
 
         public List<STOLDeviation> deviations = new List<STOLDeviation>();
 
@@ -115,6 +120,7 @@ namespace eSTOL_Training_Tool
             if (!IsInit()) return null;
 
             STOLResult result = new STOLResult();
+            result.UUID = this.UUID;
             result.Unit = unit;
             result.sessionKey = sessionKey;
             result.preset = preset;
@@ -148,6 +154,10 @@ namespace eSTOL_Training_Tool
             result.takeoffWindDirection = takeoffWindDirection;
             result.landingWindSpeed = landingWindSpeed;
             result.landingWindDirection = landingWindDirection;
+            result.ambientPressure = ambientPressure;
+            result.ambientTemperature = ambientTemperature;
+            result.fieldElevation = (int)Math.Round(InitialPosition.Altitude * 3.28084);
+            result.landingFuelPercent = landingFuelPercent;
 
             result.Score = result.Takeoffdist + result.Landingdist;
             if (result.Touchdowndist < 0)
@@ -181,6 +191,7 @@ namespace eSTOL_Training_Tool
 
         public void Reset()
         {
+            this.UUID = Guid.NewGuid().ToString();
             TakeoffPosition = null;
             TouchdownPosition = null;
             StopPosition = null;
@@ -195,6 +206,8 @@ namespace eSTOL_Training_Tool
             maxSpin = null;
             minPitch = null;
             maxBank = null;
+            ambientPressure = 0.0;
+            ambientTemperature = 0.0;
         }
 
         public void Retry() 
@@ -210,6 +223,7 @@ namespace eSTOL_Training_Tool
 
         public void ApplyPreset(Preset preset) 
         {
+            this.UUID = Guid.NewGuid().ToString();
             this.preset = preset;
             InitialPosition = preset.getStart();
             InitialHeading = preset.startHeading;
@@ -221,6 +235,7 @@ namespace eSTOL_Training_Tool
 
         public void ApplyOpenWorld(Plane plane)
         {
+            this.UUID = Guid.NewGuid().ToString();
             this.preset = null;
             InitialPosition = plane.getPositionWithGearOffset();
             InitialHeading = plane.Heading;
@@ -261,6 +276,7 @@ namespace eSTOL_Training_Tool
 
     public class STOLResult 
     {
+        public string UUID = "";
         public Preset preset ;
         public string InitHash; 
         public TimeSpan PatternTime;
@@ -293,6 +309,10 @@ namespace eSTOL_Training_Tool
         public double takeoffWindDirection;
         public double landingWindSpeed;
         public double landingWindDirection;
+        public double ambientTemperature;
+        public double ambientPressure;
+        public int fieldElevation;
+        public double? landingFuelPercent;
 
         public string getConsoleString() 
         {
@@ -303,7 +323,7 @@ namespace eSTOL_Training_Tool
                 scratchText = " - SCRATCH!";
             }
 
-            string resultStr = $"\r\n-----------------------------------\r\n" +
+            string resultStr = $"\r\n-----------------------------------\r\n- [{this.UUID}] -" +
                 $"Result {User} - {time}\r\n" +
                 $"Plane:               {planeType}\r\n" +
                 $"Takeoff Distance:    {Takeoffdist} {Unit}\r\n" +
@@ -319,6 +339,10 @@ namespace eSTOL_Training_Tool
                 $"TD G-Force           {GForce:F1}/{MaxG} G\r\n" +
                 $"Takeoff Wind:        {takeoffWindSpeed:F1} kt @ {takeoffWindDirection:F0}°\r\n" +
                 $"Landing Wind:        {landingWindSpeed:F1} kt @ {landingWindDirection:F0}°\r\n" +
+                $"Ambient Temp:        {ambientTemperature:F1} °C\r\n" +
+                $"Ambient Pressure:    {ambientPressure:F0} hPa\r\n" +
+                $"Field Elevation:     {fieldElevation:F0} ft\r\n" +
+                $"Landing Fuel:        {landingFuelPercent:F1} %\r\n" +
                 $"-----------------------------------\r\n" +
                 $"Score:               {Score}\r\n" +
                 $"===================================\r\n";

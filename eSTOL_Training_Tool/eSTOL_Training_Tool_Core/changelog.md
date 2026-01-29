@@ -1,3 +1,12 @@
+v1.4.17
+
+- added prop rpm to telemetry
+- added fuel percent to result
+- added pressure to result
+- added temperature to result
+- added field elevation to result
+- added wind speed and dir (absolut) to result
+- added UUID to telemetry, result and events
 
 v1.4.16
 

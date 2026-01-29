@@ -90,6 +90,8 @@ namespace eSTOL_Training_Tool
             CreateDataDefinition("GEAR IS ON GROUND", "Bool");
             CreateDataDefinition("SIM ON GROUND", "Bool");
             CreateDataDefinition("ON ANY RUNWAY", "Bool");
+            CreateDataDefinition("PROP RPM:1", "RPM");
+
             //CreateDataDefinition("NAV LOC AIRPORT IDENT", "", true);
             // Environment
             CreateDataDefinition("PLANE ALT ABOVE GROUND MINUS CG", "feet");
@@ -159,6 +161,9 @@ namespace eSTOL_Training_Tool
 
             CreateDataDefinition("AMBIENT WIND X", "knots");
             CreateDataDefinition("AMBIENT WIND Y", "knots");
+
+            CreateDataDefinition("AMBIENT PRESSURE", "mbar");
+            CreateDataDefinition("AMBIENT TEMPERATURE", "Celsius");
 
             CreateDataDefinition("ASSISTANCE LANDING ENABLED", "Bool");
             CreateDataDefinition("ASSISTANCE TAKEOFF ENABLED", "Bool");
@@ -781,6 +786,21 @@ namespace eSTOL_Training_Tool
                     case "GENERAL ENG THROTTLE LEVER POSITION:1":
                         {
                             ThrottlePosition = (double)data.dwData[0];
+                            break;
+                        }
+                    case "PROP RPM:1":
+                        {
+                            PropRPM = (double)data.dwData[0];
+                            break;
+                        }
+                    case "AMBIENT TEMPERATURE":
+                        {
+                            TemperatureAmbient = (double)data.dwData[0];
+                            break;
+                        }
+                    case "AMBIENT PRESSURE":
+                        {
+                            PressureAmbient = (double)data.dwData[0];
                             break;
                         }
                     default:
