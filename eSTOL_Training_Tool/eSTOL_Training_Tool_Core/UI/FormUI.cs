@@ -527,6 +527,7 @@ namespace eSTOL_Training_Tool_Core.UI
             this.buttonPauseUnpause.Visible = controller.isPaused;
             this.buttonUnFlip.Enabled = controller.plane.isInit && controller.plane.IsFlipped() && !controller.plane.isReadonly;
             this.buttonCreatePreset.Enabled = controller.plane.isInit && controller.plane.IsStopped();
+            this.buttonSetFuelStandard.Enabled = controller.plane.isInit && controller.plane.IsStopped();
 
             // set pattern altitude
             if (controller.stol != null && controller.stol.preset != null)
@@ -957,6 +958,11 @@ namespace eSTOL_Training_Tool_Core.UI
         private void FormUI_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void buttonSetFuelStandard_Click(object sender, EventArgs e)
+        {
+            controller.setFuelStandard();
         }
     }
 }

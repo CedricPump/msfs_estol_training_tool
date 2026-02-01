@@ -1,3 +1,7 @@
+v1.4.18
+
+- added Set Fuel Standard button
+
 v1.4.17
 
 - added prop rpm to telemetry

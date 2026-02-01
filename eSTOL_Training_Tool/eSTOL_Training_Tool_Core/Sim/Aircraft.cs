@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Device.Location;
+using System.Reflection;
+using System.Threading.Tasks;
 using eSTOL_Training_Tool.Model;
 using eSTOL_Training_Tool_Core.Core;
 using eSTOL_Training_Tool_Core.Model;
+using static System.ComponentModel.Design.ObjectSelectorEditor;
 
 namespace eSTOL_Training_Tool
 {
@@ -336,7 +339,7 @@ namespace eSTOL_Training_Tool
 
         public abstract void sendEvent(EVENTS myEvent, uint dwData = 1);
 
-        public void setPosition(GeoCoordinate position, double heading, bool setAttitude = false, double altitudeOffset = 0.0) 
+        public void setPosition(GeoCoordinate position, double heading, bool setAttitude = false, double altitudeOffset = 0.0)
         {
             double offset = PlaneConfigsService.GetGearOffset(this.Type + "|" + this.Model);
 
@@ -355,6 +358,17 @@ namespace eSTOL_Training_Tool
             }
             System.Threading.Thread.Sleep(333);
             this.setBoolValue("SIM DISABLED", false);
+        }
+
+        public bool SetFuelPercent(double percent) 
+        {
+            bool res = true;
+            // res &= this.setDoubleValue("FUELSYSTEM TANK LEVEL: 0", percent);
+            res &= this.setDoubleValue("FUELSYSTEM TANK LEVEL: 1", percent);
+            res &= this.setDoubleValue("FUELSYSTEM TANK LEVEL: 2", percent);
+            res &= this.setDoubleValue("FUELSYSTEM TANK LEVEL: 3", percent);
+            res &= this.setDoubleValue("FUELSYSTEM TANK LEVEL: 4", percent);
+            return res;
         }
 
 

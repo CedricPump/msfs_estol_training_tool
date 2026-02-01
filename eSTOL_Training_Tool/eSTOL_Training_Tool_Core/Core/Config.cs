@@ -52,6 +52,8 @@ namespace eSTOL_Training_Tool_Core.Core
         public int ApiPort { get; set; } = 5001;
         public string ApiHost { get; set; } = "127.0.0.1";
 
+        public double FuelLevelStandard { get; set; } = 0.5;
+
         private static Config instance = null;
 
         public static Config Load()

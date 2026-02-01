@@ -98,6 +98,12 @@ namespace eSTOL_Training_Tool
             // Fuel
             CreateDataDefinition("FUEL TOTAL QUANTITY WEIGHT", "pounds");
             CreateDataDefinition("FUEL SELECTED QUANTITY PERCENT", "percent over 100");
+            CreateDataDefinition("FUELSYSTEM TANK LEVEL: 0", "percent over 100");
+            CreateDataDefinition("FUELSYSTEM TANK LEVEL: 1", "percent over 100");
+            CreateDataDefinition("FUELSYSTEM TANK LEVEL: 2", "percent over 100");
+            CreateDataDefinition("FUELSYSTEM TANK LEVEL: 3", "percent over 100");
+            CreateDataDefinition("FUELSYSTEM TANK LEVEL: 4", "percent over 100");
+
 
             CreateDataDefinition("UNLIMITED FUEL", "Bool");
 

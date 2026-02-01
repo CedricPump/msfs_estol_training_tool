@@ -76,6 +76,7 @@
             toolTiphint = new System.Windows.Forms.ToolTip(components);
             toolTipZoom = new System.Windows.Forms.ToolTip(components);
             labelPatternAltitude = new System.Windows.Forms.Label();
+            buttonSetFuelStandard = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)numericUpDownStopwatchOffest).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownTransparency).BeginInit();
             SuspendLayout();
@@ -90,7 +91,7 @@
             textBoxResult.Name = "textBoxResult";
             textBoxResult.ReadOnly = true;
             textBoxResult.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            textBoxResult.Size = new System.Drawing.Size(378, 535);
+            textBoxResult.Size = new System.Drawing.Size(378, 572);
             textBoxResult.TabIndex = 1;
             // 
             // textBoxUser
@@ -169,7 +170,7 @@
             // 
             textBoxStatus.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             textBoxStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            textBoxStatus.Location = new System.Drawing.Point(12, 677);
+            textBoxStatus.Location = new System.Drawing.Point(12, 714);
             textBoxStatus.Name = "textBoxStatus";
             textBoxStatus.ReadOnly = true;
             textBoxStatus.Size = new System.Drawing.Size(691, 23);
@@ -195,7 +196,7 @@
             panel.BackgroundImage = (System.Drawing.Image)resources.GetObject("panel.BackgroundImage");
             panel.Location = new System.Drawing.Point(396, 29);
             panel.Name = "panel";
-            panel.Size = new System.Drawing.Size(307, 642);
+            panel.Size = new System.Drawing.Size(307, 679);
             panel.TabIndex = 10;
             toolTipZoom.SetToolTip(panel, "double click to zoom");
             panel.Paint += panel_Paint;
@@ -247,7 +248,7 @@
             labelStopwatch.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             labelStopwatch.AutoSize = true;
             labelStopwatch.Font = new System.Drawing.Font("Consolas", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            labelStopwatch.Location = new System.Drawing.Point(711, 622);
+            labelStopwatch.Location = new System.Drawing.Point(711, 659);
             labelStopwatch.Name = "labelStopwatch";
             labelStopwatch.Size = new System.Drawing.Size(132, 41);
             labelStopwatch.TabIndex = 14;
@@ -257,7 +258,7 @@
             // progressBarStopwatch
             // 
             progressBarStopwatch.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            progressBarStopwatch.Location = new System.Drawing.Point(709, 677);
+            progressBarStopwatch.Location = new System.Drawing.Point(709, 714);
             progressBarStopwatch.Name = "progressBarStopwatch";
             progressBarStopwatch.Size = new System.Drawing.Size(210, 23);
             progressBarStopwatch.TabIndex = 15;
@@ -266,7 +267,7 @@
             // 
             buttonStartStopwatch.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             buttonStartStopwatch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            buttonStartStopwatch.Location = new System.Drawing.Point(843, 647);
+            buttonStartStopwatch.Location = new System.Drawing.Point(843, 684);
             buttonStartStopwatch.Name = "buttonStartStopwatch";
             buttonStartStopwatch.Size = new System.Drawing.Size(76, 24);
             buttonStartStopwatch.TabIndex = 16;
@@ -278,7 +279,7 @@
             // 
             button1.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            button1.Location = new System.Drawing.Point(844, 618);
+            button1.Location = new System.Drawing.Point(844, 655);
             button1.Name = "button1";
             button1.Size = new System.Drawing.Size(75, 23);
             button1.TabIndex = 18;
@@ -301,7 +302,7 @@
             // 
             numericUpDownStopwatchOffest.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             numericUpDownStopwatchOffest.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            numericUpDownStopwatchOffest.Location = new System.Drawing.Point(711, 589);
+            numericUpDownStopwatchOffest.Location = new System.Drawing.Point(711, 626);
             numericUpDownStopwatchOffest.Name = "numericUpDownStopwatchOffest";
             numericUpDownStopwatchOffest.Size = new System.Drawing.Size(208, 23);
             numericUpDownStopwatchOffest.TabIndex = 20;
@@ -312,7 +313,7 @@
             // 
             label2.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             label2.AutoSize = true;
-            label2.Location = new System.Drawing.Point(710, 571);
+            label2.Location = new System.Drawing.Point(710, 608);
             label2.Name = "label2";
             label2.Size = new System.Drawing.Size(39, 15);
             label2.TabIndex = 21;
@@ -334,7 +335,7 @@
             // panelWind
             // 
             panelWind.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            panelWind.Location = new System.Drawing.Point(710, 461);
+            panelWind.Location = new System.Drawing.Point(709, 491);
             panelWind.Name = "panelWind";
             panelWind.Size = new System.Drawing.Size(69, 68);
             panelWind.TabIndex = 23;
@@ -345,7 +346,7 @@
             labelWind.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             labelWind.AutoSize = true;
             labelWind.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            labelWind.Location = new System.Drawing.Point(783, 484);
+            labelWind.Location = new System.Drawing.Point(784, 506);
             labelWind.Name = "labelWind";
             labelWind.Size = new System.Drawing.Size(60, 25);
             labelWind.TabIndex = 24;
@@ -356,7 +357,7 @@
             // 
             label3.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             label3.AutoSize = true;
-            label3.Location = new System.Drawing.Point(785, 469);
+            label3.Location = new System.Drawing.Point(784, 491);
             label3.Name = "label3";
             label3.Size = new System.Drawing.Size(35, 15);
             label3.TabIndex = 25;
@@ -469,7 +470,7 @@
             panelCollisions.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             panelCollisions.BackgroundImage = (System.Drawing.Image)resources.GetObject("panelCollisions.BackgroundImage");
             panelCollisions.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            panelCollisions.Location = new System.Drawing.Point(852, 461);
+            panelCollisions.Location = new System.Drawing.Point(852, 491);
             panelCollisions.Name = "panelCollisions";
             panelCollisions.Size = new System.Drawing.Size(68, 68);
             panelCollisions.TabIndex = 103;
@@ -528,7 +529,7 @@
             // 
             label4.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             label4.AutoSize = true;
-            label4.Location = new System.Drawing.Point(12, 603);
+            label4.Location = new System.Drawing.Point(12, 640);
             label4.Name = "label4";
             label4.Size = new System.Drawing.Size(129, 15);
             label4.TabIndex = 109;
@@ -540,7 +541,7 @@
             buttonClearResultBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             buttonClearResultBox.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
             buttonClearResultBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            buttonClearResultBox.Location = new System.Drawing.Point(367, 599);
+            buttonClearResultBox.Location = new System.Drawing.Point(367, 636);
             buttonClearResultBox.Name = "buttonClearResultBox";
             buttonClearResultBox.Size = new System.Drawing.Size(23, 23);
             buttonClearResultBox.TabIndex = 110;
@@ -603,17 +604,30 @@
             labelPatternAltitude.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             labelPatternAltitude.AutoSize = true;
             labelPatternAltitude.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            labelPatternAltitude.Location = new System.Drawing.Point(707, 532);
+            labelPatternAltitude.Location = new System.Drawing.Point(707, 562);
             labelPatternAltitude.Name = "labelPatternAltitude";
             labelPatternAltitude.Size = new System.Drawing.Size(171, 25);
             labelPatternAltitude.TabIndex = 114;
             labelPatternAltitude.Text = "Pattern Alt: ---- ft _";
             // 
+            // buttonSetFuelStandard
+            // 
+            buttonSetFuelStandard.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            buttonSetFuelStandard.AutoSize = true;
+            buttonSetFuelStandard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            buttonSetFuelStandard.Location = new System.Drawing.Point(709, 439);
+            buttonSetFuelStandard.Name = "buttonSetFuelStandard";
+            buttonSetFuelStandard.Size = new System.Drawing.Size(211, 27);
+            buttonSetFuelStandard.TabIndex = 115;
+            buttonSetFuelStandard.Text = "Set Standard Fuel";
+            buttonSetFuelStandard.Click += buttonSetFuelStandard_Click;
+            // 
             // FormUI
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(931, 711);
+            ClientSize = new System.Drawing.Size(931, 748);
+            Controls.Add(buttonSetFuelStandard);
             Controls.Add(labelPatternAltitude);
             Controls.Add(label5);
             Controls.Add(buttonCheckUpdate);
@@ -717,5 +731,6 @@
         private System.Windows.Forms.ToolTip toolTipTimerOffset;
         private System.Windows.Forms.ToolTip toolTipZoom;
         private System.Windows.Forms.Label labelPatternAltitude;
+        private System.Windows.Forms.Button buttonSetFuelStandard;
     }
 }

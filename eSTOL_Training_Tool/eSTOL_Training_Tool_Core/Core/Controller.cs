@@ -1073,6 +1073,15 @@ namespace eSTOL_Training_Tool_Core.Core
             return stol.IsInit();
         }
 
+        public bool setFuelStandard()
+        {
+            double fuel = config.FuelLevelStandard;
+            plane.SetFuelPercent(fuel);
+            AppendResult($"fuel set {fuel*100}%");
+            influx.sendEvent(user, stol, plane, "FUEL SET", (fuel*100).ToString());
+            return true;
+        }
+
         private void initSTOL()
         {
             // set STOL initial Values
