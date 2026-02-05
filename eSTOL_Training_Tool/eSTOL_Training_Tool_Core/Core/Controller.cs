@@ -707,6 +707,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                             // time string format mm:ss.sss
                                             string timeStr = time.Value.Minutes.ToString("0") + ":" + time.Value.Seconds.ToString("00") + "." + time.Value.Milliseconds.ToString("000");
                                             AppendResult($"Main Touchdown recorded {timeStr}: {(stol.GetTouchdownDistance() * 3.28084):F0}ft");
+                                            AppendResult($"Touchdown registered {timeStr}: {(stol.GetTouchdownDistance() * 3.28084):F0}ft");
 
                                             (double angleL, double angleR) = GetFlagAngles(stol.InitialPosition, (double)stol.InitialHeading, plane);
                                             if (spin > angleR + flagsAngleTreshold || spin < angleL - flagsAngleTreshold)
