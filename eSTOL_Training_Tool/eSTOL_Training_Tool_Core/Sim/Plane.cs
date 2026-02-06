@@ -1,4 +1,5 @@
-﻿using eSTOL_Training_Tool.Model;
+﻿using System;
+using eSTOL_Training_Tool.Model;
 
 namespace eSTOL_Training_Tool
 {
@@ -66,6 +67,12 @@ namespace eSTOL_Training_Tool
                 Parameter = new object[0]
             });
             //System.Environment.Exit(0);
+        }
+
+        public void ResetConfig()
+        {
+            this.ConfigKey = null;
+            this.GetPlaneConfig();
         }
     }
     

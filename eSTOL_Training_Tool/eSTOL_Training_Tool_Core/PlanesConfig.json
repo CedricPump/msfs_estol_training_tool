@@ -11,8 +11,9 @@
         "PropStrikeThreshold": 30,
         "DisplayName": "DEFAULT",
         "GearOffset": -0.45,
-        "IsTaildragger": true,
+        "IsTaildragger": true,      
         "Key": "DEFAULT",
+        "Regex": "^DEFAULT(?:\\|.*)?$",
         "MaxGForce": 2.0,
         "MaxVSpeed": -500
     },
@@ -30,6 +31,7 @@
         "GearOffset": -0.45,
         "IsTaildragger": true,
         "Key": "Cub Crafters|CC19",
+        "Regex": "^Cub Crafters\\|CC19(?:\\|.*)?$",
         "MaxGForce": 2.0,
         "MaxVSpeed": -500
     },
@@ -47,6 +49,7 @@
         "GearOffset": -0.7,
         "IsTaildragger": true,
         "Key": "$$:Zlin Aviation|$$:Savage Norden",
+        "Regex": "^\\$\\$:Zlin Aviation\\|\\$\\$:Savage Norden(?:\\|.*)?$",
         "MaxGForce": 2.0,
         "MaxVSpeed": -500
     },
@@ -64,6 +67,7 @@
         "GearOffset": -0.30,
         "IsTaildragger": true,
         "Key": "$$:Top Rudder Aircraft|$$:Top Rudder 103 Solo",
+        "Regex": "^\\$\\$:Top Rudder Aircraft\\|\\$\\$:Top Rudder 103 Solo(?:\\|.*)?$",
         "MaxGForce": 2.0,
         "MaxVSpeed": -500
     },
@@ -81,6 +85,7 @@
         "GearOffset": -0.10,
         "IsTaildragger": true,
         "Key": "Ultralight|CGS Hawk Arrow II",
+        "Regex": "^Ultralight\\|CGS Hawk Arrow II(?:\\|.*)?$",
         "MaxGForce": 2.0,
         "MaxVSpeed": -500
     },
@@ -98,13 +103,14 @@
         "GearOffset": 0.45,
         "IsTaildragger": false,
         "Key": "Zenith|701",
+        "Regex": "^Zenith\\|701(?:\\|.*)?$",
         "MaxGForce": 2.5,
         "MaxVSpeed": -700
     },
     {
         "Class": "Unlimited",
         "CollisionNoseIndex": 10,
-        "CollisionPropIndex": 8,
+        "CollisionPropIndex": 10,
         "CollisionWheelLeftIndex": 1,
         "CollisionWheelNoseTailIndex": 0,
         "CollisionWheelRightIndex": 2,
@@ -115,6 +121,7 @@
         "GearOffset": 0.55,
         "IsTaildragger": false,
         "Key": "$$:Cub Crafters|$$:MonsterNX",
+        "Regex": "^\\$\\$:Cub Crafters\\|\\$\\$:MonsterNX(?:\\|.*)?$",
         "MaxGForce": 3.0,
         "MaxVSpeed": -700
     },
@@ -132,6 +139,7 @@
         "GearOffset": -0.17,
         "IsTaildragger": true,
         "Key": "Rans|S6S",
+        "Regex": "^Rans\\|S6S(?:\\|.*)?$",
         "MaxGForce": 3.0,
         "MaxVSpeed": -700
     },
@@ -149,6 +157,7 @@
         "GearOffset": 0.55,
         "IsTaildragger": false,
         "Key": "Britten Norman|Islander",
+        "Regex": "^Britten Norman\\|Islander(?:\\|.*)?$",
         "MaxGForce": 3.0,
         "MaxVSpeed": -600
     },
@@ -166,6 +175,7 @@
         "GearOffset": -0.68,
         "IsTaildragger": true,
         "Key": "Husky|Husky",
+        "Regex": "^Husky\\|Husky(?:\\|.*)?$",
         "MaxGForce": 3.0,
         "MaxVSpeed": -700
     },
@@ -182,11 +192,12 @@
         "DisplayName": "Cessna 170B",
         "GearOffset": -0.54,
         "IsTaildragger": true,
-        "Key": "C170BT|170",
+        "Key": "Carenado_C170B_2020",
+        "Regex": "^C170BT\\|170(?:\\|.*)?$",
         "MaxGForce": 2.5,
         "MaxVSpeed": -600
     },
-	{
+    {
         "Class": "Backcountry",
         "CollisionNoseIndex": 8,
         "CollisionPropIndex": 8,
@@ -199,7 +210,8 @@
         "DisplayName": "Cessna 170B",
         "GearOffset": -0.54,
         "IsTaildragger": true,
-        "Key": "C170BT|ATCCOM.AC_MODEL C170.0.tts",
+        "Key": "Carenado_C170B_2024",
+        "Regex": "^C170BT\\|ATCCOM\\.AC_MODEL C170\\.0\\.tts(?:\\|.*)?$",
         "MaxGForce": 2.5,
         "MaxVSpeed": -600
     },
@@ -217,6 +229,7 @@
         "GearOffset": 0.40,
         "IsTaildragger": false,
         "Key": "Piper|Comanche",
+        "Regex": "^Piper\\|Comanche(?:\\|.*)?$",
         "MaxGForce": 2.0,
         "MaxVSpeed": -500
     },
@@ -234,6 +247,7 @@
         "GearOffset": -0.6,
         "IsTaildragger": true,
         "Key": "Maule Orion|M-7-235 Orion",
+        "Regex": "^Maule Orion\\|M-7-235 Orion(?:\\|.*)?$",
         "MaxGForce": 2.0,
         "MaxVSpeed": -600
     },
@@ -251,6 +265,7 @@
         "GearOffset": -0.6,
         "IsTaildragger": true,
         "Key": "Maule Orion Tundra|M-7-235 Orion",
+        "Regex": "^Maule Orion Tundra\\|M-7-235 Orion(?:\\|.*)?$",
         "MaxGForce": 2.5,
         "MaxVSpeed": -600
     },
@@ -268,6 +283,7 @@
         "GearOffset": -0.58,
         "IsTaildragger": true,
         "Key": "$$:PZL-104|$$:Wilga",
+        "Regex": "^\\$\\$:PZL-104\\|\\$\\$:Wilga(?:\\|.*)?$",
         "MaxGForce": 3.0,
         "MaxVSpeed": -700
     },
@@ -285,6 +301,7 @@
         "GearOffset": 0.20,
         "IsTaildragger": false,
         "Key": "Cessna|152",
+        "Regex": "^Cessna\\|152(?:\\|.*)?$",
         "MaxGForce": 2.0,
         "MaxVSpeed": -500
     },
@@ -302,6 +319,7 @@
         "GearOffset": -0.07,
         "IsTaildragger": true,
         "Key": "ATCCOM.ATC_NAME ACA.0.text|ATCCOM.AC_MODEL SCOUT.0.text",
+        "Regex": "^ATCCOM\\.ATC_NAME ACA\\.0\\.text\\|ATCCOM\\.AC_MODEL SCOUT\\.0\\.text(?:\\|.*)?$",
         "MaxGForce": 2.5,
         "MaxVSpeed": -600
     },
@@ -319,6 +337,7 @@
         "GearOffset": -0.45,
         "IsTaildragger": true,
         "Key": "Kitfox|Fox2",
+        "Regex": "^Kitfox\\|Fox2(?:\\|.*)?$",
         "MaxGForce": 3.0,
         "MaxVSpeed": -700
     },
@@ -336,6 +355,7 @@
         "GearOffset": -0.45,
         "IsTaildragger": true,
         "Key": "$$:Twin Cub|$$:Experimental",
+        "Regex": "^\\$\\$:Twin Cub\\|\\$\\$:Experimental(?:\\|.*)?$",
         "MaxGForce": 3.0,
         "MaxVSpeed": -700
     },
@@ -353,6 +373,7 @@
         "GearOffset": -0.45,
         "IsTaildragger": true,
         "Key": "$$:Zlin Aviation|$$:Savage Grravel",
+        "Regex": "^\\$\\$:Zlin Aviation\\|\\$\\$:Savage Grravel(?:\\|.*)?$",
         "MaxGForce": 3.0,
         "MaxVSpeed": -700
     },
@@ -370,6 +391,7 @@
         "GearOffset": -0.45,
         "IsTaildragger": true,
         "Key": "$$:Zlin Aviation|$$:Savage Carbon",
+        "Regex": "^\\$\\$:Zlin Aviation\\|\\$\\$:Savage Carbon(?:\\|.*)?$",
         "MaxGForce": 3.0,
         "MaxVSpeed": -700
     },
@@ -387,6 +409,7 @@
         "GearOffset": -0.45,
         "IsTaildragger": true,
         "Key": "Savage|SAVG",
+        "Regex": "^Savage\\|SAVG(?:\\|.*)?$",
         "MaxGForce": 2.5,
         "MaxVSpeed": -700
     },
@@ -404,6 +427,7 @@
         "GearOffset": -0.45,
         "IsTaildragger": true,
         "Key": "DeHavilland|ATCCOM.ATC_NAME BEAVER.0.text",
+        "Regex": "^DeHavilland\\|ATCCOM\\.ATC_NAME BEAVER\\.0\\.text(?:\\|.*)?$",
         "MaxGForce": 3.0,
         "MaxVSpeed": -600
     },
@@ -421,6 +445,7 @@
         "GearOffset": 1.5,
         "IsTaildragger": false,
         "Key": "ATR|42-600S",
+        "Regex": "^ATR\\|42-600S(?:\\|.*)?$",
         "MaxGForce": 2.0,
         "MaxVSpeed": -500
     },
@@ -438,6 +463,7 @@
         "GearOffset": 0.45,
         "IsTaildragger": false,
         "Key": "Robin|DR40",
+        "Regex": "^Robin\\|DR40(?:\\|.*)?$",
         "MaxGForce": 2.0,
         "MaxVSpeed": -500
     },
@@ -455,6 +481,7 @@
         "GearOffset": -0.45,
         "IsTaildragger": true,
         "Key": "ATCCOM.ATC_NAME_CUBCRAFTERS.0.text|ATCCOM.AC_MODEL_CC19.0.text",
+        "Regex": "^ATCCOM\\.ATC_NAME_CUBCRAFTERS\\.0\\.text\\|ATCCOM\\.AC_MODEL_CC19\\.0\\.text(?:\\|.*)?$",
         "MaxGForce": 2.0,
         "MaxVSpeed": -500
     },
@@ -472,23 +499,7 @@
         "GearOffset": 4.8,
         "IsTaildragger": true,
         "Key": "ATCCOM.ATC_NAME BOEING.0.text|ATCCOM.AC_MODEL_B744.0.text",
-        "MaxGForce": 2.0,
-        "MaxVSpeed": -2000
-    },
-    {
-        "Class": "Spec",
-        "CollisionNoseIndex": 10,
-        "CollisionPropIndex": 10,
-        "CollisionWheelLeftIndex": 3,
-        "CollisionWheelNoseTailIndex": 0,
-        "CollisionWheelRightIndex": 2,
-        "CollisionWheelWingtipLIndex": 10,
-        "CollisionWheelWingtipRIndex": 10,
-        "PropStrikeThreshold": 90,
-        "DisplayName": "B747-8i",
-        "GearOffset": 8.7,
-        "IsTaildragger": true,
-        "Key": "ATCCOM.ATC_NAME BOEING.0.text|ATCCOM.AC_MODEL_B748.0.text",
+        "Regex": "^ATCCOM\\.ATC_NAME BOEING\\.0\\.text\\|ATCCOM\\.AC_MODEL_B744\\.0\\.text(?:\\|.*)?$",
         "MaxGForce": 2.0,
         "MaxVSpeed": -2000
     },
@@ -506,6 +517,7 @@
         "GearOffset": 8.7,
         "IsTaildragger": true,
         "Key": "ATCCOM.ATC_NAME BOEING.0.text|",
+        "Regex": "^ATCCOM\\.ATC_NAME BOEING\\.0\\.text\\|(?:\\|.*)?$",
         "MaxGForce": 2.0,
         "MaxVSpeed": -2000
     },
@@ -523,6 +535,7 @@
         "GearOffset": 4,
         "IsTaildragger": true,
         "Key": "ATCCOM.ATC_NAME AIRBUS.0.text|ATCCOM.AC_MODEL A380.0.text",
+        "Regex": "^ATCCOM\\.ATC_NAME AIRBUS\\.0\\.text\\|ATCCOM\\.AC_MODEL A380\\.0\\.text(?:\\|.*)?$",
         "MaxGForce": 2.0,
         "MaxVSpeed": -2000
     }

@@ -17,6 +17,7 @@ namespace eSTOL_Training_Tool
         public string Model { get; protected set; }
         public string Type { get; protected set; }
         public string Title { get; protected set; }
+        public string ConfigKey { get; protected set; } = null;
         // Position
         public double Altitude { get; protected set; }
         public double Height_AGL { get; protected set; }
@@ -104,12 +105,21 @@ namespace eSTOL_Training_Tool
 
         public PlaneConfig GetPlaneConfig() 
         {
-            return PlaneConfigsService.GetPlaneConfig(this.Type + "|" + this.Model);
+            if(!HasPlaneConfigKey())
+            {
+                this.ConfigKey = PlaneConfigsService.GetPlaneConfigKey(this.GetIdent());
+            }
+            return PlaneConfigsService.GetPlaneConfig(this.ConfigKey);
+        }
+
+        public bool HasPlaneConfigKey()
+        {
+            return this.ConfigKey != null;
         }
 
         public bool HasPlaneConfig()
         {
-            return PlaneConfigsService.HasPlaneConfig(this.Type + "|" + this.Model);
+            return this.ConfigKey != null && this.ConfigKey != "DEFAULT";
         }
 
         public string GetDisplayName() 

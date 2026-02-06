@@ -276,10 +276,15 @@ namespace eSTOL_Training_Tool_Core.Core
         {
             if(this.stol != null) 
             {
+                this.plane.ResetConfig();
                 this.stol.planeType = plane.GetDisplayName();
                 this.stol.planeKey = plane.Type + "|" + plane.Model;
                 string hasConfigText = plane.HasPlaneConfig() ? "config found" : "no config";
                 this.AppendResult($"Plane Changed: {this.stol.planeType} {hasConfigText}");
+            } else
+            {
+                string hasConfigText = plane.HasPlaneConfig() ? "config found" : "no config";
+                this.AppendResult($"Plane set: {plane.GetDisplayName()} {hasConfigText}");
             }
         }
 
@@ -1035,6 +1040,10 @@ namespace eSTOL_Training_Tool_Core.Core
             openWorldMode = false;
             stol.Reset();
             stol.ApplyPreset(preset);
+
+            string hasConfigText = plane.HasPlaneConfig() ? "config found" : "no config";
+            this.AppendResult($"Plane set: {plane.GetDisplayName()} {hasConfigText}");
+
             if (config.debug) AppendResult($"[DEBUG]: Using:\r\nType: \"{plane.Type}\"\r\nModel: \"{plane.Model}\"\r\nTitle: \"{plane.Title}\"\r\nConfig: {plane.HasPlaneConfig()} (\"{plane.GetDisplayName()}\") ");
         }
 
@@ -1087,7 +1096,11 @@ namespace eSTOL_Training_Tool_Core.Core
         {
             // set STOL initial Values
             stol.planeType = plane.GetDisplayName();
-            this.stol.planeKey = plane.Type + "|" + plane.Model;
+            this.stol.planeKey = plane.ConfigKey;
+
+            string hasConfigText = plane.HasPlaneConfig() ? "config found" : "no config";
+            this.AppendResult($"Plane set: {plane.GetDisplayName()} {hasConfigText}");
+
             stol.InitialHeading = plane.Heading;
             stol.InitialPitch = plane.pitch;
             stol.InitialPosition = plane.GetTelemetrie().Position;
