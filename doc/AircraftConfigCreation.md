@@ -90,4 +90,52 @@ fill entries according to following section
 
 ### Regex (model, type, title)
 
-TBD
+The Regex parameters is the new form of plane to config matching. plane parameters model, type and title are concatenated to "type|model|title" the Regex is written to match the plane with all its variants. 
+  
+this approach is choosen to handle bar standardization for these parameters for developers, variations in usage, plane variants with same types and 2020 2024 value deviations.
+
+### Key
+
+unique key to access config.  
+Old way of config matching using "type|model".  
+
+### DisplayName
+
+short display name of the plane. commonly used but presise and unique. 
+
+e.g. C170B, Wilga 80X, Kitfox Comp, ...
+
+### Gear Offset 
+
+set adequate offset and check if plane teleports into the line. The aft edge of the wheel depilation should line up but not touch the line - barely not Bering a scratch. that's 0 ft score for landing and that's the reference.
+
+if not aligning adapt Offset, restart tool and check again. Got no better method for now
+
+### CollisionWheelXxxIndex
+
+The wheel collision checks Simvars for contact points 0-20. most planes use the established standard of nose or tail wheel index 0, right and left main gear index 1 and 2.
+
+some plane deviate from that. this can be seen if tilting the plane on ground and checking the green wheels indicator on the tool. 
+
+if deviation choose an approach:
+
+1. try and error: set an index, restart tool and check for success
+
+2. monitor all Contact points: find out correct index using SimvarWatcher
+
+### PropStrikeThrehold
+
+the prop strike threshold is the pitch angle used to check if an propstrike is likely. many planes do not have a proper crash mechanic or evalen a prop or nose contact point configured. 
+
+to get a proper value, pause the Sim and tilt the plane using Simvarwatcher by pitch variable until the prop disc allings with the ground. 
+
+often a rough estimate is enough.
+
+## Max GForce and VSpeed
+
+aircraft stress limits. Standard by class and purpose (stock, backcountry, utitly, special STOL,...) or real life values If available.
+
+... to be continued ... 
+
+
+
