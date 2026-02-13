@@ -94,6 +94,19 @@ The Regex parameters is the new form of plane to config matching. plane paramete
   
 this approach is choosen to handle bar standardization for these parameters for developers, variations in usage, plane variants with same types and 2020 2024 value deviations.
 
+get values:
+
+- **SimvarWatcher** read values directly
+- **From training tool**
+Steps:
+1. Load in with airplane
+2. Start STOL Training Tool
+3. Check Debugging
+4. Click auto select
+5. Click apply 
+
+Aircraft identity parameters should be shown.  
+
 ### Key
 
 unique key to access config.  
