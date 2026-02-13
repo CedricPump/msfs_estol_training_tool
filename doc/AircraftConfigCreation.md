@@ -18,22 +18,70 @@ additional parameters are added for types detection, prop collision handling and
 
 ## config structure 
 
-the aircraft cofigs is saved as a JSON file "aircraft config.json" containing a list of JSON objects.  
+the aircraft cofigs is saved as a JSON file "planesConfig.json" containing a list of JSON objects.  
 
 ```
-to be added
+    [{
+        "Class": "",
+        "CollisionNoseIndex": 10,
+        "CollisionPropIndex": 8,
+        "CollisionWheelLeftIndex": 1,
+        "CollisionWheelNoseTailIndex": 0,
+        "CollisionWheelRightIndex": 2,
+        "CollisionWheelWingtipLIndex": 3,
+        "CollisionWheelWingtipRIndex": 4,
+        "PropStrikeThreshold": 30,
+        "DisplayName": "DEFAULT",
+        "GearOffset": -0.45,
+        "IsTaildragger": true,      
+        "Key": "DEFAULT",
+        "Regex": "^DEFAULT(?:\\|.*)?$",
+        "MaxGForce": 2.0,
+        "MaxVSpeed": -500
+    }, ...]
 ```
 
 ## Parameters
 
-- 
+- **Class**: STOL class (correctly not used)
+- **CollisionNoseIndex**: nose contact point index if available
+- **CollisionPropIndex**: prop contact point index if available (prop strike detection)
+- **CollisionWheel_Index**: wheel Contact point of indicated wheel 
+- **CollisionWingtip_Index**: wingtip Contact point for wing strike detection
+- **PropStrikeThreshold**: pitch angle for prop strike detection in deg
+- **DisplayName**: short display name 
+- **GearOffset**: offset from CG plane position to main gear position 
+- **IsTaildragger**: true if taidragger (for tail touch detection)
+- **Key**: unique key (old type detection)
+- **Regex**: Regex matches plane "type|model|title" (new type detection from v1.4.19?)
+- **MaxGForce** G-Force limit for deviation 
+- **MaxVSpeed** vertical speed limit for deviation
+
+
 
 ## appending new aircraft entry  
 
 add a new template JSON object to the end of the list (watch the comma):  
 
 ```
-to be added
+    ,{
+        "Class": "",
+        "CollisionNoseIndex": 10,
+        "CollisionPropIndex": 8,
+        "CollisionWheelLeftIndex": 1,
+        "CollisionWheelNoseTailIndex": 0,
+        "CollisionWheelRightIndex": 2,
+        "CollisionWheelWingtipLIndex": 3,
+        "CollisionWheelWingtipRIndex": 4,
+        "PropStrikeThreshold": 30,
+        "DisplayName": "short aircraft nane",
+        "GearOffset": -0.45,
+        "IsTaildragger": true,      
+        "Key": "unique key",
+        "Regex": "Regex filtering model and type",
+        "MaxGForce": 2.0,
+        "MaxVSpeed": -500
+    }
 ```
 
 fill entries according to following section 
