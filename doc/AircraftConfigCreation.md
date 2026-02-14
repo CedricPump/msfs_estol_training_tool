@@ -53,7 +53,7 @@ the aircraft cofigs is saved as a JSON file "planesConfig.json" containing a lis
 - **GearOffset**: offset from CG plane position to main gear position 
 - **IsTaildragger**: true if taidragger (for tail touch detection)
 - **Key**: unique key (old type detection)
-- **Regex**: Regex matches plane "type|model|title" (new type detection from v1.4.19?)
+- **Regex**: Regex matches plane "type|model|title" (new type detection from v1.4.19+)
 - **MaxGForce** G-Force limit for deviation 
 - **MaxVSpeed** vertical speed limit for deviation
 
