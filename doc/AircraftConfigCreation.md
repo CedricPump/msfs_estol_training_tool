@@ -130,6 +130,14 @@ The wheel collision checks Simvars for contact points 0-20. most planes use the 
 
 some plane deviate from that. this can be seen if tilting the plane on ground and checking the green wheels indicator on the tool. 
 
+test cases:
+taidragger nose over, tail up - only main wheel indicators green. 
+tip over to the side while pulling back touch a wing and raise a wheel. wheel indicators in that side is dark.  
+nose wheel tail strike and hold - only main wheel indicators green.
+tip over to the side while pushing forward touch a wing and raise a wheel. wheel indicators in that side is dark.  
+
+
+
 if deviation choose an approach:
 
 1. try and error: set an index, restart tool and check for success
