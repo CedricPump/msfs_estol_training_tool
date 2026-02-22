@@ -1,3 +1,17 @@
+v1.4.20
+
+- added C185 config
+- added C172 config
+- added NXCub config
+- added Savage Cub config
+- imporved XCub Regex
+- fixed gear offeset reading
+
+v1.4.19
+
+- added C170B config variation
+- changed config to use Regex match
+
 v1.4.18
 
 - added Set Fuel Standard button
