@@ -312,7 +312,7 @@ namespace eSTOL_Training_Tool_Core.Core
                     };
 
 
-                    if(this.stol.planeType != "" && plane.GetDisplayName() != this.stol.planeType) 
+                    if(this.stol.planeKey != "" && plane.ConfigKey != this.stol.planeKey) 
                     {
                         ReinitPlaneType();
                     }
@@ -548,15 +548,15 @@ namespace eSTOL_Training_Tool_Core.Core
 
                                             if (!(spin > angleR + flagsAngleTreshold || spin < angleL - flagsAngleTreshold) && yOffset > -1.2 && yOffset < 0 && Math.Abs(xOffset) < 21)
                                             {
-                                                this.form.setAligned($"aligned ({(Math.Round(stol.GetDistanceTo(telemetrie.Position) * 3.28084) + 3.93701):F0} ft)", System.Drawing.Color.LightGreen);
+                                                this.form.setAligned($"aligned ({Math.Round(stol.GetDistanceTo(telemetrie.Position) * 3.28084):F0} ft)", System.Drawing.Color.LightGreen);
                                             }
                                             else if (Math.Abs(spin) < 45 && yOffset > -1.2 && yOffset < 1 && Math.Abs(xOffset) < 21)
                                             {
-                                                this.form.setAligned($"aligned (bad heading,{(Math.Round(stol.GetDistanceTo(telemetrie.Position) * 3.28084) + 3.93701):F0} ft)", System.Drawing.Color.LightGreen);
+                                                this.form.setAligned($"aligned (bad heading,{Math.Round(stol.GetDistanceTo(telemetrie.Position) * 3.28084):F0} ft)", System.Drawing.Color.LightGreen);
                                             }
                                             else if (Math.Abs(spin) < 90 && yOffset > -180 && yOffset < 1 && Math.Abs(xOffset) < 21)
                                             {
-                                                this.form.setAligned($"on lineup ({(Math.Round(stol.GetDistanceTo(telemetrie.Position) * 3.28084) + 3.93701):F0} ft)", System.Drawing.Color.LightYellow);
+                                                this.form.setAligned($"on lineup ({Math.Round(stol.GetDistanceTo(telemetrie.Position) * 3.28084):F0} ft)", System.Drawing.Color.LightYellow);
                                             }
                                             else if (Math.Abs(spin) < 90 && yOffset > 1 && yOffset < 600 && Math.Abs(xOffset) < 21)
                                             {

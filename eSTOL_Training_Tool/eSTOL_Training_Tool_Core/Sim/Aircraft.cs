@@ -203,7 +203,7 @@ namespace eSTOL_Training_Tool
 
         public GeoCoordinate getPositionWithGearOffset() 
         {
-            double offset = PlaneConfigsService.GetGearOffset(this.Type + "|" + this.Model);
+            double offset = PlaneConfigsService.GetGearOffset(this.ConfigKey);
             GeoCoordinate simPos = new GeoCoordinate(this.Latitude, this.Longitude, this.Altitude * 0.3048);
             return GeoUtils.GetOffsetPosition(simPos, this.Heading, -offset);
         }

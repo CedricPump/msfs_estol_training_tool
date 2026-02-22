@@ -1,3 +1,16 @@
+v1.4.21
+
+- changed alignment output
+- added rans trike config
+- fixed rans s6s config
+- added Cap4 config
+- added Chinook config
+- added Shock Ultra config
+- added Draco X config
+- added J3 cub CAS config
+- fixed Beaver config
+- fixed Maule M7 config
+
 v1.4.20
 
 - added C185 config
