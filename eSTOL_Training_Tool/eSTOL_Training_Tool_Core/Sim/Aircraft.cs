@@ -351,7 +351,7 @@ namespace eSTOL_Training_Tool
 
         public void setPosition(GeoCoordinate position, double heading, bool setAttitude = false, double altitudeOffset = 0.0)
         {
-            double offset = PlaneConfigsService.GetGearOffset(this.Type + "|" + this.Model);
+            double offset = PlaneConfigsService.GetGearOffset(this.ConfigKey);
 
             GeoCoordinate offsetPos = GeoUtils.GetOffsetPosition(position, heading, offset);
 
