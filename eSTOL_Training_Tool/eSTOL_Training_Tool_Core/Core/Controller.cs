@@ -278,7 +278,7 @@ namespace eSTOL_Training_Tool_Core.Core
             {
                 this.plane.ResetConfig();
                 this.stol.planeType = plane.GetDisplayName();
-                this.stol.planeKey = plane.Type + "|" + plane.Model;
+                this.stol.planeKey = plane.ConfigKey;
                 string hasConfigText = plane.HasPlaneConfig() ? "config found" : "no config";
                 this.AppendResult($"Plane Changed: {this.stol.planeType} {hasConfigText}");
             } else

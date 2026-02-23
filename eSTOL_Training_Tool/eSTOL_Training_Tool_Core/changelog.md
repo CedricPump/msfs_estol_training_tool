@@ -1,3 +1,11 @@
+v1.4.22
+
+- added TL-3000
+- added Vixxen
+- added Draco X
+- fixed C152 20204
+- fixed Doubleender 20204
+
 v1.4.21
 
 - changed alignment output

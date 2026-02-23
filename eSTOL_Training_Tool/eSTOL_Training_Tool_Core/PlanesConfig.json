@@ -342,6 +342,24 @@
         "MaxVSpeed": -500
     },
     {
+        "Class": "Backcountry",
+        "CollisionNoseIndex": 10,
+        "CollisionPropIndex": 8,
+        "CollisionWheelLeftIndex": 1,
+        "CollisionWheelNoseTailIndex": 0,
+        "CollisionWheelRightIndex": 2,
+        "CollisionWheelWingtipLIndex": 3,
+        "CollisionWheelWingtipRIndex": 4,
+        "PropStrikeThreshold": 30,
+        "DisplayName": "Cessna 152 (2024)",
+        "GearOffset": 0.20,
+        "IsTaildragger": false,
+        "Key": "Cessna_152_2024",
+        "Regex": "^ATCCOM\\.ATC_NAME CESSNA\\.0\\.text\\|ATCCOM\\.AC_MODEL C152\\.0\\.text(?:\\|.*)?$",
+        "MaxGForce": 2.0,
+        "MaxVSpeed": -500
+    },
+    {
         "Class": "Spec",
         "CollisionNoseIndex": 10,
         "CollisionPropIndex": 8,
@@ -390,8 +408,8 @@
         "DisplayName": "Doubleender",
         "GearOffset": -0.45,
         "IsTaildragger": true,
-        "Key": "$$:Twin Cub|$$:Experimental",
-        "Regex": "^\\$\\$:Twin Cub\\|\\$\\$:Experimental(?:\\|.*)?$",
+        "Key": "Doubleender",
+        "Regex": "^\\$\\$:Experimental\\|\\$\\$:Twin Cub(?:\\|.*)?$",
         "MaxGForce": 3.0,
         "MaxVSpeed": -700
     },
@@ -719,5 +737,41 @@
         "Regex": "^\\$\\$:Patey Aviation\\|\\$\\$:Draco X(?:\\|.*)?$",
         "MaxGForce": 3.0,
         "MaxVSpeed": -1000
+    },
+    {
+        "Class": "",
+        "CollisionNoseIndex": 10,
+        "CollisionPropIndex": 8,
+        "CollisionWheelLeftIndex": 1,
+        "CollisionWheelNoseTailIndex": 0,
+        "CollisionWheelRightIndex": 2,
+        "CollisionWheelWingtipLIndex": 3,
+        "CollisionWheelWingtipRIndex": 4,
+        "PropStrikeThreshold": 30,
+        "DisplayName": "Vixxen",
+        "GearOffset": -0,
+        "IsTaildragger": false,
+        "Key": "Aeroprakt Vixxen",
+        "Regex": "^\\$\\$:Aeroprakt\\|\\$\\$:A-32(?:\\|.*)?$",
+        "MaxGForce": 2.0,
+        "MaxVSpeed": -500
+    },
+    {
+        "Class": "",
+        "CollisionNoseIndex": 10,
+        "CollisionPropIndex": 8,
+        "CollisionWheelLeftIndex": 1,
+        "CollisionWheelNoseTailIndex": 0,
+        "CollisionWheelRightIndex": 2,
+        "CollisionWheelWingtipLIndex": 3,
+        "CollisionWheelWingtipRIndex": 4,
+        "PropStrikeThreshold": 30,
+        "DisplayName": "TL-3000",
+        "GearOffset": -0.15,
+        "IsTaildragger": false,
+        "Key": "TL-3000",
+        "Regex": "^.*\\|.*TL 3000\\|.*$",
+        "MaxGForce": 2.0,
+        "MaxVSpeed": -500
     }
 ]
