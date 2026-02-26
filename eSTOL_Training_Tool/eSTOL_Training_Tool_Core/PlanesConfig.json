@@ -773,5 +773,23 @@
         "Regex": "^.*\\|.*TL 3000\\|.*$",
         "MaxGForce": 2.0,
         "MaxVSpeed": -500
+    },
+    {
+        "Class": "",
+        "CollisionNoseIndex": 10,
+        "CollisionPropIndex": 8,
+        "CollisionWheelLeftIndex": 1,
+        "CollisionWheelNoseTailIndex": 0,
+        "CollisionWheelRightIndex": 2,
+        "CollisionWheelWingtipLIndex": 3,
+        "CollisionWheelWingtipRIndex": 4,
+        "PropStrikeThreshold": 30,
+        "DisplayName": "Maule MX 7-180",
+        "GearOffset": -0.45,
+        "IsTaildragger": false,
+        "Key": "Maule MX 7-180",
+        "Regex": "^MAULE\\|MAULE(?:\\|.*)?$",
+        "MaxGForce": 2.0,
+        "MaxVSpeed": -500
     }
 ]

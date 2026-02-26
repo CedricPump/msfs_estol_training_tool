@@ -114,12 +114,12 @@ namespace eSTOL_Training_Tool
 
         public bool HasPlaneConfigKey()
         {
-            return this.ConfigKey != null;
+            return this.ConfigKey != null || this.ConfigKey == "";
         }
 
         public bool HasPlaneConfig()
         {
-            return this.ConfigKey != null && this.ConfigKey != "DEFAULT";
+            return HasPlaneConfigKey() && this.ConfigKey != "DEFAULT";
         }
 
         public string GetDisplayName() 
@@ -127,7 +127,7 @@ namespace eSTOL_Training_Tool
             var dispalyName = GetPlaneConfig().DisplayName;
             if (GetPlaneConfig().Key == "DEFAULT")
             {
-                dispalyName = $"{this.Type} {this.Model}: \"{this.Title}\" ({GetPlaneConfig().DisplayName} config)";
+                dispalyName = $"{GetPlaneConfig().DisplayName} no config ({this.Title})";
             }
             return string.IsNullOrEmpty(dispalyName) ? this.Title : dispalyName;
         }

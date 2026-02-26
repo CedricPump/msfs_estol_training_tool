@@ -11,5 +11,10 @@ namespace eSTOL_Training_Tool.Model
         public string Model { get; set; }
         public string Type { get; set; }
         public string Title { get; set; }
+
+        public string ToString()
+        {
+            return $"{this.Type}|{this.Model}|{this.Title}";
+        }
     }
 }

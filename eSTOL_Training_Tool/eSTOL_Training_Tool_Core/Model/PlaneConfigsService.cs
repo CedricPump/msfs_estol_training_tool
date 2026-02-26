@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Text.Json;
 using eSTOL_Training_Tool.Model;
+using eSTOL_Training_Tool_Core.Core;
+using eSTOL_Training_Tool_Core.UI;
 
 namespace eSTOL_Training_Tool_Core.Model
 {
@@ -12,7 +13,7 @@ namespace eSTOL_Training_Tool_Core.Model
         private static Dictionary<string, PlaneConfig> planeConfigByKey = new();
         private static List<PlaneConfig> planeConfigs = new();
 
-        public static void LoadPlaneConfigs(string filePath)
+        public static int LoadPlaneConfigs(string filePath)
         {
             if (File.Exists(filePath))
             {
@@ -28,10 +29,12 @@ namespace eSTOL_Training_Tool_Core.Model
                         planeConfigByKey[config.Key] = config;
                     }
                 }
+                return planeConfigs.Count;
             }
             else
             {
                 Console.WriteLine("Error: Offset JSON file not found.");
+                return 0;
             }
         }
 
@@ -48,17 +51,23 @@ namespace eSTOL_Training_Tool_Core.Model
         public static string GetPlaneConfigKey(Ident ident)
         {
             // concat model, type and title to get the key, e.g. "ATR|42-600S|ATR 42-600S White"
-            string key = $"{ident.Type}|{ident.Model}|{ident.Title}";
+            string key = ident.ToString();
             // loop through the plane configs and find the first one that matches the key using the regex pattern, e.g. "ATR\|42-600S\|.*"
 
             string foundKey = "DEFAULT";
 
+            UILogger.LogDebug($"[DEBUG] checking {planeConfigs.Count} entries for key: {key}");
+     
             foreach (var config in planeConfigs) 
             {
+ 
+                UILogger.LogDebug($"[DEBUG] matching: key with regex: \\{config.Regex}\\");
+                
                 // check key regex pattern, if it matches the ident key, return the config key
                 if (!string.IsNullOrWhiteSpace(config.Regex) && System.Text.RegularExpressions.Regex.IsMatch(key, config.Regex))
                 {
                     foundKey = config.Key;
+                    UILogger.LogDebug($"[DEBUG] match: {config.DisplayName}!");
                     break;
                 }
             }

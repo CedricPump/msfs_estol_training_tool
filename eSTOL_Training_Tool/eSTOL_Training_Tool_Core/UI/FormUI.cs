@@ -111,6 +111,8 @@ namespace eSTOL_Training_Tool_Core.UI
             this.numericUpDownStopwatchOffest.Value = stopwatchOffsetSeconds;
 
             this.checkBoxPropStrike.Checked = config.simulatePropStrike;
+
+            new UILogger(this);
         }
 
         public void setPresets(string[] strings)

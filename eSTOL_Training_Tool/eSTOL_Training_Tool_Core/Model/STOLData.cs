@@ -16,7 +16,8 @@ namespace eSTOL_Training_Tool
         public string UUID = "";
 
         // meta
-        public string planeType = "";
+        public string planeName = "";
+        public string planeIdentStr = "";
         public string planeKey = "";
         public string user = "";
         public Preset preset = null;
@@ -126,7 +127,7 @@ namespace eSTOL_Training_Tool
             result.preset = preset;
             result.InitHash = GetInitialPosHash();
             result.User = user;
-            result.planeType = planeType;
+            result.planeType = planeName;
             result.planeKey = planeKey;
             result.time = (DateTime) StopTime;
 

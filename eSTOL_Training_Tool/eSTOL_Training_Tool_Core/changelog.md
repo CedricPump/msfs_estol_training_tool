@@ -1,3 +1,11 @@
+v1.4.23
+
+- added Maule MX 7-180 plane config
+- added matching debug output
+- added UILogger
+- fixed plane change detection
+- shortened default config plane name
+
 v1.4.22
 
 - added TL-3000

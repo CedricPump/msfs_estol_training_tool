@@ -107,7 +107,8 @@ namespace eSTOL_Training_Tool_Core.Core
 
         public void Init()
         {
-            PlaneConfigsService.LoadPlaneConfigs(this.config.PlanesConfigPath);
+            int configs = PlaneConfigsService.LoadPlaneConfigs(this.config.PlanesConfigPath);
+            AppendResult($"Loaded {configs} plane configs");
 
             // Update once to trigger connect to sim
             plane.Update();
@@ -274,18 +275,14 @@ namespace eSTOL_Training_Tool_Core.Core
 
         public void ReinitPlaneType() 
         {
-            if(this.stol != null) 
-            {
-                this.plane.ResetConfig();
-                this.stol.planeType = plane.GetDisplayName();
-                this.stol.planeKey = plane.ConfigKey;
-                string hasConfigText = plane.HasPlaneConfig() ? "config found" : "no config";
-                this.AppendResult($"Plane Changed: {this.stol.planeType} {hasConfigText}");
-            } else
-            {
-                string hasConfigText = plane.HasPlaneConfig() ? "config found" : "no config";
-                this.AppendResult($"Plane set: {plane.GetDisplayName()} {hasConfigText}");
-            }
+
+            this.plane.ResetConfig();
+            this.stol.planeName = plane.GetDisplayName();
+            this.stol.planeIdentStr = plane.GetIdent().ToString();
+            this.stol.planeKey = plane.ConfigKey;
+            string hasConfigText = plane.HasPlaneConfig() ? "config found" : "no config";
+            this.AppendResult($"Plane Changed: {this.stol.planeName} {hasConfigText}");
+            
         }
 
         public void Run()
@@ -312,7 +309,7 @@ namespace eSTOL_Training_Tool_Core.Core
                     };
 
 
-                    if(this.stol.planeKey != "" && plane.ConfigKey != this.stol.planeKey) 
+                    if(plane.GetIdent().ToString() != this.stol.planeIdentStr) 
                     {
                         ReinitPlaneType();
                     }
@@ -688,8 +685,8 @@ namespace eSTOL_Training_Tool_Core.Core
                                             
                                             // Touchdown!!!
                                             setState(CycleState.Rollout);
-                                            stol.planeType = plane.GetDisplayName();
-                                            this.stol.planeKey = plane.Type + "|" + plane.Model;
+                                            stol.planeName = plane.GetDisplayName();
+                                            this.stol.planeKey = plane.ConfigKey;
                                             stol.TouchdownPosition = telemetrie.Position;
                                             stol.TouchdownTime = DateTime.Now;
                                             stol.TouchdownPitch = lastTelemetrie.pitch;
@@ -874,7 +871,7 @@ namespace eSTOL_Training_Tool_Core.Core
                                             if (config.enableGPXRecodering)
                                             {
                                                 GPXRecorder.Append(telemetrie);
-                                                GPXRecorder.Save(stol.user.Trim(), stol.planeType);
+                                                GPXRecorder.Save(stol.user.Trim(), stol.planeName);
                                             }
                                         }
                                         // Alt AGL > 5 ft to avoid bounce detection
@@ -1044,7 +1041,7 @@ namespace eSTOL_Training_Tool_Core.Core
             string hasConfigText = plane.HasPlaneConfig() ? "config found" : "no config";
             this.AppendResult($"Plane set: {plane.GetDisplayName()} {hasConfigText}");
 
-            if (config.debug) AppendResult($"[DEBUG]: Using:\r\nType: \"{plane.Type}\"\r\nModel: \"{plane.Model}\"\r\nTitle: \"{plane.Title}\"\r\nConfig: {plane.HasPlaneConfig()} (\"{plane.GetDisplayName()}\") ");
+            UILogger.LogDebug($"[DEBUG]: Using:\r\nType: \"{plane.Type}\"\r\nModel: \"{plane.Model}\"\r\nTitle: \"{plane.Title}\"\r\nConfig: {plane.HasPlaneConfig()} (\"{plane.GetDisplayName()}\") ");
         }
 
         public void AutoSetPreset()
@@ -1095,7 +1092,7 @@ namespace eSTOL_Training_Tool_Core.Core
         private void initSTOL()
         {
             // set STOL initial Values
-            stol.planeType = plane.GetDisplayName();
+            stol.planeName = plane.GetDisplayName();
             this.stol.planeKey = plane.ConfigKey;
 
             string hasConfigText = plane.HasPlaneConfig() ? "config found" : "no config";
@@ -1105,8 +1102,8 @@ namespace eSTOL_Training_Tool_Core.Core
             stol.InitialPitch = plane.pitch;
             stol.InitialPosition = plane.GetTelemetrie().Position;
             setState(CycleState.Hold);
-            if (config.debug) AppendResult($"[DEBUG]: STOL cycle initiated\nSTART: {GeoUtils.ConvertToDMS(stol.InitialPosition)} HDG: {Math.Round(stol.InitialHeading.Value)}°");
-            if (config.debug) AppendResult($"[DEBUG]: Using:\nType: \"{plane.Type}\"\nModel: \"{plane.Model}\"\nTitle: \"{plane.Title}\"\n");
+            UILogger.LogDebug($"[DEBUG]: STOL cycle initiated\nSTART: {GeoUtils.ConvertToDMS(stol.InitialPosition)} HDG: {Math.Round(stol.InitialHeading.Value)}°");
+            UILogger.LogDebug($"[DEBUG]: Using:\nType: \"{plane.Type}\"\nModel: \"{plane.Model}\"\nTitle: \"{plane.Title}\"\n");
         }
 
         public void TeleportToReferenceLine() 
