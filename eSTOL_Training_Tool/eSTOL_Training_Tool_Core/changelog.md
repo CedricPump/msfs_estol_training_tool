@@ -1,3 +1,16 @@
+v1.4.25
+
+- added T207A
+- added Navion B
+- added L17B
+- added Comanche
+- added Kodiak
+- added L-19
+- added L-4H
+- added DH60
+- added Tiger Moth
+- added C208
+
 v1.4.24
 
 - added DHC6 Twin Otter
