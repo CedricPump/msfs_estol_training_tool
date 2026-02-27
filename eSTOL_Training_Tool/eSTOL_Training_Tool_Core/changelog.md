@@ -1,3 +1,9 @@
+v1.4.24
+
+- added DHC6 Twin Otter
+- added BN2A Islander
+- fixed Maule MX Prop strike threshold
+
 v1.4.23
 
 - added Maule MX 7-180 plane config
