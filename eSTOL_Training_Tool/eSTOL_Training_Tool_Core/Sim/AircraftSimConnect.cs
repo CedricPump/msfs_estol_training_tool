@@ -165,8 +165,8 @@ namespace eSTOL_Training_Tool
             CreateDataDefinition("AIRCRAFT WIND X", "knots");
             CreateDataDefinition("AIRCRAFT WIND Z", "knots");
 
-            CreateDataDefinition("AMBIENT WIND X", "knots");
-            CreateDataDefinition("AMBIENT WIND Y", "knots");
+            CreateDataDefinition("AMBIENT WIND DIRECTION", "degrees");
+            CreateDataDefinition("AMBIENT WIND VELOCITY", "knots");
 
             CreateDataDefinition("AMBIENT PRESSURE", "mbar");
             CreateDataDefinition("AMBIENT TEMPERATURE", "Celsius");
@@ -729,14 +729,14 @@ namespace eSTOL_Training_Tool
                             WindY = (double)data.dwData[0];
                             break;
                         }
-                    case "AMBIENT WIND X":
+                    case "AMBIENT WIND DIRECTION":
                         {
-                            AmbientWindX = (double)data.dwData[0];
+                            AmbientWindDirection = (double)data.dwData[0];
                             break;
                         }
-                    case "AMBIENT WIND Y":
+                    case "AMBIENT WIND VELOCITY":
                         {
-                            AmbientWindY = (double)data.dwData[0];
+                            AmbientWindSpeed = (double)data.dwData[0];
                             break;
                         }
                     case "FLAP SPEED EXCEEDED":

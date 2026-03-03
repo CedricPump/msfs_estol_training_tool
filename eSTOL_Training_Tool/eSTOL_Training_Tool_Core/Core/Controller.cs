@@ -608,8 +608,8 @@ namespace eSTOL_Training_Tool_Core.Core
                                             setState(CycleState.Climbout);
                                             stol.TakeoffPosition = telemetrie.Position;
                                             stol.TakeoffTime = DateTime.Now;
-                                            stol.takeoffWindSpeed = plane.getAmbientWindTotal();
-                                            stol.takeoffWindDirection = plane.getAmbientWindDir();
+                                            stol.takeoffWindSpeed = plane.AmbientWindSpeed;
+                                            stol.takeoffWindDirection = plane.AmbientWindDirection;
                                             // and last 4 chars from UUID
                                             AppendResult($"---- New run {stol.UUID.Substring(stol.UUID.Length - 4)} ---\r\n\r\nTakoff recorded: {(stol.GetTakeoffDistance() * 3.28084):F0} ft");
                                             if (config.debug && config.DebugAutoPause) this.PauseNoPopup(plane, $"Takeoff: {stol.GetTakeoffDistance():F0}ft");
@@ -698,8 +698,8 @@ namespace eSTOL_Training_Tool_Core.Core
                                             stol.maxBank = Math.Abs(telemetrie.bank);
                                             double pitch = (double)(stol.InitialPitch - telemetrie.pitch);
                                             stol.minPitch = pitch;
-                                            stol.landingWindSpeed = plane.getAmbientWindTotal();
-                                            stol.landingWindDirection = plane.getAmbientWindDir();
+                                            stol.landingWindSpeed = plane.AmbientWindSpeed;
+                                            stol.landingWindDirection = plane.AmbientWindDirection;
                                             stol.landingFuelPercent = plane.FuelPercent;
 
 

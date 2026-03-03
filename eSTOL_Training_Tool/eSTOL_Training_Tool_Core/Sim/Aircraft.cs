@@ -74,6 +74,8 @@ namespace eSTOL_Training_Tool
         public double WindY { get; protected set; } = 0.0;
         public double AmbientWindX { get; protected set; } = 0.0;
         public double AmbientWindY { get; protected set; } = 0.0;
+        public double AmbientWindDirection { get; protected set; } = 0.0;
+        public double AmbientWindSpeed { get; protected set; } = 0.0;
         public double Antistall { get; protected set; } = 0;
         public bool Autotrim { get; protected set; } = false;
         public bool AICtrl { get; protected set; } = false;
@@ -265,7 +267,12 @@ namespace eSTOL_Training_Tool
 
         public bool IsPropstrike()
         {
-            bool collisionProp = ContactPoints[this.GetPlaneConfig().CollisionPropIndex];
+            int index = this.GetPlaneConfig().CollisionPropIndex;
+            bool collisionProp = false;
+            if (index >= 0)
+            {
+                collisionProp = ContactPoints[index];
+            }
             bool propStrikeAngleReached = this.IsOnGround && this.pitch > this.GetPlaneConfig().PropStrikeThreshold;
             return collisionProp || propStrikeAngleReached;
         }
@@ -274,24 +281,6 @@ namespace eSTOL_Training_Tool
         {
             double windTotal = Math.Sqrt(WindX * WindX + WindY * WindY);
             return windTotal;
-        }
-
-        public double getAmbientWindTotal()
-        {
-            double windTotal = Math.Sqrt(AmbientWindX * AmbientWindX + AmbientWindY * AmbientWindY);
-            return windTotal;
-        }
-
-        public double getAmbientWindDir()
-        {
-            double angleRad = Math.Atan2(AmbientWindX, AmbientWindY);
-            double angleDeg = angleRad * (180.0 / Math.PI);
-
-            // Normalize to [0, 360)
-            if (angleDeg < 0)
-                angleDeg += 360;
-
-            return angleDeg;
         }
 
         public double getRelWindDir()

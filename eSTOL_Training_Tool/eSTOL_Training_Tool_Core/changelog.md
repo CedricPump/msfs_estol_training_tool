@@ -1,3 +1,8 @@
+v1.4.26
+
+- added prop collision disable flag
+- fixed ambinent wind reading
+
 v1.4.25
 
 - added T207A

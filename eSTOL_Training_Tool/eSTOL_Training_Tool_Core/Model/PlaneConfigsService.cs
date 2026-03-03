@@ -119,8 +119,8 @@ namespace eSTOL_Training_Tool_Core.Model
         public bool IsTaildragger { get; set; } = true;
         public string Class { get; set; } = "";
         // Colision Point Index
-        public uint CollisionNoseIndex { get; set; } = 10;
-        public uint CollisionPropIndex { get; set; } = 11;
+        public int CollisionNoseIndex { get; set; } = -1;
+        public int CollisionPropIndex { get; set; } = -1;
         public uint CollisionWheelLeftIndex { get; set; } = 1;
         public uint CollisionWheelNoseTailIndex { get; set; } = 0;
         public uint CollisionWheelRightIndex { get; set; } = 2;
