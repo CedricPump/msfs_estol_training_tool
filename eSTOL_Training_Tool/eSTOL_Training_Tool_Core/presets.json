@@ -195,6 +195,20 @@
 		"start_alt":   194,
 		"start_hdg":   126
 	},
+    {
+		"title": "EHLE - RW05 FSWeekend",
+		"start_lat": 52.450379676272604,
+		"start_long": 5.504371516360817,
+		"start_alt": -3.316349375096178,
+		"start_hdg": 47.546
+    },
+    {
+		"title": "EHLE - RW23 FSWeekend",
+		"start_lat": 52.45148488463379,
+		"start_long": 5.506368665493265,
+		"start_alt": -3.985656538338624,
+		"start_hdg": 227.546
+    },
 	{
 		"title": "EGBR - Breighton E (The Real STOL Fest)",
 		"start_lat":  53.803070,

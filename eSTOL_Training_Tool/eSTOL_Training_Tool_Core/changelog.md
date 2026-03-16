@@ -1,3 +1,7 @@
+v1.4.27
+
+- added FSWeekend presets
+
 v1.4.26
 
 - added prop collision disable flag
