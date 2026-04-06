@@ -1007,5 +1007,23 @@
         "Regex": "^ATCCOM\\.ATC_NAME CESSNA\\.0\\.text\\|ATCCOM\\.AC_MODEL C208\\.0\\.text(?:\\|.*)?$",
         "MaxGForce": 2.0,
         "MaxVSpeed": -500
+    },
+    {
+        "Class": "",
+        "CollisionNoseIndex": -1,
+        "CollisionPropIndex": -1,
+        "CollisionWheelLeftIndex": 1,
+        "CollisionWheelNoseTailIndex": 0,
+        "CollisionWheelRightIndex": 2,
+        "CollisionWheelWingtipLIndex": 3,
+        "CollisionWheelWingtipRIndex": 4,
+        "PropStrikeThreshold": 17,
+        "DisplayName": "Rad Cat",
+        "GearOffset": -0.70,
+        "IsTaildragger": true,
+        "Key": "RadCat",
+        "Regex": "^Super Cub Radial|RadCat(?:\\|.*)?$",
+        "MaxGForce": 2.0,
+        "MaxVSpeed": -500
     }
 ]

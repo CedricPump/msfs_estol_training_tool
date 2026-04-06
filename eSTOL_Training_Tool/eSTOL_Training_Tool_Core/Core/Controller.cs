@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using eSTOL_Training_Tool;
-using eSTOL_Training_Tool_Core.Model;
-using eSTOL_Training_Tool_Core.Influx;
-using System.Globalization;
-using System.Linq;
-using Microsoft.FlightSimulator.SimConnect;
-using System.Windows.Forms;
-using eSTOL_Training_Tool_Core.UI;
-using System.Diagnostics;
-using System.Net.Http;
-using System.Threading.Tasks;
 using System.Device.Location;
-using eSTOL_Training_Tool_Core.GPX;
+using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Reflection;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using eSTOL_Training_Tool;
+using eSTOL_Training_Tool_Core.GPX;
+using eSTOL_Training_Tool_Core.Influx;
+using eSTOL_Training_Tool_Core.Model;
+using eSTOL_Training_Tool_Core.UI;
+using Microsoft.FlightSimulator.SimConnect;
 
 namespace eSTOL_Training_Tool_Core.Core
 {
@@ -107,7 +108,7 @@ namespace eSTOL_Training_Tool_Core.Core
 
         public void Init()
         {
-            int configs = PlaneConfigsService.LoadPlaneConfigs(this.config.PlanesConfigPath);
+            int configs = PlaneConfigsService.LoadPlaneConfigs();
             AppendResult($"Loaded {configs} plane configs");
 
             // Update once to trigger connect to sim
@@ -1133,7 +1134,7 @@ namespace eSTOL_Training_Tool_Core.Core
             {
                 form.setPresets(presets.Select(p => p.title).ToArray());
             }
-            PlaneConfigsService.LoadPlaneConfigs(this.config.PlanesConfigPath);
+            PlaneConfigsService.LoadPlaneConfigs();
             stol.Reset();
         }
 

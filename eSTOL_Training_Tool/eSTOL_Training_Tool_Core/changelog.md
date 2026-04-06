@@ -1,3 +1,7 @@
+v1.4.28
+
+- preset and config refinement
+
 v1.4.27
 
 - added FSWeekend presets

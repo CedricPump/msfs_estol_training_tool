@@ -1,10 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using System;
 using System.Collections.Generic;
-using System;
 using System.Device.Location;
-using System.Text.Json;
 using System.IO;
+using System.Reflection;
+using System.Text.Json;
 using eSTOL_Training_Tool_Core.Core;
+using Newtonsoft.Json;
 
 namespace eSTOL_Training_Tool_Core.Model
 {
@@ -41,20 +42,19 @@ namespace eSTOL_Training_Tool_Core.Model
 
             try
             {
-                // read all files of format "{filePath}_*.json"
-                string[] files = Directory.GetFiles(".", $"{Path.GetFileNameWithoutExtension(filePath)}*.json");
-                foreach (string file in files)
-                {
-                    string json = File.ReadAllText(file);
-                    List<Preset> custom = JsonConvert.DeserializeObject<List<Preset>>(json);
-                    presets.AddRange(custom);
-                }
+                string json;
+                using Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("eSTOL_Training_Tool_Core.presets.json");
+                using StreamReader reader = new StreamReader(stream);
+                json = reader.ReadToEnd();
+                List<Preset> custom = JsonConvert.DeserializeObject<List<Preset>>(json);
+                presets.AddRange(custom);
 
-                files = Directory.GetFiles(".", $"{Path.GetFileNameWithoutExtension(customFilePath)}_*.json");
+                // read all files of format "{customFilePath}_*.json"
+                string[] files = Directory.GetFiles(".", $"{Path.GetFileNameWithoutExtension(customFilePath)}_*.json");
                 foreach (string file in files)
                 {
-                    string json = File.ReadAllText(file);
-                    List<Preset> custom = JsonConvert.DeserializeObject<List<Preset>>(json);
+                    json = File.ReadAllText(file);
+                    custom = JsonConvert.DeserializeObject<List<Preset>>(json);
                     presets.AddRange(custom);
                 }
 

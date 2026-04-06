@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text.Json;
 using eSTOL_Training_Tool.Model;
 using eSTOL_Training_Tool_Core.Core;
@@ -13,29 +14,26 @@ namespace eSTOL_Training_Tool_Core.Model
         private static Dictionary<string, PlaneConfig> planeConfigByKey = new();
         private static List<PlaneConfig> planeConfigs = new();
 
-        public static int LoadPlaneConfigs(string filePath)
+        public static int LoadPlaneConfigs()
         {
-            if (File.Exists(filePath))
+            var names = Assembly.GetExecutingAssembly().GetManifestResourceNames();
+            using Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("eSTOL_Training_Tool_Core.PlanesConfig.json");
+
+            using StreamReader reader = new StreamReader(stream);
+            string json = reader.ReadToEnd();
+
+            planeConfigs = JsonSerializer.Deserialize<List<PlaneConfig>>(json) ?? new();
+
+            planeConfigByKey.Clear();
+            foreach (PlaneConfig config in planeConfigs)
             {
-                string json = File.ReadAllText(filePath);
-
-                planeConfigs = JsonSerializer.Deserialize<List<PlaneConfig>>(json) ?? new();
-
-                planeConfigByKey.Clear();
-                foreach (PlaneConfig config in planeConfigs)
+                if (!string.IsNullOrWhiteSpace(config.Key))
                 {
-                    if (!string.IsNullOrWhiteSpace(config.Key))
-                    {
-                        planeConfigByKey[config.Key] = config;
-                    }
+                    planeConfigByKey[config.Key] = config;
                 }
-                return planeConfigs.Count;
             }
-            else
-            {
-                Console.WriteLine("Error: Offset JSON file not found.");
-                return 0;
-            }
+            return planeConfigs.Count;
+
         }
 
         public static bool HasPlaneConfig(string key)

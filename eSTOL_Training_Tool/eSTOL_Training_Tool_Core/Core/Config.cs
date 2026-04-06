@@ -24,11 +24,8 @@ namespace eSTOL_Training_Tool_Core.Core
         public string ExportPath { get; set; } = ".\\export";
         public string PresetsPath { get; set; } = "presets.json";
         public string CustomPresetsPath { get; set; } = "custom_presets.json";
-        public string OffsetPath { get; set; } = "GearOffset.json";
-        public string PlanesConfigPath { get; set; } = "PlanesConfig.json";
         public string UserPath { get; set; } = "user.txt";
         public string Unit { get; set; } = "feet";
-        public string[] trikesTypes { get; set; } = [];
         public bool debug { get; set; } = false;
         public bool alwaysOnTop { get; set; } = false;
         public bool isSendTelemetry { get; set; } = false;
