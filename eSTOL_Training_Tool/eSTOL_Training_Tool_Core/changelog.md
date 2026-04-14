@@ -1,3 +1,10 @@
+v1.4.29
+
+- added Influx Settings to Config
+- changed Init Hash from Coords to Config
+- disabled setFuel button
+- added Config ForcePauseOnTeleportFromMoving (Default: True)
+
 v1.4.28
 
 - preset and config refinement

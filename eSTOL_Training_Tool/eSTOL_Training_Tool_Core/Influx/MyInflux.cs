@@ -5,18 +5,17 @@ using InfluxDB.Client.Api.Domain;
 using InfluxDB.Client.Writes;
 using eSTOL_Training_Tool.Model;
 using eSTOL_Training_Tool_Core.Core;
-using eSTOL_Training_Tool_Core.Model;
-using System.Web;
 
 
 namespace eSTOL_Training_Tool_Core.Influx
 {
     public class MyInflux
     {
-        const string influxHost = "https://eu-central-1-1.aws.cloud2.influxdata.com/";
-        const string bucketResult = "My_eSTOL_Bucket";
-        const string bucketTelemetry = "My_eSTOL_Bucket";
-        const string org = "steffieth";
+        private string influxHost = "https://eu-central-1-1.aws.cloud2.influxdata.com/";
+        private string bucketResult = "My_eSTOL_Bucket";
+        private string bucketTelemetry = "My_eSTOL_Bucket";
+        private string org = "steffieth";
+        private Core.Config config;
 
         InfluxDBClient influxDBClient;
 
@@ -33,7 +32,19 @@ namespace eSTOL_Training_Tool_Core.Influx
 
         private MyInflux()
         {
-            influxDBClient = new InfluxDBClient(influxHost, InfluxToken.Token);
+            config = Core.Config.GetInstance();
+            this.influxHost = config.influxHost;
+            this.bucketResult = config.influxBucketResult;
+            this.bucketTelemetry = config.influxBucketTelemetry;
+            this.org = config.influxOrg;
+            string influxToken = config.influxToken;
+
+            if (influxToken == null || influxToken == "")
+            {
+                influxToken = InfluxToken.Token;
+            }
+
+            influxDBClient = new InfluxDBClient(influxHost, influxToken);
         }
 
         public async void sendData(STOLResult stolResult)

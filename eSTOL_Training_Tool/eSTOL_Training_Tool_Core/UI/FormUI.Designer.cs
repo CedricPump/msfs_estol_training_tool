@@ -614,12 +614,14 @@
             // 
             buttonSetFuelStandard.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             buttonSetFuelStandard.AutoSize = true;
+            buttonSetFuelStandard.Enabled = false;
             buttonSetFuelStandard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             buttonSetFuelStandard.Location = new System.Drawing.Point(709, 439);
             buttonSetFuelStandard.Name = "buttonSetFuelStandard";
             buttonSetFuelStandard.Size = new System.Drawing.Size(211, 27);
             buttonSetFuelStandard.TabIndex = 115;
-            buttonSetFuelStandard.Text = "Set Standard Fuel";
+            buttonSetFuelStandard.Text = "Set Default Fuel";
+            toolTiphint.SetToolTip(buttonSetFuelStandard, "Disabled: API restrictions");
             buttonSetFuelStandard.Click += buttonSetFuelStandard_Click;
             // 
             // FormUI

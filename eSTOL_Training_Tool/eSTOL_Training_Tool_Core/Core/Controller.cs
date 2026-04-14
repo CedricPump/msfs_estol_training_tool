@@ -1038,9 +1038,10 @@ namespace eSTOL_Training_Tool_Core.Core
             openWorldMode = false;
             stol.Reset();
             stol.ApplyPreset(preset);
-
+            UILogger.LogInfo($"STOL cycle initiated: {stol.GetConfigHash().Substring(0, 4)}... ");
+            UILogger.LogInfo($"START: { GeoUtils.ConvertToDMS(stol.InitialPosition)} HDG: { Math.Round(stol.InitialHeading.Value)}°");
             string hasConfigText = plane.HasPlaneConfig() ? "config found" : "no config";
-            this.AppendResult($"Plane set: {plane.GetDisplayName()} {hasConfigText}");
+            UILogger.LogInfo($"Plane set: {plane.GetDisplayName()} {hasConfigText}");
 
             UILogger.LogDebug($"[DEBUG]: Using:\r\nType: \"{plane.Type}\"\r\nModel: \"{plane.Model}\"\r\nTitle: \"{plane.Title}\"\r\nConfig: {plane.HasPlaneConfig()} (\"{plane.GetDisplayName()}\") ");
         }
@@ -1111,7 +1112,7 @@ namespace eSTOL_Training_Tool_Core.Core
         {
             bool teleportWhileFlying = !plane.MainGearOnGround() || plane.GroundSpeed > config.GroundspeedThreshold;
 
-            if (teleportWhileFlying)
+            if (teleportWhileFlying && config.ForcePauseOnTeleportFromMoving)
             {
                 plane.setPosition(stol.InitialPosition, stol.InitialHeading ?? 0, true, 2);
                 this.PauseNoPopup(plane, "Teleported to Reference Line while flying.\r\nThrottle down, Brakes, get ready! Unpause [►]");

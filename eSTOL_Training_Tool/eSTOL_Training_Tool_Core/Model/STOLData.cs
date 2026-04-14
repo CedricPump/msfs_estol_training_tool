@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Device.Location;
+using System.Globalization;
 using System.Linq;
-using System.Numerics;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
+using eSTOL_Training_Tool_Core.Core;
 using eSTOL_Training_Tool_Core.Model;
+using Newtonsoft.Json;
 
 namespace eSTOL_Training_Tool
 {
@@ -92,7 +95,22 @@ namespace eSTOL_Training_Tool
 
         public string GetInitialPosHash()
         {
-            return GetDeterministicHash($"{InitialPosition.Latitude:F6},{InitialPosition.Longitude:F6},{InitialHeading:F0}");
+            string input = string.Format(
+                CultureInfo.InvariantCulture,
+                "{0:F6},{1:F6},{2:F0}",
+                InitialPosition.Latitude,
+                InitialPosition.Longitude,
+                InitialHeading);
+
+            return GetDeterministicHash(input);
+        }
+
+        public string GetConfigHash()
+        {
+            PlaneConfig planeConf = PlaneConfigsService.GetPlaneConfig(planeKey);
+            Preset preset = this.preset;
+            string input = JsonConvert.SerializeObject(preset)+JsonConvert.SerializeObject(planeConf);
+            return GetDeterministicHash(input);
         }
 
         private static string GetDeterministicHash(string input)
@@ -125,7 +143,7 @@ namespace eSTOL_Training_Tool
             result.Unit = unit;
             result.sessionKey = sessionKey;
             result.preset = preset;
-            result.InitHash = GetInitialPosHash();
+            result.InitHash = GetConfigHash();
             result.User = user;
             result.planeType = planeName;
             result.planeKey = planeKey;
@@ -231,7 +249,7 @@ namespace eSTOL_Training_Tool
             InitialPitch = 0;
             PatternAlt = preset.getPatternAltitude();
             Reset();
-            Console.WriteLine($"STOL cycle initiated: {GetInitialPosHash()}\nSTART: {GeoUtils.ConvertToDMS(InitialPosition)} HDG: {Math.Round(InitialHeading.Value)}°");
+            Console.WriteLine($"STOL cycle initiated: {GetConfigHash()}\nSTART: {GeoUtils.ConvertToDMS(InitialPosition)} HDG: {Math.Round(InitialHeading.Value)}°");
         }
 
         public void ApplyOpenWorld(Plane plane)

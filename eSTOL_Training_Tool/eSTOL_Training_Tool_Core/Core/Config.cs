@@ -44,10 +44,17 @@ namespace eSTOL_Training_Tool_Core.Core
         public uint ResultTextBoxCharacterLimit { get; set; } = 20000;
 
         public bool PauseOnTeleport { get; set; } = false;
+        public bool ForcePauseOnTeleportFromMoving { get; set; } = true;
 
         public string ConnectionType { get; set; } = "SimConnect"; // or "REST"
         public int ApiPort { get; set; } = 5001;
         public string ApiHost { get; set; } = "127.0.0.1";
+
+        public string influxHost = "https://eu-central-1-1.aws.cloud2.influxdata.com/";
+        public string influxBucketResult = "My_eSTOL_Bucket";
+        public string influxBucketTelemetry = "My_eSTOL_Bucket";
+        public string influxOrg = "steffieth";
+        public string influxToken = "";
 
         public double FuelLevelStandard { get; set; } = 0.5;
 
