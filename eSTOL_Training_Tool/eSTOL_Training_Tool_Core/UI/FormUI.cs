@@ -966,5 +966,10 @@ namespace eSTOL_Training_Tool_Core.UI
         {
             controller.setFuelStandard();
         }
+
+        private void richTextBoxDeviations_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

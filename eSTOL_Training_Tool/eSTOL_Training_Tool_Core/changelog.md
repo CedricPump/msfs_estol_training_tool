@@ -1,3 +1,8 @@
+v1.4.30
+
+- added MiniMax config
+- fixed deviations field alignment
+
 v1.4.29
 
 - added Influx Settings to Config

@@ -74,9 +74,9 @@
             buttonCheckUpdate = new System.Windows.Forms.Button();
             label5 = new System.Windows.Forms.Label();
             toolTiphint = new System.Windows.Forms.ToolTip(components);
+            buttonSetFuelStandard = new System.Windows.Forms.Button();
             toolTipZoom = new System.Windows.Forms.ToolTip(components);
             labelPatternAltitude = new System.Windows.Forms.Label();
-            buttonSetFuelStandard = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)numericUpDownStopwatchOffest).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownTransparency).BeginInit();
             SuspendLayout();
@@ -91,7 +91,7 @@
             textBoxResult.Name = "textBoxResult";
             textBoxResult.ReadOnly = true;
             textBoxResult.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            textBoxResult.Size = new System.Drawing.Size(378, 572);
+            textBoxResult.Size = new System.Drawing.Size(378, 579);
             textBoxResult.TabIndex = 1;
             // 
             // textBoxUser
@@ -516,14 +516,15 @@
             // 
             // richTextBoxDeviations
             // 
-            richTextBoxDeviations.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            richTextBoxDeviations.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             richTextBoxDeviations.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            richTextBoxDeviations.Location = new System.Drawing.Point(12, 602);
+            richTextBoxDeviations.Location = new System.Drawing.Point(12, 658);
             richTextBoxDeviations.Name = "richTextBoxDeviations";
             richTextBoxDeviations.ReadOnly = true;
             richTextBoxDeviations.Size = new System.Drawing.Size(378, 50);
             richTextBoxDeviations.TabIndex = 108;
             richTextBoxDeviations.Text = "";
+            richTextBoxDeviations.TextChanged += richTextBoxDeviations_TextChanged;
             // 
             // label4
             // 
@@ -593,6 +594,20 @@
             toolTiphint.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             toolTiphint.ToolTipTitle = "Hint";
             // 
+            // buttonSetFuelStandard
+            // 
+            buttonSetFuelStandard.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            buttonSetFuelStandard.AutoSize = true;
+            buttonSetFuelStandard.Enabled = false;
+            buttonSetFuelStandard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            buttonSetFuelStandard.Location = new System.Drawing.Point(709, 439);
+            buttonSetFuelStandard.Name = "buttonSetFuelStandard";
+            buttonSetFuelStandard.Size = new System.Drawing.Size(211, 27);
+            buttonSetFuelStandard.TabIndex = 115;
+            buttonSetFuelStandard.Text = "Set Default Fuel";
+            toolTiphint.SetToolTip(buttonSetFuelStandard, "Disabled: API restrictions");
+            buttonSetFuelStandard.Click += buttonSetFuelStandard_Click;
+            // 
             // toolTipZoom
             // 
             toolTipZoom.AutomaticDelay = 0;
@@ -609,20 +624,6 @@
             labelPatternAltitude.Size = new System.Drawing.Size(171, 25);
             labelPatternAltitude.TabIndex = 114;
             labelPatternAltitude.Text = "Pattern Alt: ---- ft _";
-            // 
-            // buttonSetFuelStandard
-            // 
-            buttonSetFuelStandard.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            buttonSetFuelStandard.AutoSize = true;
-            buttonSetFuelStandard.Enabled = false;
-            buttonSetFuelStandard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            buttonSetFuelStandard.Location = new System.Drawing.Point(709, 439);
-            buttonSetFuelStandard.Name = "buttonSetFuelStandard";
-            buttonSetFuelStandard.Size = new System.Drawing.Size(211, 27);
-            buttonSetFuelStandard.TabIndex = 115;
-            buttonSetFuelStandard.Text = "Set Default Fuel";
-            toolTiphint.SetToolTip(buttonSetFuelStandard, "Disabled: API restrictions");
-            buttonSetFuelStandard.Click += buttonSetFuelStandard_Click;
             // 
             // FormUI
             // 
