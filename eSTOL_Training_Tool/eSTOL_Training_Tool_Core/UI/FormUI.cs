@@ -549,7 +549,7 @@ namespace eSTOL_Training_Tool_Core.UI
                 {
                     arrow = "✓";
                 }
-                this.labelPatternAltitude.Text = $"Pattern Alt: {patternAlt} ft " + arrow;
+                this.labelPatternAltitude.Text = $"Pattern Alt: {patternAlt} ft ASL" + arrow;
             }
         }
 

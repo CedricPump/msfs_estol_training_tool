@@ -1,3 +1,8 @@
+v1.4.31
+
+- fixed Maule Tire index for 2024
+- adde ASL to Pattern Altitude
+
 v1.4.30
 
 - added MiniMax config
